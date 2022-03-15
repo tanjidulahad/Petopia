@@ -1,0 +1,10 @@
+@import "./colors.scss";
+
+.pdp {
+  .additional-info {
+    border-color: $red-color;
+  }
+  .size-tab-active {
+    border-color: $red-color;
+  }
+}

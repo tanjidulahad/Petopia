@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { QuantityID } from '../../components/inputs'
 import Loader from "../../components/loading/loader";
 import currency from '../../utils/currency'
+import { Button } from "../../components/inputs";
 
 // actions
 import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
@@ -175,7 +176,7 @@ const ProductDetails = ({
                                                     })()}
                                                         onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
                                                     :
-                                                    <button className="py-3 px-14 text-2xl bg-red-color white-color rounded" onClick={() => addToCart(productDataForCart)} >Add</button>
+                                                    <Button className="py-3 px-12 text-base btn-bg btn-color rounded" onClick={() => addToCart(productDataForCart)} >Add</Button>
                                             }
                                         </div>
                                         {

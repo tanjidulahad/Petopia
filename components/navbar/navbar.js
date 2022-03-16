@@ -1,19 +1,32 @@
 import { connect } from 'react-redux';
 import { IoCartOutline } from 'react-icons/io5';
 import { BsChevronDown } from 'react-icons/bs'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Button } from '../inputs';
 import headerImg from './header-background.jpg'
 // Actions
 import { authShowToggle } from '../../redux/user/user-action'
 import { logOutStart } from '../../redux/user/user-action'
+import {
+  getShopInfoStart, getShopSeoStart, getShopSettingsStart, getSocialProfileStart, getShopDisplaySettingsStart
+} from "../../redux/shop/shop-action";
 
-const Navbar = ({ user, openAuth, logOut }) => {
+
+const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings }) => {
+  const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
+  useEffect(() => {
+    getShopInfo(storeId);
+    getShopSeo(storeId);
+    getShopSettings(storeId);
+    getSocialProfile(storeId);
+    getShopDisplaySettings(storeId)
+
+  }, [])
 
   return (
     <nav className='sticky top-0 z-10 '>
-      <div className='navbar-body py-6' style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
+      <div className='navbar-body py-3' style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
         <div className='flex justify-between wrapper'>
           <Button className='text-left' type='link' href='/'>
             <div className='flex flex-row items-center space-x-6'>
@@ -68,9 +81,14 @@ const mapStateToProps = state => ({
   // Search handler from plp
   // searchHandler: state.search.searchHandler
 })
+
 const mapDispatchToProps = dispatch => ({
   openAuth: () => dispatch(authShowToggle()),
-  logOut: () => dispatch(logOutStart())
+  logOut: () => dispatch(logOutStart()),
+  getShopInfo: (shopId) => dispatch(getShopInfoStart(shopId)),
+  getShopSeo: (shopId) => dispatch(getShopSeoStart(shopId)),
+  getShopSettings: (shopId) => dispatch(getShopSettingsStart(shopId)),
+  getSocialProfile: (shopId) => dispatch(getSocialProfileStart(shopId)),
+  getShopDisplaySettings: (storeId) => dispatch(getShopDisplaySettingsStart(storeId))
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

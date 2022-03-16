@@ -12,7 +12,7 @@ function* purchaseItemUpdator({ payload }) {
     const purchase = state.checkout.purchase
     const purchaseDetails = state.checkout.purchaseDetails
     const user = state.user.currentUser;
-    const store = state.store.shop;
+    const store = state.store.info;
     // const cart = cartState();
     // const purchase = purchaseState();
     // const purchaseDetails = purchaseDetailsState();
@@ -33,10 +33,10 @@ function* purchaseItemUpdator({ payload }) {
         yield put(setBackendCartStart({ userId: user.customer_id, customerId: user.customer_id, groupId: store.group_id, data }))
     } else {
         if (purchaseDetails) {
-            // Two Task here
+            // Tasks 
             // 0. Check purchage Id exist to user
-            // 0. Add or Remove New item
-            // 1. Update Quantity if exist in order
+            // 1. Add or Remove New item
+            // 2. Update Quantity if exist in order
             const orderId = purchase.orders[0][store.store_id].order_id;
             const isExist = Object.values(purchaseDetails.orders[orderId].orderItems).find((item) => item.itemId == payload.item_id) || null
             if (isExist) {

@@ -101,23 +101,29 @@ function* onPaymentMethodToPurchese() {
 function* onInitiatePayment() {
     yield takeLatest(checkoutActionType.INITIATE_PAYMENT_START_START, function* ({ payload }) {
         try {
-            const { purchaseId, customerId, method } = payload; // cod ==  N, Online Pay == Y
-            if (!purchaseId) return;
+            const { purchaseId, customerId, method, setInitiateStatus, setInitiateData } = payload; // cod ==  N, Online Pay == Y
+            if (!purchaseId) {
+                setStatus('failure')
+                return
+            };
             const res = yield fetcher('GET', `?r=orders/initiate-payment&purchaseId=${purchaseId}`)
             if (res.data) {
-                const amount = res.data.calculatedPurchaseTotal
-                if (method == 'COD') { // COD or Pay On Delivery
-                    yield put(orderPaymentConfirmStart({ amount, purchaseId, method, customerId }))
-                }
+                // const amount = res.data.calculatedPurchaseTotal
+                setInitiateData(res.data)
+                setInitiateStatus('success')
+                // if (method == 'COD') { // COD or Pay On Delivery
+                //     yield put(orderPaymentConfirmStart({ amount, purchaseId, method, customerId, set }))
+                // }
             }
         } catch (error) {
-            // console.log(error);
+            console.log(error);
             // yield put(orderPaymentConfirmError(error))
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.back() }, onOkName: "GO Back" }))
-            } else {
-                yield put(riseError({ message: "Unable to initiate payment!", onOk: () => { Router.back() }, onOkName: "Close" }))
-            }
+            setInitiateStatus('failure')
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.back() }, onOkName: "GO Back" }))
+            // } else {
+            //     yield put(riseError({ message: "Unable to initiate payment!", onOk: () => { Router.back() }, onOkName: "Close" }))
+            // }
         }
     })
 }

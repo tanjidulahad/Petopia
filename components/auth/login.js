@@ -10,6 +10,7 @@ const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, shop }) => 
     const [user, setUser] = useState(null) // {}
     const [error, setError] = useState("") // ""
     const [status, setStatus] = useState('') // loading failed success
+    const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
     const onChangeHandler = (e) => {
         const { value } = e.target;
         if (error) setError(null);
@@ -18,7 +19,7 @@ const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, shop }) => 
     }
     const onSubmitHandler = () => {
         if (!phone) return setError("Enter valid phone number!.");
-        getLoginOtp({ phone, setUser, setError, storeId: shop.store_id })
+        getLoginOtp({ phone, setUser, setError, storeId })
         setError('')
         setStatus('loading')
     }
@@ -42,9 +43,9 @@ const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, shop }) => 
             {
                 !user ?
                     <div className="auth">
-                        <div className="auth-form-container" >
-                            <div className="title-c">
-                                <h2 className="font-24 font-w-600">Login</h2>
+                        <div className="p-6 auth-form-container rounded" >
+                            <div className="flex justify-between items-center">
+                                <h2 className="text-2xl font-semibold">Login</h2>
                                 <Button className='bg-transparent dark-blue p-2' onClick={showToggle} >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                                         <path fillRule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" />
@@ -52,23 +53,28 @@ const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, shop }) => 
                                     </svg>
                                 </Button>
                             </div>
-                            <div className="mt-16">
-                                <div className='' style={{ minHeight: '24px', maxWidth: 'fit-content' }} >
+                            <div className="mt-10">
+                                <div className='' style={{ maxWidth: 'fit-content' }} >
                                     {
-                                        error ?
-                                            <span className='font-16 font-w-400 error-danger'>{error}</span>
-                                            : null
+                                        !!error &&
+                                        <span className='text-base red-color'>{error}</span>
+
                                     }
                                 </div>
-                                <Input name='otp' className={`auth-input ${error && 'input-danger'}`} type="text" placeholder="Phone Number or Email" onChange={onChangeHandler} value={phone} />
+                                <Input name='otp' className={`auth-input ${error && 'input-danger'}`} type="text" placeholder="Phone Number or Email" onChange={onChangeHandler} value={phone} disabled={status == 'loading'} />
                             </div>
-                            <div className="mt-40">
-                                <Button className={`w-100 ${status == 'loading' ? 'loading-btn' : ""}`} type="button" onClick={onSubmitHandler} disabled={status == 'loading'}>{status == 'loading' ? 'Loading...' : 'Get OTP'}</Button>
+                            <div className="py-8 border-b-2 ">
+                                <Button className={`w-full btn-color text-lg font-medium btn-bg py-4 rounded ${status == 'loading' ? 'loading-btn' : ""}`} type="button" onClick={onSubmitHandler} disabled={status == 'loading'}
+                                    style={{
+                                        ...(status == 'loading') && {
+                                            opacity: 0.7,
+                                            cursor: "not-allowed"
+                                        },
+                                    }}
+                                >{status == 'loading' ? 'Loading...' : 'Get OTP'}</Button>
                             </div>
-
-                            <div className="hr mt-24"></div>
-                            <div className="auth-redirect font-16" >
-                                <span>New User? <Button className=" bg-transparent primary-color px-1" onClick={() => setPage(false)}>Create Account</Button> </span>
+                            <div className="auth-redirect  black-color mt-8 text-lg" >
+                                <span>New User? <Button className=" bg-transparent red-color px-1" onClick={() => setPage(false)}>Create Account</Button> </span>
                             </div>
 
                         </div>

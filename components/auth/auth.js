@@ -8,12 +8,12 @@ import Register from './register';
 
 
 
-const Auth = ({ show }) => {
+const Auth = ({ show, user }) => {
     const [page, setPage] = useState(true) // true == login, false == Register
 
     return (
         <>
-            {show ?
+            {show && !user ?
                 page ?
                     <Login setPage={setPage} />
                     :
@@ -26,6 +26,7 @@ const Auth = ({ show }) => {
 
 const mapStateToProps = state => ({
     show: state.user.show,
+    user: state.user.currentUser
 })
 // const mapDispatchToProps = dispatch => ({
 //     showToggle: () => dispatch(authShowToggle()),

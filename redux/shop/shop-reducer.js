@@ -4,6 +4,7 @@ import { structureCat, insertSubcat } from "./utill";
 const INITIAL_STATE = {
     // About store & settings
     shop: null,// {}
+    info: null, // {}
     seo: null,// {}
     settings: null,// {}
     displaySettings: null,// {}
@@ -24,7 +25,7 @@ const shopReducer = (state = INITIAL_STATE, { type, payload }) => {
         case storeActionType.GET_SHOP_INFO_SUCCESS:
             return {
                 ...state,
-                shop: payload,
+                info: payload,
                 isReadyToGo: isReady({ ...state, shop: true })
             }
 

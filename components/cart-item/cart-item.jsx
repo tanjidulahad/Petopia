@@ -50,7 +50,7 @@ const CartItem = ({ addToCart, removeFromCart, data }) => {
                                 onPlush={() => addToCart(data)} onMinus={() => removeFromCart(data)} />
                         </div>
                         <div>
-                            <h2 className="font-bold black-color text-2xl block w-full">₹ 160</h2>
+                            <h2 className="font-bold black-color text-2xl block w-full">₹{data.quantity * data.sale_price}</h2>
                         </div>
                     </div>
                 </div>

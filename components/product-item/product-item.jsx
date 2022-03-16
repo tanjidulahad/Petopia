@@ -1,7 +1,23 @@
+import { connect } from "react-redux";
 import { QuantityID, Button } from "../inputs";
 import Rating from '../rating-stars/rating'
 
-const ProductItem = ({ data }) => {
+import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
+
+const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
+    const itemInCart = cart.find((item) => (item.item_id == data.item_id)) || {}
+    const productDataForCart = {
+        item_id: data.item_id,
+        store_id: data.store_id,
+        category_id: data.category_id,
+        item_name: data.item_name,
+        sale_price: data.sale_price,
+        price: data.price,
+        sub_category_id: data.sub_category_id,
+        primary_img: data.primary_img,
+        is_veg: data.is_veg,
+        inventoryDetails: data.inventoryDetails,
+    }
     return (
         <>
             {
@@ -33,9 +49,35 @@ const ProductItem = ({ data }) => {
 
                             </div>
                             <div className="w-32 shrink-0 flex items-center">
-                                <Button className="btn-color btn-bg max-h-min text-base font-medium rounded py-3 px-10" title="Add"></Button>
+                                {
+                                    itemInCart?.quantity ?
+                                        <QuantityID value={itemInCart.quantity} disabledPlush={(() => {
+                                            if (itemInCart.inventoryDetails) {
+                                                return itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity
+                                            }
+                                            return false
+                                        })()}
+                                            onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
+                                        :
+                                        <Button className="btn-color btn-bg max-h-min text-base font-medium rounded py-3 px-12" onClick={() => addToCart(productDataForCart)} >Add</Button>
+                                }
                             </div>
                         </div>
+                        {
+                            !!itemInCart.inventoryDetails && <>
+                                {
+                                    itemInCart.inventoryDetails.min_order_quantity > 1 &&
+                                    <div className="">
+                                        <span className="text-sm red-color">*Minimum order quantity is {itemInCart.inventoryDetails.min_order_quantity}.</span>
+                                    </div>
+                                } {
+                                    itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity &&
+                                    <div className="">
+                                        <span className="text-sm success-color">*You reached to maximum order quantity.</span>
+                                    </div>
+                                }
+                            </>
+                        }
                     </div>
                     :
                     <div class="h-full  flex border-gray-200 rounded-lg overflow-hidden">
@@ -58,5 +100,11 @@ const ProductItem = ({ data }) => {
         </>
     )
 }
-
-export default ProductItem;
+const mapStateToProps = state => ({
+    cart: state.cart
+})
+const mapDispatchToProps = dispatch => ({
+    addToCart: (item) => dispatch(addToCart(item)),
+    removeFromCart: (item) => dispatch(removeFromCart(item))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(ProductItem);

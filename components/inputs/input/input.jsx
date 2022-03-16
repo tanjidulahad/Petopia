@@ -9,7 +9,7 @@
 
 const Input = ({ name = '', type = 'text', className, placeholder = '', ...props }) => {
     return (
-        <input className={`form-check-input custom-input ${className}`} name={name} type={type} {...props} id={props?.id} placeholder={placeholder} />
+        <input className={`p-4 outline-none border-2 rounded w-full custom-input ${className}`} name={name} type={type} {...props} id={props?.id} placeholder={placeholder} />
     )
 }
 

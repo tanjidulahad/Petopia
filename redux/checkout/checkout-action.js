@@ -8,6 +8,14 @@ export const setDeliveryAddressSuccess = (address) => ({
     type: checkoutActionType.SET_DELVERY_ADDRESS_SUCCESS,
     payload: address
 })
+export const setDeliveryAddressToPurchase = (payload) => ({
+    type: checkoutActionType.SET_ADDRESS_PURCHASEID_START,
+    payload: payload
+})
+export const setDeliveryAddressToPurchaseSuccess = (payload) => ({
+    type: checkoutActionType.SET_ADDRESS_PURCHASEID_SUCCESS,
+    payload: payload
+})
 export const setShipmentMethod = (method) => ({
     type: checkoutActionType.SET_SHIPMENT_METHOD,
     payload: method

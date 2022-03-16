@@ -1,4 +1,4 @@
-@import "./colors.scss";
+@import './colors.scss';
 
 .primary-color {
   color: $primary-color;
@@ -62,6 +62,9 @@
 }
 .btn-bg {
   background-color: $red-color;
+}
+.btn-bg-revese {
+  background-color: $white-color;
 }
 .btn-bg-light {
   background-color: $red-color-50;

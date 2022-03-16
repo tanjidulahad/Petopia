@@ -38,7 +38,7 @@ body {
   scroll-behavior: smooth;
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-style: normal;
-} 
+}
 
 a {
   color: inherit;
@@ -52,7 +52,13 @@ a {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
 }
-
+._3uApM {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  display: block;
+}
 .wrapper {
 padding: 8px 80px;
 }

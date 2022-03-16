@@ -12,6 +12,7 @@ module.exports = {
   trailingSlash: true,
   reactStrictMode: true,
   eslint: {
+    // ESLint managed on the workspace level
     ignoreDuringBuilds: true,
   },
   images: {

@@ -1,5 +1,6 @@
 import Navbar from "./navbar/navbar";
 import Footer from './Footer'
+import Auth from "./auth/auth";
 
 
 const Layout = ({ children }) => {
@@ -10,6 +11,7 @@ const Layout = ({ children }) => {
                 <main>{children}</main>
                 <Footer />
             </div>
+            <Auth />
         </>
     )
 }

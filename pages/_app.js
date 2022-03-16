@@ -10,6 +10,7 @@ import '../styles/globals.scss'
 import '../styles/inputs.scss'
 import '../styles/product-item.scss'
 import '../styles/navbar.scss'
+import '../styles/auth.scss'
 
 // Page Styles
 import '../styles/product.scss'

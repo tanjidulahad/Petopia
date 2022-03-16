@@ -1,11 +1,16 @@
-import headerImg from './header-background.jpg'
-import Logo from '../../Assets/Image/logo.png'
+import { connect } from 'react-redux';
 import { IoCartOutline } from 'react-icons/io5';
 import { BsChevronDown } from 'react-icons/bs'
 import { useState } from 'react';
+
 import { Button } from '../inputs';
-const Navbar = () => {
-  const [login, setlogin] = useState(false)
+import headerImg from './header-background.jpg'
+// Actions
+import { authShowToggle } from '../../redux/user/user-action'
+import { logOutStart } from '../../redux/user/user-action'
+
+const Navbar = ({ user, openAuth, logOut }) => {
+
   return (
     <nav className='sticky top-0 z-10 '>
       <div className='navbar-body py-6' style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
@@ -29,7 +34,7 @@ const Navbar = () => {
             </div>
           </Button>
           <div className="flex justify-end items-center white-color  ">
-            <span className='font-bold inline-block tracking-tight my-8 mr-2 text-lg'>Contact Us</span>
+            <span className='whitespace-nowrap font-bold inline-block tracking-tight my-8 mr-2 text-lg'>Contact Us</span>
             <div>
               <Button className='flex items-center white-color' type='link' href='/cart'>
                 <span className='text-lg font-bold tracking-tight ml-8 white-color mx-4'> Cart </span>
@@ -39,7 +44,7 @@ const Navbar = () => {
               </Button>
             </div>
             {
-              login ? <span className="flex white-color my-6 ml-8 cursor-pointer">
+              !!user ? <span className="flex white-color my-6 ml-8 cursor-pointer">
                 <span className=" mt-2 w-8 h-8 relative flex justify-center items-center rounded-full bg-gray-500 text-xl text-white">
                   <img src="http://source.unsplash.com/100x100/?girl" className="rounded-full" />
                 </span>
@@ -47,16 +52,25 @@ const Navbar = () => {
                 <BsChevronDown className="mt-2" size={25} />
               </span> :
                 <div className="w-32 ml-8 shrink-0 flex items-center">
-                  <Button onClick={() => { setlogin(!login) }} className=" bg-white text-black max-h-min text-base font-medium rounded py-3 px-8 hover:bg-rose-600 hover:text-white " title="Sign In"></Button>
+                  <Button onClick={openAuth} className=" bg-white text-black max-h-min text-base font-medium rounded py-3 px-8 hover:bg-rose-600 hover:text-white " title="Sign In"></Button>
                 </div>
             }
           </div>
         </div>
-
-
       </div>
     </nav>
   )
 }
 
-export default Navbar;
+const mapStateToProps = state => ({
+  user: state.user.currentUser,
+  cart: state.cart,
+  // Search handler from plp
+  // searchHandler: state.search.searchHandler
+})
+const mapDispatchToProps = dispatch => ({
+  openAuth: () => dispatch(authShowToggle()),
+  logOut: () => dispatch(logOutStart())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

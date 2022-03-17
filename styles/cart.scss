@@ -1,4 +1,4 @@
-@import "./colors.scss";
+@import './colors.scss';
 
 .cart {
   .cart-item-img {
@@ -18,10 +18,10 @@
     -webkit-box-orient: vertical;
   }
   .delivery-inputs {
-    border: 2px;
-    border-style: dashed;
+    // border: 2px;
+    // border-style: dashed;
     border-color: $black-color-50;
-    border-width: 3px;
+    // border-width: 3px;
     &:hover {
       border-color: $red-color;
     }

@@ -5,6 +5,11 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    theme: {
+      borderWidth: {
+        '3': '3px',
+      }
+    }
   },
   plugins: [],
   reactStrictMode: false,

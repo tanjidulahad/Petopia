@@ -18,7 +18,7 @@ export default function Tracker() {
     // return a boolean
   }
   useEffect(() => {
- document.getElementById("tracker").childNodes[0].childNodes[2].style.display='none'
+    document.getElementById("tracker").childNodes[0].childNodes[2].style.display = 'none'
   }, [])
 
   return (
@@ -37,7 +37,7 @@ export default function Tracker() {
             content: step2Content
           },
           {
-            label:"preapring",
+            label: "preapring",
             name: "preapring",
             content: step3Content,
             validator: step2Validator

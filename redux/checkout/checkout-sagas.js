@@ -6,7 +6,8 @@ import {
     setBackendCartStart,
     setBackendCartSuccess, setDeliveryAddressSuccess, setPaymentMethodSuccess, setShipmentMethodSuccess,
     orderPaymentConfirmStart, orderPaymentConfirmSuccess, orderPaymentConfirmError, getPurchageSuccess, getPurchageStart,
-    createNewRzpOrderSuccess, getPurchaseFailure
+    createNewRzpOrderSuccess, getPurchaseFailure,
+    clearCheckout,
 } from './checkout-action'
 import { clearCart } from "../cart/cart-actions";
 import { riseError } from "../global-error-handler/global-error-handler-action.ts";
@@ -112,7 +113,7 @@ function* onInitiatePayment() {
                 setInitiateData(res.data)
                 setInitiateStatus('success')
                 // if (method == 'COD') { // COD or Pay On Delivery
-                //     yield put(orderPaymentConfirmStart({ amount, purchaseId, method, customerId, set }))
+                //     yield put(orderPaymentConfirmStart({ amount, purchaseId, method, customerId }))
                 // }
             }
         } catch (error) {
@@ -129,26 +130,30 @@ function* onInitiatePayment() {
 }
 function* onOrderConfirmPayment() {
     yield takeLatest(checkoutActionType.ORDER_PAYMENT_CONFIRM_START, function* ({ payload }) {
+        const { purchaseId, method, customerId, amount, id, setStatus } = payload; // cod ==  N, Online Pay == Y
+        console.log(payload);
         try {
-            const { purchaseId, method, customerId, amount, id } = payload; // cod ==  N, Online Pay == Y
             let res = {}
-            if (method) {
+            if (method == 'COD') {
                 res = yield fetcher('POST', `?r=orders/confirm-order-payments&purchaseId=${purchaseId}&method=${method}`, { customerId, amount })
             } else {
                 res = yield fetcher('POST', `?r=orders/confirm-order-payments&purchaseId=${purchaseId}`, { customerId, amount, id })
             }
             if (res.data) {
+                setStatus('success')
                 yield put(orderPaymentConfirmSuccess(res.data))
             }
         } catch (error) {
             console.log(error);
+            setStatus('failure')
             yield put(orderPaymentConfirmError(error))
         }
     })
 }
 function* onOrderConfirmPaymentSuccess() {
     yield takeLatest(checkoutActionType.ORDER_PAYMENT_CONFIRM_SUCCESS, function* ({ payload }) {
-        yield put(clearCart());
+        // yield put(clearCart());
+        // yield put(clearCheckout());
     })
 }
 
@@ -201,7 +206,6 @@ function* onDeleteItemFromPurchaseStart() {
             const res = yield fetcher('GET', `?r=orders/delete-order-item&orderItemId=${orderItemId}`)
             if (res.data) {
                 yield put((getPurchageStart(purchaseId)))
-                console.log(res, 'Update successfull');
             }
         } catch (error) {
             // console.log(error);
@@ -218,18 +222,21 @@ function* onDeleteItemFromPurchaseStart() {
 
 function* onCreateNewRzpOrderStart() {
     yield takeLatest(checkoutActionType.CREATE_NEW_RZP_ORDER_START, function* ({ payload }) {
+        const { purchaseId, totalPurchaseAmount, currency, setRzpOrder, setError } = payload;
         try {
-            const { purchaseId, totalPurchaseAmount, currency } = payload;
             const res = yield fetcher('GET', `?r=orders/create-new-rzp-order&purchaseId=${purchaseId}&totalPurchaseAmount=${totalPurchaseAmount}&currency=${currency}`)
             if (res.data) {
-                yield put((createNewRzpOrderSuccess(res.data)))
+                // yield put((createNewRzpOrderSuccess(res.data)))
+                setRzpOrder(res.data)
             }
         } catch (error) {
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.back() }, onOkName: "GO Back" }))
-            } else {
-                yield put(riseError({ message: "Something went wrong. Please try again later!", onOk: () => { Router.back() }, onOkName: "Close" }))
-            }
+            console.log(error);
+            setError(error)
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.back() }, onOkName: "GO Back" }))
+            // } else {
+            //     yield put(riseError({ message: "Something went wrong. Please try again later!", onOk: () => { Router.back() }, onOkName: "Close" }))
+            // }
         }
     })
 }

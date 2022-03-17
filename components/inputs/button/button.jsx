@@ -21,7 +21,7 @@ const Button = ({ children = "", title = "", type = 'button', className = '', hr
                         </a>
                     </Link>
                     :
-                    <button className={`text-center custom-button ${' '}${className}`} {...props}>
+                    <button className={`text-center custom-button outline-none ${' '}${className}`} {...props}>
                         {children || title || 'Click'}
                     </button>
             }

@@ -23,10 +23,10 @@ const QuantityID = ({ value = 0, onPlush, onMinus, disabled = false, disabledPlu
         <div className="inline-block quantity-id relative" style={{
             ...disabled && { cursor: "not-allowed" }
         }} >
-            <div className="flex justify-between items-center btn-border border-2 btn-bg-light h-12 overflow-hidden rounded-md" style={{
+            <div className="flex justify-between items-center btn-border border-2 btn-bg-light h-10 sm:h-12 overflow-hidden rounded-md" style={{
                 opacity: disabled ? 0.5 : 1,
             }}>
-                <button className="p-3 btn-color-revese" onClick={onMinusHandler} disabled={disabledMinus} style={{
+                <button className="p-2 sm:p-3 btn-color-revese outline-none" onClick={onMinusHandler} disabled={disabledMinus} style={{
                     ...disabledMinus && {
                         opacity: 0.7,
                         cursor: "not-allowed"
@@ -38,7 +38,7 @@ const QuantityID = ({ value = 0, onPlush, onMinus, disabled = false, disabledPlu
                 <div className="h-full bg-white flex items-center">
                     <span className="font-medium text-center px-3 align-middle w-10">{value}</span>
                 </div>
-                <button className="p-3 btn-color-revese " onClick={onPlushHandler} disabled={disabledPlush} style={{
+                <button className="p-2 sm:p-3 btn-color-revese outline-none" onClick={onPlushHandler} disabled={disabledPlush} style={{
                     ...disabledPlush && {
                         opacity: 0.7,
                         cursor: "not-allowed"

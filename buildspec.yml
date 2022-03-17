@@ -13,7 +13,7 @@ phases:
   pre_build:
     commands:
       - echo Fetch env file
-      - aws s3 cp s3://pickyto.config.files/$SITE_NAME/.env.$STAGE .env
+      # - aws s3 cp s3://pickyto.config.files/$SITE_NAME/.env.$STAGE .env
   build:
     commands:
       - echo Building static site...

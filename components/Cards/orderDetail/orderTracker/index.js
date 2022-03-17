@@ -1,8 +1,8 @@
 import React from 'react'
-import Ordertracker from './ordertracker.jsx';
+import Ordertracker from './ordertracker';
 function index() {
   return (
-    <Ordertracker/>
+    <Ordertracker />
   )
 }
 

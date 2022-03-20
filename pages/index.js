@@ -43,14 +43,14 @@ const Home = ({ products, shop, categories, getCategoryStart, getCategoryProduct
       {/* <Navbar /> */}
       <section>
         <div className='wrapper mx-auto'>
-          <div className="grid grid-cols-11">
-            <div className="col-span-2 border-r-2  border-gray-300 ">
+          <div className="grid grid-cols-1 sm:grid-cols-12">
+            <div className="hidden md:block md:col-span-3  xl:col-span-2 border-gray-300 ">
               <CatList list={categories.length > 0 && categories} />
             </div>
-            <div className="col-span-6  ">
+            <div className=" sm:col-span-12 md:col-span-9 xl:col-span-7">
               <ProductListPage products={products} />
             </div>
-            <div className="col-span-2">03</div>
+            <div className="hidden xl:block xl:col-span-3">03</div>
           </div>
         </div >
       </section >

@@ -8,6 +8,9 @@ module.exports = {
     theme: {
       borderWidth: {
         '3': '3px',
+      },
+      fontSize: {
+        'xxs': '.65rem',
       }
     }
   },

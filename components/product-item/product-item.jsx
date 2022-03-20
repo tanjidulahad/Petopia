@@ -18,6 +18,23 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
         is_veg: data.is_veg,
         inventoryDetails: data.inventoryDetails,
     }
+    const LocalQuantityID = ({ className }) => (
+        // This component used two times 
+        <>
+            {
+                itemInCart?.quantity ?
+                    <QuantityID value={itemInCart.quantity} disabledPlush={(() => {
+                        if (itemInCart.inventoryDetails) {
+                            return itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity
+                        }
+                        return false
+                    })()}
+                        onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
+                    :
+                    <Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className}`} onClick={() => addToCart(productDataForCart)} >Add</Button>
+            }
+        </>
+    )
     return (
         <>
             {
@@ -25,42 +42,42 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
                     <div className="w-100 block product-item">
                         <div className="flex flex-row justify-between space-x-4 w-full">
                             <div>
-                                <div className="flex w-full">
-                                    <Button className="block product-item-img w-40 h-40 shrink-0" type="link" href={`/product/${data.item_id}`}>
+                                <div className="flex w-full relative">
+                                    {/* <Button className="block relative product-item-img w-40 h-40 shrink-0" type="link" href={`/product/${data.item_id}`}>
                                         <img className="rounded-md w-full h-full object-cover" src={`${data.primary_img || '/img/default.png'}`} alt={`${data.item_name}`} />
-                                    </Button>
+                                        <div className="absolute left-1/2 -translate-x-1/2 bottom-1">
+                                            <LocalQuantityID />
+                                        </div>
+                                    </Button> */}
+                                    <div className="mb-5 md:mb-0 block relative product-item-img w-32 h-32 min-w-min sm:w-40 sm:h-40 shrink-0">
+                                        <Button className="block" type="link" href={`/product/${data.item_id}`} style={{ height: '-webkit-fill-available' }}>
+                                            <img className="w-32 h-32 sm:w-40 sm:h-40 rounded-md  object-cover" src={`${data.primary_img || '/img/default.png'}`} alt={`${data.item_name}`} />
+                                        </Button>
+                                        <div className="block lg:hidden absolute left-1/2 -translate-x-1/2 -bottom-5 rounded bg-white">
+                                            <LocalQuantityID />
+                                        </div>
+                                    </div>
                                     <div className="flex flex-col justify-between pl-4 ">
-                                        <h3 className="capitalize text-xl cart-item-title product-item-truncate">
+                                        <h3 className="capitalize text-sm sm:text-xl cart-item-title product-item-truncate">
                                             <Button type="link" href={`/product/${data.item_id}`}>
                                                 {data.item_name}
                                             </Button>
                                         </h3>
                                         <Rating size={16} />
-                                        <div>
-                                            <h2 className="font-bold black-color text-2xl inline-block">₹{data.sale_price}</h2>
-                                            <span className="text-lg black-color-50 line-through ml-4 inline-block">₹{data.price}</span>
-                                            <span className="text-lg success-color line-through ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
+                                        <div className="te leading-3">
+                                            <h2 className="font-bold black-color text-sm sm:text-2xl inline-block">₹{data.sale_price}</h2>
+                                            <span className="text-xs sm:text-lg black-color-50 line-through ml-2 md:ml-4 inline-block">₹{data.price}</span>
+                                            <span className="text-xs sm:text-lg success-color line-through ml-2 md:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
                                         </div>
                                         <div>
-                                            <span className="text-base black-color-75 tracking-tight leading-6 product-item-truncate">{data.item_desc}</span>
+                                            <span className="text-xs sm:text-base black-color-75 tracking-tight leading-4 md:leading-6 product-item-truncate ">{data.item_desc}</span>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                            <div className="w-32 shrink-0 flex items-center">
-                                {
-                                    itemInCart?.quantity ?
-                                        <QuantityID value={itemInCart.quantity} disabledPlush={(() => {
-                                            if (itemInCart.inventoryDetails) {
-                                                return itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity
-                                            }
-                                            return false
-                                        })()}
-                                            onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
-                                        :
-                                        <Button className="btn-color btn-bg max-h-min text-base font-medium rounded py-3 px-12" onClick={() => addToCart(productDataForCart)} >Add</Button>
-                                }
+                            <div className="w-32 shrink-0 hidden lg:flex items-center ">
+                                <LocalQuantityID />
                             </div>
                         </div>
                         {

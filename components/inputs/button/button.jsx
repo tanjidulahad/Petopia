@@ -16,7 +16,7 @@ const Button = ({ children = "", title = "", type = 'button', className = '', hr
             {
                 type == 'link' ?
                     <Link href={href}  {...props}>
-                        <a className={`custom-button ${' '}${className}`}>
+                        <a className={`custom-button ${' '}${className}`} {...props}>
                             {children || title || 'Click'}
                         </a>
                     </Link>

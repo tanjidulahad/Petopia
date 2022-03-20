@@ -1,5 +1,18 @@
+@import './colors.scss';
 .navbar-body {
   background-repeat: no-repeat;
   // background-position: center;
   background-size: cover;
+  .mob-navbar {
+    span {
+      font-size: 12px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2px;
+      font-weight: 600;
+      display: block;
+    }
+  }
+  .mob-navbar-active {
+  }
 }

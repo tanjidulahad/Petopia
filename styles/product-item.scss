@@ -1,8 +1,8 @@
-@import "./colors.scss";
+@import './colors.scss';
 
 .product-item {
   .product-item-img {
-    min-width: 160px;
+    // min-width: 160px;
   }
   .product-item-truncate {
     -webkit-line-clamp: 2;

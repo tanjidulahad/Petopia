@@ -7,7 +7,7 @@
  * @returns Jsx component
  */
 // import { useEffect, useState } from "react"
-const QuantityID = ({ value = 0, onPlush, onMinus, disabled = false, disabledPlush = false, disabledMinus = false }) => {
+const QuantityID = ({ value = 0, onPlush, onMinus, disabled = false, disabledPlush = false, disabledMinus = false, h }) => {
     const onPlushHandler = () => {
         if (onPlush && !disabledPlush) {
             onPlush()
@@ -24,6 +24,7 @@ const QuantityID = ({ value = 0, onPlush, onMinus, disabled = false, disabledPlu
             ...disabled && { cursor: "not-allowed" }
         }} >
             <div className="flex justify-between items-center btn-border border-2 btn-bg-light h-10 sm:h-12 overflow-hidden rounded-md" style={{
+                ...h && { height: h },
                 opacity: disabled ? 0.5 : 1,
             }}>
                 <button className="p-2 sm:p-3 btn-color-revese outline-none" onClick={onMinusHandler} disabled={disabledMinus} style={{

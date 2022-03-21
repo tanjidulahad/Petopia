@@ -1,8 +1,11 @@
+import Link from 'next/link';
 import { connect } from 'react-redux';
 import { IoCartOutline } from 'react-icons/io5';
 import { BsChevronDown } from 'react-icons/bs'
 import { useState, useEffect } from 'react';
 import MediaQuery from 'react-responsive';
+
+
 import { Button } from '../inputs';
 import headerImg from './header-background.jpg'
 // Actions
@@ -13,7 +16,9 @@ import {
 } from "../../redux/shop/shop-action";
 
 
-const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings }) => {
+const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, ref }) => {
+  const [isLogin, setIsLogin] = useState(false)
+  const [mobNaveHeight, setMobNaveHeight] = useState(10)
   const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
   useEffect(() => {
     getShopInfo(storeId);
@@ -23,9 +28,12 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
     getShopDisplaySettings(storeId)
 
   }, [])
+  useEffect(() => {
+    setIsLogin(!!user)
+  }, [user])
 
   return (
-    <nav className='sm:sticky top-0 z-10 '>
+    <nav className='sm:sticky top-0 z-10 ' ref={ref}>
       <div className='navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8' style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
         <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
           <Button className='text-left' type='link' href='/'>
@@ -56,24 +64,62 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
               </Button>
             </div>
             {
-              !!user ?
-                <div className="flex white-color my-6 ml-8 cursor-pointer">
-                  <div className="mt-2 w-8 h-8 relative overflow-hidden flex justify-center items-center rounded-full">
-                    <img className='w-full object-cover' src="http://source.unsplash.com/100x100/?girl" />
+              !isLogin ?
+                <div className="w-32 ml-8 shrink-0 flex items-center">
+                  <Button onClick={openAuth} className=" bg-white text-black max-h-min text-base font-medium rounded py-3 px-8 hover:bg-rose-600 hover:text-white " title="Sign In"></Button>
+                </div>
+                :
+                <div className=" flex relative white-color items-center my-6 ml-8 cursor-pointer account">
+                  <div className="mt-2 w-10 h-10 bg-gray-100 text-gray-400 p-5 overflow-hidden flex justify-center items-center rounded-full">
+                    <span className='text-sm font-extrabold	' >{(() => {
+                      const name = user.full_name.split(' ')
+                      if (name.length) {
+                        if (name.length > 1) {
+                          return `${name[0][0]}${name[name.length - 1][0]}`.toUpperCase()
+                        }
+                        return `${name[0][0]}${name[0][1]}`.toUpperCase()
+                      }
+                      return 'A'
+                    })()}</span>
                   </div>
                   <div className='flex '>
                     <span className='block min-w-max white-color text-lg font-bold tracking-tight  mt-2  ml-2 mr-2'> My Account</span>
                     <BsChevronDown className="mt-2" size={25} />
                   </div>
-                </div> :
-                <div className="w-32 ml-8 shrink-0 flex items-center">
-                  <Button onClick={openAuth} className=" bg-white text-black max-h-min text-base font-medium rounded py-3 px-8 hover:bg-rose-600 hover:text-white " title="Sign In"></Button>
+
+                  <div className='absolute w-full hidden account-options top-full' >
+                    <div className='p-6 mt-6 bg-white w-full rounded account-options-c' style={{ boxShadow: "0px 4px 8px #2424243F" }}>
+                      <ul className='list-none black-color-75 text-base font-medium space-y-6'>
+                        <li className='btn-hover-color'>
+                          <Link href="/account/myorders">
+                            <a >My Orders</a>
+                          </Link>
+                        </li>
+                        <li className='btn-hover-color'>
+                          <Link href="/account/myorders">
+                            <a >Wishlist</a>
+                          </Link>
+                        </li>
+                        <li className='btn-hover-color'>
+                          <Link href="/account/myorders">
+                            <a >Saved Places</a>
+                          </Link>
+                        </li>
+                        <li className='btn-hover-color'>
+                          <Link href="/account/myorders">
+                            <a >Log Out</a>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
             }
+            {/* <DynamicComponent user={user} /> */}
           </div>
           {/* Navbar for mobile */}
           <MediaQuery maxWidth={640}>
-            <div className="mob-navbar z-10 py-2 flex sm:justify-end items-center white-color justify-between w-full fixed sm:relative bottom-0 left-0 right-0 bg-white sm:bg-transparent " style={{ boxShadow: '0px -1px 4px #00000033' }}>
+            <div id='mob-navbar' className="mob-navbar z-10 py-2 flex sm:justify-end items-center white-color justify-between w-full fixed sm:relative bottom-0 left-0 right-0 bg-white sm:bg-transparent " style={{ boxShadow: '0px -1px 4px #00000033' }}>
               <div className='text-black w-1/5'>
                 <Button type='link' href='/' className='block sm:hidden text-center text-xs btn-nav-color-active '>
                   <svg className='mx-auto' id="home" xmlns="http://www.w3.org/2000/svg" width="24" height="24" style={{ fill: 'inherit', color: 'inherit' }} viewBox="0 0 24 24">

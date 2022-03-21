@@ -13,7 +13,7 @@ phases:
   pre_build:
     commands:
       - echo Fetch env file
-      - aws s3 cp s3://goplinto.config.files/ssg.goplinto.com/.env-ssg.development .env.local
+      - aws s3 cp s3://goplinto.config.files/shopsdev.goplinto.com/.env.local .env.local
   build:
     commands:
       - echo Building static site...

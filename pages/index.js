@@ -1,20 +1,24 @@
 import Head from 'next/head'
-// import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import { connect, useDispatch } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from "next/dist/client/router";
-import { useSelector } from 'react-redux'
 import ProductListPage from '../components/Products/index'
 import CatList from '../components/catgegory/cat'
+import { Input, Button } from '../components/inputs';
+import HomeCartItem from '../components/cart-item/home-cart-item';
 import { getCategoryStart, getShopProductsStart, getCategoryProductsStart, getSearchProductsStart } from "../redux/shop/shop-action";
-const Home = ({ products, shop, categories, getCategoryStart, getCategoryProducts, getShopProducts }) => {
 
+
+
+const Home = ({ products, shop, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts }) => {
+  const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
+  const purchaseDetails = checkout.purchaseDetails;
   const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
   const Router = useRouter();
+  const [height, setHeight] = useState(0)
+  const navBody = useRef(null)
   const { category, subCategory, p } = Router.query;
   const [status, setStatus] = useState('loading') //status == loading || failed || success
-
 
   useEffect(() => { // Componentdidmount
     if (!categories.length) getCategoryStart(storeId);
@@ -33,6 +37,11 @@ const Home = ({ products, shop, categories, getCategoryStart, getCategoryProduct
       // setq('') // Cleaning query string of search
     }
   }, [Router.query])
+  useEffect(() => {
+    navBody.current = document.getElementsByClassName('navbar-body')[0]
+
+  }, [])
+
   return (
     <div >
       <Head>
@@ -43,14 +52,60 @@ const Home = ({ products, shop, categories, getCategoryStart, getCategoryProduct
       {/* <Navbar /> */}
       <section>
         <div className='wrapper mx-auto'>
-          <div className="grid grid-cols-1 sm:grid-cols-12">
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
             <div className="hidden md:block md:col-span-3  xl:col-span-2 border-gray-300 ">
               <CatList list={categories.length > 0 && categories} />
             </div>
-            <div className=" sm:col-span-12 md:col-span-9 xl:col-span-7">
+            <div className=" sm:col-span-12 md:col-span-9 xl:col-span-7 -translate-y-7">
+              <div className='px-6 text-base sticky'>
+                <Input className='py-2' placeholder='Search for items' ></Input>
+              </div>
               <ProductListPage products={products} />
             </div>
-            <div className="hidden xl:block xl:col-span-3">03</div>
+            <div className="hidden py-6 xl:block xl:col-span-3 space-y-6">
+              <div className='pb-6 border-b-2'>
+                <h1 className='text-2xl font-semibold'>My Cart</h1>
+              </div>
+              {
+                !!cart.length ? <>
+                  {
+                    cart.map((item, i) => (
+                      <HomeCartItem data={item} key={i} />
+
+                    ))
+                  }
+                  <div>
+                    {
+                      !!purchaseDetails ?
+                        <>
+                          <div className='py-6 flex justify-between items-end' >
+                            <h1 className='text-2xl'>Item Total</h1>
+                            <div>
+                              <span className='text-base font-medium'>{totalItems} item(s) </span>
+                              <span className='text-2xl font-semibold'> ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</span>
+                            </div>
+                          </div>
+                          <Button type='link' href='/cart' className='block btn-color btn-bg w-full text-center rounded  py-4'>Proceed To Checkout</Button>
+                        </>
+                        :
+                        <>
+                          <div className='py-6 flex justify-between items-end' >
+                            <h1 className='text-2xl'>Item Total</h1>
+                            <div>
+                              <span className='text-base font-medium'>{totalItems} item(s) </span>
+                              <span className='text-2xl font-semibold'> ₹ {cart.reduce((acc, item) => parseFloat(item.sale_price) + acc, 0)}</span>
+                            </div>
+                          </div>
+                          <Button className='block btn-color btn-bg w-full text-center rounded  py-4' type='link' href='/cart'>Proceed To Checkout</Button>
+                        </>
+                    }
+                  </div>
+                </>
+                  : <div class="h-64 w-full text-center flex justify-center items-center" style={{ borderRadius: '50%' }}>
+                    <h4>Your Cart is Empty!.</h4>
+                  </div>
+              }
+            </div>
           </div>
         </div >
       </section >
@@ -58,9 +113,11 @@ const Home = ({ products, shop, categories, getCategoryStart, getCategoryProduct
   )
 }
 const mapStateToProps = state => ({
+  cart: state.cart,
   shop: state.store.shop,
   products: state.store.products,
   categories: state.store.categories,
+  checkout: state.checkout,
 })
 const mapDispatchToProps = dispatch => ({
   getShopProducts: (storeId) => dispatch(getShopProductsStart(storeId)),

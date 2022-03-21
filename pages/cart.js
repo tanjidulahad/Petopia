@@ -19,6 +19,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
     initiateOrder, clearCheckout, createNewRzpOrder, clearCart }) => {
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
     const purchaseDetails = checkout.purchaseDetails;
+    const [mobNavHeight, setMobNavHeight] = useState(0)
     const [initiateData, setInitiateData] = useState(null) // For cod
     const [confirmPayment, setConfirmPayment] = useState(null) // For online
     const [initiateStatus, setInitiateStatus] = useState('pending') // pending, loading, failure
@@ -136,6 +137,27 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
             setInitiateStatus('pending')
         }
     }, [error])
+
+
+    // looking navbar height
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const objerver = new ResizeObserver(function (e) {
+                if (e[0].contentRect.width < 640 && mobNavHeight == 0) {
+                    const ele = document.getElementById('mob-navbar')
+                    if (ele) {
+                        if (ele.offsetWidth != mobNavHeight) {
+                            console.log(ele);
+                            setMobNavHeight(ele.offsetHeight)
+                        }
+
+                    }
+                }
+            });
+            objerver.observe(document.body)
+        }
+    }, [])
+
     if (!info) { // If store details are not awilable
         return <Loader />
     }
@@ -356,33 +378,40 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                     }
                                 </div>
                             </div>
-                            <div className="mt-0 sm:mt-20 w-full left-0 fixed sm:relative bottom-0 p-4 sm:p-0 grid grid-cols-2 sm:grid-cols-1 bg-white sm:bg-transparent">
-                                <div className="block sm:hidden">
-                                    <h2 className="text-sm font-bold black-color-75">Item total <sub> {totalItems} item(s)</sub> </h2>
-                                    <h2 className="text-base font-bold mt-2">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
-                                </div>
-                                <div className="flex justify-end items-center">
-                                    {
-                                        !!purchaseDetails ?
-                                            <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={initiatePayment} >
-                                                <span className="hidden sm:inline">
-                                                    Proceed to Pay ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
-                                                </span>
-                                                <span className="sm:hidden inline">Check Out</span>
-                                            </Button>
-                                            :
-                                            <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={authToggle} >Login</Button>
-                                    }
+                            {
+                                !!purchaseDetails &&
+                                <>
+                                    <div id='cart-total-btn' className="mt-0 sm:mt-20 w-full left-0 fixed sm:relative bottom-0 p-4 sm:p-0 grid grid-cols-2 sm:grid-cols-1 bg-white sm:bg-transparent" style={{
+                                        bottom: `${mobNavHeight}px`
+                                    }}>
+                                        <div className="block sm:hidden">
+                                            <h2 className="text-sm font-bold black-color-75">Item total <sub> {totalItems} item(s)</sub> </h2>
+                                            <h2 className="text-base font-bold mt-2">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
+                                        </div>
+                                        <div className="flex justify-end items-center">
+                                            {
+                                                !!purchaseDetails ?
+                                                    <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={initiatePayment} >
+                                                        <span className="hidden sm:inline">
+                                                            Proceed to Pay ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
+                                                        </span>
+                                                        <span className="sm:hidden inline">Check Out</span>
+                                                    </Button>
+                                                    :
+                                                    <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={authToggle} >Login</Button>
+                                            }
 
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>
             </section>
             {
                 initiateStatus == 'loading' && !rzpOrder ?
-                    <div className="fixed top-0 bottom-0 right-0 left-0 bg-black-color-75">
+                    <div className="fixed inset-0 left-0 bg-black-color-75">
                         <div className="relative w-full h-full">
                             <div className="flex items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                                 <h5 className="white-color-75">We are processing your order </h5>

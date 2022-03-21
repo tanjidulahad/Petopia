@@ -13,6 +13,24 @@
       display: block;
     }
   }
-  .mob-navbar-active {
+  .account {
+    &:hover {
+      .account-options {
+        display: block;
+      }
+    }
+    .account-options-c {
+      &::before {
+        content: '';
+        width: 20px;
+        height: 20px;
+        transform: rotate(45deg) translateX(-50%);
+        margin-bottom: -100px;
+        background-color: $white-color;
+        top: 1.3rem;
+        left: 50%;
+        position: absolute;
+      }
+    }
   }
 }

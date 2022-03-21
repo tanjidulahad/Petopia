@@ -1,9 +1,9 @@
 import Sideprofilecard from './sideprofilecard.jsx';
 import React from 'react'
 
-function index() {
+function index({active}) {
   return (
-    <Sideprofilecard/>
+    <Sideprofilecard active={active}/>
   )
 }
 

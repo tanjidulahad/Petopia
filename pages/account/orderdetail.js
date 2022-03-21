@@ -14,11 +14,7 @@ function orderDetail() {
 
         </div>
         <div className="  lg:col-span-2 md:col-span-4 my-10 mx-8 ">
-          <p className="text-xl text-gray-900 font-bold"> Current Orders</p>
-
-
-
-          <p className="text-xl text-gray-900 font-bold"> Past Orders</p>
+          
 
 
         </div>

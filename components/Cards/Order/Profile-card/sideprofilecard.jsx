@@ -1,6 +1,7 @@
+import Link from "next/link";
 import React from "react";
 
-function Sideprofilecard() {
+function Sideprofilecard({active}) {
   return (
     <div className="w-full  h-full  rounded-t-xl bg-white shadow-lg ">
       <div className="w-full h-40  rounded-t-xl bg-gray-900 ">
@@ -10,69 +11,162 @@ function Sideprofilecard() {
         />
       </div>
 
-      <div className="wrapper mx-auto ">
-        <div className="grid grid-cols-11 ">
-          <div className="col-span-10 ">
-            <div className="rounded-full w-20 h-20 bg-gray-900 relative left-1/4 -top-12 ring-2 z-100 shadow-lg bg-gray-900  ring-white">
+
+        <div className="w-full ">
+          <div className=" flex justify-between">
+            <div className="  w-full ">
+            <div className="w-full flex justify-center relative left-4 -top-8">
+            <div className="rounded-full w-20 h-20 bg-gray-900  ring-2 z-100 shadow-lg bg-gray-900  ring-white">
               <img
                 className="w-full h-full opacity-90 rounded-full"
                 src="https://images.indulgexpress.com/uploads/user/imagelibrary/2020/11/7/original/Chef_Ranveer_Brar.jpg"
               />
             </div>
+            </div>
 
-            <div className=" text-center ml-2">
-              <p className="text-sm md:text-base sm:text-sm font-bold relative -top-8 text-gray-900">
-                Kiran Kumar
+
+            <div className=" text-center relative  ml-2 -top-4 left-4">
+              <p className="lg:text-base md:text-base   font-bold flex  justify-center  text-gray-900">
+                KiranKumar
               </p>
-              <p className="text-small font-medium relative -top-8 text-gray-500">
+              <p className="lg:text-base md:text-left  md:text-sm font-medium flex   justify-center text-gray-500">
                 +91 1234567890
               </p>
-              <p className="text-small relative -left-6 font-medium relative -top-8 text-gray-500">
+              <p className="lg:text-base md:text-sm flex  justify-center font-medium   text-gray-500">
                 kiranads6@gmail.com
               </p>
             </div>
-          </div>
-
-          <div className="col-span-1  w-full  ">
-            <p className="text-lg font-medium text-red-600 relative left-12">
+            </div>
+            <div className="  w-max ">
+            <p className=" cursor-pointer text-lg m-2 font-medium text-red-600 relative ">
               Edit
             </p>
           </div>
+          </div>
+
+
         </div>
-      </div>
+
 
       <div className="border-t-2 border-gray w-full">
         <div className="mt-12  ">
-          <div className="border-l-4 border-rose-700 h-10 my-6">
-            <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
+          {
+            active==='myorders' ?
+            <div className="border-l-4 border-rose-700 h-10 my-6">
+              <Link href='/account/myorders' as='/account/myorders ' >
+              <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
               {" "}
               My Orders
             </p>
-          </div>
-          <div className=" h-10 my-6">
-            <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
-              {" "}
-              Wishlist
+              </Link>
+
+          </div>:
+            <div className=" cursor-pointer h-10 my-6">
+              <Link href='/account/myorders' as='/account/myorders ' >
+
+              <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
+              My Orders
+
+              </p>
+              </Link>
+              </div>
+
+
+          }
+        {
+          active==='wishlist' ?
+          <div className="border-l-4 border-rose-700 h-10 my-6">
+
+          <Link href='/account/myorders' as='/account/wishlist ' >
+                     <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
+
+            Wishlist
+
             </p>
-          </div>
-          <div className=" h-10 my-6">
+            </Link>
+        </div>:
+          <div className=" cursor-pointer h-10 my-6">
+            <Link href='/account/myorders' as='/account/wishlist ' >
             <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
-              {" "}
-              Wallet
+            Wishlist
+
             </p>
-          </div>
-          <div className=" h-10 my-6">
+            </Link>
+
+            </div>
+        }
+
+{
+          active==='wallet' ?
+          <div className="border-l-4 border-rose-700 h-10 my-6">
+
+          <Link href='/account/myorders' as='/account/wallet ' >
+                     <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
+
+            Wallet
+
+            </p>
+            </Link>
+        </div>:
+          <div className=" cursor-pointer h-10 my-6">
+            <Link href='/account/myorders' as='/account/wallet ' >
             <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
-              {" "}
-              Saved Places
+            Wallet
+
             </p>
-          </div>
-          <div className=" h-10 my-6">
+            </Link>
+
+            </div>
+        }
+{
+          active==='savedplaces' ?
+          <div className="border-l-4 border-rose-700 h-10 my-6">
+
+          <Link href='/account/myorders' as='/account/savedplaces ' >
+                     <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
+
+            Saved Places
+
+            </p>
+            </Link>
+        </div>:
+          <div className=" cursor-pointer h-10 my-6">
+            <Link href='/account/myorders' as='/account/savedplaces ' >
             <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
-              {" "}
-              Subscription
+            Saved Places
+
             </p>
-          </div>
+            </Link>
+
+            </div>
+        }
+
+
+
+{
+  active==='subscription' ?
+  <div className="border-l-4 border-rose-700 h-10 my-6">
+
+  <Link href='/account/myorders' as='/account/subscription ' >
+             <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
+
+             Subscription
+
+    </p>
+    </Link>
+</div>:
+  <div className=" cursor-pointer h-10 my-6">
+    <Link href='/account/myorders' as='/account/subscription ' >
+    <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
+    Subscription
+
+    </p>
+    </Link>
+
+    </div>
+}
+
+
 
           <div className=" h-10 my-6">
             <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">

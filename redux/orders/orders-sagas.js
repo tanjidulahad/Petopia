@@ -36,7 +36,21 @@ function* onGetCurrentOrdersListStart() {
         }
     })
 }
+function* onGetPastOrdersListStart() {
+    yield takeLatest(ordersActionType.GET_CURRENT_ORDERS_LIST_START, function* ({ payload }) {
+        const { userId, setOrderList, setError } = payload
+        try {
+            const res = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=PAST`)
+            if (res.data) {
+                setOrderList(res.data);
+            }
+        } catch (error) {
+            // console.log(error);
+            setError(error.message)
+        }
+    })
+}
 
 export default function* ordersSagas() {
-    yield all([call(onGetOrderDetailsStart), call(onGetCurrentOrdersListStart)])
+    yield all([call(onGetOrderDetailsStart), call(onGetCurrentOrdersListStart), call(onGetPastOrdersListStart)])
 }

@@ -9,6 +9,12 @@ export const getCurrentOrdersListStart = (payload) => ({
     type: ordersActionType.GET_CURRENT_ORDERS_LIST_START,
     payload: payload
 })
+
+export const getPastOrdersListStart = (payload) => ({
+    type: ordersActionType.GET_PAST_ORDERS_LIST_START,
+    payload: payload
+})
+
 export const getCurrentOrdersListSuccess = (payload) => ({
     type: ordersActionType.GET_CURRENT_ORDERS_LIST_SUCCESS,
     payload: payload

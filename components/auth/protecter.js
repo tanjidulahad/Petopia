@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import Router from 'next/router'
 import { connect } from "react-redux";
 
-import PageLoader from '../page-loader/page-loader';
+import Loader from '../loading/loader';
 
 // Action
 import { authShowToggle } from '../../redux/user/user-action'
@@ -23,7 +23,7 @@ const Protecter = ({ WrappedComponent, authToggle, authshow, authestore, ...prop
                     Router.push(`/${authestore.store_name}/${authestore.store_id}`)
                 }
             }, [props.user])
-            return <PageLoader />;
+            return <Loader />;
         }
         // If this is an accessToken we just render the component that was passed with all its props
         return <WrappedComponent {...props} />;
@@ -35,7 +35,7 @@ const Protecter = ({ WrappedComponent, authToggle, authshow, authestore, ...prop
 const mapStateToProps = state => ({
     user: state.user.currentUser,
     authshow: state.user.show,
-    authestore: state.store.shop
+    authestore: state.store.info
 })
 const mapDispatchToProps = dispatch => ({
     authToggle: () => dispatch(authShowToggle()),

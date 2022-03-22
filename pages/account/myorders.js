@@ -9,6 +9,7 @@ import Wallet from '../../components/Cards/Order/wallet';
 import Transaction from '../../components/Cards/Order/wallet/transaction.jsx';
 import Subscription from '../../components/Cards/Order/subscription'
 import { useRouter } from 'next/router'
+import Edit from '../../components/Cards/Order/profile/index';
 function Myorder() {
   const router=useRouter()
 console.log(router)
@@ -23,10 +24,10 @@ console.log(router)
     <section className="bg-gray-100 w-full ">
       <div className="wrapper mx-auto">
         <div className="grid grid-cols-11 ">
-          <div className="lg:col-span-2 md:col-span-4  my-10 ">
+          <div className="lg:col-span-2 md:col-span-4 col-span-0 my-0  md:my-10 lg:my-10 ">
             <SideProfile active={render} />
           </div>
-          <div className="lg:col-span-9 md:col-span-7 my-10 ml-8 ">
+          <div className="lg:col-span-9 md:col-span-7 col-span-11 my-10 ml-4 mx-4 md:mx-0 lg:mx-0 md:ml-8 lg:ml-8 ">
             {render === 'wishlist' ? (
               <>
                <p className="text-xl text-gray-900 font-bold"> Wishlist</p>
@@ -70,7 +71,22 @@ console.log(router)
                   </p>
                 </div>
               </>
-            ) : render ==='wallet'? <div className="grid grid-cols-1   gap-6 ">
+            ): render === 'profile' ? (
+              <>
+
+                <div className="grid lg:grid-cols-1    ">
+
+                  <div className="w-full bg-white rounded-lg shadow">
+                    <Edit type={`Home`} />
+                  </div>
+
+
+                </div>
+
+              </>
+            )
+
+            : render ==='wallet'? <div className="grid grid-cols-1   gap-6 ">
             <div className="w-full rounded-lg shadow">
               <Wallet/>
             </div>

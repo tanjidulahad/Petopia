@@ -3,7 +3,7 @@ import React from "react";
 
 function Sideprofilecard({active}) {
   return (
-    <div className="w-full  h-full  rounded-t-xl bg-white shadow-lg ">
+    <div className="w-full  h-full hidden md:block lg:block rounded-t-xl bg-white shadow-lg ">
       <div className="w-full h-40  rounded-t-xl bg-gray-900 ">
         <img
           className="w-full rounded-t-xl  h-full opacity-70"
@@ -38,9 +38,11 @@ function Sideprofilecard({active}) {
             </div>
             </div>
             <div className="  w-max ">
+            <Link href='/account/myorders' as='/account/profile ' >
             <p className=" cursor-pointer text-lg m-2 font-medium text-red-600 relative ">
               Edit
             </p>
+              </Link>
           </div>
           </div>
 

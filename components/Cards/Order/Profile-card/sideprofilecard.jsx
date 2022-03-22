@@ -12,7 +12,7 @@ function Sideprofilecard({active}) {
       </div>
 
 
-        <div className="w-full ">
+        <div className="w-full  ">
           <div className=" flex justify-between">
             <div className="  w-full ">
             <div className="w-full flex justify-center relative left-4 -top-8">

@@ -2,9 +2,9 @@ import React from 'react'
 
 function Profile() {
   return (
-    <div className=" w-full lg:w-1/2 md:w-full ">
-      <p className="m-8 mb-4 text-lg text-dark ">Edit Profile</p>
-      <div className="rounded-full w-20 h-20 bg-gray-900 mx-8  z-100  bg-gray-900  ">
+    <div className=" w-full lg:w-1/2 md:w-full  ">
+      <p className="m-8 mb-4 text-lg text-dark hidden md:block lg:block">Edit Profile</p>
+      <div className="rounded-full w-20 h-20 bg-gray-900 m-8 lg:mx-8 md:mx-8 lg:my-0 md:my-0 z-100  bg-gray-900  ">
               <img
                 className="w-full h-full opacity-90 rounded-full"
                 src="https://images.indulgexpress.com/uploads/user/imagelibrary/2020/11/7/original/Chef_Ranveer_Brar.jpg"

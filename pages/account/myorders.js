@@ -10,6 +10,7 @@ import { BsPlusCircle } from 'react-icons/bs'
 import Wallet from '../../components/Cards/Order/wallet';
 import Transaction from '../../components/Cards/Order/wallet/transaction.jsx';
 import Subscription from '../../components/Cards/Order/subscription'
+import Header from '../../components/MobHeader/index'
 
 import accountLayout from '../../components/layout/account-layout'
 
@@ -32,30 +33,34 @@ function Myorder({ user, getCurrentOrders, getPastOrders }) {
   console.log(orderList, orderListPast);
   return (
     <>
-      <p className="text-xl text-gray-900 font-bold">
-        {' '}
-        Current Orders
-      </p>
-      <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
-        <div className="w-full rounded-lg shadow">
-          <OrderCard />
-        </div>
-      </div>
+                <Header display={true} topic="My Orders" />
 
-      <p className="text-xl text-gray-900 font-bold"> Past Orders</p>
-      <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
-        <div className="w-full rounded-lg shadow">
-          <OrderCard status={'past'} message={'Delivery Success'} />
-        </div>
-        {/* <!-- ... --> */}
-        <div className="w-full rounded-lg shadow">
-          <OrderCard stayus={'past'} message={'Order Cancelled'} />
-        </div>
-        <div className="w-full rounded-lg shadow">
-          <OrderCard status={'past'} message={'Order Cancelled'} />
-        </div>
-      </div>
-    </>
+                <p className="text-xl mx-2 mt-4 md:mt-0 lg:mt-0 md:mx-0 lg:mx-0 text-gray-900 font-bold">
+                  {' '}
+                  Current Orders
+                </p>
+                <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
+                  <div className="w-full md:rounded-lg md:shadow lg:rounded-lg lg:shadow">
+                    <OrderCard />
+                  </div>
+                </div>
+
+                <p className="text-xl mx-2 mt-4 md:mt-0 lg:mt-0 md:mx-0 lg:mx-0 text-gray-900 font-bold">
+                  Past Orders
+                </p>
+                <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
+                  <div className="w-full rounded-lg shadow">
+                    <OrderCard status={'past'} message={'Delivery Success'} />
+                  </div>
+                  {/* <!-- ... --> */}
+                  <div className="w-full rounded-lg shadow">
+                    <OrderCard stayus={'past'} message={'Order Cancelled'} />
+                  </div>
+                  <div className="w-full rounded-lg shadow">
+                    <OrderCard status={'past'} message={'Order Cancelled'} />
+                  </div>
+                </div>
+              </>
   )
 }
 

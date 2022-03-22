@@ -3,7 +3,7 @@ import {FiHome} from 'react-icons/fi'
 
 function address({type}) {
   return (
-    <div className="w-full  border-2 rounded-lg  bg-white">
+    <div className="w-full  border-2 md:rounded-lg lg:rounded-lg   bg-white">
 
 
       <div className="p-4  w-full flex ">

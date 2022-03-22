@@ -2,7 +2,7 @@
 const Loader = () => (
     <div className="flex justify-center items-center w-full h-full " style={{ minHeight: '80vh' }}>
         <div className="h-40 w-40">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={{ margin: 'auto', background: '#fff', display: 'block', width: "150px", height: "150px" }} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={{ margin: 'auto', display: 'block', width: "150px", height: "150px" }} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
                 <circle cx="18" cy="50" r="4" fill="#e15b64">
                     <animate attributeName="cy" values="34;66;34" times="0;0.5;1" dur="1s" calcMode="spline" keySplines="0.5 0 0.5 1;0.5 0 0.5 1" begin="0s" repeatCount="indefinite"></animate>
                 </circle><circle cx="27" cy="61.31370849898476" r="4" fill="#f47e60">

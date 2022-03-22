@@ -56,10 +56,7 @@ const Home = ({ products, shop, cart, checkout, categories, getCategoryStart, ge
             <div className="hidden md:block md:col-span-3  xl:col-span-2 border-gray-300 ">
               <CatList list={categories.length > 0 && categories} />
             </div>
-            <div className=" sm:col-span-12 md:col-span-9 xl:col-span-7 -translate-y-7">
-              <div className='px-6 text-base sticky'>
-                <Input className='py-2' placeholder='Search for items' ></Input>
-              </div>
+            <div className=" sm:col-span-12 md:col-span-9 xl:col-span-7 pt-6">
               <ProductListPage products={products} />
             </div>
             <div className="hidden py-6 xl:block xl:col-span-3 space-y-6">

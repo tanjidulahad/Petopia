@@ -54,7 +54,7 @@ const ThankYou = ({ confirmOrder }) => {
                                         </div>
                                         <h4 className="text-2xl">Order Id - #{orderId}</h4>
                                         <div className="mt-6">
-                                            <Button className="py-4 w-60 block mx-auto  btn-border btn-bg-revese btn-color-revese rounded border-2 " type="link" href={`/accounts/myorders/${orderId}`} title="View Order Details" />
+                                            <Button className="py-4 w-60 block mx-auto  btn-border btn-bg-revese btn-color-revese rounded border-2 " type="link" href={`/account/orderdetail/${orderId}`} title="View Order Details" />
                                         </div>
                                     </div>
                                 </div>

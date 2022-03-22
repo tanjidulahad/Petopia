@@ -6,18 +6,19 @@ import { riseError } from "../global-error-handler/global-error-handler-action.t
 
 function* onGetOrderDetailsStart() {
     yield takeLatest(ordersActionType.GET_ORDER_DETAILS_START, function* ({ payload }) {
-        const { orderId, setOrderDetails } = payload
+        const { orderId, setOrderDetails, setError } = payload
         try {
             const res = yield fetcher('GET', `?r=my-orders/read-order&orderId=${orderId}`)
             if (res.data.storeId) {
                 setOrderDetails(res.data);
             }
         } catch (error) {
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
-            } else {
-                yield put(riseError({ name: error.name, message: "Unable to get Order!", onOk: () => { return }, onOkName: "Close" }))
-            }
+            setError(error)
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
+            // } else {
+            //     yield put(riseError({ name: error.name, message: "Unable to get Order!", onOk: () => { return }, onOkName: "Close" }))
+            // }
         }
     })
 }
@@ -32,7 +33,7 @@ function* onGetCurrentOrdersListStart() {
             }
         } catch (error) {
             // console.log(error);
-            setError(error.message)
+            setError(error)
         }
     })
 }
@@ -46,7 +47,7 @@ function* onGetPastOrdersListStart() {
             }
         } catch (error) {
             // console.log(error);
-            setError(error.message)
+            setError(error)
         }
     })
 }

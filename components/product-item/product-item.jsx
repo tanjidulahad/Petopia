@@ -7,7 +7,7 @@ import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
 const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
     const itemInCart = cart.find((item) => (item.item_id == data.item_id)) || {}
     const productDataForCart = {
-        item_id: data.item_id,
+        item_id: Number(data.item_id),
         store_id: data.store_id,
         category_id: data.category_id,
         item_name: data.item_name,

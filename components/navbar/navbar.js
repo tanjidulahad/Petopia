@@ -8,6 +8,7 @@ import MediaQuery from 'react-responsive';
 
 import { Button } from '../inputs';
 import headerImg from './header-background.jpg'
+import { Input } from '../inputs';
 // Actions
 import { authShowToggle } from '../../redux/user/user-action'
 import { logOutStart } from '../../redux/user/user-action'
@@ -31,10 +32,9 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
   useEffect(() => {
     setIsLogin(!!user)
   }, [user])
-
   return (
     <nav className='sm:sticky top-0 z-10 ' ref={ref}>
-      <div className='navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8' style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
+      <div className='navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative' style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
         <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
           <Button className='text-left' type='link' href='/'>
             <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>
@@ -87,7 +87,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
                     <BsChevronDown className="mt-2" size={25} />
                   </div>
 
-                  <div className='absolute w-full hidden account-options top-full' >
+                  <div className='absolute w-full hidden account-options top-full z-10' >
                     <div className='p-6 mt-6 bg-white w-full rounded account-options-c' style={{ boxShadow: "0px 4px 8px #2424243F" }}>
                       <ul className='list-none black-color-75 text-base font-medium space-y-6'>
                         <li className='btn-hover-color'>
@@ -105,10 +105,8 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
                             <a >Saved Places</a>
                           </Link>
                         </li>
-                        <li className='btn-hover-color'>
-                          <Link href="/account/myorders">
-                            <a >Log Out</a>
-                          </Link>
+                        <li className='btn-hover-color cursor-pointer' onClick={() => { logOut(); setIsLogin(false) }}>
+                          <span className=''>Log Out</span>
                         </li>
                       </ul>
                     </div>
@@ -186,6 +184,9 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
               </div>
             </div>
           </MediaQuery>
+        </div>
+        <div className='px-6 text-base absolute -bottom-4 left-1/2 -translate-x-1/2 w-full ' style={{ maxWidth: '800px' }}>
+          <Input className='py-2' placeholder='Search for items' ></Input>
         </div>
       </div>
     </nav>

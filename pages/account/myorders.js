@@ -3,58 +3,65 @@ import { connect } from 'react-redux'
 
 import withAuth from '../../components/auth/withAuth'
 import OrderCard from '../../components/Cards/Order/orderCard/orderCard'
-import SideProfile from '../../components/Cards/Order/Profile-card'
-import WishItem from '../../components/Cards/Order/wishlist'
-import Address from '../../components/Cards/Order/address'
-import { BsPlusCircle } from 'react-icons/bs'
-import Wallet from '../../components/Cards/Order/wallet';
-import Transaction from '../../components/Cards/Order/wallet/transaction.jsx';
-import Subscription from '../../components/Cards/Order/subscription'
-
 import accountLayout from '../../components/layout/account-layout'
-
+import Loader from '../../components/loading/loader'
+import ErrorPage from '../../components/error'
 // Actions
 import { getCurrentOrdersListStart, getPastOrdersListStart } from '../../redux/orders/orders-action'
 
-function Myorder({ user, getCurrentOrders, getPastOrders }) {
+function Myorders({ user, getCurrentOrders, getPastOrders }) {
   const [orderList, setOrderList] = useState([]);
   const [orderListPast, setOrderListPast] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("");
-
-  const [counter, setcounter] = useState(0)
-  const [render, setrender] = useState('')
 
   useEffect(() => {
     getCurrentOrders({ userId: user.customer_id, setOrderList, setError })
     getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError })
   }, [])
 
-  console.log(orderList, orderListPast);
+  useEffect(() => {
+    setIsLoading((orderList.length || orderListPast.length) && true)
+  }, [orderList, orderListPast])
+  console.log(orderList);
   return (
     <>
-      <p className="text-xl text-gray-900 font-bold">
-        {' '}
-        Current Orders
-      </p>
-      <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
-        <div className="w-full rounded-lg shadow">
-          <OrderCard />
-        </div>
-      </div>
-
-      <p className="text-xl text-gray-900 font-bold"> Past Orders</p>
-      <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
-        <div className="w-full rounded-lg shadow">
-          <OrderCard status={'past'} message={'Delivery Success'} />
-        </div>
-        {/* <!-- ... --> */}
-        <div className="w-full rounded-lg shadow">
-          <OrderCard stayus={'past'} message={'Order Cancelled'} />
-        </div>
-        <div className="w-full rounded-lg shadow">
-          <OrderCard status={'past'} message={'Order Cancelled'} />
-        </div>
-      </div>
+      {
+        !isLoading && !error ?
+          <Loader />
+          : error ?
+            <ErrorPage message={error.message} statusCode={error?.response?.status || error?.statusCode} />
+            :
+            <>
+              <p className="text-xl text-gray-900 font-bold">
+                {' '}
+                Current Orders
+              </p>
+              <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
+                {
+                  orderList.map((item, i) => (
+                    <div className="w-full rounded-lg shadow " key={i}>
+                      <OrderCard data={item} />
+                    </div>
+                  ))
+                }
+              </div>
+              {
+                !!orderListPast.length && <>
+                  <p className="text-xl text-gray-900 font-bold"> Past Orders</p>
+                  <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
+                    {
+                      orderListPast.map((item, i) => (
+                        <div className="w-full rounded-lg shadow" key={i}>
+                          <OrderCard data={item} status={'past'} message={'Delivery Success'} />
+                        </div>
+                      ))
+                    }
+                  </div>
+                </>
+              }
+            </>
+      }
     </>
   )
 }
@@ -65,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
   getPastOrders: (payload) => dispatch(getPastOrdersListStart(payload))
 })
 
-export default connect(null, mapDispatchToProps)(withAuth(accountLayout(Myorder)))
+export default connect(null, mapDispatchToProps)(withAuth(accountLayout(Myorders)))

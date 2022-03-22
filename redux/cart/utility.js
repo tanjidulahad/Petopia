@@ -32,7 +32,7 @@ export const deleteFromCart = (cartItems, cartItemToRemove) => {
 
 export const filterCart = (cartItems, orderDetais) => {
     const backendCart = Object.values(Object.values(orderDetais.orders)[0].orderItems).map(item => ({
-        item_id: item.itemId,
+        item_id: Number(item.itemId),
         quantity: item.itemQuantity,
         category_id: item.categoryId,
         item_name: item.itemName,

@@ -3,10 +3,10 @@ import {AiOutlineClose} from 'react-icons/ai';
 
 function Wishlist() {
   return (
-    <div className="w-full  border-2 rounded-lg  bg-white">
+    <div className="w-full  border-2 rounded-lg   bg-white">
 
 
-    <div className="  border-gray-100 border-b-2  w-full flex justify-between">
+    <div className="  border-gray-100 border-b-2 p-4 md:p-0 lg:p-0  w-full flex justify-between">
     <div className=' lg:m-6 md:m-4 flex w-full '>
     <div className="px-2   w-full flex ">
        <div className="lg:w-1/4 md:w-3/4 rounded-xl bg-gray-900" style={{height:'110px'}}>

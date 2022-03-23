@@ -40,8 +40,8 @@ function orderDetail({ getOrderDetails }) {
             : error ?
               <ErrorPage message={error.message} statusCode={error?.response?.status || error?.statusCode} />
               :
-              <div className="grid grid-cols-12 ">
-                <div className="col-span-8  my-10 ">
+              <div className="grid grid-cols-1 lg:grid-cols-12 ">
+                <div className="lg:col-span-8  mt-10 lg:mb-10 ">
                   <Ordertracker data={{ orderId: orderDetails.orderId }} />
                   <List orderId={orderDetails.orderId} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} />
                   {
@@ -49,7 +49,7 @@ function orderDetail({ getOrderDetails }) {
                     <Address address={address} />
                   }
                 </div>
-                <div className="  col-span-4 mx-8 ">
+                <div className="  lg:col-span-4 lg:mx-8 ">
                   <div className="mt-10 pb-10 bg-white rounded">
                     <div className="px-3 py-8 sm:px-10 border-b-2 rounded">
                       <h2>Invoice</h2>

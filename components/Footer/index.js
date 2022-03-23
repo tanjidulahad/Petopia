@@ -36,7 +36,7 @@ function index() {
     }}>
       <div style={{ background: '#111111 0% 0% no-repeat padding-box' }} className="w-full bg-dark-900">
         <Container className="mx-32 " >
-          <div className="border-b-2 border-gray-800 h-1/3 mt-2 flex flex-row justify-center  align-center">
+          <div className="border-b-2 border-gray-800 h-1/3  flex flex-row justify-center  align-center">
             <FooterP>Privacy Policy</FooterP>
             <BsDot className="mx-4 mt-8" color={'gray'} size={20} />
             <FooterP>Privacy Policy</FooterP>

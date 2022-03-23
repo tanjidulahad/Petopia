@@ -4,23 +4,29 @@ import { Button } from '../../../inputs'
 function orderlList({ list, storeName, orderId, createTime }) {
   return (
     <div className="w-full  my-8 border-2 rounded-lg  bg-white">
-      <div className=" m-4 lg:w-full md:w-max ">
-        <div className="grid grid-cols-2 place-items-end gap-4 md:flex md:gap-2 ">
+      <div className="  m-4 lg:w-full md:w-max ">
+        <div className="flex lg:grid lg:grid-cols-2 md:grid-col-2 gap-0 lg:gap-4 md:flex md:gap-2 ">
           <div className="  flex ">
-            {/* <div className=" mt-2 rounded h-12 w-12 bg-gray-900 shrink-0" >
+            {/* <div className="hidden md:block lg:block mt-2 rounded bg-gray-900 w-10 " style={{ height: '40px' }}>
               <img className="w-full h-full rounded object-cover opacity-80" src="https://b.zmtcdn.com/data/reviews_photos/1e2/19f261b43d11344ce5f483c20a0941e2_1561214851.jpg?fit=around|771.75:416.25&crop=771.75:416.25;*,*" />
             </div> */}
-            <div className=" md:w-max m-2 ">
-              <p className="text-left font-bold text-sm md:w-max">{storeName || ""}</p>
-              <p className="text-left text-sm font-medium text-gray-500 md:w-max ">Order #{orderId}</p>
+            <div className="  md:w-max ml-2 my-2 mr-0 md:m-2 lg:m-2  ">
+              <p className="hidden md:block lg:block  text-left font-bold text-sm md:w-max">{storeName || ""}</p>
+              {/* <p className="text-left font-bold text-sm md:w-max">Order summary</p> */}
+
+
+              <p className="text-left mt-4 lg:mt-0 md:mt-0 text-sm font-medium text-gray-500 md:w-max ">Order #{orderId}</p>
+
+
             </div>
           </div>
-          <div className="mt-4  lg:w-full flex justify-end align-center ">
-            <p className="text-left  text-sm font-medium text-gray-500 mr-8  md:ml-4">{moment(createTime).format('lll')}</p>
+
+          <div className="mt-10 lg:mt-6 md:mt-6   lg:w-full flex justify-end align-center ">
+            <p className="text-left  text-sm font-medium text-gray-500  ml-10 md:ml-0 lg:ml-0 mr-0 lg:mr-8  md:ml-4">{moment(createTime).format('lll')}</p>
           </div>
         </div>
       </div>
-      <div className="py-4 px-4 md:px-0 mb-8 border-t-2  border-gray-200 border-b-2 space-y-4">
+      <div className="my-4 mb-8 border-t-2  border-gray-200 border-b-2">
         {
           list.map((item, i) => (
             <div className="flex justify-between items-center" key={i}>

@@ -1,7 +1,9 @@
 import Link from "next/link";
+import Router from "next/router";
 import React from "react";
 
-function Sideprofilecard({active}) {
+function Sideprofilecard({user}) {
+  const active=(Router.pathname.split("/")[2])
   return (
     <div className="w-full  h-full hidden md:block lg:block rounded-t-xl bg-white shadow-lg ">
       <div className="w-full h-40  rounded-t-xl bg-gray-900 ">
@@ -27,18 +29,18 @@ function Sideprofilecard({active}) {
 
             <div className=" text-center relative  ml-2 -top-4 left-4">
               <p className="lg:text-base md:text-base   font-bold flex  justify-center  text-gray-900">
-                KiranKumar
+                {user?.full_name}
               </p>
               <p className="lg:text-base md:text-left  md:text-sm font-medium flex   justify-center text-gray-500">
-                +91 1234567890
+                {user?.phone}
               </p>
               <p className="lg:text-base md:text-sm flex  justify-center font-medium   text-gray-500">
-                kiranads6@gmail.com
+                {user? user.email_id:"N/A"}
               </p>
             </div>
             </div>
             <div className="  w-max ">
-            <Link href='/account/myorders' as='/account/profile ' >
+            <Link href='/account/profile ' >
             <p className=" cursor-pointer text-lg m-2 font-medium text-red-600 relative ">
               Edit
             </p>
@@ -55,7 +57,7 @@ function Sideprofilecard({active}) {
           {
             active==='myorders' ?
             <div className="border-l-4 border-rose-700 h-10 my-6">
-              <Link href='/account/myorders' as='/account/myorders ' >
+              <Link href='/account/myorders ' >
               <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
               {" "}
               My Orders
@@ -64,7 +66,7 @@ function Sideprofilecard({active}) {
 
           </div>:
             <div className=" cursor-pointer h-10 my-6">
-              <Link href='/account/myorders' as='/account/myorders ' >
+              <Link href='/account/myorders ' >
 
               <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
               My Orders
@@ -79,7 +81,7 @@ function Sideprofilecard({active}) {
           active==='wishlist' ?
           <div className="border-l-4 border-rose-700 h-10 my-6">
 
-          <Link href='/account/myorders' as='/account/wishlist ' >
+          <Link href='/account/wishlist ' >
                      <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
 
             Wishlist
@@ -88,7 +90,7 @@ function Sideprofilecard({active}) {
             </Link>
         </div>:
           <div className=" cursor-pointer h-10 my-6">
-            <Link href='/account/myorders' as='/account/wishlist ' >
+            <Link href='/account/wishlist ' >
             <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
             Wishlist
 
@@ -102,7 +104,7 @@ function Sideprofilecard({active}) {
           active==='wallet' ?
           <div className="border-l-4 border-rose-700 h-10 my-6">
 
-          <Link href='/account/myorders' as='/account/wallet ' >
+          <Link href='/account/wallet ' >
                      <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
 
             Wallet
@@ -111,7 +113,7 @@ function Sideprofilecard({active}) {
             </Link>
         </div>:
           <div className=" cursor-pointer h-10 my-6">
-            <Link href='/account/myorders' as='/account/wallet ' >
+            <Link href='/account/wallet ' >
             <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
             Wallet
 
@@ -124,7 +126,7 @@ function Sideprofilecard({active}) {
           active==='savedplaces' ?
           <div className="border-l-4 border-rose-700 h-10 my-6">
 
-          <Link href='/account/myorders' as='/account/savedplaces ' >
+          <Link href='/account/savedplaces ' >
                      <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
 
             Saved Places
@@ -133,7 +135,7 @@ function Sideprofilecard({active}) {
             </Link>
         </div>:
           <div className=" cursor-pointer h-10 my-6">
-            <Link href='/account/myorders' as='/account/savedplaces ' >
+            <Link href='/account/savedplaces ' >
             <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
             Saved Places
 
@@ -149,7 +151,7 @@ function Sideprofilecard({active}) {
   active==='subscription' ?
   <div className="border-l-4 border-rose-700 h-10 my-6">
 
-  <Link href='/account/myorders' as='/account/subscription ' >
+  <Link href='/account/subscription ' >
              <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
 
              Subscription
@@ -158,7 +160,7 @@ function Sideprofilecard({active}) {
     </Link>
 </div>:
   <div className=" cursor-pointer h-10 my-6">
-    <Link href='/account/myorders' as='/account/subscription ' >
+    <Link href='/account/subscription ' >
     <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
     Subscription
 

@@ -1,11 +1,12 @@
 import Sideprofilecard from './sideprofilecard.jsx';
 import React from 'react'
 import Mobileprofile from './mobprofile.jsx'
-function index({active}) {
+function index({active,userdetail}) {
+console.log(userdetail)
   return (
     <div>
- <Sideprofilecard active={active}/>
-     <Mobileprofile active={active}/>
+ <Sideprofilecard user={userdetail}/>
+     <Mobileprofile user={userdetail}/>
     </div>
 
   )

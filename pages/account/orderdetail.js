@@ -1,7 +1,7 @@
 import React from 'react'
-import Ordertracker from '../../components/Cards/orderDetail/orderTracker'
-import List from '../../components/Cards/orderDetail/orderList'
-import Address from '../../components/Cards/orderDetail/address'
+import Ordertracker from '../../components/Cards/orderDetail/orderTracker/tracker'
+import List from '../../components/Cards/orderDetail/orderList/orderlList'
+import Address from '../../components/Cards/orderDetail/address/adress.jsx'
 import Header from '../../components/MobHeader/index'
 
 function orderDetail() {

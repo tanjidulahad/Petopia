@@ -12,7 +12,11 @@ function adress({ address }) {
               <FiHome className='text-red-500' size={20} />
               <div>
                 <p className="text-left mx-4 font-bold text-base  text-dark">Home</p>
-                <p className="text-left m-4 font-medium text-base  text-gray-500">{address.full_name}, {address.address_line_1}, {address.address_line_2 && ","} {address.city}, {address.state}, {address.zip_code}</p>
+                {
+                  address &&
+                <p className="text-left m-4 font-medium text-base  text-gray-500">{address?.full_name}, {address?.address_line_1}, {address?.address_line_2 && ","} {address?.city}, {address?.state}, {address?.zip_code}</p>
+
+                }
               </div>
             </div>
           </div>

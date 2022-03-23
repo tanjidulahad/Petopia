@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import Header from '../../components/MobHeader/index'
 
 import withAuth from '../../components/auth/withAuth'
 import OrderCard from '../../components/Cards/Order/orderCard/orderCard'
@@ -33,7 +34,9 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
             <ErrorPage message={error.message} statusCode={error?.response?.status || error?.statusCode} />
             :
             <>
-              <p className="text-xl text-gray-900 font-bold">
+               <Header display={true} topic="My Orders" />
+
+<p className="text-xl mx-2 mt-4 md:mt-0 lg:mt-0 md:mx-0 lg:mx-0 text-gray-900 font-bold">
                 {' '}
                 Current Orders
               </p>
@@ -48,7 +51,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
               </div>
               {
                 !!orderListPast.length && <>
-                  <p className="text-xl text-gray-900 font-bold"> Past Orders</p>
+                 <p className="text-xl mx-2 mt-4 md:mt-0 lg:mt-0 md:mx-0 lg:mx-0 text-gray-900 font-bold"> Past Orders</p>
                   <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
                     {
                       orderListPast.map((item, i) => (

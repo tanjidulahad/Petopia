@@ -5,11 +5,12 @@ import { connect } from "react-redux";
 
 // Component
 import { QuantityID } from '../../components/inputs'
-import Loader from "../../components/loading/loader";
+// import Loader from "../../components/loading/loader";
 import currency from '../../utils/currency'
 import { Button } from "../../components/inputs";
 import PdpImage from "../../components/pdp-image/pdp-image";
 import ErrorPage from '../../components/error/index'
+import Loader from "@components/loading/loader";
 // actions
 import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
 // import { authShowToggle } from "../../redux/user/user-action";

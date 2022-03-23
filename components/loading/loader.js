@@ -1,6 +1,6 @@
 
 const Loader = () => (
-    <div className="flex justify-center items-center w-full h-full " style={{ minHeight: '80vh' }}>
+    <div className="flex justify-center items-center w-full h-full " style={{ minHeight: '95vh' }}>
         <div className="h-40 w-40">
             <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" style={{ margin: 'auto', display: 'block', width: "150px", height: "150px" }} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
                 <circle cx="18" cy="50" r="4" fill="#e15b64">

@@ -11,6 +11,7 @@ import '../styles/inputs.scss'
 import '../styles/product-item.scss'
 import '../styles/navbar.scss'
 import '../styles/auth.scss'
+import '../styles/pdp-image.scss'
 
 // Page Styles
 import '../styles/product.scss'

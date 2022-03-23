@@ -7,31 +7,45 @@ import CatList from '../components/catgegory/cat'
 import { Input, Button } from '../components/inputs';
 import HomeCartItem from '../components/cart-item/home-cart-item';
 import { getCategoryStart, getShopProductsStart, getCategoryProductsStart, getSearchProductsStart } from "../redux/shop/shop-action";
+import { setSearchHandler } from '../redux/search/seatch-actions'
 
 
-
-const Home = ({ products, shop, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts }) => {
+const Home = ({ products, shop, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const purchaseDetails = checkout.purchaseDetails;
   const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
-  const Router = useRouter();
+  const [searchResult, setSearchResult] = useState([])
   const [height, setHeight] = useState(0)
   const navBody = useRef(null)
-  const { category, subCategory, p } = Router.query;
+  const Router = useRouter();
+  const { category, subCategory, search } = Router.query;
   const [status, setStatus] = useState('loading') //status == loading || failed || success
+  const [q, setq] = useState(search ? search : '');
 
   useEffect(() => { // Componentdidmount
     if (!categories.length) getCategoryStart(storeId);
     // setStatus('loading')
-
+    setSearchHandler((e) => {
+      const { value } = e.target;
+      if (value.trim().length > 0) {
+        setStatus('loading')
+        Router.push(`/?search=${value}`)
+        // getSearchProducts({ storeId, q: value.trim(), setSearchResult, setStatus })
+      } else {
+        setSearchResult([])
+        Router.push(`/`)
+      }
+      setq(value)
+    })
   }, [])
 
   useEffect(() => {
-    if (category) {
-      getCategoryProducts({ storeId, categoryId: category, subCategoryId: subCategory, page: p, setStatus })
+    if (search) {
+      getSearchProducts({ storeId, q: q.trim(), setSearchResult, setStatus })
+    } else if (category) {
+      getCategoryProducts({ storeId, categoryId: category, subCategoryId: subCategory, page: 1, setStatus })
       // setq('') // Cleaning query string of search
-    }
-    else {
+    } else {
       getShopProducts({ storeId, setStatus })
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
       // setq('') // Cleaning query string of search
@@ -120,7 +134,8 @@ const mapDispatchToProps = dispatch => ({
   getShopProducts: (storeId) => dispatch(getShopProductsStart(storeId)),
   getCategoryProducts: (data) => dispatch(getCategoryProductsStart(data)),
   getCategoryStart: (storeId) => dispatch(getCategoryStart(storeId)),
-
+  getSearchProducts: (payload) => dispatch(getSearchProductsStart(payload)),
+  setSearchHandler: (payload) => dispatch(setSearchHandler(payload))
 })
 export default connect(mapStateToProps, mapDispatchToProps)((Home))
 

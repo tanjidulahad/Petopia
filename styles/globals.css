@@ -69,16 +69,16 @@ h6 {
   display: block;
 }
 .wrapper {
-  padding: 8px 0px;
+  padding: 8px 8px;
 }
 @media only screen and (min-width: 200px) {
   .wrapper {
-    padding: 8px 0px;
+    padding: 8px 8px;
   }
 }
 @media only screen and (min-width: 300px) {
   .wrapper {
-    padding: 8px 4px;
+    padding: 8px 16px;
   }
 }
 @media only screen and (min-width: 576px) {
@@ -139,4 +139,8 @@ h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #a8bbbf;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

@@ -18,6 +18,7 @@ import { addToCart, removeFromCart } from "@redux/cart/cart-actions";
 import { productDetailsFetchStart, similarProductFetchStart, getAdditionalInfoStart, getSpecificationsStart } from "@redux/product-details/product-actions";
 // Components
 import Rating from "@components/rating-stars/rating";
+import PageWrapper from "@components/page-wrapper/page-wrapper";
 
 const visualsStructure = {
     view: false, // true if want to view on page otherwise false till product details are not fiiled in this object
@@ -370,7 +371,7 @@ const mapDispatchToProps = dispatch => ({
     getSpecifications: (payload) => dispatch(getSpecificationsStart(payload)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(ProductDetails));
 
 
 

@@ -8,7 +8,8 @@
  * @return {function}      Return the Jsx button
  */
 
-import Link from "next/link"
+// import Link from "@components/link"
+import Link from "@components/link"
 
 const Button = ({ children = "", title = "", type = 'button', className = '', href = "/", ...props }) => {
     return (

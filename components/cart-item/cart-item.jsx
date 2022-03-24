@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import Link from "next/link";
+import Link from "@components/link";
 import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
 import { QuantityID } from "../inputs";
 const CartItem = ({ addToCart, removeFromCart, data }) => {

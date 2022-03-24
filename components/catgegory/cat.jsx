@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from "@components/link"
 import Router from 'next/router'
 import { useState } from "react"
 import MediaQuery from "react-responsive"

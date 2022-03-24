@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "@components/link"
 import { connect } from 'react-redux';
 import { IoCartOutline } from 'react-icons/io5';
 import { BsChevronDown } from 'react-icons/bs'
@@ -17,10 +17,11 @@ import {
 } from "@redux/shop/shop-action";
 
 
-const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, ref }) => {
+const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref }) => {
   const [isLogin, setIsLogin] = useState(false)
   const [mobNaveHeight, setMobNaveHeight] = useState(10)
-  const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
+  // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
+  const storeId = info.store_id;
   const [query, setQuery] = useState('')
   const router = useRouter();
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 640 })
@@ -51,16 +52,20 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
         <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
           <Button className='text-left' type='link' href='/'>
             <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>
-              <div className='h-20 w-20 shrink-0'>
-                <img className='w-100 h-100 object-contain' src='/logo.png' alt="..." />
+              <div className='h-20 w-20 shrink-0 overflow-hidden rounded-md'>
+                <img className='w-100 h-100 object-contain' src={info.logo_img_url || '/img/default.png'} alt="..." />
               </div>
               <div className='white-color mt-4 sm:mt-0'>
-                <h1 className='text-2xl font-extrabold'>Pizzeria</h1>
+                <h1 className='text-2xl font-extrabold'>{info.store_name}</h1>
                 <div className='mt-3 hidden md:block'>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-geo-alt-fill inline" viewBox="0 0 16 16">
-                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
-                  </svg>
-                  <span className=' text-base font-semibold tracking-tight ml-2 '>No. 9, 11th Cross St, Indira Nagar, Adyar, Chennai, Tamil Nadu 600020.</span>
+                  {
+                    !!info.address && <>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-geo-alt-fill inline" viewBox="0 0 16 16">
+                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                      </svg>
+                      <span className=' text-base font-semibold tracking-tight ml-2 '>No. 9, 11th Cross St, Indira Nagar, Adyar, Chennai, Tamil Nadu 600020.</span>
+                    </>
+                  }
                 </div>
               </div>
             </div>
@@ -230,6 +235,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
 const mapStateToProps = state => ({
   user: state.user.currentUser,
   cart: state.cart,
+  info: state.store.info,
   // Search handler from plp
   searchHandler: state.search.searchHandler
 })

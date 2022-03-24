@@ -6,6 +6,7 @@ import PageLoader from '@components/loading/loader'
 
 // Actions
 import { orderPaymentConfirmStart } from "@redux/checkout/checkout-action"
+import PageWrapper from "@components/page-wrapper/page-wrapper"
 
 const ThankYou = ({ confirmOrder }) => {
     const [status, setStatus] = useState('loading') // loading, success, failure
@@ -97,4 +98,4 @@ const mapDispatchToProps = dispatch => ({
     confirmOrder: (payload) => dispatch(orderPaymentConfirmStart(payload))
 })
 
-export default connect(null, mapDispatchToProps)(ThankYou);
+export default connect(null, mapDispatchToProps)(PageWrapper(ThankYou));

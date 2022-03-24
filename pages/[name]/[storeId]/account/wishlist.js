@@ -4,6 +4,7 @@ import WishItem from '@components/Cards/Order/wishlist'
 import accountLayout from '@components/layout/account-layout'
 import Header from '@components/MobHeader/index'
 import withAuth from '@components/auth/withAuth'
+import PageWrapper from '@components/page-wrapper/page-wrapper'
 
 function Wishlist({ user }) {
   return (
@@ -41,7 +42,7 @@ function Wishlist({ user }) {
   )
 }
 
-export default withAuth(accountLayout(Wishlist))
+export default PageWrapper(withAuth(accountLayout(Wishlist)))
 
 
 

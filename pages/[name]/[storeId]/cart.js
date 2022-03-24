@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { connect } from "react-redux"
-import Link from "next/link"
+import Link from "@components/link"
 import { Button } from "@components/inputs"
 
 // Components
@@ -14,6 +14,7 @@ import Loader from "@components/loading/loader"
 import { clearCart } from "@redux/cart/cart-actions"
 import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle } from "@redux/user/user-action"
 import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart } from '@redux/checkout/checkout-action'
+import PageWrapper from "@components/page-wrapper/page-wrapper"
 
 const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
     initiateOrder, clearCheckout, createNewRzpOrder, clearCart }) => {
@@ -497,4 +498,4 @@ const mapDispatchToProps = dispatch => ({
 
     authToggle: () => dispatch(authShowToggle())
 })
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(Cart))

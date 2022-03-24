@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 import { Button, Input } from '../inputs';
 import { otpVerificationStart, authShowToggle } from '../../redux/user/user-action';
 
-const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, userId, setUser }) => {
+const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, userId, setUser, info }) => {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState("") // ""
     const [status, setStatus] = useState("")
     const [isLoading, setIsLoading] = useState(false)
-    const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
+    // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
+    const storeId = info.store_id;
     const onChangeHandler = (e) => {
         const { value } = e.target;
         if (error) setError(null);
@@ -106,6 +107,7 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
 
 const mapStateToProps = state => ({
     show: state.user.show,
+    info: state.store.info
 })
 const mapDispatchToProps = dispatch => ({
     showToggle: () => dispatch(authShowToggle()),

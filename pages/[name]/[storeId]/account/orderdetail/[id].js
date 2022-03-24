@@ -10,6 +10,7 @@ import Loader from '@components/loading/loader'
 // Actions
 import { getOrderDetailsStart } from '@redux/orders/orders-action'
 import ErrorPage from '@components/error'
+import PageWrapper from '@components/page-wrapper/page-wrapper'
 
 
 function orderDetail({ getOrderDetails }) {
@@ -138,4 +139,4 @@ const mapDispatchToProps = dispatch => ({
   getOrderDetails: (payload) => dispatch(getOrderDetailsStart(payload))
 })
 
-export default connect(null, mapDispatchToProps)(orderDetail)
+export default connect(null, mapDispatchToProps)(PageWrapper(orderDetail))

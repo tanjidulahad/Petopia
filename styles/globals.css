@@ -144,3 +144,8 @@ h6 {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/*  */
+.query-page {
+  min-height: 100vh;
+}

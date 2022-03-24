@@ -5,13 +5,14 @@ import Otp from './otp';
 import { getRegisterOtpStart, loginSuccess, authShowToggle } from '../../redux/user/user-action';
 
 // Register Component
-const Register = ({ showToggle, setPage, getRegisterOtp, userloginSuccess }) => {
+const Register = ({ showToggle, setPage, getRegisterOtp, userloginSuccess, info }) => {
     const [state, setState] = useState({ name: "", phone: "" });
     const [userId, setUserId] = useState("")
     const [user, setUser] = useState(null)
     const [error, setError] = useState("") // """
     const [status, setStatus] = useState("")
-    const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
+    // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
+    const storeId = info.store_id;;
     const onChangeHandler = (e) => {
         const { value, name } = e.target;
         if (error) setError(null);
@@ -96,7 +97,7 @@ const Register = ({ showToggle, setPage, getRegisterOtp, userloginSuccess }) => 
 const mapStateToProps = state => ({
     show: state.user.show,
     user: state.user,
-    shop: state.store.shop
+    info: state.store.info
 })
 const mapDispatchToProps = dispatch => ({
     showToggle: () => dispatch(authShowToggle()),

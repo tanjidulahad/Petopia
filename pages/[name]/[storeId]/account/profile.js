@@ -3,6 +3,7 @@ import React from 'react'
 import accountLayout from '@components/layout/account-layout'
 import Edit from '@components/Cards/Order/profile/index'
 import withAuth from '@components/auth/withAuth'
+import PageWrapper from '@components/page-wrapper/page-wrapper'
 
 function Profile() {
   return (
@@ -17,4 +18,4 @@ function Profile() {
   )
 }
 
-export default withAuth(accountLayout(Profile))
+export default PageWrapper(withAuth(accountLayout(Profile)))

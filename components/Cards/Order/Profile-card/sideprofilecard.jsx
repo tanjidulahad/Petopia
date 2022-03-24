@@ -1,5 +1,5 @@
 import { logOutStart } from "@redux/user/user-action";
-import Link from "next/link";
+import Link from "@components/link";
 import Router from "next/router";
 import React from "react";
 import { connect } from "react-redux";

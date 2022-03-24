@@ -4,6 +4,7 @@ import Profile from '@components/Cards/Order/Profile-card/index.js';
 import Edit from '@components/Cards/Order/profile/index.js'
 import withAuth from '@components/auth/withAuth'
 import Router, { useRouter } from 'next/router';
+import PageWrapper from '@components/page-wrapper/page-wrapper';
 
 function index({ user }) {
   const router = useRouter();
@@ -43,4 +44,4 @@ const mapStateToProps = state => ({
   // user: state.user.currentUser
 })
 
-export default connect(mapStateToProps, null)(withAuth(index))
+export default connect(mapStateToProps, null)(PageWrapper(withAuth(index)))

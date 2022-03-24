@@ -25,28 +25,32 @@ function* onGetOrderDetailsStart() {
 
 function* onGetCurrentOrdersListStart() {
     yield takeLatest(ordersActionType.GET_CURRENT_ORDERS_LIST_START, function* ({ payload }) {
-        const { userId, setOrderList, setError } = payload
+        const { userId, setOrderList, setError, setIsLoadingCurrent } = payload
         try {
             const res = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=CURRENT`)
             if (res.data) {
                 setOrderList(res.data);
+                setIsLoadingCurrent('success')
             }
         } catch (error) {
             // console.log(error);
+            setIsLoadingCurrent('failure')
             setError(error)
         }
     })
 }
 function* onGetPastOrdersListStart() {
     yield takeLatest(ordersActionType.GET_CURRENT_ORDERS_LIST_START, function* ({ payload }) {
-        const { userId, setOrderList, setError } = payload
+        const { userId, setOrderList, setError, setIsLoadingPast } = payload
         try {
             const res = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=PAST`)
             if (res.data) {
                 setOrderList(res.data);
+                setIsLoadingPast('success')
             }
         } catch (error) {
             // console.log(error);
+            setIsLoadingPast('failure')
             setError(error)
         }
     })

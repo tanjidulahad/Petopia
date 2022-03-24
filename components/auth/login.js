@@ -5,12 +5,13 @@ import { loginSuccess, authShowToggle, getLoginOtpStart } from '../../redux/user
 import Otp from './otp'
 
 // Login Component
-const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, shop }) => {
+const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, info }) => {
     const [phone, setPhone] = useState('');
     const [user, setUser] = useState(null) // {}
     const [error, setError] = useState("") // ""
     const [status, setStatus] = useState('') // loading failed success
-    const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
+    // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
+    const storeId = info.store_id;
     const onChangeHandler = (e) => {
         const { value } = e.target;
         if (error) setError(null);
@@ -93,7 +94,7 @@ const mapDispatchToProps = dispatch => ({
     userloginSuccess: (data) => dispatch(loginSuccess(data)),
 })
 const mapStateToProps = (state) => ({
-    shop: state.store.shop
+    info: state.store.info
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

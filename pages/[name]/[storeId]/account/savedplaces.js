@@ -10,6 +10,7 @@ import ErrorPage from '@components/error'
 import { Input, Button } from '@components/inputs'
 // Actions
 import { getAddressStart, addAddressStart, updateAddressStart, removeAddressStart } from "@redux/user/user-action";
+import PageWrapper from '@components/page-wrapper/page-wrapper'
 
 function Savedplaces({ user, address, getAddress, addAddress, removeAddress, updateAddress }) {
 
@@ -200,4 +201,4 @@ const mapDispatchToProps = dispatch => ({
   removeAddress: (payload) => dispatch(removeAddressStart(payload)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAuth(accountLayout(Savedplaces)))
+export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(withAuth(accountLayout(Savedplaces))))

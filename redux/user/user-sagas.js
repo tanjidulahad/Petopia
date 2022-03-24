@@ -135,18 +135,20 @@ function* onLogoutStart() {
 
 function* onGetAddressStart() {
     yield takeLatest(userActionType.GET_ADDRESS_START, function* ({ payload }) {
+        const { userId, setError } = payload
         try {
-            const res = yield fetcher('GET', `?r=customer/get-address-book&customerId=${payload}`);
+            const res = yield fetcher('GET', `?r=customer/get-address-book&customerId=${userId}`);
             if (res.data) {
                 yield put(getAddressSuccess(res.data))
             }
         } catch (error) {
             // console.log(error);
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { getAddressStart(payload) }, onOkName: "Reload" }))
-            } else {
-                yield put(riseError({ name: error.name, message: "Unable to get addresses!", onOk: () => { return }, onOkName: "CLOSE" }))
-            }
+            setError(error)
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { getAddressStart(payload) }, onOkName: "Reload" }))
+            // } else {
+            //     yield put(riseError({ name: error.name, message: "Unable to get addresses!", onOk: () => { return }, onOkName: "CLOSE" }))
+            // }
             // yield put(autheError(error))
         }
     })
@@ -154,59 +156,62 @@ function* onGetAddressStart() {
 
 function* onAddAddressStart() {
     yield takeLatest(userActionType.ADD_ADDRESS_START, function* ({ payload }) {
-        const { userId, address } = payload;
+        const { userId, address, setError } = payload;
         try {
             const res = yield fetcher('POST', `?r=customer/add-address&customerId=${userId}`, { customerAddressDetails: address })
             if (res.data) {
-                yield put(getAddressStart(userId))
+                yield put(getAddressStart({ userId, setError }))
             }
         } catch (error) {
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
-            } else {
-                yield put(riseError({ name: error.name, message: "Unable to addaress!", onOk: () => { return }, onOkName: "CLOSE" }))
-            }
-            yield put(autheError(error))
+            setError(error)
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
+            // } else {
+            //     yield put(riseError({ name: error.name, message: "Unable to addaress!", onOk: () => { return }, onOkName: "CLOSE" }))
+            // }
+            // yield put(autheError(error))
         }
     })
 }
 
 function* onUpdateAddressStart() {
     yield takeLatest(userActionType.UPDATE_ADDRESS_START, function* ({ payload }) {
-        const { userId, addressId, address } = payload;
+        const { userId, addressId, address, setError } = payload;
         console.log({ customerAddressDetails: address });
         try {
             const res = yield fetcher('POST', `?r=customer/update-address&addressId=${addressId}&customerId=${userId}`, { customerAddressDetails: address })
             console.log(res);
             if (res.data) {
-                yield put(getAddressStart(userId))
+                yield put(getAddressStart({ userId, setError }))
             }
         } catch (error) {
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
-            } else {
-                yield put(riseError({ name: error.name, message: "Updating address faield!", onOk: () => { return }, onOkName: "CLOSE" }))
-            }
-            yield put(autheError(error))
+            setError(error)
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
+            // } else {
+            //     yield put(riseError({ name: error.name, message: "Updating address faield!", onOk: () => { return }, onOkName: "CLOSE" }))
+            // }
+            // yield put(autheError(error))
         }
     })
 }
 
 function* onRemoveAddressStart() {
     yield takeLatest(userActionType.REMOVE_ADDRESS_START, function* ({ payload }) {
-        const { userId, addressId, address } = payload;
+        const { userId, addressId, address, setError } = payload;
         try {
             const res = yield fetcher('GET', `?r=customer/remove-address&customerId=${userId}&addressId=${addressId}`)
             if (res.data) {
-                yield put(getAddressStart(userId))
+                yield put(getAddressStart({ userId, setError }))
             }
         } catch (error) {
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
-            } else {
-                yield put(riseError({ name: error.name, message: "Operation faield!", onOk: () => { return }, onOkName: "CLOSE" }))
-            }
-            yield put(autheError(error))
+            setError(error)
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
+            // } else {
+            //     yield put(riseError({ name: error.name, message: "Operation faield!", onOk: () => { return }, onOkName: "CLOSE" }))
+            // }
+            // yield put(autheError(error))
         }
     })
 }

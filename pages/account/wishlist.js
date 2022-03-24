@@ -3,8 +3,9 @@ import React from 'react'
 import WishItem from '../../components/Cards/Order/wishlist'
 import accountLayout from '../../components/layout/account-layout'
 import Header from '../../components/MobHeader/index'
+import withAuth from '../../components/auth/withAuth'
 
-function Wishlist() {
+function Wishlist({ user}) {
   return (
 
           <>
@@ -40,7 +41,8 @@ Wishlist</p>
   )
 }
 
-export default accountLayout(Wishlist)
+export default withAuth( accountLayout(Wishlist))
+
 
 
   // <>

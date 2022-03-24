@@ -22,7 +22,7 @@ export default function Tracker() {
   }, [])
 
   return (
-    <div id="tracker">
+    <div id="tracker" className=" bg-white">
       <StepProgressBar
         startingStep={0}
         steps={[

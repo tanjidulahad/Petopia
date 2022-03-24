@@ -1,8 +1,12 @@
 import React from 'react'
 import Link from "next/link";
+import Router from "next/router";
 
 
-function mobprofile({active}) {
+function mobprofile({user}) {
+  const active=Router?.router?.state?.pathname.split('/')[2]
+
+
   return (
     <div>
       <div className=" block lg:hidden md:hidden shadow-xl bg-white  " style={{height:'80vh'}}>
@@ -21,22 +25,25 @@ function mobprofile({active}) {
 
 
 
-            <div className=" text-left relative    ">
+            <div className=" text-left ml-4 mt-1 relative    ">
               <p className="text-sm   font-bold    text-gray-900">
-                KiranKumar
+              {user?.full_name}
+
               </p>
               <p className="text-sm font-semibold  my-2  text-gray-400">
-                +91 1234567890
+              {user?.phone}
+
               </p>
               <p className="text-sm font-semibold   text-gray-400">
-                kiranads6@gmail.com
+              {user?.email_id===null? "N/A":user?.email_id}
+
               </p>
             </div>
             </div>
           </div>
 
             <div className="  w-max ">
-            <Link href='/account/myorders' as='/account/profile ' >
+            <Link href='/account/profile ' >
             <p className=" cursor-pointer text-lg m-2 font-semibold text-red-600 relative ">
               Edit
             </p>
@@ -51,7 +58,7 @@ function mobprofile({active}) {
             active==='myorders' ?
             <div className="border-l-4 border-rose-700 h-10 flex">
 
-              <Link href='/account/myorders' as='/account/myorders ' >
+              <Link href='/account/myorders ' >
               <div className="mx-4  pt-2 flex">
               <img src='/img/my orders.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
@@ -65,7 +72,7 @@ function mobprofile({active}) {
 
           </div>:
             <div className=" cursor-pointer h-10 ">
-              <Link href='/account/myorders' as='/account/myorders ' >
+              <Link href='/account/myorders ' >
 
               <div className="mx-4  pt-2 flex">
               <img src='/img/my orders.svg'/>
@@ -83,7 +90,7 @@ function mobprofile({active}) {
           active==='wishlist' ?
           <div className="border-l-4 border-rose-700 h-10 ">
 
-          <Link href='/account/myorders' as='/account/wishlist ' >
+          <Link href='/account/wishlist ' >
           <div className="mx-4  pt-2 flex">
               <img src='/img/wishlist.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
@@ -94,7 +101,7 @@ function mobprofile({active}) {
             </Link>
         </div>:
           <div className=" cursor-pointer h-10 ">
-            <Link href='/account/myorders' as='/account/wishlist ' >
+            <Link href='/account/wishlist ' >
             <div className="mx-4  pt-2 flex">
               <img src='/img/wishlist.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-gray-600">
@@ -111,7 +118,7 @@ function mobprofile({active}) {
           active==='wallet' ?
           <div className="border-l-4 border-rose-700 h-10 ">
 
-          <Link href='/account/myorders' as='/account/wallet ' >
+          <Link href='/account/wallet ' >
           <div className="mx-4  pt-2 flex">
               <img src='/img/wishlist.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
@@ -122,7 +129,7 @@ function mobprofile({active}) {
             </Link>
         </div>:
           <div className=" cursor-pointer h-10 ">
-            <Link href='/account/myorders' as='/account/wallet ' >
+            <Link href='/account/wallet ' >
             <div className="mx-4  pt-2 flex">
               <img src='/img/wallet.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-gray-600">
@@ -138,7 +145,7 @@ function mobprofile({active}) {
           active==='savedplaces' ?
           <div className="border-l-4 border-rose-700 h-10 ">
 
-          <Link href='/account/myorders' as='/account/savedplaces ' >
+          <Link href='/account/savedplaces ' >
           <div className="mx-4  pt-2 flex">
               <img src='/img/saved address.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
@@ -149,7 +156,7 @@ function mobprofile({active}) {
             </Link>
         </div>:
           <div className=" cursor-pointer h-10 ">
-            <Link href='/account/myorders' as='/account/savedplaces ' >
+            <Link href='/account/savedplaces ' >
             <div className="mx-4  pt-2 flex">
               <img src='/img/saved address.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-gray-600">
@@ -168,7 +175,7 @@ function mobprofile({active}) {
   active==='subscription' ?
   <div className="border-l-4 border-rose-700 h-10 ">
 
-  <Link href='/account/myorders' as='/account/subscription ' >
+  <Link href='/account/subscription ' >
   <div className="mx-4  pt-2 flex">
               <img src='/img/help.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
@@ -179,7 +186,7 @@ function mobprofile({active}) {
     </Link>
 </div>:
   <div className=" cursor-pointer h-10 ">
-    <Link href='/account/myorders' as='/account/subscription ' >
+    <Link href='/account/subscription ' >
     <div className="mx-4  pt-2 flex">
               <img src='/img/help.svg'/>
               <p className="  mx-2   text-sm relative  font-semibold relative  text-gray-600">

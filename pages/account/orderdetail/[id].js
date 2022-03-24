@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useRouter } from 'next/router'
 
-import Ordertracker from '../../../components/Cards/orderDetail/orderTracker/ordertracker'
+import Ordertracker from '../../../components/Cards/orderDetail/orderTracker/ordertracker.jsx'
 import List from '../../../components/Cards/orderDetail/orderList/orderlList'
 import Address from '../../../components/Cards/orderDetail/address/adress'
 import Loader from '../../../components/loading/loader'

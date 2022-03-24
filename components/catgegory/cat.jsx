@@ -14,14 +14,17 @@ const style = {
     }
 }
 const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
-    // const { category, subCategoryId } = Router.router.query
+
+const data=(Router?.router?.state?.query)
+
+    // alert(category,SubCategoryId)
     const [active, setactive] = useState({
         activeid: "",
         activesubcategory: {
             name: "",
-            active: false
+            active: true
         },
-        active: false
+        active: true
     })
 
     const activeHandler = (item) => {
@@ -54,13 +57,14 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                         <li className={`font-w-400 `}>
 
                             <Link href={`/?category=${item.category_id}`}>
-                                {active.activeid === item.category_id && active.active ?
+                                {parseInt(data?.category,10) === item.category_id  ?
 
-                                    <div className=" text-center flex mt-4  cursor-pointer " style={style.active} onClick={() => { activeHandler(item) }} >
+                                    <div className=" text-center flex mt-4  cursor-pointer " style={style.active}  >
                                         <span className={` text-base font-medium text-gray-600  `} >{item.category_name}</span>
                                         {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
                                     </div>
                                     :
+
                                     <div className=" text-center flex mt-4  cursor-pointer " onClick={() => { activeHandler(item) }} >
                                         <span className={` text-base font-medium text-gray-600  `} >{item.category_name}</span>
                                         {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
@@ -74,7 +78,7 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                                         item.subcategories.map((subitem, i) => (
                                             <li >
                                                 <Link href={`/?category=${item.category_id}&subCategoryId=${subitem.sub_category_id}`}>
-                                                    {active.activesubcategory.name === subitem.sub_category_id && active.activesubcategory.active ?
+                                                    {parseInt(data?.subCategoryId,10) === subitem.sub_category_id  ?
 
                                                         <div className="flex flex-col justify-content-center mt-4 cursor-pointer " >
                                                             <span className={` text-base font-medium text-gray-600  `} style={style.subactive} onClick={() => { subHandler(subitem) }} >{subitem.sub_category_name}</span>

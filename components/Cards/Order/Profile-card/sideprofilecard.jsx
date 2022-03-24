@@ -3,7 +3,9 @@ import Router from "next/router";
 import React from "react";
 
 function Sideprofilecard({user}) {
-  const active=(Router.pathname.split("/")[2])
+
+  const active=Router?.router?.state?.pathname.split('/')[2]
+
   return (
     <div className="w-full  h-full hidden md:block lg:block rounded-t-xl bg-white shadow-lg ">
       <div className="w-full h-40  rounded-t-xl bg-gray-900 ">
@@ -35,7 +37,8 @@ function Sideprofilecard({user}) {
                 {user?.phone}
               </p>
               <p className="lg:text-base md:text-sm flex  justify-center font-medium   text-gray-500">
-                {user? user.email_id:"N/A"}
+              {user?.email_id===null? "N/A":user?.email_id}
+                
               </p>
             </div>
             </div>

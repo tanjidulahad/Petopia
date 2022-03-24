@@ -3,8 +3,9 @@ import Link from "next/link";
 import Router from "next/router";
 
 
-function mobprofile({active,user}) {
-  const active=(Router.pathname.split("/")[2])
+function mobprofile({user}) {
+  const active=Router?.router?.state?.pathname.split('/')[2]
+
 
   return (
     <div>
@@ -24,7 +25,7 @@ function mobprofile({active,user}) {
 
 
 
-            <div className=" text-left relative    ">
+            <div className=" text-left ml-4 mt-1 relative    ">
               <p className="text-sm   font-bold    text-gray-900">
               {user?.full_name}
 
@@ -34,7 +35,7 @@ function mobprofile({active,user}) {
 
               </p>
               <p className="text-sm font-semibold   text-gray-400">
-              {user? user.email_id:"N/A"}
+              {user?.email_id===null? "N/A":user?.email_id}
 
               </p>
             </div>

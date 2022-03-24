@@ -30,10 +30,6 @@ border-radius: 8px;
 position:relative;
 top:-28px;
 background-color: #FFFF;
-<<<<<<< HEAD
-=======
-z-index:100;
->>>>>>> Awnish
 
 `
 export const ProdcuctSubcategory = styled.h2`

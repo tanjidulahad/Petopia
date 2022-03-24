@@ -74,7 +74,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
                 <div>
                   <Button className='flex items-center white-color' type='link' href='/cart'>
                     <span className='text-lg font-bold tracking-tight ml-8 white-color mx-2'> Cart </span>
-                    <span className=" white-color font-bold  my-4" >
+                    <span className=" white-color font-bold  my-4 relative" >
                       <IoCartOutline size={25} />
                     </span>
                   </Button>

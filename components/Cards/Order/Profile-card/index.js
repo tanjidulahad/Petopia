@@ -1,14 +1,12 @@
 import Sideprofilecard from './sideprofilecard.jsx';
 import React from 'react'
 import Mobileprofile from './mobprofile.jsx'
-function index({userdetail,user}) {
+function index({ userdetail, user }) {
 
-  return  (
-
+  return (
     <div>
-
- <Sideprofilecard user={userdetail}/>
-     <Mobileprofile user={user}/>
+      <Sideprofilecard user={user} />
+      <Mobileprofile user={user} />
     </div>
 
   )

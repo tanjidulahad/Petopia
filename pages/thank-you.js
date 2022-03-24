@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { connect } from 'react-redux'
-import { Button } from "../components/inputs"
+import { Button } from "@components/inputs"
 import { useRouter } from "next/router"
-import PageLoader from '../components/loading/loader'
+import PageLoader from '@components/loading/loader'
 
 // Actions
-import { orderPaymentConfirmStart } from "../redux/checkout/checkout-action"
+import { orderPaymentConfirmStart } from "@redux/checkout/checkout-action"
 
 const ThankYou = ({ confirmOrder }) => {
     const [status, setStatus] = useState('loading') // loading, success, failure

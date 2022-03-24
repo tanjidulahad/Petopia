@@ -72,7 +72,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
       {
         isLoadding ?
           <>
-            <Header display={true} topic="Saved Address" />
+            {/* <Header display={true} topic="Saved Address" /> */}
             <p className="text-xl hidden md:block lg:block text-gray-900 font-bold">
               {' '}
               Delivery Address
@@ -97,7 +97,29 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
           : error ?
             <ErrorPage message={error.message} statusCode={404} />
             :
-            <Loader />
+            <>
+              <p className="text-xl hidden md:block lg:block text-gray-900 font-bold">
+                {' '}
+                Delivery Address
+              </p>
+              <div className="grid lg:grid-cols-2 md:grid-cols-1  gap-6 my-0 md:my-5 lg:my-5  ">
+                {
+                  [...address].map((item, i) => (
+                    <div className="w-full rounded-lg shadow" key={i}>
+                      <Address type={item.address_tag == `Home` ? 'Home' : 'Work'} data={item} onEdit={() => { setNewAddress(item); setIsAddressActive(true) }} onRemove={() => removeAddress({ userId: user.customer_id, addressId: item.address_id, setError })} />
+                    </div>
+                  ))
+                }
+              </div>
+              <div className="flex cursor-pointer mt-24 justify-center md:mt-0 lg:mt-0 md:justify-start lg:justify-start ">
+                <BsPlusCircle className="text-red-500" size={30} />
+
+                <Button className="text-lg btn-color-revese  font-semibold ml-4 " onClick={() => setIsAddressActive(true)}>
+                  Add New Address
+                </Button>
+              </div>
+            </>
+        // <Loader />
       }
       {
         isAddressActive &&

@@ -1,5 +1,5 @@
-import Layout from '../components/layout';
-import store from '../redux/store';
+import Layout from '@components/layout';
+import store from '@redux/store';
 import { Provider } from 'react-redux';
 
 import Router from 'next/router';
@@ -8,19 +8,20 @@ import 'nprogress/nprogress.css'
 
 
 // Global Styles
-import '../styles/globals.css'
-import '../styles/globals.scss'
+import '@styles/globals.css'
+import '@styles/globals.scss'
 
 // Components Styles
-import '../styles/inputs.scss'
-import '../styles/product-item.scss'
-import '../styles/navbar.scss'
-import '../styles/auth.scss'
-import '../styles/pdp-image.scss'
+import '@styles/inputs.scss'
+import '@styles/product-item.scss'
+import '@styles/navbar.scss'
+import '@styles/auth.scss'
+import '@styles/pdp-image.scss'
+import '@styles/mob-cat.scss'
 
 // Page Styles
-import '../styles/product.scss'
-import '../styles/cart.scss'
+import '@styles/product.scss'
+import '@styles/cart.scss'
 
 
 //Binding events. 

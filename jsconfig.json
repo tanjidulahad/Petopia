@@ -23,6 +23,12 @@
             "@redux/*": [
                 "redux/*"
             ],
+            "@styles/": [
+                "styles/"
+            ],
+            "@styles/*": [
+                "styles/*"
+            ],
             "@utils/*": [
                 "utils/*"
             ],

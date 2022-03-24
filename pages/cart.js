@@ -2,18 +2,18 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { connect } from "react-redux"
 import Link from "next/link"
-import { Button } from "../components/inputs"
+import { Button } from "@components/inputs"
 
 // Components
-import CartItem from "../components/cart-item/cart-item";
-import { Radio } from "../components/inputs";
-import OnlienPayment from "../components/online-payment/online-payment"
-import Loader from "../components/loading/loader"
+import CartItem from "@components/cart-item/cart-item";
+import { Radio } from "@components/inputs";
+import OnlienPayment from "@components/online-payment/online-payment"
+import Loader from "@components/loading/loader"
 
 // Actions
-import { clearCart } from "../redux/cart/cart-actions"
-import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle } from "../redux/user/user-action"
-import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart } from '../redux/checkout/checkout-action'
+import { clearCart } from "@redux/cart/cart-actions"
+import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle } from "@redux/user/user-action"
+import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart } from '@redux/checkout/checkout-action'
 
 const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
     initiateOrder, clearCheckout, createNewRzpOrder, clearCart }) => {
@@ -164,12 +164,13 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
     if (!cart.length) {
         return (
             <>
-                <div className='w-full flex justify-between items-center p-4 bg-black-color-lighter sticky top-0 z-10'>
-                    <Button className='flex items-center black-color-75' onClick={router.back}>
+                <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
+                    <button className='flex items-center black-color-75 mr-4' onClick={router.back}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                         </svg>
-                    </Button>
+                    </button>
+                    <span className='text-base font-semibold'>My Caer</span>
                 </div>
                 <div className="flex justify-center items-center empty-cart" style={{ minHeight: '80vh' }}>
                     <div className="h-64 w-64 text-center flex justify-center items-center" style={{ borderRadius: '50%', background: 'rgba(246, 75, 93, 0.13)', boxShadow: 'rgb(246 75 93 / 13%) 0px 0px 100px 100px' }}>
@@ -185,12 +186,13 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
     }
     return (
         <>
-            <div className='w-full flex justify-between items-center p-4 bg-black-color-lighter sticky top-0 z-10'>
-                <Button className='flex items-center black-color-75' onClick={router.back}>
+            <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
+                <button className='flex items-center black-color-75 mr-4' onClick={router.back}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg>
-                </Button>
+                </button>
+                <span className='text-base font-semibold'>My Cart</span>
             </div>
             <section className="bg-black-color-lighter cart relative">
                 <div className="wrapper mx-auto">
@@ -277,11 +279,19 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                                         </div>
                                                     ))
                                                 }
+                                                <div className=" py-6">
+                                                    <Button className="flex items-center btn-color-revese" type="link" href="/account/savedplaces">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        <span>Add New Address</span>
+                                                    </Button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     {/* Payment options */}
-                                    <div className="w-full px-3 py-10 sm:px-10 bg-white rounded">
+                                    <div className="w-full px-3 mt-10 py-10 sm:px-10 bg-white rounded">
                                         <div className="">
                                             <h2>Choose Payment Option </h2>
                                         </div>

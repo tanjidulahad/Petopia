@@ -59,8 +59,8 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
                                     </div>
                                     <div className="flex flex-col justify-between pl-4 ">
                                         <h3 className="capitalize text-sm sm:text-xl cart-item-title product-item-truncate">
-                                            <Button type="link" href={`/product/${data.item_id}`}>
-                                                {data.item_name}
+                                            <Button className=" capitalize" type="link" href={`/product/${data.item_id}`}>
+                                                {data.item_name.toLowerCase()}
                                             </Button>
                                         </h3>
                                         <Rating size={16} />

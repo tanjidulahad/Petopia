@@ -2,15 +2,19 @@ import Head from 'next/head'
 import { connect, useDispatch } from 'react-redux'
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from "next/dist/client/router";
-import ProductListPage from '../components/Products/index'
-import CatList from '../components/catgegory/cat'
-import { Input, Button } from '../components/inputs';
-import HomeCartItem from '../components/cart-item/home-cart-item';
-import { getCategoryStart, getShopProductsStart, getCategoryProductsStart, getSearchProductsStart } from "../redux/shop/shop-action";
-import { setSearchHandler } from '../redux/search/seatch-actions'
+
+import ProductListPage from '@components/Products/index'
+import CatList from '@components/catgegory/cat'
+import { Input, Button } from '@components/inputs';
+import HomeCartItem from '@components/cart-item/home-cart-item';
+
+// Actions
+import { getCategoryStart, getShopProductsStart, getCategoryProductsStart, getSearchProductsStart } from "@redux/shop/shop-action";
+import { setSearchHandler } from '@redux/search/seatch-actions'
+import PageWrapper from '@components/page-wrapper/page-wrapper';
 
 
-const Home = ({ products, shop, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
+const Home = ({ products, info, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const purchaseDetails = checkout.purchaseDetails;
   const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
@@ -67,10 +71,10 @@ const Home = ({ products, shop, cart, checkout, categories, getCategoryStart, ge
       <section>
         <div className='wrapper mx-auto'>
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
-            <div className="hidden md:block md:col-span-3  xl:col-span-2 border-gray-300 ">
+            <div className="md:block col-span-full md:col-span-3  xl:col-span-2 border-gray-300 ">
               <CatList list={categories.length > 0 && categories} />
             </div>
-            <div className=" sm:col-span-12 md:col-span-9 xl:col-span-7 pt-6">
+            <div className=" col-span-full sm:col-span-12 md:col-span-9 xl:col-span-7 pt-6 md:border-l xl:border-r">
               <ProductListPage products={products} />
             </div>
             <div className="hidden py-6 xl:block xl:col-span-3 space-y-6">
@@ -112,7 +116,7 @@ const Home = ({ products, shop, cart, checkout, categories, getCategoryStart, ge
                     }
                   </div>
                 </>
-                  : <div class="h-64 w-full text-center flex justify-center items-center" style={{ borderRadius: '50%' }}>
+                  : <div className="h-64 w-full text-center flex justify-center items-center" style={{ borderRadius: '50%' }}>
                     <h4>Your Cart is Empty!.</h4>
                   </div>
               }
@@ -125,7 +129,7 @@ const Home = ({ products, shop, cart, checkout, categories, getCategoryStart, ge
 }
 const mapStateToProps = state => ({
   cart: state.cart,
-  shop: state.store.shop,
+  info: state.store.info,
   products: state.store.products,
   categories: state.store.categories,
   checkout: state.checkout,
@@ -137,5 +141,5 @@ const mapDispatchToProps = dispatch => ({
   getSearchProducts: (payload) => dispatch(getSearchProductsStart(payload)),
   setSearchHandler: (payload) => dispatch(setSearchHandler(payload))
 })
-export default connect(mapStateToProps, mapDispatchToProps)((Home))
+export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(Home))
 

@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useRouter } from 'next/router'
 
-import Ordertracker from '../../../components/Cards/orderDetail/orderTracker/ordertracker.jsx'
-import List from '../../../components/Cards/orderDetail/orderList/orderlList'
-import Address from '../../../components/Cards/orderDetail/address/adress'
-import Loader from '../../../components/loading/loader'
+import Ordertracker from '@components/Cards/orderDetail/orderTracker/ordertracker.jsx'
+import List from '@components/Cards/orderDetail/orderList/orderlList'
+import Address from '@components/Cards/orderDetail/address/adress'
+import Loader from '@components/loading/loader'
 
 // Actions
-import { getOrderDetailsStart } from '../../../redux/orders/orders-action'
-import ErrorPage from '../../../components/error'
+import { getOrderDetailsStart } from '@redux/orders/orders-action'
+import ErrorPage from '@components/error'
 
 
 function orderDetail({ getOrderDetails }) {
@@ -33,12 +33,13 @@ function orderDetail({ getOrderDetails }) {
   console.log(orderDetails);
   return (
     <>
-      <div className='w-full flex sm:hidden justify-between items-center p-4 bg-black-color-lighter sticky top-0'>
-        <button className='flex items-center black-color-75' onClick={router.back}>
+      <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
+        <button className='flex items-center black-color-75 mr-4' onClick={router.back}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
           </svg>
         </button>
+        <span className='text-base font-semibold'>Order Details</span>
       </div>
       <section className="bg-gray-100 w-full ">
         <div className='wrapper mx-auto'>

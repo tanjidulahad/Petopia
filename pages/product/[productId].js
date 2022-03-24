@@ -4,20 +4,20 @@ import Head from "next/head";
 import { connect } from "react-redux";
 
 // Component
-import { QuantityID } from '../../components/inputs'
-// import Loader from "../../components/loading/loader";
-import currency from '../../utils/currency'
-import { Button } from "../../components/inputs";
-import PdpImage from "../../components/pdp-image/pdp-image";
-import ErrorPage from '../../components/error/index'
+import { QuantityID } from '@components/inputs'
+// import Loader from "@components/loading/loader";
+import currency from '@utils/currency'
+import { Button } from "@components/inputs";
+import PdpImage from "@components/pdp-image/pdp-image";
+import ErrorPage from '@components/error/index'
 import Loader from "@components/loading/loader";
 // actions
-import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
-// import { authShowToggle } from "../../redux/user/user-action";
-// import { addWishlistStart, removeWishlistStart } from '../../redux/wishlist/wishlist-action'
-import { productDetailsFetchStart, similarProductFetchStart, getAdditionalInfoStart, getSpecificationsStart } from "../../redux/product-details/product-actions";
+import { addToCart, removeFromCart } from "@redux/cart/cart-actions";
+// import { authShowToggle } from "@redux/user/user-action";
+// import { addWishlistStart, removeWishlistStart } from '@redux/wishlist/wishlist-action'
+import { productDetailsFetchStart, similarProductFetchStart, getAdditionalInfoStart, getSpecificationsStart } from "@redux/product-details/product-actions";
 // Components
-import Rating from "../../components/rating-stars/rating";
+import Rating from "@components/rating-stars/rating";
 
 const visualsStructure = {
     view: false, // true if want to view on page otherwise false till product details are not fiiled in this object
@@ -135,13 +135,13 @@ const ProductDetails = ({
     console.log(quantityInCart);
     return (
         <>
-            <div className='w-full flex justify-between items-center p-4 bg-black-color-lighter sticky top-0'>
+            {/* <div className='w-full flex justify-between items-center p-4 bg-black-color-lighter sticky top-0'>
                 <Button className='flex items-center black-color-75' onClick={router.back}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg>
                 </Button>
-            </div>
+            </div> */}
             {
                 visuals.view ?
                     <section className="bg-black-color-lighter pdp">

@@ -8,8 +8,8 @@ const HomeCartItem = ({ addToCart, removeFromCart, data }) => {
             <div className="grid grid-cols-12 gap-4 ">
                 <div className="col-span-9 sm:col-span-7 flex sm:space-x-4">
                     <div className="flex flex-col justify-between">
-                        <h3 className=" text-lg capitalize cart-item-title leading-5" style={{
-                            WebkitLineClamp: 2,
+                        <h3 className=" text-base capitalize cart-item-title leading-5" style={{
+                            WebkitLineClamp: 1,
                             overflow: "hidden",
                             display: '-webkit-box',
                             WebkitBoxOrient: "vertical"

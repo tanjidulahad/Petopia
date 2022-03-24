@@ -6,11 +6,13 @@ import Auth from "./auth/auth";
 const Layout = ({ children }) => {
     return (
         <>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-            <Auth />
-        </>
-    )
+            {children}
+        </>)
 }
 export default Layout;
+{/* <>
+    <Navbar />
+    <main>{children}</main>
+    <Footer />
+    <Auth />
+</> */}

@@ -6,6 +6,7 @@ import Ordertracker from '@components/Cards/orderDetail/orderTracker/ordertracke
 import List from '@components/Cards/orderDetail/orderList/orderlList'
 import Address from '@components/Cards/orderDetail/address/adress'
 import Loader from '@components/loading/loader'
+import Return from '@components/Cards/Order/Action/Return'
 
 // Actions
 import { getOrderDetailsStart } from '@redux/orders/orders-action'
@@ -14,7 +15,7 @@ import PageWrapper from '@components/page-wrapper/page-wrapper'
 
 
 function orderDetail({ getOrderDetails }) {
-
+  const [isReturnActive, setIsReturnActive] = useState(false)
   const [orderDetails, setOrderDetails] = useState(null) // {}
   const [error, setError] = useState(null)
   const [address, setAddress] = useState(null) // {}
@@ -31,6 +32,7 @@ function orderDetail({ getOrderDetails }) {
       setAddress(orderDetails.deliveryAddressDetails)
     }
   })
+  console.log(orderDetails);
   return (
     <>
       <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
@@ -52,7 +54,7 @@ function orderDetail({ getOrderDetails }) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 ">
                   <div className="lg:col-span-8  mt-10 lg:mb-10 ">
                     <Ordertracker data={{ orderId: orderDetails.orderId }} />
-                    <List orderId={orderDetails.orderId} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} />
+                    <List orderId={orderDetails.orderId} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} openReturn={setIsReturnActive} />
                     {
                       !!address &&
                       <Address address={address} />
@@ -128,7 +130,10 @@ function orderDetail({ getOrderDetails }) {
                 </div>
           }
         </div>
-
+        {
+          isReturnActive && orderDetails &&
+          <Return action={'return'} items={orderDetails.orderItems} orderId={orderDetails.orderId} closeRetun={setIsReturnActive} />
+        }
       </section>
     </>
   )

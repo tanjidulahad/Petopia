@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import Header from '@components/MobHeader/index'
 
 import withAuth from '@components/auth/withAuth'
 import OrderCard from '@components/Cards/Order/orderCard/orderCard'
@@ -26,7 +25,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
   // useEffect(() => {
   //   setIsLoading((orderList.length || orderListPast.length) && true)
   // }, [orderList, orderListPast])
-
+  console.log(orderList, orderListPast);
   return (
     <>
       {
@@ -66,7 +65,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
                     ))
                     :
                     <div className=" col-span-full h-40 flex justify-center items-center">
-                      <p className='text-lg'>You haven't ordered anything yet!.</p>
+                      <p className='text-lg'>You haven't past ordered !</p>
                     </div>
                 }
               </div>

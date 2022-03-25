@@ -23,7 +23,7 @@ function OrderCard({ status, message, data }) {
         <div className='flex w-full my-6'>
           <div className=" lg:px-4 md:pl-4  w-full flex items-center space-x-4">
             <div className="w-28 h-28 rounded bg-gray-900 shrink-0">
-              <img className="w-full h-full rounded object-cover opacity-80" src="https://b.zmtcdn.com/data/reviews_photos/1e2/19f261b43d11344ce5f483c20a0941e2_1561214851.jpg?fit=around|771.75:416.25&crop=771.75:416.25;*,*" />
+              <img className="w-full h-full rounded object-cover opacity-80" src="/img/default.png" />
             </div>
             <div className="  w-full  ">
               <p className="text-left font-semibold text-lg  text-red-600">Arriving today</p>

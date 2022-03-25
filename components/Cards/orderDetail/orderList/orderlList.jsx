@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { Button } from '../../../inputs'
 
-function orderlList({ list, storeName, orderId, createTime }) {
+function orderlList({ list, storeName, orderId, createTime, openReturn }) {
   return (
     <div className="w-full  my-8 border-2 rounded-lg  bg-white">
       <div className="  m-4 lg:w-full md:w-max ">
@@ -55,7 +55,7 @@ function orderlList({ list, storeName, orderId, createTime }) {
         </div>
         <div className='pt-8 px-8'>
           <span className='text-lg '>Having problem with order?</span>
-          <Button className='inline ml-2 btn-color-revers'>Cancel Order</Button>
+          <Button className='inline ml-2 btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
         </div>
       </div>
     </div>

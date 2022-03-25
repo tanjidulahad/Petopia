@@ -1,31 +1,39 @@
+import { connect } from 'react-redux'
 import { useState } from 'react'
-import { Button, Radio } from '../../../inputs'
+import { Button, Radio, Checkbox } from '@components/inputs'
 
-function Ret({ action }) {
+function Ret({ action, items, closeRetun, user, orderId }) {
   const [final, setfinal] = useState(false)
+  const [payload, setPayload] = useState({
+    orderId: orderId,
+    customerId: user.customer_id,
+    cancelReason: "",
+    orderItemId: [] // null should be passed when the entire order is to be cancelled
+  })
+  const onChangeHandler = (e) => {
+    const { value, checked } = e.target
+    if (checked) {
+      setPayload({
+        ...payload,
+        orderItemId: [value, ...new Set(payload.orderItemId)]
+      })
+    } else {
+      setPayload({
+        ...payload,
+        orderItemId: payload.orderItemId.filter(item => item != value)
+      })
+    }
+  }
   return (
     <div id="return" className="auth ">
       <div className="mt-80 md:mt-0 lg:mt-0  auth-form-container  md:roundec-lg lg:rounded-lg ">
         <section>
           <div className="flex p-4 justify-between items-center border-b-2 border-gray-200">
             <h2 className="text-base font-semibold">{action} Order</h2>
-            <Button className="bg-transparent dark-blue p-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-x-lg"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"
-                />
-                <path
-                  fillRule="evenodd"
-                  d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"
-                />
+            <Button className="bg-transparent dark-blue p-2" onClick={() => closeRetun(false)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16" >
+                <path fillRule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" />
+                <path fillRule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z" />
               </svg>
             </Button>
           </div>
@@ -86,22 +94,21 @@ function Ret({ action }) {
               </>
             ) : (
               <>
-                <div className="mt-4 mx-1 flex flex-around ">
-                  <Radio className="mt-3 " />
-                  <div className="mx-4 w-10 h-10 rounded bg-gray-900">
-                    <img
-                      className="w-full h-full rounded object-center opacity-80"
-                      src="https://b.zmtcdn.com/data/reviews_photos/1e2/19f261b43d11344ce5f483c20a0941e2_1561214851.jpg?fit=around|771.75:416.25&crop=771.75:416.25;*,*"
-                    />
-                  </div>
-                  <h3
-                    className="text-sm  text-gray-600 flex align-centers"
-                    style={{ alignItems: 'center' }}
-                  >
-                    Plain Briyani
-                  </h3>
-                </div>
-                <div className="mt-4 mx-1 flex flex-around  ">
+                {
+                  Object.values(items).map((item, i) => (
+                    <div className="mt-4 mx-1 flex flex-around" key={i}>
+                      <Checkbox className="mt-3 " name='orderId' id={item.orderItemId} value={item.orderItemId} onChange={onChangeHandler} />
+                      <label className='flex' htmlFor={item.orderItemId}>
+                        <div className="mx-4 w-10 h-10 rounded bg-gray-900">
+                          <img className="w-full h-full rounded object-center opacity-80" src={item.itemImg || '/img/default.png'} />
+                        </div>
+                        <h3 className="text-sm  text-gray-600 flex align-centers" style={{ alignItems: 'center' }} >{item.itemName}</h3>
+                      </label>
+                    </div>
+
+                  ))
+                }
+                {/* <div className="mt-4 mx-1 flex flex-around  ">
                   <Radio className="mt-3 " />
 
                   <div className="mx-4 w-10 h-10 rounded bg-gray-900">
@@ -116,7 +123,7 @@ function Ret({ action }) {
                   >
                     Plain Briyani
                   </h3>
-                </div>
+                </div> */}
 
                 <div className="flex justify-end ">
                   <Button
@@ -133,9 +140,13 @@ function Ret({ action }) {
             )}
           </div>
         </section>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 
-export default Ret
+const mapStateToProps = state => ({
+  user: state.user.currentUser
+})
+
+export default connect(mapStateToProps)(Ret)

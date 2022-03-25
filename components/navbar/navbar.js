@@ -48,7 +48,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
   return (
     <nav className='sticky top-0 z-10 ' ref={ref}>
 
-      <div className={(router.asPath == '/' || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative` : 'hidden'} style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
+      <div className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative` : 'hidden'} style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
         <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
           <Button className='text-left' type='link' href='/'>
             <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>
@@ -85,7 +85,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
                   </Button>
                 </div>
                 {
-                  !isLogin ?
+                  !isLogin && !user ?
                     <div className="w-32 ml-8 shrink-0 flex items-center">
                       <Button onClick={openAuth} className=" bg-white text-black max-h-min text-base font-medium rounded py-3 px-8 hover:bg-rose-600 hover:text-white " title="Sign In"></Button>
                     </div>
@@ -141,7 +141,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
         </div>
 
         {
-          (router.asPath == '/' || ['search', 'category'].some(val => router.asPath.includes(val))) &&
+          (router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => Object.keys((router.query)).includes(val))) &&
           <div className='px-6 text-base absolute -bottom-4 left-1/2 -translate-x-1/2 w-full ' style={{ maxWidth: '800px' }}>
             <Input className='py-2' placeholder='Search for items' onChange={onInputChangeHandler} ></Input>
           </div>

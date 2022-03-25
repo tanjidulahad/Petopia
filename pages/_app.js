@@ -18,6 +18,7 @@ import '@styles/navbar.scss'
 import '@styles/auth.scss'
 import '@styles/pdp-image.scss'
 import '@styles/mob-cat.scss'
+import '@styles/cat.scss'
 
 // Page Styles
 import '@styles/product.scss'

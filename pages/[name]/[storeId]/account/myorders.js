@@ -20,7 +20,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
 
   useEffect(() => {
     getCurrentOrders({ userId: user.customer_id, setOrderList, setError, setIsLoadingCurrent })
-    getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError, setIsLoadingPast })
+    getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError, status: setIsLoadingPast })
   }, [])
 
   // useEffect(() => {

@@ -5,17 +5,6 @@ import MediaQuery from "react-responsive"
 import { Button } from "@components/inputs"
 import { useRouter } from "next/router"
 
-const style = {
-    active: {
-        background: `transparent linear-gradient(90deg, #D85A5A00 0%, #D85A5A40 100%) 0% 0% no-repeat padding-box`,
-        opacity: 1,
-        fontSize: `1rem`, /* 16px */
-        lineHeight: `1.5rem`
-    },
-    subactive: {
-        color: `#D85A5A`,
-    }
-}
 const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
 
     const data = (Router?.router?.state?.query)
@@ -52,16 +41,19 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
         <div className="box-container categories  h-full ">
             {/* For desktop */}
             <MediaQuery minWidth={breackPoint}>
-                <div className="text-left mt-12">
-                    <span className=" text-center text-gray-800 font-extrabold  text-xl mt-12">{title}</span>
+                <div className="text-left ">
+                    <span className=" text-center black-color font-extrabold  text-xl ">{title}</span>
                 </div>
-                <ul className="ul-list ">
+                <ul className="ul-list">
                     <li className={`${'active'} `} onClick={closeMenu}>
                         <Link href={`/`}>
-                            <div className="text-left mt-4 ">
-                                <span className="  text-lg font-medium text-gray-600 ">All Products</span>
-                                {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
-                            </div>
+                            <a >
+                                <div className={`text-left py-1 mt-3 cursor-pointer ${!router.query.category ? 'cat-active btn-color-revers font-semibold' : 'black-color-75'}`}>
+                                    <span className="  text-lg  ">All Products</span>
+                                    {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
+                                </div>
+
+                            </a>
                         </Link>
                     </li>
                     {
@@ -69,39 +61,40 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                             <li className={` font-regular `} key={i}>
 
                                 <Link href={`/?category=${item.category_id}`}>
-                                    {parseInt(data?.category, 10) === item.category_id ?
+                                    <a>
+                                        {parseInt(data?.category, 10) === item.category_id ?
+                                            <div className={`text-center flex py-1 mt-3 btn-color-revers cursor-pointer cat-active`} >
+                                                <span className={` text-base font-semibold `} >{item.category_name}</span>
+                                                {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
+                                            </div>
+                                            :
 
-                                        <div className=" text-center flex mt-4  cursor-pointer " style={style.active}  >
-                                            <span className={` text-base font-medium text-gray-600  `} >{item.category_name}</span>
-                                            {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
-                                        </div>
-                                        :
-
-                                        <div className=" text-center flex mt-4  cursor-pointer " onClick={() => { activeHandler(item) }} >
-                                            <span className={` text-base font-medium text-gray-600  `} >{item.category_name}</span>
-                                            {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
-                                        </div>
-                                    }
+                                            <div className=" text-center flex py-1 mt-3  cursor-pointer " onClick={() => { activeHandler(item) }} >
+                                                <span className={` text-base font-medium black-color-75  `} >{item.category_name}</span>
+                                                {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
+                                            </div>
+                                        }
+                                    </a>
                                 </Link>
                                 {
                                     active.activeid === item.category_id && active.active &&
-                                    <ul className="ul-list " style={{ paddingLeft: '8px' }}>
+                                    <ul className="ul-list pl-6">
                                         {
                                             item.subcategories.map((subitem, i) => (
                                                 <li >
                                                     <Link href={`/?category=${item.category_id}&subCategoryId=${subitem.sub_category_id}`}>
-                                                        {parseInt(data?.subCategoryId, 10) === subitem.sub_category_id ?
+                                                        <a>
+                                                            {parseInt(data?.subCategoryId, 10) === subitem.sub_category_id ?
 
-                                                            <div className="flex flex-col justify-content-center mt-4 cursor-pointer " >
-                                                                <span className={` text-base font-medium text-gray-600  `} style={style.subactive} onClick={() => { subHandler(subitem) }} >{subitem.sub_category_name}</span>
-
-                                                            </div>
-                                                            :
-                                                            <div className="flex flex-col justify-content-center mt-4 cursor-pointer ">
-                                                                <span className={` text-base font-medium text-gray-600  `} onClick={() => { subHandler(subitem) }} >{subitem.sub_category_name}</span>
-
-                                                            </div>
-                                                        }
+                                                                <div className="flex flex-col justify-content-center mt-3 cursor-pointer " >
+                                                                    <span className={` text-base font-semibold btn-color-revers `} onClick={() => { subHandler(subitem) }} >{subitem.sub_category_name}</span>
+                                                                </div>
+                                                                :
+                                                                <div className="flex flex-col justify-content-center mt-3 cursor-pointer ">
+                                                                    <span className={` text-base font-medium black-color-75  `} onClick={() => { subHandler(subitem) }} >{subitem.sub_category_name}</span>
+                                                                </div>
+                                                            }
+                                                        </a>
                                                     </Link>
                                                 </li>))
                                         }

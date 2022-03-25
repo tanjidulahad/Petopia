@@ -8,18 +8,20 @@ import NavBar from "@components/navbar/navbar";
 import Footer from '@components/Footer'
 
 import {
-    getShopInfoStart, getShopSeoStart, getShopSettingsStart, getSocialProfileStart, getShopDisplaySettingsStart,
-    getShopInfoSuccess, getShopSeoSuccess, getShopSettingsSuccess, getSocialProfileSuccess
+    getShopInfoStart, getShopSeoStart, getShopSettingsStart, getSocialProfileStart, getShopDisplaySettingsStart, getPageCountStart, getBannerStart,
+    getShopInfoSuccess, getShopSeoSuccess, getShopSettingsSuccess, getSocialProfileSuccess,
 } from "@redux/shop/shop-action";
 
-const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings }) => {
+const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner }) => {
     const router = useRouter()
     const { displaySettings } = store
     useEffect(() => {
         const { storeId } = router.query
         if (!store.isReadyToGo && storeId) {
-            getShopInfo(storeId);
+            getBanner(storeId)
             getShopSeo(storeId);
+            getShopInfo(storeId);
+            getPageCount(storeId)
             getShopSettings(storeId);
             getSocialProfile(storeId);
             getShopDisplaySettings(storeId)
@@ -47,11 +49,13 @@ const mapStateToProps = state => ({
     isLogin: !state.user.currentUser
 })
 const mapDispatchToProps = dispatch => ({
-    getShopInfo: (shopId) => dispatch(getShopInfoStart(shopId)),
+    getBanner: (shopId) => dispatch(getBannerStart(shopId)),
     getShopSeo: (shopId) => dispatch(getShopSeoStart(shopId)),
+    getShopInfo: (shopId) => dispatch(getShopInfoStart(shopId)),
+    getPageCount: (shopId) => dispatch(getPageCountStart(shopId)),
     getShopSettings: (shopId) => dispatch(getShopSettingsStart(shopId)),
     getSocialProfile: (shopId) => dispatch(getSocialProfileStart(shopId)),
-    getShopDisplaySettings: (storeId) => dispatch(getShopDisplaySettingsStart(storeId))
+    getShopDisplaySettings: (storeId) => dispatch(getShopDisplaySettingsStart(storeId)),
 })
 
 const HOC = connect(mapStateToProps, mapDispatchToProps)(verifier)

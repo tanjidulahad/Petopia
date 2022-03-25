@@ -90,3 +90,21 @@ export const getSearchProductsSuccess = (data) => ({
     type: shopActionType.GET_SEARCH_SUCCESS,
     payload: data
 })
+// Pge count
+export const getPageCountStart = (payload) => ({
+    type: shopActionType.GET_PAGE_COUNT_START,
+    payload: payload
+})
+export const getPageCountSuccess = (data) => ({
+    type: shopActionType.GET_PAGE_COUNT_SUCCESS,
+    payload: data
+})
+//  Banner
+export const getBannerStart = (payload) => ({
+    type: shopActionType.GET_BANNER_START,
+    payload: payload
+})
+export const getBannerSuccess = (data) => ({
+    type: shopActionType.GET_BANNER_SUCCESS,
+    payload: data
+})

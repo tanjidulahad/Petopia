@@ -10,6 +10,8 @@ const INITIAL_STATE = {
     displaySettings: null,// {}
     socialProfile: [],
     isReadyToGo: false,// true || false
+    banners: [],
+    pageCount: 1,
     // About products
     products: [],
     categories: []
@@ -40,6 +42,16 @@ const shopReducer = (state = INITIAL_STATE, { type, payload }) => {
                 ...state,
                 settings: payload,
                 isReadyToGo: isReady({ ...state, settings: true })
+            }
+        case storeActionType.GET_PAGE_COUNT_SUCCESS:
+            return {
+                ...state,
+                pageCount: payload
+            }
+        case storeActionType.GET_BANNER_SUCCESS:
+            return {
+                ...state,
+                banners: payload
             }
         case storeActionType.GET_SHOP_DISPLAY_SETTINGS_SUCCESS:
             return {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { connect } from "react-redux"
-import Link from "@components/link"
+import Link, { redirect } from "@components/link"
 import { Button } from "@components/inputs"
 
 // Components
@@ -124,7 +124,8 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                 const { amount, purchaseId, customerId, id } = confirmPayment
                 encoded = btoa(JSON.stringify({ amount, purchaseId, id, method: paymentMethod, customerId, orderId }))
             }
-            router.push(`/thank-you?id=${encoded}`)
+            // router.push(`/thank-you?id=${encoded}`)
+            redirect(`/thank-you?id=${encoded}`)
         }
         return () => {
             if (initiateStatus == 'success' && (initiateData || setConfirmPayment)) {

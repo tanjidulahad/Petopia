@@ -1,17 +1,19 @@
 import Head from 'next/head'
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from "next/dist/client/router";
 
 import ProductListPage from '@components/Products/index'
 import CatList from '@components/catgegory/cat'
-import { Input, Button } from '@components/inputs';
+import { Button } from '@components/inputs';
 import HomeCartItem from '@components/cart-item/home-cart-item';
+import { redirect } from '@components/link';
 
 // Actions
 import { getCategoryStart, getShopProductsStart, getCategoryProductsStart, getSearchProductsStart } from "@redux/shop/shop-action";
 import { setSearchHandler } from '@redux/search/seatch-actions'
 import PageWrapper from '@components/page-wrapper/page-wrapper';
+import EmptyCart from '@assets/empty-cart';
 
 
 const Home = ({ products, info, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
@@ -29,16 +31,14 @@ const Home = ({ products, info, cart, checkout, categories, getCategoryStart, ge
 
   useEffect(() => { // Componentdidmount
     if (!categories.length) getCategoryStart(storeId);
-    // setStatus('loading')
     setSearchHandler((e) => {
       const { value } = e.target;
       if (value.trim().length > 0) {
         setStatus('loading')
-        Router.push(`/?search=${value}`)
-        // getSearchProducts({ storeId, q: value.trim(), setSearchResult, setStatus })
+        redirect(`/?search=${value}`)
       } else {
         setSearchResult([])
-        Router.push(`/`)
+        redirect(`/`)
       }
       setq(value)
     })
@@ -47,8 +47,12 @@ const Home = ({ products, info, cart, checkout, categories, getCategoryStart, ge
   useEffect(() => {
     if (search) {
       getSearchProducts({ storeId, q: q.trim(), setSearchResult, setStatus })
+      setStatus('loading') // Set to success default Because its run whene All  products are fetching
+
     } else if (category) {
       getCategoryProducts({ storeId, categoryId: category, subCategoryId: subCategory, page: 1, setStatus })
+      setStatus('loading') // Set to success default Because its run whene All  products are fetching
+
       // setq('') // Cleaning query string of search
     } else {
       getShopProducts({ storeId, setStatus })
@@ -72,15 +76,15 @@ const Home = ({ products, info, cart, checkout, categories, getCategoryStart, ge
       <section>
         <div className='wrapper mx-auto'>
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
-            <div className="md:block col-span-full md:col-span-3  xl:col-span-2 border-gray-300 ">
+            <div className="md:pt-8 md:py-6 md:block col-span-full md:col-span-3  xl:col-span-2 border-gray-300 ">
               <CatList list={categories.length > 0 && categories} />
             </div>
-            <div className=" col-span-full sm:col-span-12 md:col-span-9 xl:col-span-7 pt-6 md:border-l xl:border-r">
-              <ProductListPage products={products} />
+            <div className="md:pt-8 md:py-6 col-span-full sm:col-span-12 md:col-span-9 xl:col-span-7 pt-6 md:border-l xl:border-r">
+              <ProductListPage storeName={info?.store_name} products={products} status={status} />
             </div>
-            <div className="hidden py-6 xl:block xl:col-span-3 space-y-6">
+            <div className="md:pt-8 md:py-6 hidden mt-0 xl:block xl:col-span-3 space-y-6">
               <div className='pb-6 border-b-2'>
-                <h1 className='text-2xl font-semibold'>My Cart</h1>
+                <h2 className=' black-color font-extrabold text-xl'>My Cart</h2>
               </div>
               {
                 !!cart.length ? <>
@@ -118,7 +122,10 @@ const Home = ({ products, info, cart, checkout, categories, getCategoryStart, ge
                   </div>
                 </>
                   : <div className="h-64 w-full text-center flex justify-center items-center" style={{ borderRadius: '50%' }}>
-                    <h4>Your Cart is Empty!.</h4>
+                    <div>
+                      <EmptyCart />
+                      <h4 className=' mt-6'>Your Cart is Empty!</h4>
+                    </div>
                   </div>
               }
             </div>

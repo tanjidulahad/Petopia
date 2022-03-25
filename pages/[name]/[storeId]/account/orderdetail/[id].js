@@ -31,7 +31,6 @@ function orderDetail({ getOrderDetails }) {
       setAddress(orderDetails.deliveryAddressDetails)
     }
   })
-  console.log(orderDetails);
   return (
     <>
       <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>

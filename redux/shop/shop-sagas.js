@@ -5,7 +5,9 @@ import shopActionType from './shop-action-type'
 import {
     getShopInfoSuccess, getShopSeoSuccess, getShopSettingsSuccess, getSocialProfileSuccess,
     getCategorySuccess, getSubCategorySuccess, getShopProductsSuccess, getSearchProductsSuccess, getSubCategoryStart,
-    getShopDisplaySettingsSuccess
+    getShopDisplaySettingsSuccess,
+    getPageCountSuccess,
+    getBannerSuccess
 } from "./shop-action";
 import { riseError } from "../global-error-handler/global-error-handler-action.ts";
 
@@ -35,6 +37,29 @@ function* getShopSeoStart() {
             const res = yield fetcher('GET', `?r=stores/get-seo-details&storeId=${storeId}`)
             if (!res.data) return;
             yield put(getShopSeoSuccess(res.data))
+        } catch (error) {
+            // console.log(error);
+        }
+    })
+}
+
+function* getShopBannerStart() {
+    yield takeLatest(shopActionType.GET_BANNER_START, function* ({ payload: storeId }) {
+        try {
+            const res = yield fetcher('GET', `?r=stores/get-banners&storeId=${storeId}`)
+            if (!res.data) return;
+            yield put(getBannerSuccess(res.data))
+        } catch (error) {
+            // console.log(error);
+        }
+    })
+}
+function* getShopPageCountStart() {
+    yield takeLatest(shopActionType.GET_PAGE_COUNT_START, function* ({ payload: storeId }) {
+        try {
+            const res = yield fetcher('GET', `?r=catalog/get-page-count&storeId=${storeId}`)
+            if (!res.data) return;
+            yield put(getPageCountSuccess(res.data))
         } catch (error) {
             // console.log(error);
         }
@@ -184,6 +209,6 @@ function* onProductSerachStart() {
 export default function* shopSagas() {
     yield all([call(getShopInfoStart), call(getShopSeoStart), call(getShopSettingsStart), call(onGetSocialProfileStart),
     call(onGetCategoriesStart), call(onGetSubCategoriesStart), call(onGetShopProductsStart), call(onGetCategoryProductsStart),
-    call(onProductSerachStart), call(getShopDisplaySettingsStart)
+    call(onProductSerachStart), call(getShopDisplaySettingsStart), call(getShopPageCountStart), call(getShopBannerStart)
     ])
 }

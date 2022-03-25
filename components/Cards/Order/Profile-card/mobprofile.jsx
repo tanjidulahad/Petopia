@@ -2,9 +2,10 @@ import React from 'react'
 import Link from "@components/link";
 import Router from "next/router";
 import { connect } from 'react-redux';
+import { logOutStart } from '@redux/user/user-action';
 
 
-function mobprofile({ user }) {
+function mobprofile({ user, logout }) {
   const active = Router?.router?.state?.pathname.split('/')[2]
 
 
@@ -23,9 +24,6 @@ function mobprofile({ user }) {
               </div>
             </div>
             <div className="  w-full ">
-
-
-
               <div className=" text-left ml-4 mt-1 relative    ">
                 <p className="text-sm   font-bold    text-gray-900">
                   {user?.full_name}
@@ -205,9 +203,9 @@ function mobprofile({ user }) {
             <div className=" h-10 mb-6 ">
               <div className="mx-4  pt-2 flex">
                 <img src='/img/login.svg' />
-                <p className="  mx-2   text-sm relative  font-semibold relative  text-gray-600">
+                <p className="  mx-2   text-sm font-semibold relative text-gray-600" onClick={logout}>
                   {" "}
-                  Help
+                  Log Out
                 </p>
               </div>
             </div>
@@ -222,4 +220,8 @@ const mapStateToProps = state => ({
   user: state.user.currentUser
 })
 
-export default connect(mapStateToProps)(mobprofile)
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logOutStart())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(mobprofile)

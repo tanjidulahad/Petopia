@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Container, FooterP, FooterImage } from './styled'
+import { useEffect, useState } from 'react'
+
 
 import { BsDot } from 'react-icons/bs'
 function index() {
@@ -24,37 +24,60 @@ function index() {
           setMobNavHeight(totalH)
         } else {
           setMobNavHeight(0)
-
         }
-      });
+      })
       objerver.observe(document.body)
     }
   }, [])
   return (
-    <footer style={{
-      paddingBottom: mobNavHeight
-    }}>
-      <div style={{ background: '#111111 0% 0% no-repeat padding-box' }} className="w-full bg-dark-900">
-        <Container className="mx-32 " >
-          <div className="border-b-2 border-gray-800 h-1/3  flex flex-row justify-center  align-center">
-            <FooterP>Privacy Policy</FooterP>
-            <BsDot className="mx-4 mt-8" color={'gray'} size={20} />
-            <FooterP>Privacy Policy</FooterP>
-            <BsDot className="mx-4 mt-8" color={'gray'} size={20} />
-            <FooterP>Privacy Policy</FooterP>
+    <footer
+      style={{
+        paddingBottom: mobNavHeight,
+      }}
+    >
+      <div
+        style={{ background: '#111111 0% 0% no-repeat padding-box' }}
+        className="w-full bg-dark-900"
+      >
+        <div
+          className="mx-32 "
+          style={{
+            height: '262px',
+
+            background: '#111111 0% 0% no-repeat padding-box',
+            opacity: 1,
+          }}
+        >
+          <div
+            className="border-b-2 border-gray-800 h-1/3  flex flex-row   justify-center "
+            style={{ alignItems: 'center' }}
+          >
+            <p className="text-gray-400 my-8">Privacy Policy</p>
+            <BsDot className="mx-4 my-8 " color={'gray'} size={20} />
+            <p className="text-gray-400 my-8 ">Privacy Policy</p>
+
+            <BsDot className="mx-4 my-8" color={'gray'} size={20} />
+            <p className="text-gray-400 my-8  ">Privacy Policy</p>
           </div>
           <div className=" h-1/3 mt-10 flex  justify-center  align-center">
             <div>
-              <FooterP>Online Store Created Using</FooterP>
-              <FooterImage
-                src={'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'}
-                alt="Picture of the author"
-              />
+              <p className="text-gray-400 flex justify-center ml-10    ">
+                Online Store Created Using
+              </p>
+
+              <div className="flex justify-center ">
+                <img
+                  src={
+                    'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'
+                  }
+                  alt="Picture of the author"
+                  className="w-1/4 my-2 mr-11"
+                />
+              </div>
             </div>
           </div>
-        </Container>
+        </div>
       </div>
-
     </footer>
   )
 }

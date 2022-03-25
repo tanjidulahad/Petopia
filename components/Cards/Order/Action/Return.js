@@ -1,0 +1,141 @@
+import { useState } from 'react'
+import { Button, Radio } from '../../../inputs'
+
+function Ret({ action }) {
+  const [final, setfinal] = useState(false)
+  return (
+    <div id="return" className="auth ">
+      <div className="mt-80 md:mt-0 lg:mt-0  auth-form-container  md:roundec-lg lg:rounded-lg ">
+        <section>
+          <div className="flex p-4 justify-between items-center border-b-2 border-gray-200">
+            <h2 className="text-base font-semibold">{action} Order</h2>
+            <Button className="bg-transparent dark-blue p-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-x-lg"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"
+                />
+                <path
+                  fillRule="evenodd"
+                  d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"
+                />
+              </svg>
+            </Button>
+          </div>
+          <div className="p-4">
+            <h3 className="text-sm  text-gray-600">
+              {final
+                ? 'Why are you returning this order?'
+                : `Choose items to ${action}`}
+            </h3>
+            {final ? (
+              <>
+                <div className="mt-4 mx-1 flex flex-around  ">
+                  <Radio className="mt-3 " />
+
+                  <h3
+                    className="text-sm flex text-gray-400 mt-2 mx-3"
+                    style={{ alignItems: 'center' }}
+                  >
+                    Product defective
+                  </h3>
+                </div>
+                <div className="mt-4 mx-1 flex flex-around  ">
+                  <Radio className="mt-3 " />
+
+                  <h3
+                    className="text-sm flex text-gray-400 mt-2 mx-3"
+                    style={{ alignItems: 'center' }}
+                  >
+                    Delivery box damaged
+                  </h3>
+                </div>
+                <div className="mt-4 mx-1 flex flex-around hidden md:block lg:block  ">
+                  <textarea
+                    className="mx-6 border-2 border-gray-200 rounded-lg"
+                    rows="4"
+                    cols="50"
+                  ></textarea>
+                </div>
+                <div className="mt-4 mx-1 flex flex-around block md:hidden lg:hidden ">
+                  <textarea
+                    className="mx-6 border-2 border-gray-200 rounded-lg"
+                    rows="4"
+                    cols="35"
+                  ></textarea>
+                </div>
+
+                <div className="flex justify-center md:justify-end lg:justify-end my-6 mb-40 lg:my-2 md:my-2">
+                  <Button
+                    className={`w-full md:w-max lg:w-max m-2 btn-color text-lg font-medium btn-bg px-4 py-1 rounded `}
+                    type="button"
+                    onClick={() => {
+                      setfinal(!final)
+                    }}
+                  >
+                    Place Return Request
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mt-4 mx-1 flex flex-around ">
+                  <Radio className="mt-3 " />
+                  <div className="mx-4 w-10 h-10 rounded bg-gray-900">
+                    <img
+                      className="w-full h-full rounded object-center opacity-80"
+                      src="https://b.zmtcdn.com/data/reviews_photos/1e2/19f261b43d11344ce5f483c20a0941e2_1561214851.jpg?fit=around|771.75:416.25&crop=771.75:416.25;*,*"
+                    />
+                  </div>
+                  <h3
+                    className="text-sm  text-gray-600 flex align-centers"
+                    style={{ alignItems: 'center' }}
+                  >
+                    Plain Briyani
+                  </h3>
+                </div>
+                <div className="mt-4 mx-1 flex flex-around  ">
+                  <Radio className="mt-3 " />
+
+                  <div className="mx-4 w-10 h-10 rounded bg-gray-900">
+                    <img
+                      className="w-full h-full rounded object-center opacity-80"
+                      src="https://b.zmtcdn.com/data/reviews_photos/1e2/19f261b43d11344ce5f483c20a0941e2_1561214851.jpg?fit=around|771.75:416.25&crop=771.75:416.25;*,*"
+                    />
+                  </div>
+                  <h3
+                    className="text-sm flex text-gray-600 "
+                    style={{ alignItems: 'center' }}
+                  >
+                    Plain Briyani
+                  </h3>
+                </div>
+
+                <div className="flex justify-end ">
+                  <Button
+                    className={`w-max m-2 btn-color text-lg font-medium btn-bg px-4 py-1 rounded `}
+                    type="button"
+                    onClick={() => {
+                      setfinal(!final)
+                    }}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+        </section>
+      </div>
+    </div>
+  )
+}
+
+export default Ret

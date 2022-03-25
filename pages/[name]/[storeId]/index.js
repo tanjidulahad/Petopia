@@ -13,7 +13,7 @@ import { redirect } from '@components/link';
 import { getCategoryStart, getShopProductsStart, getCategoryProductsStart, getSearchProductsStart } from "@redux/shop/shop-action";
 import { setSearchHandler } from '@redux/search/seatch-actions'
 import PageWrapper from '@components/page-wrapper/page-wrapper';
-import EmptyCart from '@assets/empty-cart';
+import EmptyCart from '@components/empty-cart';
 
 
 const Home = ({ products, info, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {

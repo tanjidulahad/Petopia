@@ -8,7 +8,7 @@ function product({ products, status, storeName }) {
   console.log(status);
   return (
     <div className="my-4">
-      <div className="relative flex flex-row mx-2 mb-8 justify-end sm:justify-between align-center">
+      <div className="relative flex flex-row md:px-2 mb-8 justify-end sm:justify-between align-center md:sticky md:z-10 top-0 bg-white">
         <div className=" hidden sm:flex items-baseline">
           <h2 className="font-bold text-2xl ">{storeName || ''}</h2>
           <span className=" text-sm black-color-75 ml-2">({products ? products.length : 0} Items)</span>

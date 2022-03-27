@@ -38,11 +38,11 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
     }
     const breackPoint = 768
     return (
-        <div className="box-container categories  h-full ">
+        <div className="box-container categories w-full h-full ">
             {/* For desktop */}
             <MediaQuery minWidth={breackPoint}>
-                <div className="text-left ">
-                    <span className=" text-center black-color font-extrabold  text-xl ">{title}</span>
+                <div className="text-left sticky top-0 bg-white">
+                    <span className=" text-center black-color font-extrabold text-xl sticky top-0">{title}</span>
                 </div>
                 <ul className="ul-list">
                     <li className={`${'active'} `} onClick={closeMenu}>

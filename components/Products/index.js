@@ -1,10 +1,16 @@
 import React from 'react'
 import Slider from './slider'
 import Products from './product';
+import { useRouter } from 'next/router';
+
 function index({ products, ...props }) {
+  const router = useRouter();
   return (
     <div className=" sm:mx-6 ">
-      <Slider />
+      {
+        !router.asPath.includes('search=') &&
+        <Slider />
+      }
       <Products products={products} {...props} />
     </div>
   )

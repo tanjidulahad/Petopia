@@ -7,14 +7,14 @@ import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
 const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
     if (!data) {
         return (
-            <div class="h-full  flex border-gray-200 rounded-lg overflow-hidden">
-                <div class=" w-40 h-40 animate-pulse bg-gray-400 shrink-0 object-cover object-center"></div>
-                <div class="px-6 pt-6">
-                    <h1 class="w-1/2 mb-4 h-6 animate-pulse bg-gray-500"></h1>
-                    <h2 class="bg-gray-400 animate-pulse h-4 w-1/4 mb-2"></h2>
-                    <p class="leading-relaxed mb-3 w-full h-3 animate-pulse bg-gray-400"></p>
-                    <div class="block items-center flex-wrap ">
-                        <a class="bg-indigo-300 h-4 animate-pulse mt-2 w-52 inline-flex items-center md:mb-2 lg:mb-0">
+            <div className="h-full  flex border-gray-200 rounded-lg overflow-hidden">
+                <div className=" w-32 h-32 sm:w-40 sm:h-40 animate-pulse bg-gray-400 shrink-0 object-cover object-center"></div>
+                <div className="px-6 pt-6">
+                    <h1 className="w-1/2 mb-3 sm:mb-4 h-4 sm:h-6 animate-pulse bg-gray-500"></h1>
+                    <h2 className="bg-gray-400 animate-pulse h-3 sm:h-4 w-1/4 mb-2"></h2>
+                    <p className="leading-relaxed mb-3 w-full h-2 sm:h-3 animate-pulse bg-gray-400"></p>
+                    <div className="block items-center flex-wrap ">
+                        <a className="bg-indigo-300 h-4 animate-pulse mt-2 w-52 inline-flex items-center md:mb-2 lg:mb-0">
 
                         </a>
 
@@ -66,7 +66,7 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
                                         </div>
                                     </Button> */}
                             <div className="mb-5 md:mb-0 block relative product-item-img w-32 h-32 min-w-min sm:w-40 sm:h-40 shrink-0">
-                                <Button className="block" type="link" href={`/product/${data.item_id}`} style={{ height: '-webkit-fill-available' }}>
+                                <Button className="block bg-slate-300" type="link" href={`/product/${data.item_id}`} style={{ height: '-webkit-fill-available' }}>
                                     <img className="w-32 h-32 sm:w-40 sm:h-40 rounded-md  object-cover" src={`${data.primary_img || '/img/default.png'}`} alt={`${data.item_name}`} />
                                 </Button>
                                 <div className="block lg:hidden absolute left-1/2 -translate-x-1/2 -bottom-5 rounded bg-white">

@@ -68,6 +68,14 @@ h6 {
   margin-top: 1rem;
   display: block;
 }
+
+nav {
+  z-index: 1000;
+}
+.serach-bar {
+  z-index: 1001;
+}
+
 .wrapper {
   padding: 8px 8px;
 }

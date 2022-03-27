@@ -6,7 +6,6 @@ import Router, { useRouter } from 'next/router'
 import NProgress from 'nprogress'; //nprogress module
 import 'nprogress/nprogress.css'
 
-
 // Global Styles
 import '@styles/globals.css'
 import '@styles/globals.scss'

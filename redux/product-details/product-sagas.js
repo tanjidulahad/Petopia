@@ -49,10 +49,12 @@ function* onSimilarProductFetchStart() {
 
 function* onGetSpecificationsStart() {
     yield takeLatest(productActionType.GET_PRODUCT_SPECIFICATINS_START, function* ({ payload }) {
+        const { setSpecifications, id } = payload;
         try {
-            const res = yield fetcher('GET', `?r=catalog/get-product-specifications&itemId=${payload}`);
+            const res = yield fetcher('GET', `?r=catalog/get-product-specifications&itemId=${id}`);
             if (Array.isArray(res.data)) {
-                yield put(getSpecificationsSuccess(res.data))
+                setSpecifications(res.data)
+                // yield put(getSpecificationsSuccess(res.data))
             }
         } catch (error) {
             // console.log(error);

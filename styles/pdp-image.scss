@@ -24,6 +24,9 @@
   .slider-active {
     bottom: 0;
   }
+  .slider {
+    bottom: -200%;
+  }
   .active {
     border-color: $red-color;
   }

@@ -18,7 +18,7 @@ const PdpImage = ({ list = [], alt = 'goplinto product image' }) => {
     })
 
     return (
-        <div className="flex justify-start items-start md:space-x-4 pdp-images" >
+        <div className="flex w-full justify-start items-start md:space-x-4 pdp-images" >
             <div className=" max-h-full pdp-image-list-c min-w-fit">
                 <div className="pdp-image-list hidden sm:flex flex-col max-w-fit space-y-3 md:space-y-4">
                     {
@@ -31,24 +31,55 @@ const PdpImage = ({ list = [], alt = 'goplinto product image' }) => {
                 </div>
 
             </div>
-            <div className="mx-auto pdp-primary-image flex h-full min-h-full items-center justify-center ">
-                <div className="w-full h-full overflow-hidden rounded sm:pl-4 md:pl-0">
+            <div className="mx-auto pdp-primary-image flex h-full min-h-full items-center justify-center">
+                <div className="w-full h-auto relative sm:pl-4 md:pl-0">
                     {isDesktopOrLaptop ?
+                        // <GlassMagnifier
+                        //     imageSrc={'/img/default.png'}
+                        //     imageAlt="Example"
+                        //     largeImageSrc="/img/default.png" // Optional
+                        // />
                         <ReactImageMagnify {...{
                             smallImage: {
-                                alt: 'product',
+                                alt: 'Wristwatch by Ted Baker London',
                                 isFluidWidth: true,
                                 src: list[activeImage] || '/img/default.png',
-                                width: 1200,
-                                height: 1080
+                                srcSet: [
+                                    `${list[activeImage] || '/img/default.png'} 355w`,
+                                    `${list[activeImage] || '/img/default.png'} 481w`,
+                                    `${list[activeImage] || '/img/default.png'} 584w`,
+                                    `${list[activeImage] || '/img/default.png'} 687w`,
+                                    `${list[activeImage] || '/img/default.png'} 770w`,
+                                    `${list[activeImage] || '/img/default.png'} 861w`,
+                                    `${list[activeImage] || '/img/default.png'} 955w`,
+                                    `${list[activeImage] || '/img/default.png'} 1033w`,
+                                    `${list[activeImage] || '/img/default.png'} 1112w`,
+                                    `${list[activeImage] || '/img/default.png'} 1192w`,
+                                    `${list[activeImage] || '/img/default.png'} 1200w`,
+                                ].join(', '),
+                                sizes: '(min-width: 480px) (max-height: 556px) 30vw, 80vw',
+                                // width: "100%",
+                                // width: "100%",
+                                // width: "1500",
+                                // height: "1500"
                             },
                             largeImage: {
+                                alt: '',
                                 src: list[activeImage] || '/img/default.png',
-                                width: 600,
-                                height: 600
+                                height: 1200,
+                                width: 1800
+
                             },
-                            enlargedImageContainerStyle: { background: '#fff', zIndex: 9 }
-                        }} />
+
+                            imageClassName: 'rounded-md ',
+                            enlargedImageContainerStyle: { background: '#fff', zIndex: 9 },
+                            enlargedImageContainerDimensions: {
+                                width: '200%',
+                                height: '100%'
+
+                            },
+
+                        }} style={{}} />
                         :
                         <>
                             <img className="w-full h-full" src={list[activeImage]} alt={alt} onClick={() => setOpenSlider(true)} />

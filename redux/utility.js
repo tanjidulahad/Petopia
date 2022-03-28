@@ -22,7 +22,7 @@ const fetcher = (method, url, body = {}) => (new Promise((resolve, reject) => {
         }
     }).then(function (res) {
         if (process.env.NODE_ENV == 'development') {
-            console.log(res);
+            // console.log(res);
         }
         resolve(res)
     }).catch(function (error) {

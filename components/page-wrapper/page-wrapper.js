@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import Auth from "@components/auth/auth";
 import Loader from "@components/loading/loader";
@@ -32,6 +33,9 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
     }
     return (
         <>
+            <Head>
+                <title>{store ? store.info.store_name : 'GoPlinto'}</title>
+            </Head>
             <NavBar />
             <main>{children}</main>
             <Footer />

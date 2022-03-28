@@ -66,8 +66,8 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
                                         </div>
                                     </Button> */}
                             <div className="mb-5 md:mb-0 block relative product-item-img w-32 h-32 min-w-min sm:w-40 sm:h-40 shrink-0">
-                                <Button className="block bg-slate-300" type="link" href={`/product/${data.item_id}`} style={{ height: '-webkit-fill-available' }}>
-                                    <img className="w-32 h-32 sm:w-40 sm:h-40 rounded-md  object-cover" src={`${data.primary_img || '/img/default.png'}`} alt={`${data.item_name}`} />
+                                <Button className="block " type="link" href={`/product/${data.item_id}`} style={{ height: '-webkit-fill-available' }}>
+                                    <img className="w-32 h-32 sm:w-40 sm:h-40 bg-slate-300 rounded-md  object-cover" src={`${data.primary_img || '/img/default.png'}`} alt={`${data.item_name}`} />
                                 </Button>
                                 <div className="block lg:hidden absolute left-1/2 -translate-x-1/2 -bottom-5 rounded bg-white">
                                     <LocalQuantityID />

@@ -136,6 +136,7 @@ function* onLogoutStart() {
 function* onGetAddressStart() {
     yield takeLatest(userActionType.GET_ADDRESS_START, function* ({ payload }) {
         const { userId, setError } = payload
+        console.log(payload);
         try {
             const res = yield fetcher('GET', `?r=customer/get-address-book&customerId=${userId}`);
             if (res.data) {
@@ -143,7 +144,9 @@ function* onGetAddressStart() {
             }
         } catch (error) {
             // console.log(error);
-            setError(error)
+            if (setError) {
+                setError(error)
+            }
             // if (error.message == 'Network Error') {
             //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { getAddressStart(payload) }, onOkName: "Reload" }))
             // } else {

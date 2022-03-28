@@ -30,24 +30,12 @@ function index() {
     }
   }, [])
   return (
-    <footer
-      style={{
-        paddingBottom: mobNavHeight,
-      }}
+    <footer style={{
+      paddingBottom: mobNavHeight,
+    }}
     >
-      <div
-        style={{ background: '#111111 0% 0% no-repeat padding-box' }}
-        className="w-full bg-dark-900"
-      >
-        <div
-          className="mx-32 "
-          style={{
-            height: '262px',
-
-            background: '#111111 0% 0% no-repeat padding-box',
-            opacity: 1,
-          }}
-        >
+      <div className="hidden sm:block w-full bg-dark-900" >
+        <div className="px-32 bg-black pb-10 " >
           <div
             className="border-b-2 border-gray-800 h-1/3  flex flex-row   justify-center "
             style={{ alignItems: 'center' }}
@@ -61,11 +49,11 @@ function index() {
           </div>
           <div className=" h-1/3 mt-10 flex  justify-center  align-center">
             <div>
-              <p className="text-gray-400 flex justify-center ml-10    ">
+              <p className="text-gray-400 flex justify-center mx-auto">
                 Online Store Created Using
               </p>
 
-              <div className="flex justify-center ">
+              <div className="flex justify-center mx-auto">
                 <img
                   src={
                     'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'

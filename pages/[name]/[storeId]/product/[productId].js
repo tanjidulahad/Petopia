@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter, withRouter } from "next/router";
 import ReactPlayer from 'react-player'
 import { connect } from "react-redux";
+import Head from "next/head";
 
 // Component
 import { QuantityID } from '@components/inputs'
@@ -50,6 +51,8 @@ const ProductDetails = ({
     const [specifications, setSpecifications] = useState([])
     const [similarProducts, setSimilarProducts] = useState([])
     const [defaultVariant, setDefaultVarian] = useState([])
+    const [descriptions, setDescriptions] = useState('')
+    const [viewdscmore, setViewdscmore] = useState(false)
     // Information for this page
     const [visuals, setVisuals] = useState(visualsStructure)
     const router = useRouter()
@@ -120,6 +123,10 @@ const ProductDetails = ({
             item: success
         })
     }, [success, similarProducts, additionalinfo, specifications])
+    useEffect(() => { // SEO
+        const dsc = success.item_name + ', ' + success.item_desc
+        setDescriptions(dsc)
+    }, [success])
     const productDataForCart = {
         item_id: visuals.id,
         store_id: visuals.storeId,
@@ -137,6 +144,13 @@ const ProductDetails = ({
     console.log(specifications);
     return (
         <>
+            <Head>
+                <title>{visuals.name}</title>
+                <meta name="description" content={`${descriptions}, Amazon.in: Online Shopping India - Buy mobiles, laptops, cameras, books, watches, apparel, shoes and e-Gift Cards. Free Shipping &amp; Cash on Delivery Available. `} />
+                <meta property="og:description"
+                    content={`${descriptions}, The pizzeria is the largest pizza restaurant chain in the Country with multiple outlets in and around. The pizzeria is known for its fresh pizzas made using organic produce and local ingredients.`} />
+                <meta name="keywords" content={`${descriptions} , Amazon.in, Amazon, Online Shopping, online shopping india, india shopping online, amazon india, amazn, buy online, buy mobiles online, buy books online, buy movie dvd's online, kindle, kindle fire hd, kindle e-readers, ebooks, computers, laptop, toys, trimmers, watches, fashion jewellery, home, kitchen, small appliances, beauty, Sports, Fitness &amp; Outdoors`} />
+            </Head>
             <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
                 <button className='flex items-center black-color-75 mr-4' onClick={router.back}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -148,28 +162,10 @@ const ProductDetails = ({
             {
                 visuals.view ?
                     <section className="bg-black-color-lighter pdp">
-                        {/* <div className='w-full flex justify-between items-center p-4 bg-black-color-lighter sticky top-0'>
-                            <Button className='flex items-center black-color-75' onClick={router.back}>
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
-                                        <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-                                    </svg>
-                                </span>
-                                Prev
-                            </Button>
-                            <Button className='flex items-center black-color-75' onClick={router.back}>
-                                Next
-                                <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                        <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-                                    </svg>
-                                </span>
-                            </Button>
-                        </div> */}
-                        <div className="w-full bg-white">
+                        <div className="w-full bg-white relative">
                             <div className="wrapper mx-auto">
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 py-20">
-                                    <div className="w-100 ">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 py-20 overflow-x-hidden">
+                                    <div className="w-full ">
                                         {/* <img src={visuals.images[0]} alt={visuals.name} /> */}
                                         <PdpImage name={visuals.name} list={visuals.images} />
                                     </div>
@@ -192,9 +188,13 @@ const ProductDetails = ({
                                                 }
                                             </div>
                                             <div className="my-6">
-                                                <p className="text-sm md:text-base black-color-75 text-justify md:text-left font-normal normal-case">
+                                                <p className={`text-sm md:text-base black-color-75 text-justify md:text-left font-normal normal-case ${!viewdscmore && visuals.desc.length > 200 && 'product-truncate'} transition`}>
                                                     {visuals.desc}
                                                 </p>
+                                                {
+                                                    visuals.desc.length > 200 &&
+                                                    <Button className="btn-color-revers" onClick={() => setViewdscmore(!viewdscmore)}>{viewdscmore ? 'hide' : 'more'}.</Button>
+                                                }
                                             </div>
                                             <div>
                                                 {

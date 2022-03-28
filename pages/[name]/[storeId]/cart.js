@@ -26,10 +26,12 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
     const [initiateStatus, setInitiateStatus] = useState('pending') // pending, loading, failure
     const [error, setError] = useState(null)
     const [rzpOrder, setRzpOrder] = useState(null)
+    const [enablePayment, setEnablePayment] = useState(false)
     const [checkoutDetails, setcheckoutDetails] = useState({
-        deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
-        deliveryMethod: "N",
-        paymentMethod: 'Y',
+        // deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
+        deliveryAddress: null,
+        deliveryMethod: "",
+        paymentMethod: '',
     })
     const router = useRouter();
     useEffect(() => { // Get Purchase Id
@@ -59,15 +61,17 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
             setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.deliveryMethod });
         }
     }, [user, checkout.purchase, info])
-    useEffect(() => {
-        if (checkoutDetails.deliveryAddress && checkout.purchase) {
-            setDeliveryAddressToPurchase({ purchaseId: checkout.purchase?.purchase_id, addressId: checkoutDetails.deliveryAddress })
-        }
-    }, [userAddress])
+    // useEffect(() => {
+    //     if (checkoutDetails.deliveryAddress && checkout.purchase) {
+    //         setDeliveryAddressToPurchase({ purchaseId: checkout.purchase?.purchase_id, addressId: checkoutDetails.deliveryAddress })
+    //     }
+    //     console.log();
+    // }, [userAddress])
 
     useEffect(() => {
-        if (!user || userAddress.length) return;
-        getAddress(user.customer_id)
+        if (user) {
+            getAddress({ userId: user.customer_id })
+        }
     }, [user])
 
     useEffect(() => {
@@ -93,10 +97,29 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
         if (name == 'deliveryMethod' && checkout.purchase) {
             setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: value });
         }
+
     }
+    useEffect(() => {
+        const { deliveryAddress, deliveryMethod, paymentMethod } = checkoutDetails;
+        setEnablePayment((() => {
+            let [d, p] = [false, false]
+            if ((deliveryMethod == 'Y' && deliveryAddress) || deliveryMethod == 'N') {
+                d = true
+            } else {
+                d = false
+            }
+            if (paymentMethod) {
+                p = true;
+            } else {
+                p = false;
+            }
+            return d && p
+        })())
+    }, [checkoutDetails])
+
     // Initial Payment function
     const initiatePayment = () => {
-        if (!checkoutDetails.deliveryAddress) return;
+        if (!enablePayment) return;
         const orderId = Object.keys(purchaseDetails.orders)[0]
         const { purchase } = checkout
         const paymentMethod = checkoutDetails.paymentMethod == 'Y' ? "PAY" : "COD";
@@ -196,7 +219,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                 </button>
                 <span className='text-base font-semibold'>My Cart</span>
             </div>
-            <section className="bg-black-color-lighter cart relative">
+            <section className="bg-black-color-lighter cart relative pb-16">
                 <div className="wrapper mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 md:gap-6 2xl:gap-10">
                         <div className="w-full lg:col-span-7 xl:col-span-8 col-auto ">
@@ -206,10 +229,10 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                 </div>
                                 <div className="flex px-3 sm:px-10 pt-10 justify-between">
                                     <div className="flex items-center">
-                                        <div className="h-10 w-10 ">
+                                        {/* <div className="h-10 w-10 ">
                                             <img className="w-full h-full rounded" src="https://dsa0i94r8ef09.cloudfront.net/264/assets/60cc53e3a47e4_paneer exotic pizza.png" alt="..." />
                                         </div>
-                                        <h4 className="text-xl inline ml-4">Pazha Mudhir Cholai</h4>
+                                        <h4 className="text-xl inline ml-4">Pazha Mudhir Cholai</h4> */}
                                     </div>
                                     <span className="text-base font-medium black-color-75">{totalItems} items</span>
                                 </div>
@@ -247,49 +270,69 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                             </div>
                                         </div>
                                         <div className="pt-10 w-full">
-                                            <div className="">
-                                                <h2>Choose Delivery Address</h2>
-                                            </div>
-                                            <div className="pt-10 grid grid-cols-1 sm:grid-cols-2 gap-10">
-                                                {
-                                                    [...userAddress].map((item, i) => (
-                                                        <div className="address" key={i}>
-                                                            <div className="p-0 sm:p-8 delivery-inputs border-dashed sm:border-2 rounded block w-full" >
-                                                                <Radio className='hidden' id={`address${i}`} name='deliveryAddress' checked={checkoutDetails.deliveryAddress == item.address_id} value={item.address_id} onChange={onChangeHandler} />
-                                                                <div className="flex">
-                                                                    <div className="red-color">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-house-door" viewBox="0 0 16 16">
-                                                                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
-                                                                        </svg>
-                                                                    </div>
-                                                                    <div className="ml-2 w-full">
-                                                                        <h3 className="text-xl font-semibold">{item.address_tag}</h3>
-                                                                        <div className="my-4">
-                                                                            <span className="home">{item.address_line_1}, {item.address_line_2}</span>
-                                                                            <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
-                                                                            <span className="country">{item.country},</span>
-                                                                            <span className="country font-w-bold">+91 {item.phone}</span>
+                                            {
+                                                checkoutDetails.deliveryMethod == 'N' &&
+                                                <div className="">
+                                                    <h2>Delivery Pickup Address</h2>
+                                                    <div className="py-6">
+                                                        {
+                                                            storeSettings &&
+                                                            <p className="text-base ">
+                                                                {storeSettings.pickupPointDetails.pickup_point_name}, {storeSettings.pickupPointDetails.address}, {storeSettings.pickupPointDetails.city},{' '}
+                                                                <br />
+                                                                {storeSettings.pickupPointDetails.state}, {storeSettings.pickupPointDetails.country}, <br /> Pin: {storeSettings.pickupPointDetails.zip_code}
+
+                                                            </p>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }{
+                                                checkoutDetails.deliveryMethod == 'Y' && <>
+                                                    <div className="">
+                                                        <h2>Choose Delivery Address</h2>
+                                                    </div>
+                                                    <div className="pt-10 grid grid-cols-1 sm:grid-cols-2 gap-10">
+                                                        {
+                                                            userAddress.map((item, i) => (
+                                                                <div className="address flex h-full" key={i}>
+                                                                    <div className="p-0 sm:p-8 delivery-inputs border-dashed sm:border-2 rounded block w-full" >
+                                                                        <Radio className='hidden' id={`address${i}`} name='deliveryAddress' checked={checkoutDetails.deliveryAddress == item.address_id} value={item.address_id} onChange={onChangeHandler} />
+                                                                        <div className="flex">
+                                                                            <div className="red-color">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-house-door" viewBox="0 0 16 16">
+                                                                                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+                                                                                </svg>
+                                                                            </div>
+                                                                            <div className="ml-2 w-full">
+                                                                                <h3 className="text-xl font-semibold">{item.address_tag}</h3>
+                                                                                <div className="my-4">
+                                                                                    <span className="home">{item.address_line_1}, {item.address_line_2}</span>
+                                                                                    <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
+                                                                                    <span className="country">{item.country},</span>
+                                                                                    <span className="country font-w-bold">+91 {item.phone}</span>
+                                                                                </div>
+                                                                                <button className="btn-color-revese my-2">Edit</button>
+                                                                                {
+                                                                                    checkoutDetails.deliveryAddress != item.address_id &&
+                                                                                    <label className="block my-2 btn-bg btn-color py-3.5 px-8 rounded max-w-fit" htmlFor={`address${i}`} >Deliver Here</label>
+                                                                                }
+                                                                            </div>
                                                                         </div>
-                                                                        <button className="btn-color-revese my-2">Edit</button>
-                                                                        {
-                                                                            checkoutDetails.deliveryAddress != item.address_id &&
-                                                                            <label className="block my-2 btn-bg btn-color py-3.5 px-8 rounded max-w-fit" htmlFor={`address${i}`} >Deliver Here</label>
-                                                                        }
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            ))
+                                                        }
+                                                        <div className=" py-6">
+                                                            <Button className="flex items-center btn-color-revese" type="link" href="/account/savedplaces">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                </svg>
+                                                                <span>Add New Address</span>
+                                                            </Button>
                                                         </div>
-                                                    ))
-                                                }
-                                                <div className=" py-6">
-                                                    <Button className="flex items-center btn-color-revese" type="link" href="/account/savedplaces">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                        </svg>
-                                                        <span>Add New Address</span>
-                                                    </Button>
-                                                </div>
-                                            </div>
+                                                    </div>
+                                                </>
+                                            }
                                         </div>
                                     </div>
                                     {/* Payment options */}
@@ -328,109 +371,126 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                         </div>
                         {/* Invoice section */}
                         <div className="w-full col-span-auto lg:col-span-5 xl:col-span-4 ">
-                            <div className="bg-white">
-                                <div className="px-2 py-10 sm:px-10 border-b-2 rounded">
-                                    <h2>Promo / Gift Code</h2>
-                                </div>
-                                <div className="w-full p-10 flex justify-between items-baseline space-x-2">
-                                    <input type="text" className="text-lg font-medium w-full border-b-2 focus:outline-none focus:border-b-2 " placeholder="Have any Promo Code?" />
-                                    <button className="py-2 btn-color rounded px-4 text-base btn-bg ">Apply</button>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="mt-10 pb-10 bg-white rounded">
-                                    <div className="px-3 py-10 sm:px-10 border-b-2 rounded">
-                                        <h2>Invoice</h2>
+                            {
+                                !!user &&
+                                <>
+                                    <div className="bg-white">
+                                        <div className="px-2 py-10 sm:px-10 border-b-2 rounded">
+                                            <h2>Promo / Gift Code</h2>
+                                        </div>
+                                        <div className="w-full p-10 flex justify-between items-baseline space-x-2">
+                                            <input type="text" className="text-lg font-medium w-full border-b-2 focus:outline-none focus:border-b-2 " placeholder="Have any Promo Code?" />
+                                            <button className="py-2 btn-color rounded px-4 text-base btn-bg ">Apply</button>
+                                        </div>
                                     </div>
-                                    {
-                                        !!purchaseDetails &&
-                                        <>
-                                            <div className="px-3 py-10 sm:px-10">
-                                                <div className="flex justify-between space-x-2 border-b-2 border-dashed pb-6">
-                                                    <h6 className="text-lg font-semibold">Item Total</h6>
-                                                    <div>
-                                                        <span className="black-color-75 text-base">{purchaseDetails.itemCount} item(s)</span>
-                                                        <span className="text-lg font-medium ml-2">₹ {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
-                                                    </div>
-                                                </div>
-                                                <div className=" border-b-2 border-dashed">
+                                    <div>
 
-                                                    <div className="flex justify-between space-x-2 my-4">
-                                                        <h6 className="text-lg black-color font-medium">Delivery Charge</h6>
-                                                        <div>
-                                                            <span className="text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                        <div className="mt-10 pb-10 bg-white rounded">
+                                            <div className="px-3 py-10 sm:px-10 border-b-2 rounded">
+                                                <h2>Invoice</h2>
+                                            </div>
+                                            {
+                                                !!purchaseDetails &&
+                                                <>
+                                                    <div className="px-3 py-10 sm:px-10">
+                                                        <div className="flex justify-between space-x-2 border-b-2 border-dashed pb-6">
+                                                            <h6 className="text-lg font-semibold">Item Total</h6>
+                                                            <div>
+                                                                <span className="black-color-75 text-base">{purchaseDetails.itemCount} item(s)</span>
+                                                                <span className="text-lg font-medium ml-2">₹ {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                        <div className=" border-b-2 border-dashed">
 
-                                                    <div className="flex justify-between space-x-2 my-4">
-                                                        <h6 className="text-lg black-color font-medium">Tax</h6>
-                                                        <div>
-                                                            <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalTaxAmount).toFixed(2)}</span>
-                                                        </div>
-                                                    </div>
-                                                    {
-                                                        purchaseDetails?.totalConvenienceCharge ?
                                                             <div className="flex justify-between space-x-2 my-4">
-                                                                <h6 className="text-lg black-color font-medium">Convenience Charge</h6>
+                                                                <h6 className="text-lg black-color font-medium">Delivery Charge</h6>
                                                                 <div>
-                                                                    <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalConvenienceCharge).toFixed(2)}</span>
+                                                                    <span className="text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
                                                                 </div>
                                                             </div>
-                                                            : null
-                                                    }
-                                                    <div className="flex justify-between space-x-2 my-4">
-                                                        <h6 className="text-lg black-color font-medium">Coupon Applied</h6>
-                                                        <div>
-                                                            <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex justify-between space-x-2 my-4">
-                                                        <h6 className="text-lg success-color font-medium">Discount</h6>
-                                                        <div>
-                                                            <span className="text-lg success-color font-medium ml-2">- ₹{Number(purchaseDetails.totalSavings).toFixed(2)}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="flex justify-between mt-4 border-dashed">
-                                                    <h2 className="text-2xl font-bold">Total Amount</h2>
-                                                    <h2 className="text-2xl font-bold">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
-                                                </div>
 
-                                            </div>
-                                            <div className="text-center bg-success-color-lighter success-color py-4">
-                                                <span className="text-base fonr-medium">Savings on Bill ₹ {Number(purchaseDetails.totalSavings).toFixed(2)}</span>
-                                            </div>
-                                        </>
-                                    }
-                                </div>
-                            </div>
-                            {
-                                !!purchaseDetails &&
-                                <>
-                                    <div id='cart-total-btn' className="mt-0 sm:mt-20 w-full left-0 fixed sm:relative bottom-0 p-4 sm:p-0 grid grid-cols-2 sm:grid-cols-1 bg-white sm:bg-transparent" style={{
-                                        bottom: `${mobNavHeight}px`
-                                    }}>
-                                        <div className="block sm:hidden">
-                                            <h2 className="text-sm font-bold black-color-75">Item total <sub> {totalItems} item(s)</sub> </h2>
-                                            <h2 className="text-base font-bold mt-2">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
-                                        </div>
-                                        <div className="flex justify-end items-center">
-                                            {
-                                                !!purchaseDetails ?
-                                                    <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={initiatePayment} >
-                                                        <span className="hidden sm:inline">
-                                                            Proceed to Pay ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
-                                                        </span>
-                                                        <span className="sm:hidden inline">Check Out</span>
-                                                    </Button>
-                                                    :
-                                                    <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={authToggle} >Login</Button>
+                                                            <div className="flex justify-between space-x-2 my-4">
+                                                                <h6 className="text-lg black-color font-medium">Tax</h6>
+                                                                <div>
+                                                                    <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalTaxAmount).toFixed(2)}</span>
+                                                                </div>
+                                                            </div>
+                                                            {
+                                                                purchaseDetails?.totalConvenienceCharge ?
+                                                                    <div className="flex justify-between space-x-2 my-4">
+                                                                        <h6 className="text-lg black-color font-medium">Convenience Charge</h6>
+                                                                        <div>
+                                                                            <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalConvenienceCharge).toFixed(2)}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    : null
+                                                            }
+                                                            <div className="flex justify-between space-x-2 my-4">
+                                                                <h6 className="text-lg black-color font-medium">Coupon Applied</h6>
+                                                                <div>
+                                                                    <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex justify-between space-x-2 my-4">
+                                                                <h6 className="text-lg success-color font-medium">Discount</h6>
+                                                                <div>
+                                                                    <span className="text-lg success-color font-medium ml-2">- ₹{Number(purchaseDetails.totalSavings).toFixed(2)}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex justify-between mt-4 border-dashed">
+                                                            <h2 className="text-2xl font-bold">Total Amount</h2>
+                                                            <h2 className="text-2xl font-bold">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
+                                                        </div>
+
+                                                    </div>
+                                                    <div className="text-center bg-success-color-lighter success-color py-4">
+                                                        <span className="text-base fonr-medium">Savings on Bill ₹ {Number(purchaseDetails.totalSavings).toFixed(2)}</span>
+                                                    </div>
+                                                </>
                                             }
-
                                         </div>
                                     </div>
                                 </>
                             }
+                            <div id='cart-total-btn' className="mt-0 sm:mt-20 w-full left-0 fixed sm:relative bottom-0 p-4 sm:p-0 grid grid-cols-2 sm:grid-cols-1 bg-white sm:bg-transparent" style={{
+                                bottom: `${mobNavHeight}px`
+                            }}>
+                                {
+                                    user ?
+
+                                        !!purchaseDetails &&
+                                        <>
+                                            <div className="block sm:hidden">
+                                                <h2 className="text-sm font-bold black-color-75">Item total <sub> {totalItems} item(s)</sub> </h2>
+                                                <h2 className="text-base font-bold mt-2">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
+                                            </div>
+                                            <div className="flex justify-end items-center" >
+                                                {
+                                                    !!purchaseDetails ?
+                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={initiatePayment} disabled={!enablePayment} style={{
+                                                            ...!enablePayment && {
+                                                                opacity: 0.7,
+                                                                cursor: "not-allowed"
+                                                            },
+                                                        }} >
+                                                            <span className="hidden sm:inline">
+                                                                Proceed to Pay ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
+                                                            </span>
+                                                            <span className="sm:hidden inline">Check Out</span>
+                                                        </Button>
+                                                        :
+                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center opacity-70" disabled={true} >Loading...</Button>
+                                                }
+
+                                            </div>
+                                        </>
+                                        :
+                                        <div className=" col-span-full">
+                                            <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center mx-auto" onClick={authToggle} >Login to Proceed</Button>
+                                        </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -72,7 +72,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
     <>
       {
         isLoadding ?
-          <>
+          <div className='w-full'>
             {/* <Header display={true} topic="Saved Address" /> */}
             <p className="text-xl hidden md:block lg:block text-gray-900 font-bold">
               {' '}
@@ -94,7 +94,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
                 Add New Address
               </Button>
             </div>
-          </>
+          </div>
           : error ?
             <ErrorPage message={error.message} statusCode={404} />
             :
@@ -124,7 +124,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
       }
       {
         isAddressActive &&
-        <div className="fixed inset-0 px-4 sm:px-8 md:px-20 bg-black-color-lighter z-20 ">
+        <div className="fixed inset-0 px-4 sm:px-8 md:px-20 bg-black-color-lighter address-form">
           <div className='py-6 md:px-20 flex justify-end '>
             <svg onClick={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

@@ -27,7 +27,7 @@ function orderlList({ list, storeName, orderId, createTime, openReturn }) {
         </div>
       </div>
       <div className="my-4 mb-8 border-gray-200 border-t-2" >
-        <div className='border-b-2 py-6'>
+        <div className='border-b-2 px-4 md:px-0  py-6'>
           {
             list?.map((item, i) => (
               <div className="flex justify-between items-center" key={i}>

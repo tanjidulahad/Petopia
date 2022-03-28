@@ -124,13 +124,13 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
       }
       {
         isAddressActive &&
-        <div className="fixed inset-0 px-4 sm:px-8 md:px-20 bg-black-color-lighter z-20 ">
+        <div className="fixed inset-0 px-4 mt-16 lg:mt-40 md:mt-40 mb-10 md:mb-0 lg:mb-0 sm:px-8 md:px-20 bg-black-color-lighter z-20 ">
           <div className='py-6 md:px-20 flex justify-end '>
             <svg onClick={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <div className=" absolute inset-y-14 overflow-auto inset-x-0 mx-4 sm:mx-16 md:mx-32 lg:mx-80" >
+          <div className=" absolute inset-y-14  overflow-auto inset-x-0 mx-4 sm:mx-16 md:mx-32 lg:mx-80" >
             <div className="add-c">
               <div className="row">
                 <div className="mt-4 col-12">

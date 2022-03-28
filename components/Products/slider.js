@@ -16,7 +16,7 @@ export default function Slider() {
   const slideRef = useRef();
 
   const removeAnimation = () => {
-    slideRef.current.classList.remove("fade-anim");
+    slideRef?.current?.classList?.remove("fade-anim");
   };
 
   useEffect(() => {
@@ -44,10 +44,10 @@ export default function Slider() {
   const handleOnNextClick = () => {
     count = (count + 1) % featuredProducts.length;
     setCurrentIndex(count);
-    slideRef.current.classList.add("fade-anim");
+    slideRef.current?.classList?.add("fade-anim");
   };
 
-  
+
 
   return (
     <div ref={slideRef} className="w-full select-none relative">
@@ -64,10 +64,10 @@ export default function Slider() {
 
               ))
           }
-         
+
 
       </div>
-{/* 
+{/*
       <div className="absolute w-full top-1/2 transform -translate-y-1/2 px-3 flex justify-between items-center">
         <button
           className="bg-black text-white p-1 rounded-full bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"

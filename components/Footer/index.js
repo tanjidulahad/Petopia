@@ -40,7 +40,7 @@ function index() {
         className="w-full bg-dark-900"
       >
         <div
-          className="mx-32 "
+          className="mx-4 md:mx-32 lg:mx-32 "
           style={{
             height: '262px',
 
@@ -49,19 +49,19 @@ function index() {
           }}
         >
           <div
-            className="border-b-2 border-gray-800 h-1/3  flex flex-row   justify-center "
+            className="  border-b-2 border-gray-800 h-1/3  flex flex-row   justify-center "
             style={{ alignItems: 'center' }}
           >
-            <p className="text-gray-400 my-8">Privacy Policy</p>
-            <BsDot className="mx-4 my-8 " color={'gray'} size={20} />
-            <p className="text-gray-400 my-8 ">Privacy Policy</p>
+            <p className="w-full md:w-max lg:w-max text-sm md:text-lg lg:text-lg text-gray-400 my-8">Privacy Policy</p>
+            <BsDot className="mx-2 md:mx-4 lg:mx-4 my-8 " color={'gray'} size={20} />
+            <p className=" w-full md:w-max lg:w-max text-sm md:text-lg lg:text-lg text-gray-400 my-8 ">Privacy Policy</p>
 
-            <BsDot className="mx-4 my-8" color={'gray'} size={20} />
-            <p className="text-gray-400 my-8  ">Privacy Policy</p>
+            <BsDot className="mx-2 md:mx-4 lg:mx-4 my-8" color={'gray'} size={20} />
+            <p className=" w-full md:w-max lg:w-max text-sm md:text-lg lg:text-lg text-gray-400 my-8  ">Privacy Policy</p>
           </div>
           <div className=" h-1/3 mt-10 flex  justify-center  align-center">
             <div>
-              <p className="text-gray-400 flex justify-center ml-10    ">
+              <p className=" text-sm md:text-lg lg:text-lg  w-full text-gray-400 flex justify-center ml-5 md:ml-10  lg:ml-10  ">
                 Online Store Created Using
               </p>
 
@@ -71,7 +71,7 @@ function index() {
                     'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'
                   }
                   alt="Picture of the author"
-                  className="w-1/4 my-2 mr-11"
+                  className="w-1/4 my-2 mr-16 md:mr-8 lg:mr-8"
                 />
               </div>
             </div>

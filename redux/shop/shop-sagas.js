@@ -87,9 +87,6 @@ function* getShopSettingsStart() {
 function* getShopDisplaySettingsStart() {
     yield takeLatest(shopActionType.GET_SHOP_DISPLAY_SETTINGS_START, function* ({ payload: storeId }) {
         try {
-            if (!storeId.match(/^\d+$/)) {
-                throw "Please provide valid storeid!.";
-            }
             const res = yield fetcher('GET', `?r=stores/get-store-display-settings&storeId=${storeId}`)
             if (!res.data) return;
             yield put(getShopDisplaySettingsSuccess(res.data))

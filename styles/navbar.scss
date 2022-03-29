@@ -1,4 +1,11 @@
 @import './colors.scss';
+
+nav {
+  background-repeat: no-repeat;
+  // background-position: center;
+  background-size: cover;
+}
+
 .navbar-body {
   background-repeat: no-repeat;
   // background-position: center;

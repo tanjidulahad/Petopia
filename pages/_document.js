@@ -19,6 +19,7 @@ class MyDocument extends Document {
                     <script src="https://checkout.razorpay.com/v1/checkout.js" defer={true}></script>
                 </Head>
                 <body>
+                    <div id='style'></div>
                     <Main />
                     <NextScript />
                 </body>

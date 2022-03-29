@@ -49,7 +49,7 @@ function Sideprofilecard({ user, logout }) {
             </div>
             <div className="absolute top-0 right-4 ">
               <Link href='/account/profile ' >
-                <p className=" cursor-pointer text-lg m-2 font-medium text-red-600 relative ">
+                <p className=" cursor-pointer text-lg m-2 font-medium btn-color-revers  relative ">
                   Edit
                 </p>
               </Link>
@@ -61,9 +61,9 @@ function Sideprofilecard({ user, logout }) {
         <div className="mt-12  ">
           {
             active === 'account' ?
-              <div className="border-l-4 border-rose-700 h-10 my-6">
+              <div className="border-l-4 border-static  h-10 my-6">
                 <Link href='/account ' >
-                  <p className=" flex mx-8 py-2 text-lg relative  font-semibold text-red-600">
+                  <p className=" flex mx-8 py-2 text-lg relative  font-semibold btn-color-revers ">
                     {" "}
                     Account
                   </p>
@@ -81,9 +81,9 @@ function Sideprofilecard({ user, logout }) {
           }
           {
             active === 'myorders' ?
-              <div className="border-l-4 border-rose-700 h-10 my-6">
+              <div className="border-l-4 border-static h-10 my-6">
                 <Link href='/account/myorders ' >
-                  <p className=" flex mx-8 py-2 text-lg relative  font-semibold text-red-600">
+                  <p className=" flex mx-8 py-2 text-lg relative  font-semibold btn-color-revers ">
                     {" "}
                     My Orders
                   </p>
@@ -102,10 +102,10 @@ function Sideprofilecard({ user, logout }) {
 
           {
             // active === 'wishlist' ?
-            //   <div className="border-l-4 border-rose-700 h-10 my-6">
+            //   <div className="border-l-4 border-static  h-10 my-6">
 
             //     <Link href='/account/wishlist ' >
-            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
+            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  btn-color-revers ">
 
             //         Wishlist
 
@@ -125,10 +125,10 @@ function Sideprofilecard({ user, logout }) {
 
           {
             // active === 'wallet' ?
-            //   <div className="border-l-4 border-rose-700 h-10 my-6">
+            //   <div className="border-l-4 border-static  h-10 my-6">
 
             //     <Link href='/account/wallet ' >
-            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
+            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  btn-color-revers ">
 
             //         Wallet
 
@@ -147,9 +147,9 @@ function Sideprofilecard({ user, logout }) {
           }
           {
             active === 'savedplaces' ?
-              <div className="border-l-4 border-rose-700 h-10 my-6">
+              <div className="border-l-4 border-static  h-10 my-6">
                 <Link href='/account/savedplaces ' >
-                  <p className=" flex mx-8 py-2 text-lg font-semibold relative  text-red-600">
+                  <p className=" flex mx-8 py-2 text-lg font-semibold relative  btn-color-revers ">
                     Saved Places
                   </p>
                 </Link>
@@ -164,10 +164,10 @@ function Sideprofilecard({ user, logout }) {
           }
           {
             // active === 'subscription' ?
-            //   <div className="border-l-4 border-rose-700 h-10 my-6">
+            //   <div className="border-l-4 border-static  h-10 my-6">
 
             //     <Link href='/account/subscription ' >
-            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-red-600">
+            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  btn-color-revers ">
 
             //         Subscription
 

@@ -57,44 +57,46 @@
 }
 
 // btn
-.btn-border {
-  border-color: $red-color;
-}
-.btn-bg {
-  background-color: $red-color;
-}
-.btn-bg-revese {
-  background-color: $white-color;
-}
-.btn-bg-light {
-  background-color: $red-color-50;
-}
-.btn-color {
-  color: $white-color;
-}
-.btn-color-revese {
-  color: $red-color;
-}
-.btn-color-revers {
-  color: $red-color;
-}
-.btn-hover-color {
-  transition: 0.3s ease-in-out;
-}
-.btn-hover-color:hover {
-  color: $red-color;
-}
-//
-.btn-nav-color {
-  color: $black-color-75;
-  fill: $black-color-75;
-}
-.btn-nav-color-active {
-  color: $red-color;
-  fill: $red-color;
-}
-
-// Font size
-// .text-xxs {
-//   font-size: 10px;
+// .btn-border {
+//   border-color: $red-color;
 // }
+// .btn-bg {
+//   background-color: $red-color;
+// }
+// .btn-bg-revese {
+//   background-color: $white-color;
+// }
+// .btn-bg-light {
+//   background-color: $red-color-50;
+// }
+// .btn-color {
+//   color: $white-color;
+// }
+// .btn-color-revese {
+//   color: $red-color;
+// }
+// .btn-color-revers {
+//   color: $red-color;
+// }
+// .btn-hover-color {
+//   transition: 0.3s ease-in-out;
+// }
+// .btn-hover-color:hover {
+//   color: $red-color;
+// }
+// //
+// .btn-nav-color {
+//   color: $black-color-75;
+//   fill: $black-color-75;
+// }
+// .btn-nav-color-active {
+//   color: $red-color;
+//   fill: $red-color;
+// }
+.footer-bg {
+  background-color: $black-color;
+}
+// Font size
+.text-xxs {
+  font-size: 10px;
+}

@@ -17,7 +17,8 @@ import {
 } from "@redux/shop/shop-action";
 
 
-const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref }) => {
+const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref }) => {
+  const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const [isLogin, setIsLogin] = useState(false)
   const [mobNaveHeight, setMobNaveHeight] = useState(10)
   // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
@@ -46,13 +47,13 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
   }
   console.log(router);
   return (
-    <nav className='sticky top-0' ref={ref}>
+    <nav className='sticky top-0 ' ref={ref} style={{ backgroundImage: ` url("${headerImg.src}")` }}>
 
-      <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative` : 'hidden'} style={{ backgroundImage: ` url("${headerImg.src}")`, background: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)) 0% 0% / cover,' }}>
+      <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative nav-bg` : 'hidden'} >
         <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
           <Button className='text-left' type='link' href='/'>
             <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>
-              <div className='h-20 w-20 shrink-0 overflow-hidden rounded-md'>
+              <div className='h-20 w-20 shrink-0 flex items-center justify-center overflow-hidden rounded-md'>
                 <img className='w-100 h-100 object-contain' src={info.logo_img_url || '/img/default.png'} alt="..." />
               </div>
               <div className='white-color mt-4 sm:mt-0'>
@@ -81,6 +82,10 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
                     <span className='text-lg font-bold tracking-tight ml-8 white-color mx-2'> Cart </span>
                     <span className=" white-color font-bold  my-4 relative" >
                       <IoCartOutline size={25} />
+                      {
+                        !!totalItems &&
+                        <div className="absolute -top-2 -right-1 w-5 h-5 p-2 flex justify-center items-center text-xs text-center rounded-full btn-bg btn-color border border-white">{totalItems}</div>
+                      }
                     </span>
                   </Button>
                 </div>
@@ -163,7 +168,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
       <MediaQuery maxWidth={640}>
         <div id='mob-navbar' className="mob-navbar z-10 py-2 flex sm:justify-end items-center white-color justify-between w-full fixed sm:relative bottom-0 left-0 right-0 bg-white sm:bg-transparent " style={{ boxShadow: '0px -1px 4px #00000033' }}>
           <div className='text-black w-1/5'>
-            <Button type='link' href='/' className={`block sm:hidden text-center text-xs ${router.asPath == '/' && 'btn-nav-color-active'}`}>
+            <Button type='link' href='/' className={`block sm:hidden text-center text-xs ${router.asPath == '/' || router.pathname == '/[name]/[storeId]' && 'btn-nav-color-active'}`}>
               <svg className='mx-auto' id="home" xmlns="http://www.w3.org/2000/svg" width="24" height="24" style={{ fill: 'inherit', color: 'inherit' }} viewBox="0 0 24 24">
                 <path className="bottom-nav-icons" id="Path_3440" data-name="Path 3440" d="M12,5.69l5,4.5V18H15V12H9v6H7V10.19l5-4.5M12,3,2,12H5v8h6V14h2v6h6V12h3Z" fill="var(--color)">
                 </path>
@@ -171,7 +176,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
               <span>Home</span>
             </Button>
           </div>
-          <div className='text-center text-xs font-medium  w-1/5'>
+          <div className='text-center text-xs font-medium text-black w-1/5'>
             <Button className={`btn-nav-color ${router.asPath.includes('cart') && 'btn-nav-color-active'}`} type='link' href='/cart'>
               <svg className='mx-auto' id="cart" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="-3 -5 30 30">
                 <g id="Group_103" data-name="Group 103">
@@ -179,7 +184,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
               <span className=' text-xs font-medium tracking-tight '>Cart</span>
             </Button>
           </div>
-          <div className='text-center text-xs font-semibold  w-1/5'>
+          <div className='text-center text-xs font-semibold text-black w-1/5'>
             <Button className='  btn-nav-color '>
               <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 1219.547 1225.016">
                 <path fill="#E0E0E0" d="M1041.858 178.02C927.206 63.289 774.753.07 612.325 0 277.617 0 5.232 272.298 5.098 606.991c-.039 106.986 27.915 211.42 81.048 303.476L0 1225.016l321.898-84.406c88.689 48.368 188.547 73.855 290.166 73.896h.258.003c334.654 0 607.08-272.346 607.222-607.023.056-162.208-63.052-314.724-177.689-429.463zm-429.533 933.963h-.197c-90.578-.048-179.402-24.366-256.878-70.339l-18.438-10.93-191.021 50.083 51-186.176-12.013-19.087c-50.525-80.336-77.198-173.175-77.16-268.504.111-278.186 226.507-504.503 504.898-504.503 134.812.056 261.519 52.604 356.814 147.965 95.289 95.36 147.728 222.128 147.688 356.948-.118 278.195-226.522 504.543-504.693 504.543z" />
@@ -193,9 +198,9 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
               <span className=' text-xs font-medium tracking-tight'>Chat</span>
             </Button>
           </div>
-          <div className='text-center text-xs font-semibold  w-1/5'>
+          <div className='text-center text-xs font-semibold text-black w-1/5'>
             <Button className=' btn-nav-color' href='/contact'>
-              <svg className='mx-auto' className="bottom-nav-icons mx-auto" style={{ fill: 'inherit', color: 'inherit' }} xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" viewBox="0 0 24 24"
+              <svg className='bottom-nav-icons mx-auto' style={{ fill: 'inherit', color: 'inherit' }} xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" viewBox="0 0 24 24"
                 width="25px" height="25px">
                 <g>
                   <rect fill="none" height="24" width="24"></rect>
@@ -215,7 +220,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
             </Button>
           </div>
 
-          <div className='block sm:hidden  text-center text-xs font-semibold  w-1/5'>
+          <div className='block sm:hidden text-black text-center text-xs font-semibold  w-1/5'>
             <Button className={`btn-nav-color ${router.asPath.includes('account') && 'btn-nav-color-active'}`} type='link' href='/account'>
               <svg className='mx-auto' id="account" xmlns="http://www.w3.org/2000/svg" width="25" height="25" style={{ fill: 'inherit', color: 'inherit' }} viewBox="0 0 24 24">
                 <path id="Path_3437" data-name="Path 3437" d="M0,0H24V24H0Z" fill="none"></path>
@@ -228,7 +233,7 @@ const Navbar = ({ user, openAuth, logOut, getShopInfo, getShopSeo, getShopSettin
           </div>
         </div>
       </MediaQuery>
-    </nav>
+    </nav >
   )
 }
 
@@ -236,6 +241,7 @@ const mapStateToProps = state => ({
   user: state.user.currentUser,
   cart: state.cart,
   info: state.store.info,
+  displaySettings: state.store.displaySettings,
   // Search handler from plp
   searchHandler: state.search.searchHandler
 })

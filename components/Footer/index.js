@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import Link from '@components/link'
 
 import { BsDot } from 'react-icons/bs'
 function index() {
@@ -35,21 +35,33 @@ function index() {
     }}
     >
       <div className="hidden sm:block w-full bg-dark-900" >
-        <div className="px-32 bg-black pb-10 " >
+        <div className="px-32 footer-bg pb-10 " >
           <div
             className="border-b-2 border-gray-800 h-1/3  flex flex-row   justify-center "
             style={{ alignItems: 'center' }}
           >
-            <p className="text-gray-400 my-8">Privacy Policy</p>
+            <p className="text-white my-8">
+              <Link href='/privacy'>
+                Privacy Policy
+              </Link>
+            </p>
             <BsDot className="mx-4 my-8 " color={'gray'} size={20} />
-            <p className="text-gray-400 my-8 ">Privacy Policy</p>
+            <p className="text-white my-8 ">
+              <Link href='/returns-refunds'>
+                Return & Refunds
+              </Link>
+            </p>
 
             <BsDot className="mx-4 my-8" color={'gray'} size={20} />
-            <p className="text-gray-400 my-8  ">Privacy Policy</p>
+            <p className="text-white my-8  ">
+              <Link href='/terms-of-use'>
+                Privacy Policy
+              </Link>
+            </p>
           </div>
           <div className=" h-1/3 mt-10 flex  justify-center  align-center">
-            <div>
-              <p className="text-gray-400 flex justify-center mx-auto">
+            <a className='block' href='https://goplinto.com/' target={'_blank'}>
+              <p className="text-white flex justify-center mx-auto">
                 Online Store Created Using
               </p>
 
@@ -62,7 +74,7 @@ function index() {
                   className="w-1/4 my-2 mr-11"
                 />
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>

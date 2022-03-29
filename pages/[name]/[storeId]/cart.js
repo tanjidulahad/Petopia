@@ -256,18 +256,24 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                             <h2>Delivery Method</h2>
                                         </div>
                                         <div className="py-10 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-10 divide-y sm:divide-y-0 ">
-                                            <div className="">
-                                                <label className="sm:p-8 delivery-inputs  border-dashed sm:border-2 rounded block w-full" htmlFor="delivery">
-                                                    <Radio id='delivery' name='deliveryMethod' value={'Y'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'Y'} />
-                                                    <span className="ml-4 font-semibold text-base">Delivery</span>
-                                                </label>
-                                            </div>
-                                            <div className="pt-4 sm:pt-0">
-                                                <label className="sm:p-8 delivery-inputs  border-dashed sm:border-2 rounded block w-full" htmlFor="pickup">
-                                                    <Radio id='pickup' name='deliveryMethod' value={'N'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'N'} />
-                                                    <span className="ml-4 font-semibold text-base">Self Pick Up</span>
-                                                </label>
-                                            </div>
+                                            {
+                                                storeSettings.is_delivery_available == 'Y' &&
+                                                <div className="">
+                                                    <label className="sm:p-8 delivery-inputs border-color  border-dashed sm:border-2 rounded block w-full" htmlFor="delivery">
+                                                        <Radio id='delivery' name='deliveryMethod' value={'Y'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'Y'} />
+                                                        <span className="ml-4 font-semibold text-base">Delivery</span>
+                                                    </label>
+                                                </div>
+                                            }
+                                            {
+                                                storeSettings.is_parcel_available == 'Y' &&
+                                                <div className="pt-4 sm:pt-0">
+                                                    <label className="sm:p-8 delivery-inputs border-color  border-dashed sm:border-2 rounded block w-full" htmlFor="pickup">
+                                                        <Radio id='pickup' name='deliveryMethod' value={'N'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'N'} />
+                                                        <span className="ml-4 font-semibold text-base">Self Pick Up</span>
+                                                    </label>
+                                                </div>
+                                            }
                                         </div>
                                         <div className="pt-10 w-full">
                                             {
@@ -295,13 +301,19 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                                         {
                                                             userAddress.map((item, i) => (
                                                                 <div className="address flex h-full" key={i}>
-                                                                    <div className="p-0 sm:p-8 delivery-inputs border-dashed sm:border-2 rounded block w-full" >
+                                                                    <div className="p-0 sm:p-8 delivery-inputs border-color border-dashed sm:border-2 rounded block w-full" >
                                                                         <Radio className='hidden' id={`address${i}`} name='deliveryAddress' checked={checkoutDetails.deliveryAddress == item.address_id} value={item.address_id} onChange={onChangeHandler} />
                                                                         <div className="flex">
-                                                                            <div className="red-color">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-house-door" viewBox="0 0 16 16">
-                                                                                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
-                                                                                </svg>
+                                                                            <div className="btn-color-revers">
+                                                                                {
+                                                                                    item.address_tag == 'Home' ?
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" style={{ color: 'inherit' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                                                                        </svg>
+                                                                                        : <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'inherit' }} className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                                                        </svg>
+                                                                                }
                                                                             </div>
                                                                             <div className="ml-2 w-full">
                                                                                 <h3 className="text-xl font-semibold">{item.address_tag}</h3>
@@ -341,29 +353,35 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                             <h2>Choose Payment Option </h2>
                                         </div>
                                         <div className="pt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-10 divide-y sm:divide-y-0 ">
-                                            <div className="">
-                                                <label className="sm:p-8 delivery-inputs  border-dashed sm:border-2 rounded block w-full" htmlFor="online">
-                                                    <div className="flex">
-                                                        <Radio className='mt-2' id='online' name='paymentMethod' value="Y" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'Y'} />
-                                                        <div className="pl-4">
-                                                            <h3 className="font-semibold text-base block">Online Payment</h3>
-                                                            <span className="block text-base black-color-75 tracking-tight">( UPI, Credit/Debit cards, Wallet, Net banking )</span>
+                                            {
+                                                storeSettings?.is_payment_accepted == 'Y' &&
+                                                <div className="">
+                                                    <label className="sm:p-8 delivery-inputs border-color border-dashed sm:border-2 rounded block w-full" htmlFor="online">
+                                                        <div className="flex">
+                                                            <Radio className='mt-2' id='online' name='paymentMethod' value="Y" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'Y'} />
+                                                            <div className="pl-4">
+                                                                <h3 className="font-semibold text-base block">Online Payment</h3>
+                                                                <span className="block text-base black-color-75 tracking-tight">( UPI, Credit/Debit cards, Wallet, Net banking )</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <div className="pt-4 sm:pt-0">
-                                                <label className="sm:p-8 delivery-inputs  border-dashed sm:border-2 rounded block w-full" htmlFor="cod">
-                                                    <div className="flex">
-                                                        <Radio className='mt-2' id='cod' name='paymentMethod' value="N" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'N'} />
-                                                        <div className="pl-4">
-                                                            <h3 className="font-semibold text-base block">Cash On Delivery</h3>
-                                                            <span className="block text-base black-color-75 tracking-tight">( Cash, UPI)</span>
+                                                    </label>
+                                                </div>
+                                            }
+                                            {
+                                                storeSettings?.is_cod_accepted == 'Y' &&
+                                                <div className="pt-4 sm:pt-0">
+                                                    <label className="sm:p-8 delivery-inputs border-color border-dashed sm:border-2 rounded block w-full" htmlFor="cod">
+                                                        <div className="flex">
+                                                            <Radio className='mt-2' id='cod' name='paymentMethod' value="N" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'N'} />
+                                                            <div className="pl-4">
+                                                                <h3 className="font-semibold text-base block">Cash On Delivery</h3>
+                                                                <span className="block text-base black-color-75 tracking-tight">( Cash, UPI)</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <span className="ml-8 sm:ml-0 text-xs red-color tracking-tighter">Cash on delivery is not eligible for wallet transactions</span>
-                                                </label>
-                                            </div>
+                                                        <span className="ml-8 sm:ml-0 text-xs red-color tracking-tighter">Cash on delivery is not eligible for wallet transactions</span>
+                                                    </label>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 </>
@@ -468,9 +486,9 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                             <div className="flex justify-end items-center" >
                                                 {
                                                     !!purchaseDetails ?
-                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={initiatePayment} disabled={!enablePayment} style={{
-                                                            ...!enablePayment && {
-                                                                opacity: 0.7,
+                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={initiatePayment} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N'} style={{
+                                                            ...(!enablePayment || storeSettings?.is_checkout_enabled == 'N') && {
+                                                                opacity: 0.6,
                                                                 cursor: "not-allowed"
                                                             },
                                                         }} >

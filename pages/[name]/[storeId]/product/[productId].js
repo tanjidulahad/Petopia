@@ -260,7 +260,7 @@ const ProductDetails = ({
                                             {
                                                 !!visuals.specifications.length &&
                                                 <div className="mt-14">
-                                                    <div className="border-l-8 additional-info mb-8">
+                                                    <div className="border-l-8 border-static additional-info mb-8">
                                                         <h3 className="ml-4 md:ml-8 text-base md:text-xl">
                                                             Product Specification
                                                         </h3>
@@ -286,7 +286,7 @@ const ProductDetails = ({
                                 <div className="w-full mt-3 bg-white ">
                                     <div className="wrapper mx-auto">
                                         <div className="py-20">
-                                            <div className="border-l-8 additional-info">
+                                            <div className="border-l-8 border-static additional-info">
                                                 <h3 className="ml-4 md:ml-8 text-base md:text-xl">
                                                     Additional Info
                                                 </h3>

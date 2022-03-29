@@ -88,9 +88,8 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
               }
             </div>
             <div className="flex cursor-pointer mt-24 justify-center md:mt-0 lg:mt-0 md:justify-start lg:justify-start ">
-              <BsPlusCircle className="text-red-500" size={30} />
-
-              <Button className="text-lg btn-color-revese  font-semibold ml-4 " onClick={() => setIsAddressActive(true)}>
+              <BsPlusCircle className="btn-color-revers" size={30} />
+              <Button className="text-lg btn-color-revese btn-color-revers font-semibold ml-4 " onClick={() => setIsAddressActive(true)}>
                 Add New Address
               </Button>
             </div>
@@ -177,7 +176,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
                   </div>
                 </div>
                 <div className="col-12 mt-4">
-                  <span className="red-color">{error ? error : ""}</span>
+                  <span className="red-color">{formError ? formError : ""}</span>
                 </div>
                 <div className="flex justify-between items-center space-x-4">
                   <Button className="w-full bg-success-color py-4 rounded white-color" onClick={onSave} >Save</Button>

@@ -18,7 +18,7 @@ import PageWrapper from '@components/page-wrapper/page-wrapper';
 import EmptyCart from '@components/empty-cart';
 
 
-const Home = ({ products, info, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
+const Home = ({ products, banner,info, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const purchaseDetails = checkout.purchaseDetails;
   // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
@@ -29,6 +29,7 @@ const Home = ({ products, info, cart, checkout, categories, getCategoryStart, ge
   const [status, setStatus] = useState('loading') //status == loading || failed || success
   const [q, setq] = useState(search ? search : '');
   // UI Vars
+  
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 768 })
   const [navHeight, setNavHeight] = useState(156)
   const [restHeight, setRestHeight] = useState(78) // in vh
@@ -140,7 +141,7 @@ const Home = ({ products, info, cart, checkout, categories, getCategoryStart, ge
                 <Input className='py-2' style={{ top: navHeight }} onChange={searchHandler} placeholder='Search for items' ></Input>
               </div>
               <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollbar ' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
-                <ProductListPage storeName={info?.store_name} products={products} status={status} />
+                <ProductListPage storeName={info?.store_name} products={products} status={status} banner={banner} />
               </div>
             </div>
             <div className="md:pt-8 md:py-6 hidden xl:col-span-3 mt-0 xl:block  space-y-6">
@@ -202,6 +203,7 @@ const mapStateToProps = state => ({
   products: state.store.products,
   categories: state.store.categories,
   checkout: state.checkout,
+  banner:state.store.banners
 })
 const mapDispatchToProps = dispatch => ({
   getShopProducts: (storeId) => dispatch(getShopProductsStart(storeId)),

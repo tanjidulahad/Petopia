@@ -16,7 +16,7 @@ function Ordertracker({ data }) {
         <div className='flex w-full my-6'>
           <div className="px-4  w-full flex ">
             <div className="  w-full    ">
-              {/* <Tracker /> */}
+              <Tracker />
             </div>
           </div>
         </div>

@@ -37,7 +37,7 @@ function index() {
       <div className="hidden sm:block w-full bg-dark-900" >
         <div className="px-32 footer-bg pb-10 " >
           <div
-            className="border-b-2 border-gray-800 h-1/3  flex flex-row   justify-center "
+            className="  border-b-2 border-gray-800 h-1/3  flex flex-row   justify-center "
             style={{ alignItems: 'center' }}
           >
             <p className="text-white my-8">
@@ -71,7 +71,7 @@ function index() {
                     'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'
                   }
                   alt="Picture of the author"
-                  className="w-1/4 my-2 mr-11"
+                  className="w-1/4 my-2 mr-16 md:mr-8 lg:mr-8"
                 />
               </div>
             </a>

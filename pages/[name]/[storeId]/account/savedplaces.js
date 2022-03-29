@@ -129,7 +129,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <div className=" absolute inset-y-14 overflow-auto inset-x-0 mx-4 sm:mx-16 md:mx-32 lg:mx-80" >
+          <div className=" absolute inset-y-14  overflow-auto inset-x-0 mx-4 sm:mx-16 md:mx-32 lg:mx-80" >
             <div className="add-c">
               <div className="row">
                 <div className="mt-4 col-12">

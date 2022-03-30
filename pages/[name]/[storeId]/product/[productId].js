@@ -92,7 +92,7 @@ const ProductDetails = ({
             setDefaultVarian(getVariant)
         }
         // SetingUp images
-        const images = [success.primary_img || '/img/default.png']
+        const images = [success.primary_img || '/img/default.webp']
         for (let i = 1; i <= 5; i++) {
             if (success[`img_url_${i}`]) {
                 images.push(success[`img_url_${i}`])

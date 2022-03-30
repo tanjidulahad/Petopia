@@ -5,7 +5,6 @@ import Loader from "@components/loading/loader";
 import Router from "next/router";
 // import ProductCard from '../Cards/ProductListCard/index'
 function product({ products, status, storeName }) {
-  console.log(status);
   return (
     <div className="my-4">
       <div className="relative flex flex-row md:px-2 mb-8 justify-end sm:justify-between align-center md:sticky md:z-10 top-0 bg-white">
@@ -23,14 +22,16 @@ function product({ products, status, storeName }) {
 
         </div>
       </div>
-      <div className="flex flex-col space-y-8">
+      <div className="flex flex-col space-y-4 md:space-y-8 divide-y md:divide-y-0">
         {
           status == 'success'
             ?
             products.length
               ?
               products.map((item, i) => (
-                <ProductItem key={i} data={item} />
+                <div className="pt-4" key={i}>
+                  <ProductItem data={item} />
+                </div>
               ))
               :
               <div className="flex justify-center items-center" style={{ height: "30vh" }}>
@@ -46,6 +47,8 @@ function product({ products, status, storeName }) {
               </div>
             : status == 'loading' ?
               <>
+                <ProductItem />
+                <ProductItem />
                 <ProductItem />
                 <ProductItem />
                 <ProductItem />

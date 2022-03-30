@@ -213,46 +213,6 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
             <Head>
                 <title>{store ? store.info.store_name : 'GoPlinto'}</title>
                 <link rel="shortcut icon" href={store ? store.info.logo_img_url : 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'} type="image/x-icon" />
-                {/* <style jsx global>{`
-                    .btn-border {
-                    border-color: ${themeColors.bgColor};
-                    }
-                    .btn-bg {
-                    background-color: ${themeColors.bgColor};
-                    }
-                    .btn-bg-revese {
-                    background-color: ${themeColors.color};
-                    }
-                    .btn-bg-light {
-                    background-color: ${themeColors.bgColor};
-                    }
-                    .btn-color {
-                    color: ${themeColors.color};
-                    }
-                    .btn-color-revese {
-                    color: ${themeColors.bgColor};
-                    }
-                    .btn-color-revers {
-                    color: ${themeColors.bgColor};
-                    }
-                    .btn-hover-color {
-                    transition: 0.3s ease-in-out;
-                    }
-                    .btn-hover-color:hover {
-                    color: ${themeColors.bgColor};
-                    }
-                    //
-                    .btn-nav-color {
-                    color: $black-color-75;
-                    fill: $black-color-75;
-                    }
-                    .btn-nav-color-active {
-                    color: ${themeColors.bgColor};
-                    fill: ${themeColors.bgColor};
-                    }
-
-                    
-                `}</style> */}
             </Head>
             <NavBar />
             <main>{children}</main>

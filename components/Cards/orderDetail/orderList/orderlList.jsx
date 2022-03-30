@@ -34,7 +34,7 @@ function orderlList({ list, storeName, orderId, createTime, openReturn }) {
                 <div className="flex justify-start">
                   <div className=" lg:mx-4  md:mx-4 flex max-w-fill ">
                     <Button className=" mt-2 rounded bg-gray-900 w-20 h-20 shrink-0 block" type='link' href={`/product/${item.orderItemId}`}>
-                      <img className="w-full h-full rounded object-cover opacity-80" src={item.itemImg || '/img/default.png'} />
+                      <img className="w-full h-full rounded object-cover opacity-80" src={item.itemImg || '/img/default.webp'} />
                     </Button>
                     <div className="   my-2 mx-6 md:ml-6 ">
                       <Button type='link' href={`/product/${item.orderItemId}`}>

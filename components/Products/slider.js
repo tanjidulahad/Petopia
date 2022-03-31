@@ -46,25 +46,34 @@ export default function Slider({banner}) {
   };
 
   const handleOnNextClick = () => {
-
     count = (count + 1) % featuredProducts.length;
     setCurrentIndex(count);
-    slideRef.current?.classList?.add("fade-anim");
+
+  slideRef.current?.classList?.add("fade-anim");
+
+
   };
-  const handleOnPrevClick = () => {
 
-    count = (count - 1) % featuredProducts.length;
-    count===-1?
-    setCurrentIndex(0)
+const handleOnPrevSlide=()=>{
 
-    :setCurrentIndex(count)
+  count = (count - 1) % featuredProducts.length;
+  count===-1?
+  setCurrentIndex(featuredProducts.length-1)
 
-    slideRef.current?.classList?.add("fade-anim");
-  };
+  :setCurrentIndex(count)
+}
+const handleOnNextSlide=()=>{
+  count = (count + 1) % featuredProducts.length;
+    setCurrentIndex(count);
+
+  
+
+
+}
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => handleOnPrevClick(),
-    onSwipedRight: () => handleOnNextClick(),
+    onSwipedLeft: () => handleOnPrevSlide(),
+    onSwipedRight: () => handleOnNextSlide(),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });

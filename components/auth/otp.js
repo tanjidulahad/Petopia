@@ -89,7 +89,7 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
                 </div>
                 <div className="auth-redirect text-lg my-8 flex justify-between items-center black-color-75" >
                     <span className='font-semibold'>01:25</span>
-                    <span >Didn't receive OTP? <Button className="red-color px-2" onClick={resend} >Resend</Button> </span>
+                    <span >Didn't receive OTP? <Button className="btn-color-revers px-2" onClick={resend} >Resend</Button> </span>
                 </div>
                 <div >
                     <Button className={`w-full btn-bg btn-color py-4 rounded`} type="button" onClick={onSubmitHandler} disabled={isLoading}

@@ -75,7 +75,7 @@ const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, info }) => 
                                 >{status == 'loading' ? 'Loading...' : 'Get OTP'}</Button>
                             </div>
                             <div className="auth-redirect  black-color mt-8 text-lg" >
-                                <span>New User? <Button className=" bg-transparent red-color px-1" onClick={() => setPage(false)}>Create Account</Button> </span>
+                                <span>New User? <Button className=" bg-transparent btn-color-revers px-1" onClick={() => setPage(false)}>Create Account</Button> </span>
                             </div>
 
                         </div>

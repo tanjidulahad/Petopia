@@ -35,9 +35,10 @@ function index() {
     }}
     >
       <div className="hidden sm:block w-full bg-dark-900" >
-        <div className="px-32 footer-bg pb-10 " >
+        {/* <div className="px-32 footer-bg pb-10 " > */}
+        <div className="px-32 bg-black pb-10 " >
           <div
-            className="  border-b-2 border-gray-800 h-1/3  flex flex-row   justify-center "
+            className="  border-b-2 border-gray-800 h-1/3 flex flex-row justify-center "
             style={{ alignItems: 'center' }}
           >
             <p className="text-white my-8">

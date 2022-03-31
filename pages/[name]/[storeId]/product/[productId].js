@@ -92,7 +92,7 @@ const ProductDetails = ({
             setDefaultVarian(getVariant)
         }
         // SetingUp images
-        const images = [success.primary_img || '/img/default.png']
+        const images = [success.primary_img || '/img/default.webp']
         for (let i = 1; i <= 5; i++) {
             if (success[`img_url_${i}`]) {
                 images.push(success[`img_url_${i}`])
@@ -299,7 +299,7 @@ const ProductDetails = ({
                                                             <div className="w-full product-addinfo-img-c border rounded">
                                                                 {
                                                                     item.media_type == "IMAGE" ?
-                                                                        <img className="w-full h-full object-cover " src={item.media_url} alt='...' />
+                                                                        <img className="w-full h-full object-fill" src={item.media_url} alt='...' />
                                                                         :
                                                                         <ReactPlayer height={'100%'} width={'100%'} url={item.media_url} />
                                                                 }

@@ -10,27 +10,27 @@ function Ret({ action, items, closeRetun, user, orderId }) {
     reason2: '',
     custom: '',
   })
-  const onReasonHandler=(e)=>{
-    const { value,  name, } = e.target
+  const onReasonHandler = (e) => {
+    const { value, name, } = e.target
 
-        if (name === 'r1') {
-          setPayload({ ...payload,cancelReason: value })
-        }
-        if (name === 'r2') {
-          setPayload({ ...payload,cancelReason: value })
-
-
-        }
-        if (name === 'custom') {
-          console.log(name, value)
-          setPayload({ ...payload,cancelReason: value })
+    if (name === 'r1') {
+      setPayload({ ...payload, cancelReason: value })
+    }
+    if (name === 'r2') {
+      setPayload({ ...payload, cancelReason: value })
 
 
-        }
+    }
+    if (name === 'custom') {
+      console.log(name, value)
+      setPayload({ ...payload, cancelReason: value })
+
+
+    }
   }
 
   const [payload, setPayload] = useState({
-    
+
     customerId: user.customer_id,
     cancelReason: '',
     orderItemId: [], // null should be passed when the entire order is to be cancelled
@@ -39,11 +39,10 @@ function Ret({ action, items, closeRetun, user, orderId }) {
     const { value, checked, name, type } = e.target
 
 
-   if(type==="submit")
-   {
-     setPayload({...payload,cancelReason: reason.custom? reason.custom:reason.reason1? reason.reason1 :reason.reason2&&reason.reason2})
-     fetcher('post',`/?r=my-orders/cancel-order&orderId=${orderId}`,payload).then(response => console.log(response)).catch(err => console.log(err))
-   }
+    if (type === "submit") {
+      setPayload({ ...payload, cancelReason: reason.custom ? reason.custom : reason.reason1 ? reason.reason1 : reason.reason2 && reason.reason2 })
+      fetcher('post', `/?r=my-orders/cancel-order&orderId=${orderId}`, payload).then(response => console.log(response)).catch(err => console.log(err))
+    }
 
 
     if (checked) {
@@ -183,7 +182,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
                       <div className="mx-4 w-10 h-10 rounded bg-gray-900">
                         <img
                           className="w-full h-full rounded object-center opacity-80"
-                          src={item.itemImg || '/img/default.png'}
+                          src={item.itemImg || '/img/default.webp'}
                         />
                       </div>
                       <h3

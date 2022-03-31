@@ -66,6 +66,17 @@ const shopReducer = (state = INITIAL_STATE, { type, payload }) => {
                 ...state,
                 products: payload,
             }
+
+        case storeActionType.GET_SHOP_PRODUCTS_PAGINATION_SUCCESS:
+            return {
+                ...state,
+                products: [...state.products, ...payload],
+            }
+        case storeActionType.CLEAR_PRODUCTS_LIST:
+            return {
+                ...state,
+                products: [],
+            }
         case storeActionType.GET_SHOP_SOCIAL_PROFILE_SUCCESS:
             return {
                 ...state,

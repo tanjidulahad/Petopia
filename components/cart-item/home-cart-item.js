@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import Link from "@components/link";
 import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
 import { QuantityID } from "../inputs";
-const HomeCartItem = ({ addToCart, removeFromCart, data }) => {
+import { IoScale } from "react-icons/io5";
+const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
     return (
         <div className="w-100 block ">
             <div className="grid grid-cols-12 gap-4 ">
@@ -20,9 +21,9 @@ const HomeCartItem = ({ addToCart, removeFromCart, data }) => {
                     </div>
                 </div>
                 <div className="col-span-3 sm:col-span-5">
-                    <div className="flex flex-col  justify-between w-full h-full items-end space-y-3">
+                    <div className="flex flex-col justify-between w-full h-full items-end space-y-3">
                         <div >
-                            <QuantityID h={44} value={data.quantity} disabledPlush={(() => {
+                            <QuantityID h={44} disabled={isDetailsLoading} value={data.quantity} disabledPlush={(() => {
                                 if (data.inventoryDetails) {
                                     return data.inventoryDetails.max_order_quantity == data.quantity && data.inventoryDetails.max_order_quantity > 0 || data.inventoryDetails.inventory_quantity <= data.quantity
                                 }
@@ -51,13 +52,17 @@ const HomeCartItem = ({ addToCart, removeFromCart, data }) => {
                     }
                 </>
             }
-        </div>
+        </div >
     )
 }
+
+const mapStateToProps = state => ({
+    isDetailsLoading: state.ui.isDetailsLoading
+})
 
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(addToCart(item)),
     removeFromCart: (item) => dispatch(removeFromCart(item))
 })
 
-export default connect(null, mapDispatchToProps)(HomeCartItem);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeCartItem);

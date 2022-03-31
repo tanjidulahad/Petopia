@@ -4,8 +4,7 @@ import Link from "@components/link";
 import Loader from "@components/loading/loader";
 import Router from "next/router";
 // import ProductCard from '../Cards/ProductListCard/index'
-function product({ products, status, storeName }) {
-  console.log(status);
+function product({ products = [], status, storeName, lastEleRef }) {
   return (
     <div className="my-4">
       <div className="relative flex flex-row md:px-2 mb-8 justify-end sm:justify-between align-center md:sticky md:z-10 top-0 bg-white">
@@ -14,41 +13,73 @@ function product({ products, status, storeName }) {
           <span className=" text-sm black-color-75 ml-2">({products ? products.length : 0} Items)</span>
         </div>
         <div>
-          <Button className="flex justify-center item-center p-2 border rounded black-color-75">
+          {/* <Button className="flex justify-center item-center p-2 border rounded black-color-75">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>{' '}
             Sort / Filter
-          </Button>
+          </Button> */}
 
         </div>
       </div>
-      <div className="flex flex-col space-y-8">
+      <div className="flex flex-col space-y-4 md:space-y-8 divide-y md:divide-y-0">
         {
-          status == 'success'
+          status == 'success' || status == 'loading'
             ?
-            products.length
-              ?
-              products.map((item, i) => (
-                <ProductItem key={i} data={item} />
-              ))
-              :
-              <div className="flex justify-center items-center" style={{ height: "30vh" }}>
-                <h6>
-                  <span className="">No items found{' '}
-                    <Link href={`/`}>
-                      <a className="red-color p-2 " style={{ cursor: 'pointer' }}>{' '}
-                        Show All Products.
-                      </a>
-                    </Link>
-                  </span>
-                </h6>
-              </div>
-            : status == 'loading' ?
+            products.length && (status == 'loading' || status == 'success')
+              ? <>
+                {products.map((item, i) => (
+                  <div className="pt-4" key={i}>
+                    <ProductItem data={item} />
+                  </div>
+                ))}
+                {
+                  status == 'loading' &&
+                  <>
+                    <ProductItem />
+                    <ProductItem />
+                    <ProductItem />
+                    <ProductItem />
+                    <ProductItem />
+                  </>
+                }
+                <div className="h-6"></div>
+                <div className="h-8" ref={lastEleRef}></div>
+              </>
+              : products.length < 1 && status == 'success' ?
+                <div className="flex justify-center items-center" style={{ height: "30vh" }}>
+                  <h6>
+                    <span className="">No items found{' '}
+                      <Link href={`/`}>
+                        <a className="red-color p-2 " style={{ cursor: 'pointer' }}>{' '}
+                          Show All Products.
+                        </a>
+                      </Link>
+                    </span>
+                  </h6>
+                </div>
+                :
+                <>
+                  <ProductItem />
+                  <ProductItem />
+                  <ProductItem />
+                  <ProductItem />
+                  <ProductItem />
+                </>
+
+            : status == 'success' ?
               <>
-                <ProductItem />
-                <ProductItem />
-                <ProductItem />
+                <div className="flex justify-center items-center" style={{ height: "30vh" }}>
+                  <h6>
+                    <span className="">No items found{' '}
+                      <Link href={`/`}>
+                        <a className="red-color p-2 " style={{ cursor: 'pointer' }}>{' '}
+                          Show All Products.
+                        </a>
+                      </Link>
+                    </span>
+                  </h6>
+                </div>
               </>
               :
               <div className="flex justify-center items-center" style={{ height: "30vh" }}>

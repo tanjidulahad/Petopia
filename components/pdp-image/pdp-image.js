@@ -35,27 +35,27 @@ const PdpImage = ({ list = [], alt = 'goplinto product image' }) => {
                 <div className="w-full h-auto relative sm:pl-4 md:pl-0">
                     {isDesktopOrLaptop ?
                         // <GlassMagnifier
-                        //     imageSrc={'/img/default.png'}
+                        //     imageSrc={'/img/default.webp'}
                         //     imageAlt="Example"
-                        //     largeImageSrc="/img/default.png" // Optional
+                        //     largeImageSrc="/img/default.webp" // Optional
                         // />
                         <ReactImageMagnify {...{
                             smallImage: {
                                 alt: 'Wristwatch by Ted Baker London',
                                 isFluidWidth: true,
-                                src: list[activeImage] || '/img/default.png',
+                                src: list[activeImage] || '/img/default.webp',
                                 srcSet: [
-                                    `${list[activeImage] || '/img/default.png'} 355w`,
-                                    `${list[activeImage] || '/img/default.png'} 481w`,
-                                    `${list[activeImage] || '/img/default.png'} 584w`,
-                                    `${list[activeImage] || '/img/default.png'} 687w`,
-                                    `${list[activeImage] || '/img/default.png'} 770w`,
-                                    `${list[activeImage] || '/img/default.png'} 861w`,
-                                    `${list[activeImage] || '/img/default.png'} 955w`,
-                                    `${list[activeImage] || '/img/default.png'} 1033w`,
-                                    `${list[activeImage] || '/img/default.png'} 1112w`,
-                                    `${list[activeImage] || '/img/default.png'} 1192w`,
-                                    `${list[activeImage] || '/img/default.png'} 1200w`,
+                                    `${list[activeImage] || '/img/default.webp'} 355w`,
+                                    `${list[activeImage] || '/img/default.webp'} 481w`,
+                                    `${list[activeImage] || '/img/default.webp'} 584w`,
+                                    `${list[activeImage] || '/img/default.webp'} 687w`,
+                                    `${list[activeImage] || '/img/default.webp'} 770w`,
+                                    `${list[activeImage] || '/img/default.webp'} 861w`,
+                                    `${list[activeImage] || '/img/default.webp'} 955w`,
+                                    `${list[activeImage] || '/img/default.webp'} 1033w`,
+                                    `${list[activeImage] || '/img/default.webp'} 1112w`,
+                                    `${list[activeImage] || '/img/default.webp'} 1192w`,
+                                    `${list[activeImage] || '/img/default.webp'} 1200w`,
                                 ].join(', '),
                                 sizes: '(min-width: 480px) (max-height: 556px) 30vw, 80vw',
                                 // width: "100%",
@@ -65,7 +65,7 @@ const PdpImage = ({ list = [], alt = 'goplinto product image' }) => {
                             },
                             largeImage: {
                                 alt: '',
-                                src: list[activeImage] || '/img/default.png',
+                                src: list[activeImage] || '/img/default.webp',
                                 height: 1200,
                                 width: 1800
 
@@ -99,7 +99,7 @@ const PdpImage = ({ list = [], alt = 'goplinto product image' }) => {
                                         </svg>
                                     </div>
                                     <div className='mob-pdp-image-c my-6 w-full flex justify-center items-center overflow-hidden'>
-                                        <img className='w-full h-auto object-cover' src={list[activeImage] || '/img/default.png'} alt={alt} />
+                                        <img className='w-full h-auto object-cover' src={list[activeImage] || '/img/default.webp'} alt={alt} />
                                     </div>
                                     <div className='w-full px-4 mb-10'>
                                         <div className='flex overflow-x-auto space-x-6 items-center no-scrollbar'>

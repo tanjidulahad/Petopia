@@ -4,7 +4,7 @@ import Rating from '../rating-stars/rating'
 
 import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
 
-const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
+const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoading }) => {
     if (!data) {
         return (
             <div className="h-full  flex border-gray-200 rounded-lg overflow-hidden">
@@ -35,13 +35,15 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
         primary_img: data.primary_img,
         is_veg: data.is_veg,
         inventoryDetails: data.inventoryDetails,
+        store_name: info.store_name || '',
+        store_logo: info.logo_img_url || '/img/default.webp'
     }
     const LocalQuantityID = ({ className }) => (
         // This component used two times 
         <>
             {
                 itemInCart?.quantity ?
-                    <QuantityID value={itemInCart.quantity} disabledPlush={(() => {
+                    <QuantityID disabled={isDetailsLoading} value={itemInCart.quantity} disabledPlush={(() => {
                         if (itemInCart.inventoryDetails) {
                             return itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity
                         }
@@ -49,7 +51,7 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
                     })()}
                         onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
                     :
-                    <Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className}`} onClick={() => addToCart(productDataForCart)} >Add</Button>
+                    <Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} onClick={() => addToCart(productDataForCart)} >Add</Button>
             }
         </>
     )
@@ -60,14 +62,14 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
                     <div>
                         <div className="flex w-full relative">
                             {/* <Button className="block relative product-item-img w-40 h-40 shrink-0" type="link" href={`/product/${data.item_id}`}>
-                                        <img className="rounded-md w-full h-full object-cover" src={`${data.primary_img || '/img/default.png'}`} alt={`${data.item_name}`} />
+                                        <img className="rounded-md w-full h-full object-cover" src={`${data.primary_img || '/img/default.webp'}`} alt={`${data.item_name}`} />
                                         <div className="absolute left-1/2 -translate-x-1/2 bottom-1">
                                             <LocalQuantityID />
                                         </div>
                                     </Button> */}
                             <div className="mb-5 md:mb-0 block relative product-item-img w-32 h-32 min-w-min sm:w-40 sm:h-40 shrink-0">
                                 <Button className="block " type="link" href={`/product/${data.item_id}`} style={{ height: '-webkit-fill-available' }}>
-                                    <img className="w-32 h-32 sm:w-40 sm:h-40 bg-slate-300 rounded-md  object-cover" src={`${data.primary_img || '/img/default.png'}`} alt={`${data.item_name}`} />
+                                    <img className="w-32 h-32 sm:w-40 sm:h-40 bg-slate-300 rounded-md  object-cover" src={`${data.primary_img || '/img/default.webp'}`} alt={`${data.item_name}`} />
                                 </Button>
                                 <div className="block lg:hidden absolute left-1/2 -translate-x-1/2 -bottom-5 rounded bg-white">
                                     <LocalQuantityID />
@@ -75,7 +77,7 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
                             </div>
                             <div className="flex flex-col justify-between pl-4 ">
                                 <h3 className="capitalize text-sm sm:text-xl cart-item-title product-item-truncate">
-                                    <Button className=" capitalize" type="link" href={`/product/${data.item_id}`}>
+                                    <Button className=" capitalize " type="link" href={`/product/${data.item_id}`} >
                                         {data.item_name.toLowerCase()}
                                     </Button>
                                 </h3>
@@ -86,7 +88,9 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
                                     <span className="text-xs sm:text-lg success-color line-through ml-2 md:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
                                 </div>
                                 <div>
-                                    <span className="text-xs sm:text-base black-color-75 tracking-tight leading-4 md:leading-6 product-item-truncate ">{data.item_desc}</span>
+                                    <Button className=" capitalize" type="link" href={`/product/${data.item_id}`}>
+                                        <span className="text-xs sm:text-base black-color-75 tracking-tight leading-4 md:leading-6 product-item-truncate ">{data.item_desc}</span>
+                                    </Button>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +121,9 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart }) => {
     )
 }
 const mapStateToProps = state => ({
-    cart: state.cart
+    cart: state.cart,
+    isDetailsLoading: state.ui.isDetailsLoading,
+    info: state.store.info
 })
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(addToCart(item)),

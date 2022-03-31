@@ -53,7 +53,7 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
 
     useEffect(() => { // Setting store colors
         console.log(displaySettings);
-        //  Primary colors for buttons, navbg 
+        //  Primary colors for buttons, navbg
         // Secondry colors for footer
         // if (displaySettings) {
 
@@ -251,7 +251,7 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
                     fill: ${themeColors.bgColor};
                     }
 
-                    
+
                 `}</style> */}
             </Head>
             <NavBar />

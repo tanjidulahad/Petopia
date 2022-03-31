@@ -82,7 +82,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
             <MediaQuery minWidth={640}>
 
               <div className="hidden sm:flex justify-end items-center white-color z-10000">
-                <span className='whitespace-nowrap font-bold inline-block tracking-tight mr-2 text-lg'>Contact Us</span>
+                <Button type="link" href="/contact" className='whitespace-nowrap font-bold inline-block tracking-tight mr-2 text-lg'>Contact Us</Button>
                 <div>
                   <Button className='flex items-center white-color' type='link' href='/cart'>
                     <span className='text-lg font-bold tracking-tight ml-8 white-color mx-2'> Cart </span>
@@ -209,7 +209,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
             </Button>
           </div>
           <div className='text-center text-xs font-semibold text-black w-1/5'>
-            <Button className=' btn-nav-color' href='/contact'>
+            <Button className={`btn-nav-color ${router.asPath.includes('contact') && 'btn-nav-color-active'}`} type="link" href='/contact'>
               <svg className='bottom-nav-icons mx-auto' style={{ fill: 'inherit', color: 'inherit' }} xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" viewBox="0 0 24 24"
                 width="25px" height="25px">
                 <g>

@@ -57,7 +57,7 @@ const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => 
 }
 
 const mapStateToProps = state => ({
-    isDetailsLoading: state.checkout.isDetailsLoading
+    isDetailsLoading: state.ui.isDetailsLoading
 })
 
 const mapDispatchToProps = dispatch => ({

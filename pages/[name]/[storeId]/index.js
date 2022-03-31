@@ -1,6 +1,6 @@
+import { useEffect, useState, useRef, useCallback, memo } from 'react'
 import Head from 'next/head'
 import { connect } from 'react-redux'
-import { useEffect, useState, useRef, memo } from 'react'
 import { useRouter } from "next/dist/client/router";
 import { useMediaQuery } from 'react-responsive';
 
@@ -12,7 +12,7 @@ import { redirect } from '@components/link';
 import { Input } from '@components/inputs';
 
 // Actions
-import { getCategoryStart, getShopProductsStart, getCategoryProductsStart, getSearchProductsStart } from "@redux/shop/shop-action";
+import { getCategoryStart, getShopProductsStart, getCategoryProductsStart, getSearchProductsStart, getPageCountStart, clearProductList } from "@redux/shop/shop-action";
 import { setSearchHandler } from '@redux/search/seatch-actions'
 import PageWrapper from '@components/page-wrapper/page-wrapper';
 import EmptyCart from '@components/empty-cart';
@@ -21,14 +21,15 @@ import EmptyCart from '@components/empty-cart';
 import { groupBy } from '@utils/utill';
 
 
-const Home = ({ products, banner, info, cart, checkout, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
+const Home = ({ products, banner, info, cart, pageCount, clearProductList, displaySettings, checkout, categories, getCategoryStart, getPageCount, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const purchaseDetails = checkout.purchaseDetails;
   // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
   const storeId = info.store_id;
   const [searchResult, setSearchResult] = useState([])
   const Router = useRouter();
-  const { category, subCategory, search } = Router.query;
+  const { category, subCategory, search, name } = Router.query;
+  // let { page } = Router.query;
   const [status, setStatus] = useState('loading') //status == loading || failed || success
   const [q, setq] = useState(search ? search : '');
   // UI Vars
@@ -39,7 +40,27 @@ const Home = ({ products, banner, info, cart, checkout, categories, getCategoryS
   const [restHeight, setRestHeight] = useState(78) // in vh
   const [plpc, setPlpc] = useState(775) // in vh
   const [description, setDescription] = useState("")
+  const [page, setPage] = useState(1)
 
+  // Pagination
+  const observer = useRef()
+  const listLastElement = useCallback(node => {
+    if (status == 'loading') return;
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && pageCount) {
+        console.log("visible");
+        console.log(page + 1);
+        console.log(Router);
+        console.log(status);
+        if (page < pageCount && !search) {
+          setPage(page + 1)
+        }
+      }
+    })
+    if (node) observer.current.observe(node)
+  }, [status, pageCount])
+  // console.log(page);
   useEffect(() => { // Componentdidmount
     if (!categories.length) getCategoryStart(storeId);
     setSearchHandler((e) => {
@@ -57,20 +78,33 @@ const Home = ({ products, banner, info, cart, checkout, categories, getCategoryS
 
   useEffect(() => {
     if (search) {
-      getSearchProducts({ storeId, q: q.trim(), setSearchResult, setStatus })
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
+      getSearchProducts({ storeId, q: q.trim(), setSearchResult, setStatus })
 
     } else if (category) {
-      getCategoryProducts({ storeId, categoryId: category, subCategoryId: subCategory, page: 1, setStatus })
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
+      getCategoryProducts({ storeId, categoryId: category, subCategoryId: subCategory, page, setStatus })
+      // getPageCount({ storeId, categoryId: category })
 
       // setq('') // Cleaning query string of search
     } else {
-      getShopProducts({ storeId, setStatus })
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
+      getShopProducts({ storeId, page, setStatus })
+      // getPageCount({ storeId, categoryId: category })
       // setq('') // Cleaning query string of search
     }
-  }, [Router.query])
+  }, [Router.query, page])
+  useEffect(() => {
+
+    if (category) {
+      getPageCount({ storeId, categoryId: category })
+    } else {
+      getPageCount({ storeId })
+    }
+    setPage(1)
+    clearProductList()
+  }, [category, search])
+
   useEffect(() => { // UI function
 
     if (typeof window !== 'undefined') {
@@ -108,7 +142,10 @@ const Home = ({ products, banner, info, cart, checkout, categories, getCategoryS
   useEffect(() => {
     const dsc = products.reduce((dsc, item) => dsc + ", " + item.item_name + ', ' + item.item_desc, "")
     setDescription(dsc)
+    console.log(products.length);
   }, [products])
+  // Pagination
+
   const searchHandler = (e) => {
     const { value } = e.target;
     if (value.trim().length > 0) {
@@ -155,8 +192,8 @@ const Home = ({ products, banner, info, cart, checkout, categories, getCategoryS
               <div className={` transition-all text-base w-full px-4 md:px-8 serach-bar ${(scrollPosition >= navHeight) && !isSmDevice ? 'fixed bg-white  px-0 pt-4' : 'absolute -mt-6'} sm:fixed flex flex-col md:-mt-8 xl:-mt-6 xl:ml-0`} style={{ maxWidth: plpc, top: (scrollPosition >= navHeight - 10) && !isSmDevice ? '0px' : navHeight }}>
                 <Input className='py-2' style={{ top: navHeight }} onChange={searchHandler} placeholder='Search for items' ></Input>
               </div>
-              <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollbar ' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
-                <ProductListPage storeName={info?.store_name} products={products} status={status} banner={banner} />
+              <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollba ' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
+                <ProductListPage lastEleRef={listLastElement} storeName={info?.store_name} products={products} status={status} banner={banner} />
               </div>
             </div>
             <div className="md:pt-8 md:py-6 hidden xl:col-span-3 mt-0 xl:block  space-y-6">
@@ -177,10 +214,10 @@ const Home = ({ products, banner, info, cart, checkout, categories, getCategoryS
                             <div className="text-xs font-medium black-color-75 ml-4">{item.length} items</div>
                           </div>
                         </div>
-                        <div>
+                        <div className=' space-y-2'>
                           {
                             item.map((data, j) => (
-                              <div className='' key={j} >
+                              <div className='pt-4' key={j} >
                                 <HomeCartItem data={data} />
                               </div>
                             ))
@@ -236,9 +273,12 @@ const mapStateToProps = state => ({
   products: state.store.products,
   categories: state.store.categories,
   checkout: state.checkout,
-  banner: state.store.banners
+  banner: state.store.banners,
+  pageCount: state.store.pageCount
 })
 const mapDispatchToProps = dispatch => ({
+  getPageCount: (payload) => dispatch(getPageCountStart(payload)),
+  clearProductList: (payload) => dispatch(clearProductList()),
   getShopProducts: (storeId) => dispatch(getShopProductsStart(storeId)),
   getCategoryProducts: (data) => dispatch(getCategoryProductsStart(data)),
   getCategoryStart: (storeId) => dispatch(getCategoryStart(storeId)),

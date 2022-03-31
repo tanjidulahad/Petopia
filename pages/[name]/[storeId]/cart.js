@@ -30,7 +30,7 @@ import { readyCartData, groupBy } from '@utils/utill'
 //     }, {});
 // };
 
-const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
+const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
     initiateOrder, clearCheckout, createNewRzpOrder, clearCart, isDetailsLoading }) => {
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
     const purchaseDetails = checkout.purchaseDetails;
@@ -201,6 +201,8 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
     }, [])
     //  Ready by Store ids
     const cartGroups = groupBy(cart, 'store_id')
+    const themeColor = displaySettings && (() => displaySettings.navbar_color)() || '#F64B5D'
+
     if (!info) { // If store details are not awilable
         return <Loader />
     }
@@ -584,7 +586,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                         </div>
                     </div>
                     : initiateStatus == 'loading' && rzpOrder
-                        ? <OnlienPayment  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError }} />
+                        ? <OnlienPayment themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError }} />
                         : null
             }
             {
@@ -605,7 +607,7 @@ const mapStateToProps = state => ({
     userAddress: state.user.address,
     checkout: state.checkout,
     isDetailsLoading: state.ui.isDetailsLoading,
-
+    displaySettings: state.store.displaySettings,
 })
 const mapDispatchToProps = dispatch => ({
     setBackendCart: (data) => dispatch(setBackendCartStart(data)),

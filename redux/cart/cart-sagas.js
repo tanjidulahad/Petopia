@@ -47,6 +47,7 @@ function* purchaseItemUpdator({ payload }) {
             // 3. Update Quantity if exist in order
             if (purchaseDetails?.storeGroupId != store.group_id) {
                 yield put(setCartError({ message: "You trying to add items from a different StoreCourt", payload }))
+                yield put(updateCartSuccess())
                 return;
             }
             const isStoreOrderIdExist = purchase.orders.some(item => (Object.keys(item)[0] == store.store_id))

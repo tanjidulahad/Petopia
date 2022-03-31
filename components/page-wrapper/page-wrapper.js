@@ -44,7 +44,7 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
             getBanner(storeId)
             getShopSeo(storeId);
             getShopInfo(storeId);
-            getPageCount(storeId)
+            getPageCount({ storeId })
             getShopSettings(storeId);
             getSocialProfile(storeId);
             getShopDisplaySettings(storeId)

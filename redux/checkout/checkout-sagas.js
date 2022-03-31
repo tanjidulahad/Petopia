@@ -238,6 +238,7 @@ function* onDeleteItemFromPurchaseStart() {
             }
         } catch (error) {
             yield put(updateCartSuccess())
+            yield put((getPurchageStart(purchaseId)))
             console.log(error);
             // console.log(error);
             // yield put((getPurchageStart(purchaseId)))

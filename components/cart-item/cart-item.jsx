@@ -6,7 +6,7 @@ const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
     return (
         <div className="w-100 block ">
             <div className="grid grid-cols-12 gap-4 ">
-                <div className="col-span-9 sm:col-span-7 flex sm:space-x-4">
+                <div className="col-span-8 sm:col-span-7 flex sm:space-x-4">
                     <Link href={`/product/${data.item_id}`}>
                         <a className="cart-item-img hidden sm:block">
                             {/* <div className="cart-item-img"> */}
@@ -38,7 +38,7 @@ const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
                         </div>
                     </div>
                 </div>
-                <div className="col-span-3 sm:col-span-5">
+                <div className="col-span-4 sm:col-span-5">
                     <div className="flex flex-col sm:flex-row justify-between w-full h-full items-end sm:items-center space-y-3">
                         <div>
                             <QuantityID value={data.quantity} disabled={isDetailsLoading} disabledPlush={(() => {

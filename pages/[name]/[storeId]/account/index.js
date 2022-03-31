@@ -44,14 +44,18 @@ import Edit from '@components/Cards/Order/profile/index'
 import withAuth from '@components/auth/withAuth'
 import PageWrapper from '@components/page-wrapper/page-wrapper'
 import { connect } from "react-redux"
-
+// import Mobileprofile from '@components/Cards/Order/Profile-card/index'
+import Mobprofile from '@components/Cards/Order/Profile-card/mobprofile'
 function Profile({ user}) {
   return (
     <>
       {/* <Header display={false} topic="Edit Profile" /> */}
       <div className="grid lg:grid-cols-1   ">
-        <div className="w-full bg-white md:rounded-lg lg:rounded-lg shadow">
+        <div className="w-full hidden md:block lg:block bg-white md:rounded-lg lg:rounded-lg shadow">
           <Edit user={user} />
+        </div>
+        <div className="w-full block md:hidden lg:hidden bg-white md:rounded-lg lg:rounded-lg shadow">
+          <Mobprofile user={user} />
         </div>
       </div>
     </>

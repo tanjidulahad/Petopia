@@ -2,6 +2,7 @@ import moment from 'moment';
 import { Button } from '../../../inputs'
 import { MdKeyboardArrowRight } from 'react-icons/md';
 function OrderCard({ status, message, data }) {
+  console.log(data)
   return (
     <div className="w-full  border-2 md:rounded-lg lg:rounded-lg  bg-white">
       <div className="my-4 mx-2 md:mx-0 lg:mx-0 w-full flex justify-between">
@@ -26,8 +27,8 @@ function OrderCard({ status, message, data }) {
               <img className="w-full h-full rounded object-cover opacity-80" src="/img/default.png" />
             </div>
             <div className="  w-full  ">
-              <p className="text-left font-semibold text-lg  text-red-600">Arriving today</p>
-              <p className="text-left text-base font-medium text-gray-500 mt-2">Waiting for Confirmation.!</p>
+              <p className="text-left font-semibold text-lg  text-red-600">{data?.orderStatus}</p>
+              {/* <p className="text-left text-base font-medium text-gray-500 mt-2">Waiting for Confirmation.!</p> */}
             </div>
           </div>
           <div className="mt-5 mr-4  w-full flex justify-end w-max align-center">
@@ -38,7 +39,7 @@ function OrderCard({ status, message, data }) {
       {
         status === 'past' ?
           <div className=" m-4 w-full h-full flex justify-between align-center">
-            <p className="text-lg font-semibold text-dark mb-2">{message}</p>
+            <p className="text-lg font-semibold text-dark mb-2">{data.isDelivery=== "N"? 'Order Cancelled':"Delivery Success"}</p>
           </div>
           :
           <Button type='link' href={`/account/orderdetail/${data.orderId}`}>

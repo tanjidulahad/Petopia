@@ -29,6 +29,7 @@ function index() {
       objerver.observe(document.body)
     }
   }, [])
+
   return (
     <footer style={{
       paddingBottom: mobNavHeight,
@@ -42,21 +43,21 @@ function index() {
             style={{ alignItems: 'center' }}
           >
             <p className="text-white my-8">
-              <Link href='/privacy'>
+              <Link href='/privacy-policy'>
                 Privacy Policy
               </Link>
             </p>
             <BsDot className="mx-4 my-8 " color={'gray'} size={20} />
             <p className="text-white my-8 ">
-              <Link href='/returns-refunds'>
+              <Link href='/return-refund-policy'>
                 Return & Refunds
               </Link>
             </p>
 
             <BsDot className="mx-4 my-8" color={'gray'} size={20} />
             <p className="text-white my-8  ">
-              <Link href='/terms-of-use'>
-                Privacy Policy
+              <Link href='/term-conditions'>
+                Term & conditions
               </Link>
             </p>
           </div>

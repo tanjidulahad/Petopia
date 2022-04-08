@@ -20,9 +20,9 @@ const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, info }) => 
     }
     const onSubmitHandler = () => {
         if (!phone) return setError("Enter valid phone number!.");
-        getLoginOtp({ phone, setUser, setError, storeId })
         setError('')
         setStatus('loading')
+        getLoginOtp({ phone, setUser, setError, storeId })
     }
     useEffect(() => {
         return () => {

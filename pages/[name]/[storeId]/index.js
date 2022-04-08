@@ -19,9 +19,11 @@ import EmptyCart from '@components/empty-cart';
 
 // Functions
 import { groupBy } from '@utils/utill';
+import { clearCart } from '@redux/cart/cart-actions';
+import { clearCheckout } from '@redux/checkout/checkout-action';
 
 
-const Home = ({ products, banner, info, cart, pageCount, clearProductList, displaySettings, checkout, categories, getCategoryStart, getPageCount, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler }) => {
+const Home = ({ products, banner, info, cart, pageCount, clearProductList, displaySettings, checkout, categories, getCategoryStart, getPageCount, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler, clearCart, clearCheckout }) => {
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const purchaseDetails = checkout.purchaseDetails;
   // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID;
@@ -197,8 +199,12 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
               </div>
             </div>
             <div className="md:pt-8 md:py-6 hidden xl:col-span-3 mt-0 xl:block  space-y-6">
-              <div className='pb-6 border-b-2 bg-white z-10'>
+              <div className='flex justify-between pb-6 border-b-2 bg-white z-10'>
                 <h2 className=' black-color font-extrabold text-xl'>My Cart</h2>
+                {
+                  !!cart.length &&
+                  <Button className='btn-color-revers text-base font-extrabold' onClick={() => { clearCart(); clearCheckout() }}>Clear Cart</Button>
+                }
               </div>
               {
                 !!cart.length ? <>
@@ -207,7 +213,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
                       <div className='w-full border-b-4 border-gray-100 pb-8' key={i}>
                         <div className="flex items-center w-full mb-4">
                           <div className="h-10 w-10 ">
-                            <img className="w-full h-full rounded" src={item[0].store_logo} alt="..." />
+                            <img className="w-full h-full rounded" src={item[0].store_logo || `/img/default.webp`} alt="..." />
                           </div>
                           <div className="w-full flex flex-col justify-start ">
                             <h4 className=" text-sm sm:text-lg inline ml-4">{item[0].store_name || ""}</h4>
@@ -283,7 +289,9 @@ const mapDispatchToProps = dispatch => ({
   getCategoryProducts: (data) => dispatch(getCategoryProductsStart(data)),
   getCategoryStart: (storeId) => dispatch(getCategoryStart(storeId)),
   getSearchProducts: (payload) => dispatch(getSearchProductsStart(payload)),
-  setSearchHandler: (payload) => dispatch(setSearchHandler(payload))
+  setSearchHandler: (payload) => dispatch(setSearchHandler(payload)),
+  clearCart: () => dispatch(clearCart()),
+  clearCheckout: () => dispatch(clearCheckout())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(memo(PageWrapper(Home)))
 

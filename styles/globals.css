@@ -33,6 +33,9 @@
 }
 
 html,
+body.loading * {
+  transition: none !important;
+}
 body {
   padding: 0;
   margin: 0;

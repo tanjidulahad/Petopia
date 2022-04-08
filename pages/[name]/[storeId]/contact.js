@@ -72,7 +72,7 @@ const Contact = ({ info, socialProfile }) => {
                                                     <>
                                                         {
                                                             !!itme.social_account_link &&
-                                                            <SocialIcon bgColor="#fff00" url={`https://${itme.social_account_link}`} target='_blank' />
+                                                            <SocialIcon bgColor="#000" url={`https://${itme.social_account_link}`} target='_blank' key={i} />
                                                         }
                                                     </>
                                                 ))

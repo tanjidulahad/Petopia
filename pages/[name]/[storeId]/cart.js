@@ -16,8 +16,22 @@ import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle } 
 import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart } from '@redux/checkout/checkout-action'
 import PageWrapper from "@components/page-wrapper/page-wrapper"
 
-const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
-    initiateOrder, clearCheckout, createNewRzpOrder, clearCart }) => {
+// Function
+import { readyCartData, groupBy } from '@utils/utill'
+// const readyCartData = function (arr, key) {
+//     return arr.reduce(function (rv, x) {
+//         (rv[x[key]] = rv[x[key]] || []).push({
+//             item_id: x.item_id,
+//             barcode_id: null,
+//             quantity: x.quantity,
+//             variant_item_id: x.defaultVariantItem?.variant_item_id | null,
+//         });
+//         return rv;
+//     }, {});
+// };
+
+const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
+    initiateOrder, clearCheckout, createNewRzpOrder, clearCart, isDetailsLoading }) => {
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
     const purchaseDetails = checkout.purchaseDetails;
     const [mobNavHeight, setMobNavHeight] = useState(0)
@@ -34,20 +48,23 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
         paymentMethod: '',
     })
     const router = useRouter();
+
     useEffect(() => { // Get Purchase Id
         if (!cart.length) return;
         // Do nothing if don't have storeId and user 
         if (!info || !user) return;
-        const data = {
-            [info.store_id]: [
-                ...cart.map(item => ({
-                    item_id: item.item_id,
-                    barcode_id: null,
-                    quantity: item.quantity,
-                    variant_item_id: item.defaultVariantItem?.variant_item_id | null,
-                }))
-            ]
-        }
+
+        const data = readyCartData(cart, 'store_id')
+        // const data = {
+        //     [info.store_id]: [
+        //         ...cart.map(item => ({
+        //             item_id: item.item_id,
+        //             barcode_id: null,
+        //             quantity: item.quantity,
+        //             variant_item_id: item.defaultVariantItem?.variant_item_id | null,
+        //         }))
+        //     ]
+        // }
         //  Creating browsercart 
         if (!checkout.purchase) {
             setBackendCart({ userId: user.customer_id, groupId: info.group_id, data })
@@ -172,7 +189,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                     const ele = document.getElementById('mob-navbar')
                     if (ele) {
                         if (ele.offsetWidth != mobNavHeight) {
-                            console.log(ele);
+                            // console.log(ele);
                             setMobNavHeight(ele.offsetHeight)
                         }
 
@@ -182,6 +199,9 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
             objerver.observe(document.body)
         }
     }, [])
+    //  Ready by Store ids
+    const cartGroups = groupBy(cart, 'store_id')
+    const themeColor = displaySettings && (() => displaySettings.navbar_color)() || '#F64B5D'
 
     if (!info) { // If store details are not awilable
         return <Loader />
@@ -227,25 +247,33 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                 <div className="px-3 py-10 sm:px-10 border-b-2">
                                     <h2>Review your order</h2>
                                 </div>
-                                <div className="flex px-3 sm:px-10 pt-10 justify-between">
-                                    <div className="flex items-center">
-                                        {/* <div className="h-10 w-10 ">
-                                            <img className="w-full h-full rounded" src="https://dsa0i94r8ef09.cloudfront.net/264/assets/60cc53e3a47e4_paneer exotic pizza.png" alt="..." />
-                                        </div>
-                                        <h4 className="text-xl inline ml-4">Pazha Mudhir Cholai</h4> */}
-                                    </div>
-                                    <span className="text-base font-medium black-color-75">{totalItems} items</span>
-                                </div>
-                                {/* cart Item list */}
-                                <div className="p-3 py-6 md:py-6 sm:p-6 md:p-10 flex flex-col space-y-4 sm:space-y-8 divide-y sm:divide-y-0">
-                                    {
-                                        cart.map((item, i) => (
-                                            <div className="pt-4 sm:pt-0">
-                                                <CartItem data={item} key={i} />
+                                {
+                                    Object.values(cartGroups).map((item, i) => (
+                                        <div key={i} className='border-b-4 border-gray-100 pb-6 sm:pb-8' >
+                                            <div className="flex px-3 sm:px-10 pt-10 w-full items-center">
+                                                <div className="flex items-center w-full">
+                                                    <div className="h-10 w-10 ">
+                                                        <img className="w-full h-full rounded" src={item[0].store_logo} alt="..." />
+                                                    </div>
+                                                    <div className="w-full flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                                                        <h4 className=" text-base sm:text-xl inline ml-4">{item[0].store_name || ""}</h4>
+                                                        <div className="text-base font-medium black-color-75 ml-4">{item.length} items</div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        ))
-                                    }
-                                </div>
+                                            {/* cart Item list */}
+                                            <div className="p-3 py-6 md:py-6 sm:p-6 md:p-10 flex flex-col space-y-4 sm:space-y-8 divide-y sm:divide-y-0">
+                                                {
+                                                    item.map((item, j) => (
+                                                        <div className="pt-4 sm:pt-0" key={j}>
+                                                            <CartItem data={item} key={i} />
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
+                                        </div>
+                                    ))
+                                }
                             </div>
                             {
                                 !!purchaseDetails &&
@@ -259,7 +287,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                             {
                                                 storeSettings.is_delivery_available == 'Y' &&
                                                 <div className="">
-                                                    <label className="sm:p-8 delivery-inputs border-color  border-dashed sm:border-2 rounded block w-full" htmlFor="delivery">
+                                                    <label className={`sm:p-8 delivery-inputs border-color border-gray-400 ${checkoutDetails.deliveryMethod == 'Y' ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} htmlFor="delivery">
                                                         <Radio id='delivery' name='deliveryMethod' value={'Y'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'Y'} />
                                                         <span className="ml-4 font-semibold text-base">Delivery</span>
                                                     </label>
@@ -268,7 +296,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                             {
                                                 storeSettings.is_parcel_available == 'Y' &&
                                                 <div className="pt-4 sm:pt-0">
-                                                    <label className="sm:p-8 delivery-inputs border-color  border-dashed sm:border-2 rounded block w-full" htmlFor="pickup">
+                                                    <label className={`sm:p-8 delivery-inputs border-color border-gray-400 ${checkoutDetails.deliveryMethod == 'N' ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} htmlFor="pickup">
                                                         <Radio id='pickup' name='deliveryMethod' value={'N'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'N'} />
                                                         <span className="ml-4 font-semibold text-base">Self Pick Up</span>
                                                     </label>
@@ -280,11 +308,14 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                                 checkoutDetails.deliveryMethod == 'N' &&
                                                 <div className="">
                                                     <h2>Delivery Pickup Address</h2>
-                                                    <div className="py-6">
+                                                    <div className="p-4 sm:p-6 mt-4 sm:border-2 rounded border-solid border-static">
                                                         {
                                                             storeSettings &&
                                                             <p className="text-base ">
-                                                                {storeSettings.pickupPointDetails.pickup_point_name}, {storeSettings.pickupPointDetails.address}, {storeSettings.pickupPointDetails.city},{' '}
+                                                                <span className="text-base font-semibold">
+                                                                    {storeSettings.pickupPointDetails.pickup_point_name}
+                                                                </span>
+                                                                <br />{storeSettings.pickupPointDetails.address}, {storeSettings.pickupPointDetails.city}{' '}
                                                                 <br />
                                                                 {storeSettings.pickupPointDetails.state}, {storeSettings.pickupPointDetails.country}, <br /> Pin: {storeSettings.pickupPointDetails.zip_code}
 
@@ -301,7 +332,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                                         {
                                                             userAddress.map((item, i) => (
                                                                 <div className="address flex h-full" key={i}>
-                                                                    <div className="p-0 sm:p-8 delivery-inputs border-color border-dashed sm:border-2 rounded block w-full" >
+                                                                    <div className={`p-0 sm:p-8 delivery-inputs border-gray-400 ${checkoutDetails.deliveryAddress == item.address_id ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} >
                                                                         <Radio className='hidden' id={`address${i}`} name='deliveryAddress' checked={checkoutDetails.deliveryAddress == item.address_id} value={item.address_id} onChange={onChangeHandler} />
                                                                         <div className="flex">
                                                                             <div className="btn-color-revers">
@@ -356,7 +387,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                             {
                                                 storeSettings?.is_payment_accepted == 'Y' &&
                                                 <div className="">
-                                                    <label className="sm:p-8 delivery-inputs border-color border-dashed sm:border-2 rounded block w-full" htmlFor="online">
+                                                    <label className={`sm:p-8 h-full delivery-inputs border-color border-gray-400 ${checkoutDetails.paymentMethod == 'Y' ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} htmlFor="online">
                                                         <div className="flex">
                                                             <Radio className='mt-2' id='online' name='paymentMethod' value="Y" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'Y'} />
                                                             <div className="pl-4">
@@ -370,7 +401,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                             {
                                                 storeSettings?.is_cod_accepted == 'Y' &&
                                                 <div className="pt-4 sm:pt-0">
-                                                    <label className="sm:p-8 delivery-inputs border-color border-dashed sm:border-2 rounded block w-full" htmlFor="cod">
+                                                    <label className={`sm:p-8 h-full delivery-inputs border-color border-gray-400 ${checkoutDetails.paymentMethod == 'N' ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} htmlFor="cod">
                                                         <div className="flex">
                                                             <Radio className='mt-2' id='cod' name='paymentMethod' value="N" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'N'} />
                                                             <div className="pl-4">
@@ -408,64 +439,82 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                                                 <h2>Invoice</h2>
                                             </div>
                                             {
-                                                !!purchaseDetails &&
-                                                <>
-                                                    <div className="px-3 py-10 sm:px-10">
-                                                        <div className="flex justify-between space-x-2 border-b-2 border-dashed pb-6">
-                                                            <h6 className="text-lg font-semibold">Item Total</h6>
-                                                            <div>
-                                                                <span className="black-color-75 text-base">{purchaseDetails.itemCount} item(s)</span>
-                                                                <span className="text-lg font-medium ml-2">₹ {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div className=" border-b-2 border-dashed">
-
-                                                            <div className="flex justify-between space-x-2 my-4">
-                                                                <h6 className="text-lg black-color font-medium">Delivery Charge</h6>
+                                                !isDetailsLoading ?
+                                                    !!purchaseDetails &&
+                                                    <>
+                                                        <div className="px-3 py-10 sm:px-10">
+                                                            <div className="flex justify-between space-x-2 border-b-2 border-dashed pb-6">
+                                                                <h6 className="text-lg font-semibold">Item Total</h6>
                                                                 <div>
-                                                                    <span className="text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                                                    <span className="black-color-75 text-base">{purchaseDetails.itemCount} item(s)</span>
+                                                                    <span className="text-lg font-medium ml-2">₹ {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
                                                                 </div>
                                                             </div>
+                                                            <div className=" border-b-2 border-dashed">
 
-                                                            <div className="flex justify-between space-x-2 my-4">
-                                                                <h6 className="text-lg black-color font-medium">Tax</h6>
-                                                                <div>
-                                                                    <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalTaxAmount).toFixed(2)}</span>
-                                                                </div>
-                                                            </div>
-                                                            {
-                                                                purchaseDetails?.totalConvenienceCharge ?
-                                                                    <div className="flex justify-between space-x-2 my-4">
-                                                                        <h6 className="text-lg black-color font-medium">Convenience Charge</h6>
-                                                                        <div>
-                                                                            <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalConvenienceCharge).toFixed(2)}</span>
-                                                                        </div>
+                                                                <div className="flex justify-between space-x-2 my-4">
+                                                                    <h6 className="text-lg black-color font-medium">Delivery Charge</h6>
+                                                                    <div>
+                                                                        <span className="text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
                                                                     </div>
-                                                                    : null
-                                                            }
-                                                            <div className="flex justify-between space-x-2 my-4">
-                                                                <h6 className="text-lg black-color font-medium">Coupon Applied</h6>
-                                                                <div>
-                                                                    <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
                                                                 </div>
-                                                            </div>
-                                                            <div className="flex justify-between space-x-2 my-4">
-                                                                <h6 className="text-lg success-color font-medium">Discount</h6>
-                                                                <div>
-                                                                    <span className="text-lg success-color font-medium ml-2">- ₹{Number(purchaseDetails.totalSavings).toFixed(2)}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex justify-between mt-4 border-dashed">
-                                                            <h2 className="text-2xl font-bold">Total Amount</h2>
-                                                            <h2 className="text-2xl font-bold">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
-                                                        </div>
 
+                                                                <div className="flex justify-between space-x-2 my-4">
+                                                                    <h6 className="text-lg black-color font-medium">Tax</h6>
+                                                                    <div>
+                                                                        <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalTaxAmount).toFixed(2)}</span>
+                                                                    </div>
+                                                                </div>
+                                                                {
+                                                                    purchaseDetails?.totalConvenienceCharge ?
+                                                                        <div className="flex justify-between space-x-2 my-4">
+                                                                            <h6 className="text-lg black-color font-medium">Convenience Charge</h6>
+                                                                            <div>
+                                                                                <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalConvenienceCharge).toFixed(2)}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        : null
+                                                                }
+                                                                <div className="flex justify-between space-x-2 my-4">
+                                                                    <h6 className="text-lg black-color font-medium">Coupon Applied</h6>
+                                                                    <div>
+                                                                        <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex justify-between space-x-2 my-4">
+                                                                    <h6 className="text-lg success-color font-medium">Discount</h6>
+                                                                    <div>
+                                                                        <span className="text-lg success-color font-medium ml-2">- ₹{Number(purchaseDetails.totalSavings).toFixed(2)}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex justify-between mt-4 border-dashed">
+                                                                <h2 className="text-2xl font-bold">Total Amount</h2>
+                                                                <h2 className="text-2xl font-bold">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
+                                                            </div>
+
+                                                        </div>
+                                                        <div className="text-center bg-success-color-lighter success-color py-4">
+                                                            <span className="text-base fonr-medium">Savings on Bill ₹ {Number(purchaseDetails.totalSavings).toFixed(2)}</span>
+                                                        </div>
+                                                    </>
+                                                    :
+                                                    <div class="bg-white p-2 sm:p-4 h-full rounded-2xl flex flex-col gap-5 select-none ">
+                                                        <div class="flex flex-col flex-1 gap-5 sm:p-2">
+                                                            <div class="flex flex-1 flex-col gap-6">
+                                                                <div class="bg-gray-200 w-full animate-pulse h-14 rounded-2xl" ></div>
+                                                                <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+                                                                <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+                                                                <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+                                                                <div class="bg-gray-200 w-full animate-pulse h-3 rounded-2xl" ></div>
+                                                            </div>
+                                                            <div class="mt-auto flex gap-3 border-t-2 pt-4">
+                                                                <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full" ></div>
+                                                                <div class="bg-gray-200 w-20 h-8 animate-pulse rounded-full ml-auto" ></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="bg-gray-200 w-full h-16 animate-pulse  ml-auto mt-10" ></div>
                                                     </div>
-                                                    <div className="text-center bg-success-color-lighter success-color py-4">
-                                                        <span className="text-base fonr-medium">Savings on Bill ₹ {Number(purchaseDetails.totalSavings).toFixed(2)}</span>
-                                                    </div>
-                                                </>
                                             }
                                         </div>
                                     </div>
@@ -537,7 +586,7 @@ const Cart = ({ user, userAddress, storeSettings, cart, info, checkout, setBacke
                         </div>
                     </div>
                     : initiateStatus == 'loading' && rzpOrder
-                        ? <OnlienPayment  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError }} />
+                        ? <OnlienPayment themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError }} />
                         : null
             }
             {
@@ -557,7 +606,8 @@ const mapStateToProps = state => ({
     user: state.user.currentUser,
     userAddress: state.user.address,
     checkout: state.checkout,
-
+    isDetailsLoading: state.ui.isDetailsLoading,
+    displaySettings: state.store.displaySettings,
 })
 const mapDispatchToProps = dispatch => ({
     setBackendCart: (data) => dispatch(setBackendCartStart(data)),

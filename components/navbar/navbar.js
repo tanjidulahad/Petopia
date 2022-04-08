@@ -21,17 +21,23 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const [isLogin, setIsLogin] = useState(false)
   const [mobNaveHeight, setMobNaveHeight] = useState(10)
+  // const [scrollPosition, setScrollPosition] = useState(0);
+
   // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
   const storeId = info.store_id;
   const [query, setQuery] = useState('')
   const router = useRouter();
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 640 })
   useEffect(() => {
-    getShopInfo(storeId);
-    getShopSeo(storeId);
-    getShopSettings(storeId);
-    getSocialProfile(storeId);
-    getShopDisplaySettings(storeId)
+    // const handleScroll = () => {
+    //   const position = window.pageYOffset;
+    //   setScrollPosition(position);
+    //   console.log(position);
+    // };
+    // window.addEventListener("scroll", handleScroll);
+    // return () => {
+    //   window.removeEventListener("scroll", handleScroll);
+    // };
 
   }, [])
   useEffect(() => {
@@ -47,14 +53,14 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
   }
   console.log(router);
   return (
-    <nav className='sticky top-0 ' ref={ref} style={{ backgroundImage: ` url("${headerImg.src}")` }}>
+    <nav className='sm:sticky top-0 ' ref={ref} style={{ backgroundImage: ` url("${headerImg.src}")` }}>
 
       <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative nav-bg` : 'hidden'} >
         <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
           <Button className='text-left' type='link' href='/'>
             <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>
               <div className='h-20 w-20 shrink-0 flex items-center justify-center overflow-hidden rounded-md'>
-                <img className='w-100 h-100 object-contain' src={info.logo_img_url || '/img/default.png'} alt="..." />
+                <img className='w-100 h-100 object-contain' src={info.logo_img_url || '/img/default-store.webp'} alt="..." />
               </div>
               <div className='white-color mt-4 sm:mt-0'>
                 <h1 className='text-2xl font-extrabold'>{info.store_name}</h1>
@@ -75,8 +81,8 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
           {
             <MediaQuery minWidth={640}>
 
-              <div className="hidden sm:flex justify-end items-center white-color">
-                <span className='whitespace-nowrap font-bold inline-block tracking-tight mr-2 text-lg'>Contact Us</span>
+              <div className="hidden sm:flex justify-end items-center white-color z-10000">
+                <Button type="link" href="/contact" className='whitespace-nowrap font-bold inline-block tracking-tight mr-2 text-lg'>Contact Us</Button>
                 <div>
                   <Button className='flex items-center white-color' type='link' href='/cart'>
                     <span className='text-lg font-bold tracking-tight ml-8 white-color mx-2'> Cart </span>
@@ -177,11 +183,15 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
             </Button>
           </div>
           <div className='text-center text-xs font-medium text-black w-1/5'>
-            <Button className={`btn-nav-color ${router.asPath.includes('cart') && 'btn-nav-color-active'}`} type='link' href='/cart'>
+            <Button className={`btn-nav-color relative ${router.asPath.includes('cart') && 'btn-nav-color-active'}`} type='link' href='/cart'>
               <svg className='mx-auto' id="cart" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="-3 -5 30 30">
                 <g id="Group_103" data-name="Group 103">
                   <path className="bottom-nav-icons" id="Path_2479" data-name="Path 2479" d="M18.454,14.069a2.431,2.431,0,0,0,2.1-1.13l4.294-7.121A1.1,1.1,0,0,0,23.8,4.194H6.05L4.923,2H1V4.194H3.4l4.318,8.328L6.1,15.2a2.207,2.207,0,0,0,2.1,3.259H22.592V16.264H8.2l1.32-2.194ZM7.19,6.389H21.764l-3.311,5.486H10.033Z" transform="translate(-1 -2)" ></path><path className="bottom-nav-icons" id="Path_2480" data-name="Path 2480" d="M8.012,18a3.017,3.017,0,1,0,3.017,3.017A3.013,3.013,0,0,0,8.012,18Z" transform="translate(-0.508 -0.034)" ></path><path className="bottom-nav-icons" id="Path_2481" data-name="Path 2481" d="M18.012,18a3.017,3.017,0,1,0,3.017,3.017A3.013,3.013,0,0,0,18.012,18Z" transform="translate(-0.056 -0.034)" ></path></g></svg>
               <span className=' text-xs font-medium tracking-tight '>Cart</span>
+              {
+                !!totalItems &&
+                <div className="absolute -top-1 -right-1 w-5 h-5  flex justify-center items-center text-xxs text-center rounded-full btn-bg btn-color border ">{totalItems}</div>
+              }
             </Button>
           </div>
           <div className='text-center text-xs font-semibold text-black w-1/5'>
@@ -199,7 +209,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
             </Button>
           </div>
           <div className='text-center text-xs font-semibold text-black w-1/5'>
-            <Button className=' btn-nav-color' href='/contact'>
+            <Button className={`btn-nav-color ${router.asPath.includes('contact') && 'btn-nav-color-active'}`} type="link" href='/contact'>
               <svg className='bottom-nav-icons mx-auto' style={{ fill: 'inherit', color: 'inherit' }} xmlns="http://www.w3.org/2000/svg" enableBackground="new 0 0 24 24" viewBox="0 0 24 24"
                 width="25px" height="25px">
                 <g>

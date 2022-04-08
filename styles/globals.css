@@ -131,6 +131,7 @@ nav {
 /* custom scrollbar */
 ::-webkit-scrollbar {
   width: 15px;
+  /* position: fixed; */
 }
 
 ::-webkit-scrollbar-track {
@@ -156,4 +157,13 @@ nav {
 /*  */
 .query-page {
   min-height: 100vh;
+}
+
+.z-10000 {
+  z-index: 10000;
+}
+
+.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

@@ -17,6 +17,13 @@ export const getShopProductsSuccess = (products) => ({
     type: shopActionType.GET_SHOP_PRODUCTS_SUCCESS,
     payload: products
 })
+export const getShopProductsPaginationSuccess = (products) => ({
+    type: shopActionType.GET_SHOP_PRODUCTS_PAGINATION_SUCCESS,
+    payload: products
+})
+export const clearProductList = () => ({
+    type: shopActionType.CLEAR_PRODUCTS_LIST,
+})
 //  SEO
 export const getShopSeoStart = (storeId) => ({
     type: shopActionType.GET_SHOP_SEO_START,

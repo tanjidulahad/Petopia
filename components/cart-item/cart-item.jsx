@@ -2,15 +2,15 @@ import { connect } from "react-redux";
 import Link from "@components/link";
 import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
 import { QuantityID } from "../inputs";
-const CartItem = ({ addToCart, removeFromCart, data }) => {
+const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
     return (
         <div className="w-100 block ">
             <div className="grid grid-cols-12 gap-4 ">
-                <div className="col-span-9 sm:col-span-7 flex sm:space-x-4">
+                <div className="col-span-8 sm:col-span-7 flex sm:space-x-4">
                     <Link href={`/product/${data.item_id}`}>
                         <a className="cart-item-img hidden sm:block">
                             {/* <div className="cart-item-img"> */}
-                            <img className="object-cover rounded-md" src={data.primary_img || '/img/default.png'} alt="product" />
+                            <img className="object-cover bg-slate-200 rounded-md" src={data.primary_img || '/img/default.webp'} alt="product" />
                             {/* </div> */}
 
                         </a>
@@ -38,10 +38,10 @@ const CartItem = ({ addToCart, removeFromCart, data }) => {
                         </div>
                     </div>
                 </div>
-                <div className="col-span-3 sm:col-span-5">
+                <div className="col-span-4 sm:col-span-5">
                     <div className="flex flex-col sm:flex-row justify-between w-full h-full items-end sm:items-center space-y-3">
                         <div>
-                            <QuantityID value={data.quantity} disabledPlush={(() => {
+                            <QuantityID value={data.quantity} disabled={isDetailsLoading} disabledPlush={(() => {
                                 if (data.inventoryDetails) {
                                     return data.inventoryDetails.max_order_quantity == data.quantity && data.inventoryDetails.max_order_quantity > 0 || data.inventoryDetails.inventory_quantity <= data.quantity
                                 }
@@ -74,9 +74,13 @@ const CartItem = ({ addToCart, removeFromCart, data }) => {
     )
 }
 
+const mapStateToProps = state => ({
+    isDetailsLoading: state.ui.isDetailsLoading
+})
+
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(addToCart(item)),
     removeFromCart: (item) => dispatch(removeFromCart(item))
 })
 
-export default connect(null, mapDispatchToProps)(CartItem);
+export default connect(mapStateToProps, mapDispatchToProps)(CartItem);

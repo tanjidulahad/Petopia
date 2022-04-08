@@ -43,6 +43,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     const [couponCode, setCouponCode] = useState("")
     const [enablePayment, setEnablePayment] = useState(false)
     const [success, setOnSuccess] = useState(null)
+    const [confirmOrder, setConfirmOrder] = useState(false)
     const [checkoutDetails, setcheckoutDetails] = useState({
         // deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
         deliveryAddress: null,
@@ -209,6 +210,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
             objerver.observe(document.body)
         }
     }, [])
+    // console.log(checkoutDetails);
     //  Ready by Store ids
     const cartGroups = groupBy(cart, 'store_id')
     const themeColor = displaySettings && (() => displaySettings.navbar_color)() || '#F64B5D'
@@ -544,7 +546,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                             <div className="flex justify-end items-center" >
                                                 {
                                                     !!purchaseDetails ?
-                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={initiatePayment} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N'} style={{
+                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={() => checkoutDetails.paymentMethod == "N" ? setConfirmOrder(true) : initiatePayment()} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N'} style={{
                                                             ...(!enablePayment || storeSettings?.is_checkout_enabled == 'N') && {
                                                                 opacity: 0.6,
                                                                 cursor: "not-allowed"
@@ -610,6 +612,20 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                     </div>
                 }
             </div>
+            {
+                confirmOrder &&
+                <div className="fixed inset-0 z-50 bg-slate-500 bg-opacity-50 " >
+                    <div className=" absolute left-1/2 top-1/2 bg-white rounded-md w-full -translate-x-1/2 -translate-y-1/2 p-6" style={{ maxWidth: "556px" }}>
+                        <div className="py-4 text-center text-lg font-semibold w-full mb-6">
+                            Confirm your Order for  Cash On Delivery <br />(COD)
+                        </div>
+                        <div className="flex justify-between space-x-4 pt-6 w-full text-white">
+                            <Button className="py-3 w-full bg-red-500  font-semibold hover:bg-white hover:text-red-500 border-2 border-red-500 rounded transition-all" onClick={() => setConfirmOrder(false)}>Cancel</Button>
+                            <Button className="py-3 w-full bg-green-600  font-semibold hover:bg-white hover:text-green-600 border-2 border-green-600 rounded transition-all" onClick={() => { initiatePayment(); setConfirmOrder(false) }} >Confirm</Button>
+                        </div>
+                    </div>
+                </div >
+            }
         </>
     )
 }

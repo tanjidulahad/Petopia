@@ -83,6 +83,21 @@ nav {
   padding: 0px 0px;
 }
 /* @media only screen and (min-width: 200px) {
+
+.grow { 
+transition: all .2s ease-in-out; 
+}
+
+.grow:hover { 
+transform: scale(1.1); 
+}
+
+.root-header{
+    background-size:100vw;
+    background-repeat: no-repeat;
+  }
+
+@media only screen and (min-width: 200px) {
   .wrapper {
     padding: 8px 8px;
   }
@@ -171,16 +186,10 @@ nav {
   cursor: not-allowed;
 }
 
-.fadeIn {
-  animation-name: fadeInKey;
-  animation-duration: 1000ms;
-  animation-delay: 5ms;
-}
-@keyframes fadeInKey {
-  from {
-    opacity: 0.2;
-  }
-  to {
-    opacity: 1;
+@media only screen and (max-width: 600px) {
+  .root-header {
+    background-image: url(https://dsa0i94r8ef09.cloudfront.net/widgets/header-background.jpg);
+    background-size: 385vw;
+    background-repeat: no-repeat;
   }
 }

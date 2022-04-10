@@ -341,49 +341,86 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                     </div>
                                                     <div className="pt-10 grid grid-cols-1 sm:grid-cols-2 gap-10">
                                                         {
-                                                            userAddress.map((item, i) => (
-                                                                <div className="address flex h-full" key={i}>
-                                                                    <div className={`p-0 sm:p-8 delivery-inputs border-gray-400 ${checkoutDetails.deliveryAddress == item.address_id ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} >
-                                                                        <Radio className='hidden' id={`address${i}`} name='deliveryAddress' checked={checkoutDetails.deliveryAddress == item.address_id} value={item.address_id} onChange={onChangeHandler} />
-                                                                        <div className="flex">
-                                                                            <div className="btn-color-revers">
-                                                                                {
-                                                                                    item.address_tag == 'Home' ?
-                                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" style={{ color: 'inherit' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                                                                        </svg>
-                                                                                        : <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'inherit' }} className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                                                        </svg>
-                                                                                }
-                                                                            </div>
-                                                                            <div className="ml-2 w-full">
-                                                                                <h3 className="text-xl font-semibold">{item.address_tag}</h3>
-                                                                                <div className="my-4">
-                                                                                    <span className="home">{item.address_line_1}, {item.address_line_2}</span>
-                                                                                    <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
-                                                                                    <span className="country">{item.country},</span>
-                                                                                    <span className="country font-w-bold">+91 {item.phone}</span>
-                                                                                </div>
-                                                                                <button className="btn-color-revese my-2">Edit</button>
-                                                                                {
-                                                                                    checkoutDetails.deliveryAddress != item.address_id &&
-                                                                                    <label className="block my-2 btn-bg btn-color py-3.5 px-8 rounded max-w-fit" htmlFor={`address${i}`} >Deliver Here</label>
-                                                                                }
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                            !!checkoutDetails.deliveryAddress ?
+                                                                <div className="flex justify-start col-span-full">
+                                                                    {
+                                                                        (() => {
+                                                                            const item = userAddress.find(item => item.address_id == checkoutDetails.deliveryAddress)
+                                                                            return (
+                                                                                <>
+                                                                                    <div className="btn-color-revers pr-2 sm:pr-4">{
+                                                                                        item.address_tag == 'Home' ?
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" style={{ color: 'inherit' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                                                                            </svg>
+                                                                                            : <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'inherit' }} className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                                                            </svg>}
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <h6>{item.address_tag}</h6>
+                                                                                        <div className="my-4">
+                                                                                            <span className="home">{item.address_line_1}, {item.address_line_2}</span>
+                                                                                            <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
+                                                                                            <span className="country">{item.country},</span>
+                                                                                            <span className="country font-w-bold">+91 {item.phone}</span>
+                                                                                        </div>
+                                                                                        <Button className="btn-color-revers font-semibold" onClick={() => { setcheckoutDetails(details => ({ ...details, deliveryAddress: null })) }}>CHANGE</Button>
+                                                                                    </div>
+                                                                                </>
+                                                                            )
+                                                                        })()
+                                                                    }
                                                                 </div>
-                                                            ))
+                                                                :
+                                                                <>
+                                                                    {
+                                                                        userAddress.map((item, i) => (
+                                                                            <div className="address flex h-full" key={i}>
+                                                                                <div className={`p-0 sm:p-8 delivery-inputs border-gray-400 ${checkoutDetails.deliveryAddress == item.address_id ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} >
+                                                                                    <Radio className='hidden' id={`address${i}`} name='deliveryAddress' checked={checkoutDetails.deliveryAddress == item.address_id} value={item.address_id} onChange={onChangeHandler} />
+                                                                                    <div className="flex">
+                                                                                        <div className="btn-color-revers">
+                                                                                            {
+                                                                                                item.address_tag == 'Home' ?
+                                                                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" style={{ color: 'inherit' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                                                                                    </svg>
+                                                                                                    : <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'inherit' }} className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                                                                                    </svg>
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div className="ml-2 w-full">
+                                                                                            <h3 className="text-xl font-semibold">{item.address_tag}</h3>
+                                                                                            <div className="my-4">
+                                                                                                <span className="home">{item.address_line_1}, {item.address_line_2}</span>
+                                                                                                <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
+                                                                                                <span className="country">{item.country},</span>
+                                                                                                <span className="country font-w-bold">+91 {item.phone}</span>
+                                                                                            </div>
+                                                                                            <button className="btn-color-revese my-2">Edit</button>
+                                                                                            {
+                                                                                                checkoutDetails.deliveryAddress != item.address_id &&
+                                                                                                <label className="block my-2 btn-bg btn-color py-3.5 px-8 rounded max-w-fit cursor-pointer" htmlFor={`address${i}`} >Deliver Here</label>
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        ))
+
+                                                                    }
+                                                                    <div className=" py-6">
+                                                                        <Button className="flex items-center btn-color-revese" type="link" href="/account/savedplaces">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                            </svg>
+                                                                            <span>Add New Address</span>
+                                                                        </Button>
+                                                                    </div>
+                                                                </>
                                                         }
-                                                        <div className=" py-6">
-                                                            <Button className="flex items-center btn-color-revese" type="link" href="/account/savedplaces">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                </svg>
-                                                                <span>Add New Address</span>
-                                                            </Button>
-                                                        </div>
                                                     </div>
                                                 </>
                                             }
@@ -615,13 +652,14 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
             {
                 confirmOrder &&
                 <div className="fixed inset-0 z-50 bg-slate-500 bg-opacity-50 " >
-                    <div className=" absolute left-1/2 top-1/2 bg-white rounded-md w-full -translate-x-1/2 -translate-y-1/2 p-6" style={{ maxWidth: "556px" }}>
-                        <div className="py-4 text-center text-lg font-semibold w-full mb-6">
-                            Confirm your Order for  Cash On Delivery <br />(COD)
+                    <div className=" absolute left-1/2 h-fit bottom-0 sm:bottom-auto sm:top-1/2 bg-white rounded-md w-full -translate-x-1/2 sm:-translate-y-1/2 p-6" style={{ maxWidth: "556px" }}>
+                        <h2 className="text-center text-2xl btn-color-revers m-auto"> {'Proceed?'}</h2>
+                        <div className="py-4 text-center text-base font-medium w-full mb-6">
+                            Confirm your Order for  Cash On Delivery
                         </div>
-                        <div className="flex justify-between space-x-4 pt-6 w-full text-white">
-                            <Button className="py-3 w-full bg-red-500  font-semibold hover:bg-white hover:text-red-500 border-2 border-red-500 rounded transition-all" onClick={() => setConfirmOrder(false)}>Cancel</Button>
-                            <Button className="py-3 w-full bg-green-600  font-semibold hover:bg-white hover:text-green-600 border-2 border-green-600 rounded transition-all" onClick={() => { initiatePayment(); setConfirmOrder(false) }} >Confirm</Button>
+                        <div className="flex justify-between space-x-4 pt-4 w-full text-white">
+                            <Button className="py-3 w-full  font-semibold hover:bg-red-500 hover:text-white text-red-500 border-2 border-red-500 rounded transition-all " onClick={() => setConfirmOrder(false)}>Cancel</Button>
+                            <Button className="py-3 w-full bg-red-500  font-semibold   border-2  rounded transition-all" onClick={() => { initiatePayment(); setConfirmOrder(false) }} >Confirm</Button>
                         </div>
                     </div>
                 </div >

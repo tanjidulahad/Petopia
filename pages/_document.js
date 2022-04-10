@@ -3,13 +3,14 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 class MyDocument extends Document {
     render() {
         return (
-            <Html>
+            <Html className="scroll-smooth">
                 <Head>
                     <meta name="apple-mobile-web-app-capable" content="yes" />
                     <meta name="apple-mobile-web-app-status-bar-style" content="white" />
                     <link rel="apple-touch-icon" href="ic_launcher-web.png" />
                     <meta name="theme-color" content="#468E97" />
                     <base href="/" />
+                    <title>GoPlinto</title>
                     {/* <link rel="manifest" crossOrigin="use-credentials" href="/manifest.json" /> */}
                     <meta name="description" content={` Amazon.in: Online Shopping India - Buy mobiles, laptops, cameras, books, watches, apparel, shoes and e-Gift Cards. Free Shipping &amp; Cash on Delivery Available. `} />
                     <meta property="og:description"

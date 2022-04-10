@@ -80,9 +80,9 @@ nav {
 }
 
 .wrapper {
-  padding: 8px 8px;
+  padding: 0px 0px;
 }
-@media only screen and (min-width: 200px) {
+/* @media only screen and (min-width: 200px) {
   .wrapper {
     padding: 8px 8px;
   }
@@ -91,7 +91,7 @@ nav {
   .wrapper {
     padding: 8px 16px;
   }
-}
+} */
 @media only screen and (min-width: 576px) {
   .wrapper {
     padding: 8px 16px;
@@ -169,4 +169,18 @@ nav {
 .disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+.fadeIn {
+  animation-name: fadeInKey;
+  animation-duration: 1000ms;
+  animation-delay: 5ms;
+}
+@keyframes fadeInKey {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
 }

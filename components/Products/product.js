@@ -22,7 +22,7 @@ function product({ products = [], status, storeName, lastEleRef }) {
 
         </div>
       </div>
-      <div className="flex flex-col space-y-4 md:space-y-8 divide-y md:divide-y-0">
+      <div className="flex flex-col px-2 sm:py-0 space-y-4 md:space-y-8 divide-y md:divide-y-0">
         {
           status == 'success' || status == 'loading'
             ?

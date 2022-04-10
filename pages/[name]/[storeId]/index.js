@@ -43,6 +43,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
   const [plpc, setPlpc] = useState(775) // in vh
   const [description, setDescription] = useState("")
   const [page, setPage] = useState(1)
+  console.log(Router);
 
   // Pagination
   const observer = useRef()
@@ -62,7 +63,6 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     })
     if (node) observer.current.observe(node)
   }, [status, pageCount])
-  // console.log(page);
   useEffect(() => { // Componentdidmount
     if (!categories.length) getCategoryStart(storeId);
     setSearchHandler((e) => {

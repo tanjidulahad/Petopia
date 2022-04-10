@@ -97,7 +97,7 @@ export const getSearchProductsSuccess = (data) => ({
     type: shopActionType.GET_SEARCH_SUCCESS,
     payload: data
 })
-// Pge count
+// Page count
 export const getPageCountStart = (payload) => ({
     type: shopActionType.GET_PAGE_COUNT_START,
     payload: payload

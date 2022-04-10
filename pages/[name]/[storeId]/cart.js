@@ -13,7 +13,7 @@ import Loader from "@components/loading/loader"
 // Actions
 import { clearCart } from "@redux/cart/cart-actions"
 import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle } from "@redux/user/user-action"
-import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart } from '@redux/checkout/checkout-action'
+import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart, applyCouponCodeStart } from '@redux/checkout/checkout-action'
 import PageWrapper from "@components/page-wrapper/page-wrapper"
 
 // Function
@@ -30,7 +30,7 @@ import { readyCartData, groupBy } from '@utils/utill'
 //     }, {});
 // };
 
-const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
+const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
     initiateOrder, clearCheckout, createNewRzpOrder, clearCart, isDetailsLoading }) => {
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
     const purchaseDetails = checkout.purchaseDetails;
@@ -40,7 +40,10 @@ const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, c
     const [initiateStatus, setInitiateStatus] = useState('pending') // pending, loading, failure
     const [error, setError] = useState(null)
     const [rzpOrder, setRzpOrder] = useState(null)
+    const [couponCode, setCouponCode] = useState("")
     const [enablePayment, setEnablePayment] = useState(false)
+    const [success, setOnSuccess] = useState(null)
+    const [confirmOrder, setConfirmOrder] = useState(false)
     const [checkoutDetails, setcheckoutDetails] = useState({
         // deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
         deliveryAddress: null,
@@ -180,6 +183,14 @@ const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, c
         }
     }, [error])
 
+    const onCouponAppyHandler = () => {
+        if (couponCode.length < 3) return;
+        // const orderId = checkout.purchase.orders.find(item => Object item)[shop.store_id].order_id;
+        const order = Object.values(checkout.purchaseDetails.orders).find(item => item.storeId == info.store_id);
+        const orderId = order?.orderId
+        applyCouponCode({ purchaseId: checkout.purchase?.purchase_id, storeId: info.store_id, couponCode, orderId, userId: user.customer_id, onSuccess: setOnSuccess, onError: setError })
+        setCouponCode("")
+    }
 
     // looking navbar height
     useEffect(() => {
@@ -199,10 +210,10 @@ const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, c
             objerver.observe(document.body)
         }
     }, [])
+    // console.log(checkoutDetails);
     //  Ready by Store ids
     const cartGroups = groupBy(cart, 'store_id')
     const themeColor = displaySettings && (() => displaySettings.navbar_color)() || '#F64B5D'
-
     if (!info) { // If store details are not awilable
         return <Loader />
     }
@@ -428,8 +439,8 @@ const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, c
                                             <h2>Promo / Gift Code</h2>
                                         </div>
                                         <div className="w-full p-10 flex justify-between items-baseline space-x-2">
-                                            <input type="text" className="text-lg font-medium w-full border-b-2 focus:outline-none focus:border-b-2 " placeholder="Have any Promo Code?" />
-                                            <button className="py-2 btn-color rounded px-4 text-base btn-bg ">Apply</button>
+                                            <input type="text" className="text-base font-medium w-full border-b-2 focus:outline-none focus:border-b-2 " onChange={(e) => setCouponCode(e.target.value)} value={couponCode} placeholder="Have any Promo Code?" />
+                                            <button className="py-2 btn-color rounded px-4 text-base btn-bg " onClick={onCouponAppyHandler} >Apply</button>
                                         </div>
                                     </div>
                                     <div>
@@ -535,7 +546,7 @@ const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, c
                                             <div className="flex justify-end items-center" >
                                                 {
                                                     !!purchaseDetails ?
-                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={initiatePayment} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N'} style={{
+                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={() => checkoutDetails.paymentMethod == "N" ? setConfirmOrder(true) : initiatePayment()} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N'} style={{
                                                             ...(!enablePayment || storeSettings?.is_checkout_enabled == 'N') && {
                                                                 opacity: 0.6,
                                                                 cursor: "not-allowed"
@@ -589,11 +600,31 @@ const Cart = ({ user, userAddress, storeSettings, displaySettings, cart, info, c
                         ? <OnlienPayment themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError }} />
                         : null
             }
+            <div className='fixed right-0 bottom-3 space-y-2'>
+                {
+                    !!error && <div className="py-4 px-8 cursor-pointer rounded-l-md bg-red-color white-color text-base font-medium" onClick={() => setError(null)}>
+                        {error.message}
+                    </div>
+                }
+                {
+                    !!success && <div className="py-4 px-8 cursor-pointer rounded-l-md bg-green-400 white-color text-base font-medium" onClick={() => setOnSuccess(null)}>
+                        {success}
+                    </div>
+                }
+            </div>
             {
-                !!error &&
-                <div className="py-4 px-8 fixed right-0 bottom-3 rounded-l-md bg-red-color white-color text-base font-medium">
-                    {error.message}
-                </div>
+                confirmOrder &&
+                <div className="fixed inset-0 z-50 bg-slate-500 bg-opacity-50 " >
+                    <div className=" absolute left-1/2 top-1/2 bg-white rounded-md w-full -translate-x-1/2 -translate-y-1/2 p-6" style={{ maxWidth: "556px" }}>
+                        <div className="py-4 text-center text-lg font-semibold w-full mb-6">
+                            Confirm your Order for  Cash On Delivery <br />(COD)
+                        </div>
+                        <div className="flex justify-between space-x-4 pt-6 w-full text-white">
+                            <Button className="py-3 w-full bg-red-500  font-semibold hover:bg-white hover:text-red-500 border-2 border-red-500 rounded transition-all" onClick={() => setConfirmOrder(false)}>Cancel</Button>
+                            <Button className="py-3 w-full bg-green-600  font-semibold hover:bg-white hover:text-green-600 border-2 border-green-600 rounded transition-all" onClick={() => { initiatePayment(); setConfirmOrder(false) }} >Confirm</Button>
+                        </div>
+                    </div>
+                </div >
             }
         </>
     )
@@ -624,6 +655,8 @@ const mapDispatchToProps = dispatch => ({
     clearCheckout: () => dispatch(clearCheckout()),
     createNewRzpOrder: (data) => dispatch(createNewRzpOrderStart(data)),
     clearCart: () => dispatch(clearCart()),
+
+    applyCouponCode: (payload) => dispatch(applyCouponCodeStart(payload)),
 
     authToggle: () => dispatch(authShowToggle())
 })

@@ -45,7 +45,7 @@ const Contact = ({ info, socialProfile }) => {
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline btn-color-revers mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                             </svg>
-                                            {info.primary_phone}
+                                            +{info.primary_phone}
                                         </p>
 
                                     </a>
@@ -63,7 +63,7 @@ const Contact = ({ info, socialProfile }) => {
                             </div>
                             <div className="text-left md:text-center">
                                 {
-                                    !!socialProfile &&
+                                    !!socialProfile.length &&
                                     <>
                                         <h5>Follow Us</h5>
                                         <div className=" flex justify-center items-center space-x-4  mt-8">
@@ -72,7 +72,9 @@ const Contact = ({ info, socialProfile }) => {
                                                     <>
                                                         {
                                                             !!itme.social_account_link &&
-                                                            <SocialIcon bgColor="#fff00" url={`https://${itme.social_account_link}`} />
+                                                            <div className=" w-fit h-fit rounded-full bg-black text-white">
+                                                                <SocialIcon bgColor="#000" fgColor="#fff" url={`https://${itme.social_account_link}`} target='_blank' key={i} />
+                                                            </div>
                                                         }
                                                     </>
                                                 ))

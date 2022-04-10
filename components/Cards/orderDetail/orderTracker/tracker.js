@@ -10,12 +10,12 @@ import { CgBorderStyleDotted } from 'react-icons/cg'
 import moment from 'moment'
 
 export default function Tracker({ details }) {
-  
+
   const [active, setactive] = useState({
     step1: 'active',
     step2:
       details.orderStatus === '' ||
-      details.orderStatus === 'CANCELLED_BY_CUSTOMER'
+        details.orderStatus === 'CANCELLED_BY_CUSTOMER'
         ? 'pending'
         : 'active',
     step3:
@@ -41,8 +41,8 @@ export default function Tracker({ details }) {
                 active.step1 === 'active'
                   ? '#D85A5A'
                   : active.step1 === 'pending'
-                  ? 'rgb(239 207 207)'
-                  : '#2424243F',
+                    ? 'rgb(239 207 207)'
+                    : '#2424243F',
             }}
           >
             {active.step1 === 'active' ? (
@@ -80,8 +80,8 @@ export default function Tracker({ details }) {
                 active.step2 === 'active'
                   ? '#D85A5A'
                   : active.step2 === 'pending'
-                  ? 'rgb(239 207 207)'
-                  : '#2424243F',
+                    ? 'rgb(239 207 207)'
+                    : '#2424243F',
             }}
           >
             {active.step2 === 'active' ? (
@@ -121,8 +121,8 @@ export default function Tracker({ details }) {
                 active.step3 === 'active'
                   ? '#D85A5A'
                   : active.step3 === 'pending'
-                  ? 'rgb(239 207 207)'
-                  : '#2424243F',
+                    ? 'rgb(239 207 207)'
+                    : '#2424243F',
             }}
           >
             {active.step3 === 'active' ? (
@@ -139,11 +139,10 @@ export default function Tracker({ details }) {
         <div className="flex relative right-2 flex-col justify-center items-center text-center">
           <p className="flex text-sm   my-1">Order Placed</p>
           <p
-            className={`flex  text-sm text-gray-400 ${
-              active.step1 === 'active' ? 'text-gray-400' : 'text-white'
-            } `}
+            className={`flex  text-sm text-gray-400 ${active.step1 === 'active' ? 'text-gray-400' : 'text-white'
+              } `}
           >
-            {moment(details?.orderPlacedTime).format('lll')}
+            {moment.unix(details?.orderPlacedTime).format('lll')}
           </p>
         </div>
 
@@ -152,23 +151,22 @@ export default function Tracker({ details }) {
             {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
               ? 'Order is Cancelled'
               : details?.orderStatus === '' || null
-              ? 'Waiting for confirmation'
-              : details?.orderStatus}
+                ? 'Waiting for confirmation'
+                : details?.orderStatus}
           </p>
           {
             <p
-              className={`flex  text-sm ${
-                active.step2 === 'active' ||
+              className={`flex  text-sm ${active.step2 === 'active' ||
                 details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                  ? 'text-gray-400'
-                  : 'text-white'
-              } `}
+                ? 'text-gray-400'
+                : 'text-white'
+                } `}
             >
               {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                ? moment(details?.orderCancelledTime).format('lll')
+                ? moment.unix(details?.orderCancelledTime).format('lll')
                 : details?.orderStatus === 'PAYMENT_COMPLETED'
-                ? moment(details?.paymentCompletedTime).format('lll')
-                : ''}
+                  ? moment.unix(details?.paymentCompletedTime).format('lll')
+                  : ''}
             </p>
           }
         </div>
@@ -179,26 +177,24 @@ export default function Tracker({ details }) {
           </p>
 
           <p
-            className={`flex   ${
-              active.step3 === 'active' ? 'text-gray-400' : 'text-white'
-            } `}
+            className={`flex   ${active.step3 === 'active' ? 'text-gray-400' : 'text-white'
+              } `}
           >
-            {details?.isDelivery === 'Y'
-              ? moment(details.customerPickupReadyTime).format('lll')
-              : '24th Sept 2020, 12:08 Pm'}
+            {details?.isDelivery === 'Y' && details.customerPickupReadyTime
+              ? moment.unix(details.customerPickupReadyTime).format('lll')
+              : ''}
           </p>
         </div>
       </div>
       {/* Mobile vieew */}
       <div className="block md:hidden lg:hidden flex-col justify-start ">
         <div
-          className={` ${
-            active.mobupdate
-              ? active.step1 === 'pending'
-                ? 'flex'
-                : 'hidden'
-              : 'flex'
-          } justify-start items-center text-center`}
+          className={` ${active.mobupdate
+            ? active.step1 === 'pending'
+              ? 'flex'
+              : 'hidden'
+            : 'flex'
+            } justify-start items-center text-center`}
         >
           <div
             className="w-10 h-10  ml-4 rounded-full flex justify-center items-center  "
@@ -207,8 +203,8 @@ export default function Tracker({ details }) {
                 active.step1 === 'active'
                   ? '#D85A5A'
                   : active.step1 === 'pending'
-                  ? 'rgb(239 207 207)'
-                  : '#2424243F',
+                    ? 'rgb(239 207 207)'
+                    : '#2424243F',
             }}
           >
             {active.step1 === 'active' ? (
@@ -222,22 +218,20 @@ export default function Tracker({ details }) {
           <div className="ml-4">
             <p className="flex text-sm  ">Order Placed</p>
             <p
-              className={`flex  text-sm text-gray-400 ${
-                active.step1 === 'active' ? 'text-gray-400' : 'hidden'
-              } `}
+              className={`flex  text-sm text-gray-400 ${active.step1 === 'active' ? 'text-gray-400' : 'hidden'
+                } `}
             >
-              {moment(details?.orderPlacedTime).format('lll')}
+              {moment.unix(details?.orderPlacedTime).format('lll')}
             </p>
           </div>
         </div>
         <div
-          className={`${
-            active.mobupdate
-              ? active.step1 === 'pending'
-                ? 'flex'
-                : 'hidden'
-              : 'block'
-          } mx-4`}
+          className={`${active.mobupdate
+            ? active.step1 === 'pending'
+              ? 'flex'
+              : 'hidden'
+            : 'block'
+            } mx-4`}
         >
           <HiOutlineDotsVertical
             size={40}
@@ -253,13 +247,12 @@ export default function Tracker({ details }) {
           />
         </div>
         <div
-          className={` ${
-            active.mobupdate
-              ? active.step2 === 'pending'
-                ? 'flex'
-                : 'hidden'
-              : 'flex'
-          } ml-4 justify-start items-center text-center`}
+          className={` ${active.mobupdate
+            ? active.step2 === 'pending'
+              ? 'flex'
+              : 'hidden'
+            : 'flex'
+            } ml-4 justify-start items-center text-center`}
         >
           <div
             className="w-10 h-10 bg-red-600  rounded-full flex justify-center items-center "
@@ -268,8 +261,8 @@ export default function Tracker({ details }) {
                 active.step2 === 'active'
                   ? '#D85A5A'
                   : active.step2 === 'pending'
-                  ? 'rgb(239 207 207)'
-                  : '#2424243F',
+                    ? 'rgb(239 207 207)'
+                    : '#2424243F',
             }}
           >
             {active.step2 === 'active' ? (
@@ -285,35 +278,33 @@ export default function Tracker({ details }) {
               {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
                 ? 'Order is Cancelled'
                 : details?.orderStatus === '' || null
-                ? 'Waiting for confirmation'
-                : details?.orderStatus}
+                  ? 'Waiting for confirmation'
+                  : details?.orderStatus}
             </p>
             {
               <p
-                className={`flex  text-sm ${
-                  active.step2 === 'active' ||
+                className={`flex  text-sm ${active.step2 === 'active' ||
                   details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                    ? 'text-gray-400'
-                    : 'hidden'
-                } `}
+                  ? 'text-gray-400'
+                  : 'hidden'
+                  } `}
               >
                 {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                  ? moment(details?.orderCancelledTime).format('lll')
+                  ? moment.unix(details?.orderCancelledTime).format('lll')
                   : details?.orderStatus === 'PAYMENT_COMPLETED'
-                  ? moment(details?.paymentCompletedTime).format('lll')
-                  : ''}
+                    ? moment.unix(details?.paymentCompletedTime).format('lll')
+                    : ''}
               </p>
             }
           </div>
         </div>
         <div
-          className={`${
-            active.mobupdate
-              ? active.step2 === 'pending'
-                ? 'flex'
-                : 'hidden'
-              : 'block'
-          } mx-4`}
+          className={`${active.mobupdate
+            ? active.step2 === 'pending'
+              ? 'flex'
+              : 'hidden'
+            : 'block'
+            } mx-4`}
         >
           <HiOutlineDotsVertical
             size={40}
@@ -329,13 +320,12 @@ export default function Tracker({ details }) {
           />
         </div>
         <div
-          className={` ${
-            active.mobupdate
-              ? active.step3 === 'pending'
-                ? 'flex'
-                : 'hidden'
-              : 'flex'
-          } ml-4 justify-start items-center text-center`}
+          className={` ${active.mobupdate
+            ? active.step3 === 'pending'
+              ? 'flex'
+              : 'hidden'
+            : 'flex'
+            } ml-4 justify-start items-center text-center`}
         >
           <div
             className="w-10 h-10 bg-red-600 text-white rounded-full flex justify-center items-center "
@@ -344,8 +334,8 @@ export default function Tracker({ details }) {
                 active.step3 === 'active'
                   ? '#D85A5A'
                   : active.step3 === 'pending'
-                  ? 'rgb(239 207 207)'
-                  : '#2424243F',
+                    ? 'rgb(239 207 207)'
+                    : '#2424243F',
             }}
           >
             {active.step3 === 'active' ? (
@@ -362,13 +352,12 @@ export default function Tracker({ details }) {
             </p>
 
             <p
-              className={`flex   ${
-                active.step3 === 'active' ? 'text-gray-400' : 'hidden'
-              } `}
+              className={`flex   ${active.step3 === 'active' ? 'text-gray-400' : 'hidden'
+                } `}
             >
-              {details?.isDelivery === 'Y'
-                ? moment(details.customerPickupReadyTime).format('lll')
-                : '24th Sept 2020, 12:08 Pm'}
+              {details?.isDelivery === 'Y' && details.customerPickupReadyTime
+                ? moment.unix(details.customerPickupReadyTime).format('lll')
+                : ''}
             </p>
           </div>
         </div>

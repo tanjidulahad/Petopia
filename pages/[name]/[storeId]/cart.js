@@ -644,7 +644,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                     </div>
                 }
                 {
-                    !!success && <div className="py-4 px-8 cursor-pointer rounded-l-md bg-green-400 white-color text-base font-medium" onClick={() => setOnSuccess(null)}>
+                    !!success && <div className="py-4 pfsdf px-8 cursor-pointer rounded-l-md bg-green-400 white-color text-base font-medium" onClick={() => setOnSuccess(null)}>
                         {success}
                     </div>
                 }

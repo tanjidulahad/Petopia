@@ -637,7 +637,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                         ? <OnlienPayment themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError }} />
                         : null
             }
-            <div className='fixed right-0 bottom-3 space-y-2'>
+            <div className='fixed right-0 bottom-36 sm:bottom-3 space-y-2'>
                 {
                     !!error && <div className="py-4 px-8 cursor-pointer rounded-l-md bg-red-color white-color text-base font-medium" onClick={() => setError(null)}>
                         {error.message}

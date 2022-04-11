@@ -40,7 +40,7 @@ function orderlList({ list, storeName, orderId, createTime, openReturn }) {
                       <Button type='link' href={`/product/${item.orderItemId}`}>
                         <p className="text-left font-semibold text-base text-dark mt-2 ">{item.itemName}</p>
                       </Button>
-                      <p className="text-left text-sm font-medium text-gray-500 mt-2 "> Green, Small</p>
+                      {/* <p className="text-left text-sm font-medium text-gray-500 mt-2 "> Green, Small</p> */}
                     </div>
                   </div>
                 </div>

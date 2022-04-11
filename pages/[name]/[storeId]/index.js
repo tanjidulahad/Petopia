@@ -43,6 +43,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
   const [plpc, setPlpc] = useState(775) // in vh
   const [description, setDescription] = useState("")
   const [page, setPage] = useState(1)
+  console.log(Router);
 
   // Pagination
   const observer = useRef()
@@ -62,7 +63,6 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     })
     if (node) observer.current.observe(node)
   }, [status, pageCount])
-  // console.log(page);
   useEffect(() => { // Componentdidmount
     if (!categories.length) getCategoryStart(storeId);
     setSearchHandler((e) => {
@@ -191,8 +191,18 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
             > */}
               {/* <div className='text-base w-full px-4 md:px-8 serach-bar fixed flex flex-col -mt-6 md:-mt-8 xl:-mt-6 -ml-4 xl:ml-0' style={{ maxWidth: '775px', top: navHeight }}> */}
               {/* <div className='text-base w-full px-4 md:px-8 serach-bar fixed flex flex-col -mt-6 md:-mt-8 xl:-mt-6 xl:ml-0' style={{ maxWidth: plpc, top: navHeight }}> */}
-              <div className={` transition-all text-base w-full px-4 md:px-8 serach-bar ${(scrollPosition >= navHeight) && !isSmDevice ? 'fixed bg-white  px-0 pt-4' : 'absolute -mt-6'} sm:fixed flex flex-col md:-mt-8 xl:-mt-6 xl:ml-0`} style={{ maxWidth: plpc, top: (scrollPosition >= navHeight - 10) && !isSmDevice ? '0px' : navHeight }}>
-                <Input className='py-2' style={{ top: navHeight }} onChange={searchHandler} placeholder='Search for items' ></Input>
+              <div className={` transition-all text-base w-full px-4 md:px-8 serach-bar ${(scrollPosition >= navHeight) && !isSmDevice ? 'fixed bg-white  px-2 pt-2' : 'absolute -mt-6'} sm:fixed flex flex-col md:-mt-8 xl:-mt-6 xl:ml-0`} style={{ maxWidth: plpc, top: (scrollPosition >= navHeight - 10) && !isSmDevice ? '0px' : navHeight }}>
+                <div className='relative'>
+                  <Input className='py-2.5 md:py-2 bg-gray-100 md:bg-white pl-8 md:pl-3 border-0 md:border border-gray-100 md:shadow-md' style={{ top: navHeight }} onChange={searchHandler} placeholder='Search for items' ></Input>
+                  <div className='absolute top-1/2 -translate-y-1/2 pl-2 w-20 md:hidden'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17.811" height="17.811" viewBox="0 0 17.811 17.811">
+                      <g id="search" transform="translate(0.75 0.75)">
+                        <circle id="Ellipse_8" data-name="Ellipse 8" cx="7" cy="7" r="7" fill="none" stroke="rgba(36,36,36,0.5)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                        <line id="Line_41" data-name="Line 41" x1="3.916" y1="3.916" transform="translate(12.084 12.084)" fill="none" stroke="rgba(36,36,36,0.5)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
               </div>
               <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollba ' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
                 <ProductListPage lastEleRef={listLastElement} storeName={info?.store_name} products={products} status={status} banner={banner} />

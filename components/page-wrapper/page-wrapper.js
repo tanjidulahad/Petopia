@@ -12,6 +12,7 @@ import {
     getShopInfoStart, getShopSeoStart, getShopSettingsStart, getSocialProfileStart, getShopDisplaySettingsStart, getPageCountStart, getBannerStart,
     getShopInfoSuccess, getShopSeoSuccess, getShopSettingsSuccess, getSocialProfileSuccess,
 } from "@redux/shop/shop-action";
+import Popup from "@components/popup/popup";
 
 function hexToRGB(hex, alpha) {
     var r = parseInt(hex.slice(1, 3), 16),
@@ -25,19 +26,10 @@ function hexToRGB(hex, alpha) {
     }
 }
 
-const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner }) => {
+const verifier = ({ children, isLogin, store, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner }) => {
     const router = useRouter()
     const { displaySettings } = store
-    // const [themeColors, setThemeColors] = useState({
-    //     color: '#fff',
-    //     bgColor: displaySettings.primary_color || '#d85a5a',
-    //     bgColor50: hexToRGB(displaySettings.primary_color, '0.13') || 'rgba(246, 75, 93, 0.13)',
 
-    //     fillColor: displaySettings.primary_color || '#d85a5a',
-
-    //     navColor: displaySettings.navbar_color || 'transparent',
-    //     footerColor: displaySettings.secondary_color || '#000',
-    // })
     useEffect(() => {
         const { storeId } = router.query
         if (!store.isReadyToGo && storeId) {
@@ -80,60 +72,7 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
                     navColor: displaySettings.navbar_color || 'transparent',
                     footerColor: displaySettings.secondary_color.includes('#') ? displaySettings.secondary_color : '#' + displaySettings.secondary_color || '#000',
                 }
-                // const head = document.head
-                // console.log('Head heiuhiuwehirehwuhwenrtheihurthytyumj\nhfhrfuihdsgvsadfvsdfcgd\n');
-                // const style = document.createElement('style');
-                // style.innerHTML = (`
-                //         .btn-border{
-                //         border-color: ${themeColors.bgColor};
-                //         }
-                //         .btn-bg {
-                //         background-color: ${themeColors.bgColor};
-                //         }
-                //         .btn-bg-revese {
-                //         background-color: ${themeColors.color};
-                //         }
-                //         .btn-bg-light {
-                //         background-color: ${themeColors.bgColor50};
-                //         }
-                //         .btn-color {
-                //         color: ${themeColors.color};
-                //         }
-                //         .btn-color-revese {
-                //         color: ${themeColors.bgColor};
-                //         }
-                //         .btn-color-revers {
-                //         color: ${themeColors.bgColor};
-                //         }
-                //         .btn-hover-color {
-                //         transition: 0.3s ease-in-out;
-                //         }
-                //         .btn-hover-color:hover {
-                //         color: ${themeColors.bgColor};
-                //         }
-                //         //
-                //         .btn-nav-color {
-                //         color: $black-color-75;
-                //         fill: $black-color-75;
-                //         }
-                //         .btn-nav-color-active {
-                //         color: ${themeColors.bgColor};
-                //         fill: ${themeColors.bgColor};
-                //         }
-                //         .nav-bg{
-                //             background-color: ${themeColors.navColor}!important;
-                //         }
-                //         .footer-bg{
-                //             background-color: ${themeColors.footerColor}
-                //         }
-                //         .empty-cart-svg path {
-                //             fill : ${themeColors.fillColor}
-                //         }
-                //         .cat-active{
-                //             background: transparent linear-gradient(90deg, #d85a5a00 0%, ${hexToRGB(themeColors.bgColor, '0.25')} 100%) 0% 0% no-repeat padding-box;
-                //         }
-                //     `)
-                // head.appendChild(style)
+
             }
             // const head = document.head
             const head = document.getElementById('style')
@@ -206,7 +145,19 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
         }
     }, [displaySettings])
     if (!store.isReadyToGo) {
-        return <Loader />
+        return (
+            <>
+                {
+                    errorInGO ?
+                        <Loader message="Unable to get store...!" >
+                            <img className="w-full" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgaGVpZ2h0PSIzMiIgc3R5bGU9Im92ZXJmbG93OnZpc2libGU7ZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAzMiAzMiIgdmlld0JveD0iMCAwIDMyIDMyIiB3aWR0aD0iMzIiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxnIGlkPSJFcnJvcl8xXyI+PGcgaWQ9IkVycm9yIj48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiBpZD0iQkciIHI9IjE2IiBzdHlsZT0iZmlsbDojRDcyODI4OyIvPjxwYXRoIGQ9Ik0xNC41LDI1aDN2LTNoLTNWMjV6IE0xNC41LDZ2MTNoM1Y2SDE0LjV6IiBpZD0iRXhjbGFtYXRvcnlfeDVGX1NpZ24iIHN0eWxlPSJmaWxsOiNFNkU2RTY7Ii8+PC9nPjwvZz48L2c+PC9zdmc+" alt="error" />
+                        </Loader>
+                        :
+                        <Loader message="Store is getting ready for you...!" />
+                }
+            </>
+        )
+
     }
     return (
         <>
@@ -220,6 +171,7 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
             {
                 isLogin && <Auth />
             }
+            <Popup />
         </>
     )
 }
@@ -229,6 +181,7 @@ const mapStateToProps = state => ({
     seo: state.store.seo,
     // displaySettings: state.store.displaySettings,
     isReadyToGo: state.store.isReadyToGo,
+    errorInGO: state.store.error,
     isLogin: !state.user.currentUser
 })
 const mapDispatchToProps = dispatch => ({

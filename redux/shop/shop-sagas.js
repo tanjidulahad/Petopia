@@ -8,7 +8,8 @@ import {
     getShopDisplaySettingsSuccess,
     getPageCountSuccess,
     getBannerSuccess,
-    getShopProductsPaginationSuccess
+    getShopProductsPaginationSuccess,
+    errorInGo
 } from "./shop-action";
 import { riseError } from "../global-error-handler/global-error-handler-action.ts";
 
@@ -22,11 +23,12 @@ function* getShopInfoStart() {
             if (!res.data) return;
             yield put(getShopInfoSuccess(res.data))
         } catch (error) {
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
-            } else {
-                yield put(riseError({ name: error.name, message: error.message, onOk: () => { Router.reload() }, onOkName: "Reload" }))
-            }
+            yield put(errorInGo(error))
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
+            // } else {
+            //     yield put(riseError({ name: error.name, message: error.message, onOk: () => { Router.reload() }, onOkName: "Reload" }))
+            // }
             // console.log(error);
         }
     })
@@ -77,11 +79,12 @@ function* getShopSettingsStart() {
             if (!res.data) return;
             yield put(getShopSettingsSuccess(res.data))
         } catch (error) {
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
-            } else {
-                yield put(riseError({ name: error.name, message: "Unable to get store Settings!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
-            }
+            yield put(errorInGo(error))
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
+            // } else {
+            //     yield put(riseError({ name: error.name, message: "Unable to get store Settings!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
+            // }
             // console.log(error);
         }
     })

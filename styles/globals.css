@@ -80,8 +80,9 @@ nav {
 }
 
 .wrapper {
-  padding: 8px 8px;
+  padding: 0px 0px;
 }
+/* @media only screen and (min-width: 200px) {
 
 .grow { 
 transition: all .2s ease-in-out; 
@@ -105,7 +106,7 @@ transform: scale(1.1);
   .wrapper {
     padding: 8px 16px;
   }
-}
+} */
 @media only screen and (min-width: 576px) {
   .wrapper {
     padding: 8px 16px;
@@ -115,7 +116,6 @@ transform: scale(1.1);
   .wrapper {
     padding: 8px 24px;
   }
-  
 }
 /* @media only screen and (min-width: 720px) {
   .wrapper {
@@ -187,9 +187,9 @@ transform: scale(1.1);
 }
 
 @media only screen and (max-width: 600px) {
-.root-header{
-        background-image: url(https://dsa0i94r8ef09.cloudfront.net/widgets/header-background.jpg);
-    background-size:385vw;
-     background-repeat: no-repeat;
+  .root-header {
+    background-image: url(https://dsa0i94r8ef09.cloudfront.net/widgets/header-background.jpg);
+    background-size: 385vw;
+    background-repeat: no-repeat;
   }
 }

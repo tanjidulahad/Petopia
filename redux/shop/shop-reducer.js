@@ -10,6 +10,7 @@ const INITIAL_STATE = {
     displaySettings: null,// {}
     socialProfile: [],
     isReadyToGo: false,// true || false
+    error: null,// true || false
     banners: [],
     pageCount: 1,
     // About products
@@ -43,6 +44,12 @@ const shopReducer = (state = INITIAL_STATE, { type, payload }) => {
                 settings: payload,
                 isReadyToGo: isReady({ ...state, settings: true })
             }
+        case storeActionType.ERROR_IN_GO:
+            return {
+                ...state,
+                error: payload
+            }
+
         case storeActionType.GET_PAGE_COUNT_SUCCESS:
             return {
                 ...state,

@@ -108,7 +108,7 @@ const ProductDetails = ({
             variantId: success.defaultVariantItem?.variant_item_id,
             name: success.item_name,
             images: [...images],
-            desc: success.item_desc,
+            desc: success.item_desc || '',
             rating: { value: 4.5, count: 5.0 },
             price: {
                 price: Number(success.price).toFixed(2),

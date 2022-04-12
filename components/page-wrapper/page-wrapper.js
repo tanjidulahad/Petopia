@@ -45,7 +45,7 @@ const verifier = ({ children, isLogin, store, errorInGO, getShopInfo, getShopSeo
 
     useEffect(() => { // Setting store colors
         console.log(displaySettings);
-        //  Primary colors for buttons, navbg 
+        //  Primary colors for buttons, navbg
         // Secondry colors for footer
         // if (displaySettings) {
 

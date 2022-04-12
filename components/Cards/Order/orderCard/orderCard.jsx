@@ -46,7 +46,7 @@ function OrderCard({ status, message, data }) {
       {
         status === 'past' ?
           <div className=" m-4 w-full h-full flex justify-between align-center">
-            <p className="text-lg font-semibold text-dark mb-2">{data.isDelivery === "N" ? 'Order Cancelled' : "Delivery Success"}</p>
+            <p className="text-lg font-semibold text-dark mb-2">{data.orderStatus==='CANCELLED_BY_CUSTOMER'?'Order Cancelled': data.isDelivery === "N" ? 'Order Cancelled' : "Delivery Success"}</p>
           </div>
           :
           <Button type='link' href={`/account/orderdetail/${data.orderId}`}>

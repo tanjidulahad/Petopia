@@ -54,7 +54,7 @@ function orderDetail({ getOrderDetails }) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 ">
                   <div className="lg:col-span-8  mt-10 lg:mb-10 ">
                     <Ordertracker data={{ orderId: orderDetails.orderId }} details={orderDetails} />
-                    <List orderId={orderDetails.orderId} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} openReturn={setIsReturnActive} />
+                    <List orderId={orderDetails.orderId} status={orderDetails?.orderStatus} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} openReturn={setIsReturnActive} />
                     {
                       !!address &&
                       <Address address={address} />

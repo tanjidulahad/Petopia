@@ -136,7 +136,7 @@ export default function Tracker({ details }) {
         </div>
       </div>
       <div className=" hidden md:flex lg:flex bg-white  justify-center items-center">
-        <div className="flex relative right-2 flex-col justify-center items-center text-center">
+        <div className="flex relative right-10 flex-col justify-center items-center text-center">
           <p className="flex text-sm   my-1">Order Placed</p>
           <p
             className={`flex  text-sm text-gray-400 ${active.step1 === 'active' ? 'text-gray-400' : 'text-white'
@@ -146,7 +146,7 @@ export default function Tracker({ details }) {
           </p>
         </div>
 
-        <div className="flex flex-col relative left-8 right-4  justify-center items-center text-center">
+        <div className="flex flex-col relative  left-2  justify-center items-center text-center">
           <p className="flex text-sm   my-1">
             {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
               ? 'Order is Cancelled'
@@ -171,8 +171,8 @@ export default function Tracker({ details }) {
           }
         </div>
 
-        <div className="flex  relative left-12 md:left-6 lg:left-12 flex-col justify-center items-center text-center">
-          <p className="flex  text-sm l   realtive left-10 my-1">
+        <div className="flex  relative left-2 md:left-6 lg:left-[58px] flex-col items-center text-center">
+          <p className="flex  text-sm    realtive left-12 md:justify-end lg:justify-center ">
             Out for delivery
           </p>
 
@@ -182,7 +182,7 @@ export default function Tracker({ details }) {
           >
             {details?.isDelivery === 'Y' && details.customerPickupReadyTime
               ? moment.unix(details.customerPickupReadyTime).format('lll')
-              : ''}
+              : 'Mar 28, 2022 3:31 PM'}
           </p>
         </div>
       </div>

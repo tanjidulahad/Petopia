@@ -3,6 +3,7 @@ import Link from "@components/link";
 import Router from "next/router";
 import { connect } from 'react-redux';
 import { logOutStart } from '@redux/user/user-action';
+import { logOut } from '@redux/UI/ui-action';
 
 
 function mobprofile({ user, logout }) {
@@ -11,16 +12,24 @@ function mobprofile({ user, logout }) {
 
   return (
     <div>
-      <div className=" block lg:hidden md:hidden shadow-xl bg-white  " style={{ height: '80vh' }}>
+      <div className=" block lg:hidden md:hidden shadow-xl bg-white  " style={{ height: '100vh' }}>
         {/* <p className="text-base font-bold text-dark flex justify-start px-4 py-2 shadow-md">Profile</p> */}
         <div className=" flex justify-between my-6 mx-2">
-          <div className="flex justify-around my-2">
-            <div className="w-full flex justify-center mx-2  ">
-              <div className="rounded-full w-20 h-20 bg-gray-900  ring-2 z-100  bg-gray-900  ring-white">
-                <img
-                  className="w-full h-full opacity-90 rounded-full"
-                  src="https://images.indulgexpress.com/uploads/user/imagelibrary/2020/11/7/original/Chef_Ranveer_Brar.jpg"
-                />
+          <div className="flex justify-around items-center my-2 w-full">
+            <div className="w-fit flex justify-center mx-2  ">
+              <div className="rounded-full border-4 border-white w-20 h-20 bg-gray-100 text-gray-400  flex justify-center items-center">
+                <span className='text-3xl font-extrabold	' >
+                  {(() => {
+                    const name = user.full_name.split(' ')
+                    if (name.length) {
+                      if (name.length > 1) {
+                        return `${name[0][0]}${name[name.length - 1][0]}`.toUpperCase()
+                      }
+                      return `${name[0][0]}${name[0][1]}`.toUpperCase()
+                    }
+                    return 'A'
+                  })()}
+                </span>
               </div>
             </div>
             <div className="  w-full ">
@@ -30,20 +39,20 @@ function mobprofile({ user, logout }) {
 
                 </p>
                 <p className="text-sm font-semibold  my-2  text-gray-400">
-                  {user?.phone}
+                  {user?.phone === null ? "" : user?.phone}
 
                 </p>
                 <p className="text-sm font-semibold   text-gray-400">
-                  {user?.email_id === null ? "N/A" : user?.email_id}
+                  {user?.email_id === null ? "" : user?.email_id}
 
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="  w-max ">
+          <div className="w-max shrink-0 pr-4">
             <Link href='/account/profile ' >
-              <p className=" cursor-pointer text-lg m-2 font-semibold text-red-600 relative ">
+              <p className=" cursor-pointer text-lg m-2 font-semibold btn-color-revers  relative ">
                 Edit
               </p>
             </Link>
@@ -52,7 +61,7 @@ function mobprofile({ user, logout }) {
 
         <div ClassName=" mb-6 ">
 
-          <div className="my-2 pt-4 border-t-2 border-gray-600 ">
+          <div className="my-2 pt-4 border-t-2 border-gray-200 space-y-4">
             {
               active === 'myorders' ?
                 <div className="border-l-4 border-rose-700 h-10 flex">
@@ -60,7 +69,7 @@ function mobprofile({ user, logout }) {
                   <Link href='/account/myorders ' >
                     <div className="mx-4  pt-2 flex">
                       <img src='/img/my orders.svg' />
-                      <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
+                      <p className="  mx-2   text-sm relative  font-semibold relative  btn-color-revers ">
                         {" "}
                         My Orders
                       </p>
@@ -92,7 +101,7 @@ function mobprofile({ user, logout }) {
               //     <Link href='/account/wishlist ' >
               //       <div className="mx-4  pt-2 flex">
               //         <img src='/img/wishlist.svg' />
-              //         <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
+              //         <p className="  mx-2   text-sm relative  font-semibold relative  btn-color-revers ">
               //           {" "}
               //           Wishlist
               //         </p>
@@ -120,7 +129,7 @@ function mobprofile({ user, logout }) {
               //     <Link href='/account/wallet ' >
               //       <div className="mx-4  pt-2 flex">
               //         <img src='/img/wishlist.svg' />
-              //         <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
+              //         <p className="  mx-2   text-sm relative  font-semibold relative  btn-color-revers ">
               //           {" "}
               //           Wallet
               //         </p>
@@ -147,7 +156,7 @@ function mobprofile({ user, logout }) {
                   <Link href='/account/savedplaces ' >
                     <div className="mx-4  pt-2 flex">
                       <img src='/img/saved address.svg' />
-                      <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
+                      <p className="  mx-2   text-sm relative  font-semibold relative  btn-color-revers ">
                         {" "}
                         Saved Address
                       </p>
@@ -177,7 +186,7 @@ function mobprofile({ user, logout }) {
               //     <Link href='/account/subscription ' >
               //       <div className="mx-4  pt-2 flex">
               //         <img src='/img/help.svg' />
-              //         <p className="  mx-2   text-sm relative  font-semibold relative  text-red-600">
+              //         <p className="  mx-2   text-sm relative  font-semibold relative  btn-color-revers ">
               //           {" "}
               //           Help
               //         </p>
@@ -221,7 +230,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logOutStart())
+  // logout: () => dispatch(logOutStart())
+  logout: () => dispatch(logOut())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(mobprofile)

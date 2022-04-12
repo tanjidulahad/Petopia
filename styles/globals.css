@@ -33,6 +33,9 @@
 }
 
 html,
+body.loading * {
+  transition: none !important;
+}
 body {
   padding: 0;
   margin: 0;
@@ -77,8 +80,23 @@ nav {
 }
 
 .wrapper {
-  padding: 8px 8px;
+  padding: 0px 0px;
 }
+/* @media only screen and (min-width: 200px) {
+
+.grow { 
+transition: all .2s ease-in-out; 
+}
+
+.grow:hover { 
+transform: scale(1.1); 
+}
+
+.root-header{
+    background-size:100vw;
+    background-repeat: no-repeat;
+  }
+
 @media only screen and (min-width: 200px) {
   .wrapper {
     padding: 8px 8px;
@@ -88,7 +106,7 @@ nav {
   .wrapper {
     padding: 8px 16px;
   }
-}
+} */
 @media only screen and (min-width: 576px) {
   .wrapper {
     padding: 8px 16px;
@@ -166,4 +184,50 @@ nav {
 .disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+@media only screen and (max-width: 600px) {
+  .root-header {
+    background-image: url(https://dsa0i94r8ef09.cloudfront.net/widgets/header-background.jpg);
+    background-size: 385vw;
+    background-repeat: no-repeat;
+  }
+}
+/*  */
+.line-truncate-1 {
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.line-truncate-2 {
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+button.rec-dot {
+  background-color: rgba(36, 36, 36, 0.5);
+  box-shadow: 0 0 1px 3px rgba(36, 36, 36, 0.5);
+}
+
+button.rec-dot:hover,
+button.rec-dot:active,
+button.rec-dot:focus {
+  box-shadow: 0 0 1px 3px rgba(36, 36, 36, 0.8);
+}
+/* hide disabled buttons */
+.rec.rec-arrow:hover {
+  background-color: rgba(36, 36, 36, 0.5);
+}
+.rec.rec-arrow:disabled {
+  visibility: hidden;
+}
+
+/* disable default outline on focused items */
+/* add custom outline on focused items */
+.rec-carousel-item:focus {
+  outline: none;
+  box-shadow: inset 0 0 1px 1px lightgrey;
 }

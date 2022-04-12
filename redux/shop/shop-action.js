@@ -8,6 +8,11 @@ export const getShopInfoSuccess = (storeInfo) => ({
     type: shopActionType.GET_SHOP_INFO_SUCCESS,
     payload: storeInfo
 })
+// Error
+export const errorInGo = (error = {}) => ({
+    type: shopActionType.ERROR_IN_GO,
+    payload: error
+})
 // Products
 export const getShopProductsStart = (storeId) => ({
     type: shopActionType.GET_SHOP_PRODUCTS_START,
@@ -97,7 +102,7 @@ export const getSearchProductsSuccess = (data) => ({
     type: shopActionType.GET_SEARCH_SUCCESS,
     payload: data
 })
-// Pge count
+// Page count
 export const getPageCountStart = (payload) => ({
     type: shopActionType.GET_PAGE_COUNT_START,
     payload: payload

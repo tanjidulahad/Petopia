@@ -36,7 +36,6 @@ export const filterCart = (cartItems, orderDetails) => {
     // const backendCart = Object.values(Object.values(orderDetails.orders)[0].orderItems).map(item => ({
     //Retriving items from Order details ***it is very mess
     let storeName = "";
-    let storeLogo = '/img/default.webp'
     const ordersList = Object.values(orderDetails.orders)
     const backendCart = ordersList.map(item => item.orderItems).reduce((rv, item) => [...rv, ...Object.values(item)], []).map(item => ({
         item_id: Number(item.itemId),
@@ -51,7 +50,7 @@ export const filterCart = (cartItems, orderDetails) => {
         is_veg: item.isVeg,
         orderId: item.orderId,
         store_name: orderDetails.orders[item.orderId]?.storeName,
-        store_logo: storeLogo
+        store_logo: '/img/default.webp'
     })) // Item id and quantity filter
     console.log(backendCart);
     if (backendCart.length) {

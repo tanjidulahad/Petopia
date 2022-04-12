@@ -21,9 +21,9 @@ const Register = ({ showToggle, setPage, getRegisterOtp, userloginSuccess, info 
     }
     const onSubmitHandler = () => {
         if (!state.name || !state.phone) return setError("Enter valid name and email or phone number.");
-        getRegisterOtp({ state, setUserId, setUser, setError, storeId })
         setError('')
         setStatus('loading')
+        getRegisterOtp({ state, setUserId, setUser, setError, storeId })
     }
     useEffect(() => {
         return () => {

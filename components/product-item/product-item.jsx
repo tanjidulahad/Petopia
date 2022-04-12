@@ -84,8 +84,14 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                                 <Rating size={16} />
                                 <div className="te leading-3">
                                     <h2 className="font-bold black-color text-sm sm:text-2xl inline-block">₹{data.sale_price}</h2>
-                                    <span className="text-xs sm:text-lg black-color-50 line-through ml-2 md:ml-4 inline-block">₹{data.price}</span>
-                                    <span className="text-xs sm:text-lg success-color line-through ml-2 md:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
+                                    {
+                                        data.sale_price != data.price &&
+                                        <span className="text-xs sm:text-lg black-color-50 line-through ml-2 md:ml-4 inline-block">₹{data.price}</span>
+                                    }
+                                    {
+                                        !!(data.price - data.sale_price) &&
+                                        <span className="text-xs sm:text-lg success-color line-through ml-2 md:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
+                                    }
                                 </div>
                                 <div>
                                     <Button className=" capitalize" type="link" href={`/product/${data.item_id}`}>

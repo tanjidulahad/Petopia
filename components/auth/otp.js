@@ -8,6 +8,7 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
     const [error, setError] = useState("") // ""
     const [status, setStatus] = useState("")
     const [isLoading, setIsLoading] = useState(false)
+    const [counter, setCounter] = useState(120);
     // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
     const storeId = info.store_id;
     const onChangeHandler = (e) => {
@@ -52,6 +53,17 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
             setIsLoading(false)
         }
     }, [])
+    useEffect(() => {
+        const timer =
+            counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+        return () => clearInterval(timer);
+    }, [counter]);
+    const resendOTP = () => {
+        if (!counter) {
+            resend();
+            setCounter(120)
+        }
+    }
     return (
         <div className="auth">
             <div className="p-6 auth-form-container rounded" >
@@ -88,8 +100,20 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
                     </div>
                 </div>
                 <div className="auth-redirect text-lg my-8 flex justify-between items-center black-color-75" >
-                    <span className='font-semibold'>01:25</span>
-                    <span >Didn't receive OTP? <Button className="btn-color-revers px-2" onClick={resend} >Resend</Button> </span>
+                    <div>
+                        {!!counter &&
+                            <span className='font-semibold'>0{parseInt(counter / 60)}:{counter % 60 < 10 ? '0' + counter % 60 : counter % 60}</span>
+                        }
+
+                    </div>
+                    <span >Didn't receive OTP?
+                        {
+                            counter ?
+                                <Button className="btn-color-revers px-2" style={{ cursor: 'not-allowed', opacity: '0.7' }}>Resend</Button>
+                                :
+                                <Button className="btn-color-revers px-2" onClick={resendOTP} >Resend</Button>
+                        }
+                    </span>
                 </div>
                 <div >
                     <Button className={`w-full btn-bg btn-color py-4 rounded`} type="button" onClick={onSubmitHandler} disabled={isLoading}

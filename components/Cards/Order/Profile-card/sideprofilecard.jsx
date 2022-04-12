@@ -3,6 +3,7 @@ import Link from "@components/link";
 import Router from "next/router";
 import React from "react";
 import { connect } from "react-redux";
+import { logOut } from "@redux/UI/ui-action";
 
 function Sideprofilecard({ user, logout }) {
 
@@ -201,7 +202,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logOutStart())
+  // logout: () => dispatch(logOutStart())
+  logout: () => dispatch(logOut())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sideprofilecard);

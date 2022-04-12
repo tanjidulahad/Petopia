@@ -29,6 +29,7 @@ function index() {
       objerver.observe(document.body)
     }
   }, [])
+
   return (
     <footer style={{
       paddingBottom: mobNavHeight,
@@ -42,22 +43,22 @@ function index() {
             style={{ alignItems: 'center' }}
           >
             <p className="text-white my-8">
-              <Link href='/privacy'>
+              <a href='https://goplinto.com/privacy-policy' target='_blank'>
                 Privacy Policy
-              </Link>
+              </a>
             </p>
             <BsDot className="mx-4 my-8 " color={'gray'} size={20} />
             <p className="text-white my-8 ">
-              <Link href='/returns-refunds'>
+              <a href='https://goplinto.com/refund-policy' target='_blank'>
                 Return & Refunds
-              </Link>
+              </a>
             </p>
 
             <BsDot className="mx-4 my-8" color={'gray'} size={20} />
             <p className="text-white my-8  ">
-              <Link href='/terms-of-use'>
-                Privacy Policy
-              </Link>
+              <a href='https://goplinto.com/terms-and-condition' target='_blank'>
+                Term & conditions
+              </a>
             </p>
           </div>
           <div className=" h-1/3 mt-10 flex  justify-center  align-center">

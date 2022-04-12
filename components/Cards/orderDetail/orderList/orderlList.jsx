@@ -22,7 +22,7 @@ function orderlList({ list, storeName, orderId, createTime, openReturn }) {
           </div>
 
           <div className="mt-10 lg:mt-6 md:mt-6   lg:w-full flex justify-end align-center ">
-            <p className="text-left  text-sm font-medium text-gray-500  ml-10 md:ml-0 lg:ml-0 mr-0 lg:mr-8  md:ml-4">{moment(createTime).format('lll')}</p>
+            <p className="text-left  text-sm font-medium text-gray-500  ml-10 md:ml-0 lg:ml-0 mr-0 lg:mr-8  md:ml-4">{moment.unix(createTime).format('lll')}</p>
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@ function orderlList({ list, storeName, orderId, createTime, openReturn }) {
                       <Button type='link' href={`/product/${item.orderItemId}`}>
                         <p className="text-left font-semibold text-base text-dark mt-2 ">{item.itemName}</p>
                       </Button>
-                      <p className="text-left text-sm font-medium text-gray-500 mt-2 "> Green, Small</p>
+                      {/* <p className="text-left text-sm font-medium text-gray-500 mt-2 "> Green, Small</p> */}
                     </div>
                   </div>
                 </div>

@@ -17,7 +17,7 @@ export default function name() {
     return (
         <>
             {router.isReady ?
-                router.query.storeId ?
+                !!router.query.storeId ?
                     <Loader message="Store is getting ready for you!..." />
                     :
                     <DefaultComponent />

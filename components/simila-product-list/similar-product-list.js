@@ -50,7 +50,7 @@ const SimilaProductList = ({ list }) => {
                 list.map((item, i) => (
                     <div className="w-52 space-y-4" key={i}>
                         <div className="w-52 h-52 mx-auto">
-                            <img className="w-full h-full sm:w-40 sm:h-40 bg-slate-300 rounded-md  object-cover" src={`${'/img/default.webp'}`} alt={`...`} />
+                            <img className="w-full h-full sm:w-40 sm:h-40 bg-slate-300 rounded-md  object-cover" src={`${item.primary_img || '/img/default.webp'}`} alt={`...`} />
                         </div>
                         <div>
                             <h2 className="line-truncate-1 text-lg font-bold">{item.item_name}</h2>

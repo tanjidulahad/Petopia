@@ -214,7 +214,9 @@ function* onRemoveAddressStart() {
                 yield put(getAddressStart({ userId, setError }))
             }
         } catch (error) {
-            setError(error)
+            if (setError) {
+                setError(error.message)
+            }
             // if (error.message == 'Network Error') {
             //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
             // } else {

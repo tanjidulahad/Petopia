@@ -12,6 +12,7 @@ import { Button } from "@components/inputs";
 import PdpImage from "@components/pdp-image/pdp-image";
 import ErrorPage from '@components/error/index'
 import Loader from "@components/loading/loader";
+import SimilaProductList from "@components/simila-product-list/similar-product-list";
 // actions
 import { addToCart, removeFromCart } from "@redux/cart/cart-actions";
 // import { authShowToggle } from "@redux/user/user-action";
@@ -62,7 +63,7 @@ const ProductDetails = ({
         fetchProductDetails({ id: productId, onSuccess, onFailure })
         getAdditionalInfo({ setAdditionalInfo, id: productId })
         getSpecifications({ setSpecifications, id: productId })
-        // fetchSimilarProducts({ setSimilarProducts, id: productId })
+        fetchSimilarProducts({ setSimilarProducts, id: productId })
     }, [router.isReady])
     useEffect(() => {
         // Run with Product change
@@ -164,7 +165,7 @@ const ProductDetails = ({
                     <section className="bg-black-color-lighter pdp">
                         <div className="w-full bg-white relative">
                             <div className="wrapper mx-auto">
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 py-20 overflow-x-hidden">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 py-20 px-4 sm:px-4 overflow-x-hidden">
                                     <div className="w-full ">
                                         {/* <img src={visuals.images[0]} alt={visuals.name} /> */}
                                         <PdpImage name={visuals.name} list={visuals.images} />
@@ -285,7 +286,7 @@ const ProductDetails = ({
                             visuals.additionalinfo.length ?
                                 <div className="w-full mt-3 bg-white ">
                                     <div className="wrapper mx-auto">
-                                        <div className="py-20">
+                                        <div className="py-20  px-4 sm:px-4">
                                             <div className="border-l-8 border-static additional-info">
                                                 <h3 className="ml-4 md:ml-8 text-base md:text-xl">
                                                     Additional Info
@@ -321,6 +322,21 @@ const ProductDetails = ({
                                     </div>
                                 </div>
                                 : <></>
+                        }
+                        {
+                            !!visuals.similarProducts.length &&
+                            <div className="w-full mt-3 bg-white ">
+                                <div className="wrapper mx-auto">
+                                    <div className="py-20  px-4 sm:px-4 carousel-container space-y-8">
+                                        <div className="border-l-8 border-static additional-info">
+                                            <h3 className="ml-4 md:ml-8 text-base md:text-xl">
+                                                Similar Products
+                                            </h3>
+                                        </div>
+                                        <SimilaProductList list={visuals.similarProducts} />
+                                    </div>
+                                </div>
+                            </div>
                         }
                     </section >
                     : failure

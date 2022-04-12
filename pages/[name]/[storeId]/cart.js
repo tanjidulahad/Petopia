@@ -18,6 +18,7 @@ import PageWrapper from "@components/page-wrapper/page-wrapper"
 
 // Function
 import { readyCartData, groupBy } from '@utils/utill'
+import AddressForm from "@components/address-form/address-form"
 // const readyCartData = function (arr, key) {
 //     return arr.reduce(function (rv, x) {
 //         (rv[x[key]] = rv[x[key]] || []).push({
@@ -29,9 +30,26 @@ import { readyCartData, groupBy } from '@utils/utill'
 //         return rv;
 //     }, {});
 // };
-
+const addressStructure = {
+    full_name: "",
+    phone: "",
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    address_fields: {},
+    address_tag: "Home",
+    country: "India",
+    is_default: "",
+    latitude: null,
+    longitude: null,
+    state: "",
+    zip_code: ""
+}
 const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
     initiateOrder, clearCheckout, createNewRzpOrder, clearCart, isDetailsLoading }) => {
+
+    const [newAddress, setNewAddress] = useState(null)
+    const [isAddressActive, setIsAddressActive] = useState(false);
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
     const purchaseDetails = checkout.purchaseDetails;
     const [mobNavHeight, setMobNavHeight] = useState(0)
@@ -399,7 +417,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                                 <span className="country">{item.country},</span>
                                                                                                 <span className="country font-w-bold">+91 {item.phone}</span>
                                                                                             </div>
-                                                                                            <button className="btn-color-revese my-2">Edit</button>
+                                                                                            <button className="btn-color-revese my-2" onClick={() => { setNewAddress(item); setIsAddressActive(true) }}>Edit</button>
                                                                                             {
                                                                                                 checkoutDetails.deliveryAddress != item.address_id &&
                                                                                                 <label className="block my-2 btn-bg btn-color py-3.5 px-8 rounded max-w-fit cursor-pointer" htmlFor={`address${i}`} >Deliver Here</label>
@@ -412,7 +430,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
 
                                                                     }
                                                                     <div className=" py-6">
-                                                                        <Button className="flex items-center btn-color-revese" type="link" href="/account/savedplaces">
+                                                                        <Button className="flex items-center btn-color-revese" onClick={() => { setNewAddress(null); setIsAddressActive(true) }}>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                             </svg>
@@ -663,6 +681,10 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                         </div>
                     </div>
                 </div >
+            }
+            {
+                isAddressActive &&
+                <AddressForm edit={newAddress} close={() => { setIsAddressActive(false) }} />
             }
         </>
     )

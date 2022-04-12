@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { connect } from "react-redux"
 import { Button, Input } from '../inputs'
 import Otp from './otp';
-import { getRegisterOtpStart, loginSuccess, authShowToggle } from '../../redux/user/user-action';
+import { getRegisterOtpStart, loginSuccess, authShowToggle, getLoginOtpStart } from '../../redux/user/user-action';
 
 // Register Component
-const Register = ({ showToggle, setPage, getRegisterOtp, userloginSuccess, info }) => {
+const Register = ({ showToggle, setPage, getRegisterOtp, getLoginOtp, userloginSuccess, info }) => {
     const [state, setState] = useState({ name: "", phone: "" });
     const [userId, setUserId] = useState("")
     const [user, setUser] = useState(null)
@@ -19,11 +19,15 @@ const Register = ({ showToggle, setPage, getRegisterOtp, userloginSuccess, info 
         // if (!(/^\d*$/.test(value)) && name == 'phone') return;
         setState({ ...state, [name]: value.trim() })
     }
-    const onSubmitHandler = () => {
+    const onSubmitHandler = (resend = false) => {
         if (!state.name || !state.phone) return setError("Enter valid name and email or phone number.");
         setError('')
         setStatus('loading')
-        getRegisterOtp({ state, setUserId, setUser, setError, storeId })
+        if (resend) {
+            getLoginOtp({ phone: state.phone, setUser, setError, storeId })
+        } else {
+            getRegisterOtp({ state, setUserId, setUser, setError, storeId })
+        }
     }
     useEffect(() => {
         return () => {
@@ -46,7 +50,7 @@ const Register = ({ showToggle, setPage, getRegisterOtp, userloginSuccess, info 
                         } else {
                             setPage(true)
                         }
-                    }} setPage={setPage} userId={userId} setUser={setUser} resend={onSubmitHandler} />
+                    }} setPage={setPage} userId={userId} setUser={setUser} resend={() => { onSubmitHandler(true) }} />
 
                     : <div className="auth">
                         <div className="p-6 auth-form-container rounded" >
@@ -75,7 +79,7 @@ const Register = ({ showToggle, setPage, getRegisterOtp, userloginSuccess, info 
                                 </div>
                             </div>
                             <div className="py-8 border-b-2">
-                                <Button className={`w-full btn-color text-lg font-medium btn-bg py-4 rounded${status == 'loading' ? 'loading-btn' : ""}`} type="button" onClick={onSubmitHandler} disabled={status == 'loading'}
+                                <Button className={`w-full btn-color text-lg font-medium btn-bg py-4 rounded${status == 'loading' ? 'loading-btn' : ""}`} type="button" onClick={() => { onSubmitHandler(false) }} disabled={status == 'loading'}
                                     style={{
                                         ...(status == 'loading') && {
                                             opacity: 0.7,

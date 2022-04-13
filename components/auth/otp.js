@@ -17,7 +17,8 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
         if (!(/^\d*$/.test(value))) return;
         setOtp(value)
     }
-    const onSubmitHandler = () => {
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
         if (!otp) return setError("Enter valid OTP.");
         otpVerify({
             otp,
@@ -87,43 +88,47 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
                         </span>
                     }
                 </div>
-                <div className="mt-10">
-                    <div className='' style={{ maxWidth: 'fit-content' }} >
-                        {
-                            error ?
-                                <span className='text-base red-color'>{error}</span>
-                                : null
-                        }
-                    </div>
-                    <div>
-                        <Input name='otp' className={`auth-input ${error && 'input-danger'}`} type="text" placeholder="Enter OTP" value={otp} onChange={onChangeHandler} disabled={isLoading} />
-                    </div>
-                </div>
-                <div className="auth-redirect text-lg my-8 flex justify-between items-center black-color-75" >
-                    <div>
-                        {!!counter &&
-                            <span className='font-semibold'>0{parseInt(counter / 60)}:{counter % 60 < 10 ? '0' + counter % 60 : counter % 60}</span>
-                        }
 
+                <form onSubmit={onSubmitHandler}>
+                    <div className="mt-10">
+                        <div className='' style={{ maxWidth: 'fit-content' }} >
+                            {
+                                error ?
+                                    <span className='text-base red-color'>{error}</span>
+                                    : null
+                            }
+                        </div>
+                        <div>
+                            <Input name='otp' className={`auth-input ${error && 'input-danger'}`} type="text" placeholder="Enter OTP" value={otp} onChange={onChangeHandler} disabled={isLoading} />
+                        </div>
                     </div>
-                    <span >Didn't receive OTP?
-                        {
-                            counter ?
-                                <Button className="btn-color-revers px-2" style={{ cursor: 'not-allowed', opacity: '0.7' }}>Resend</Button>
-                                :
-                                <Button className="btn-color-revers px-2" onClick={resendOTP} >Resend</Button>
-                        }
-                    </span>
-                </div>
-                <div >
-                    <Button className={`w-full btn-bg btn-color py-4 rounded`} type="button" onClick={onSubmitHandler} disabled={isLoading}
-                        style={{
-                            ...isLoading && {
-                                opacity: 0.7,
-                                cursor: "not-allowed"
-                            },
-                        }}>{isLoading ? 'Loading...' : 'Verify OTP'} </Button>
-                </div>
+                    <div className="auth-redirect text-lg my-8 flex justify-between items-center black-color-75" >
+                        <div>
+                            {!!counter &&
+                                <span className='font-semibold'>0{parseInt(counter / 60)}:{counter % 60 < 10 ? '0' + counter % 60 : counter % 60}</span>
+                            }
+
+                        </div>
+                        <span >Didn't receive OTP?
+                            {
+                                counter ?
+                                    <Button className="btn-color-revers px-2" type="button" style={{ cursor: 'not-allowed', opacity: '0.7' }}>Resend</Button>
+                                    :
+                                    <Button className="btn-color-revers px-2" type="button" onClick={resendOTP} >Resend</Button>
+                            }
+                        </span>
+                    </div>
+                    <div >
+                        <Button className={`w-full btn-bg btn-color py-4 rounded`} type="submit" disabled={isLoading}
+                            style={{
+                                ...isLoading && {
+                                    opacity: 0.7,
+                                    cursor: "not-allowed"
+                                },
+                            }}>{isLoading ? 'Loading...' : 'Verify OTP'} </Button>
+                    </div>
+                </form>
+
             </div>
         </div>
     )

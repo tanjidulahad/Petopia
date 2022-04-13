@@ -19,15 +19,18 @@ const Register = ({ showToggle, setPage, getRegisterOtp, getLoginOtp, userloginS
         // if (!(/^\d*$/.test(value)) && name == 'phone') return;
         setState({ ...state, [name]: value.trim() })
     }
-    const onSubmitHandler = (resend = false) => {
+    const onSubmitHandler = (e) => {
+        e?.preventDefault();
         if (!state.name || !state.phone) return setError("Enter valid name and email or phone number.");
         setError('')
         setStatus('loading')
-        if (resend) {
-            getLoginOtp({ phone: state.phone, setUser, setError, storeId })
-        } else {
-            getRegisterOtp({ state, setUserId, setUser, setError, storeId })
-        }
+        getRegisterOtp({ state, setUserId, setUser, setError, storeId })
+    }
+    const onResendHandler = () => {
+        setError('')
+        setStatus('loading')
+        getLoginOtp({ phone: state.phone, setUser, setError, storeId })
+
     }
     useEffect(() => {
         return () => {
@@ -50,7 +53,7 @@ const Register = ({ showToggle, setPage, getRegisterOtp, getLoginOtp, userloginS
                         } else {
                             setPage(true)
                         }
-                    }} setPage={setPage} userId={userId} setUser={setUser} resend={() => { onSubmitHandler(true) }} />
+                    }} setPage={setPage} userId={userId} setUser={setUser} resend={onResendHandler} />
 
                     : <div className="auth">
                         <div className="p-6 auth-form-container rounded" >
@@ -63,30 +66,33 @@ const Register = ({ showToggle, setPage, getRegisterOtp, getLoginOtp, userloginS
                                     </svg>
                                 </Button>
                             </div>
-                            <div className="mt-10">
-                                <div className='' style={{ maxWidth: 'fit-content' }} >
-                                    {
-                                        error ?
-                                            <span className='text-base red-color'>{error}</span>
-                                            : null
-                                    }
+                            <form onSubmit={onSubmitHandler} >
+                                <div className="mt-10">
+                                    <div className='' style={{ maxWidth: 'fit-content' }} >
+                                        {
+                                            error ?
+                                                <span className='text-base red-color'>{error}</span>
+                                                : null
+                                        }
+                                    </div>
+                                    <div>
+                                        <Input name='name' className={`auth-input ${error && 'input-danger'}`} type="text" placeholder="Your name" onChange={onChangeHandler} value={state.name} />
+                                    </div>
+                                    <div className='mt-6'>
+                                        <Input name='phone' className={`auth-input ${error && 'input-danger'}`} type="tel" placeholder="Enter 10 digit phone number" onChange={onChangeHandler} value={state.phone} />
+                                    </div>
                                 </div>
-                                <div>
-                                    <Input name='name' className={`auth-input ${error && 'input-danger'}`} type="text" placeholder="Your name" onChange={onChangeHandler} value={state.name} />
+                                <div className="py-8 border-b-2">
+                                    <Button className={`w-full btn-color text-lg font-medium btn-bg py-4 rounded${status == 'loading' ? 'loading-btn' : ""}`} type="submit" disabled={status == 'loading'}
+                                        style={{
+                                            ...(status == 'loading') && {
+                                                opacity: 0.7,
+                                                cursor: "not-allowed"
+                                            },
+                                        }}>{status == 'loading' ? 'Loading...' : 'Get OTP'}</Button>
                                 </div>
-                                <div className='mt-6'>
-                                    <Input name='phone' className={`auth-input ${error && 'input-danger'}`} type="tel" placeholder="Enter 10 digit phone number" onChange={onChangeHandler} value={state.phone} />
-                                </div>
-                            </div>
-                            <div className="py-8 border-b-2">
-                                <Button className={`w-full btn-color text-lg font-medium btn-bg py-4 rounded${status == 'loading' ? 'loading-btn' : ""}`} type="button" onClick={() => { onSubmitHandler(false) }} disabled={status == 'loading'}
-                                    style={{
-                                        ...(status == 'loading') && {
-                                            opacity: 0.7,
-                                            cursor: "not-allowed"
-                                        },
-                                    }}>{status == 'loading' ? 'Loading...' : 'Get OTP'}</Button>
-                            </div>
+                            </form>
+
                             <div className="auth-redirect mt-8 black-color text-lg" >
                                 <span>Already have an account? <Button className="bg-transparent btn-color-revers px-1" onClick={() => setPage(true)}>Login</Button> </span>
                             </div>

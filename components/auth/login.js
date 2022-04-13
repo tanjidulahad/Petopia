@@ -18,8 +18,14 @@ const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, info }) => 
         // if (!(/^\d*$/.test(value))) return;
         setPhone(value.trim())
     }
-    const onSubmitHandler = () => {
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
         if (!phone) return setError("Enter valid phone number!.");
+        setError('')
+        setStatus('loading')
+        getLoginOtp({ phone, setUser, setError, storeId })
+    }
+    const onResendtHandler = () => {
         setError('')
         setStatus('loading')
         getLoginOtp({ phone, setUser, setError, storeId })
@@ -54,33 +60,38 @@ const Login = ({ showToggle, getLoginOtp, userloginSuccess, setPage, info }) => 
                                     </svg>
                                 </Button>
                             </div>
-                            <div className="mt-10">
-                                <div className='' style={{ maxWidth: 'fit-content' }} >
-                                    {
-                                        !!error &&
-                                        <span className='text-base red-color'>{error}</span>
 
-                                    }
+                            <form onSubmit={onSubmitHandler}>
+
+                                <div className="mt-10">
+                                    <div className='' style={{ maxWidth: 'fit-content' }} >
+                                        {
+                                            !!error &&
+                                            <span className='text-base red-color'>{error}</span>
+
+                                        }
+                                    </div>
+                                    <Input name='otp' className={`auth-input ${error && 'input-danger'}`} type="text" placeholder="Phone Number or Email" onChange={onChangeHandler} value={phone} disabled={status == 'loading'} />
                                 </div>
-                                <Input name='otp' className={`auth-input ${error && 'input-danger'}`} type="text" placeholder="Phone Number or Email" onChange={onChangeHandler} value={phone} disabled={status == 'loading'} />
-                            </div>
-                            <div className="py-8 border-b-2 ">
-                                <Button className={`w-full btn-color text-lg font-medium btn-bg py-4 rounded ${status == 'loading' ? 'loading-btn' : ""}`} type="button" onClick={onSubmitHandler} disabled={status == 'loading'}
-                                    style={{
-                                        ...(status == 'loading') && {
-                                            opacity: 0.7,
-                                            cursor: "not-allowed"
-                                        },
-                                    }}
-                                >{status == 'loading' ? 'Loading...' : 'Get OTP'}</Button>
-                            </div>
+                                <div className="py-8 border-b-2 ">
+                                    <Button className={`w-full btn-color text-lg font-medium btn-bg py-4 rounded ${status == 'loading' ? 'loading-btn' : ""}`} type="submit" disabled={status == 'loading'}
+                                        style={{
+                                            ...(status == 'loading') && {
+                                                opacity: 0.7,
+                                                cursor: "not-allowed"
+                                            },
+                                        }}
+                                    >{status == 'loading' ? 'Loading...' : 'Get OTP'}</Button>
+                                </div>
+                            </form>
+
                             <div className="auth-redirect  black-color mt-8 text-lg" >
                                 <span>New User? <Button className=" bg-transparent btn-color-revers px-1" onClick={() => setPage(false)}>Create Account</Button> </span>
                             </div>
 
                         </div>
                     </div>
-                    : <Otp username={phone} onSuccess={() => { userloginSuccess(user) }} setPage={setPage} setUser={setUser} userId={user.customer_id} resend={onSubmitHandler} />
+                    : <Otp username={phone} onSuccess={() => { userloginSuccess(user) }} setPage={setPage} setUser={setUser} userId={user.customer_id} resend={onResendtHandler} />
             }
         </>
 

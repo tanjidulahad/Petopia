@@ -5,22 +5,27 @@ import DefaultComponent from '@components/indexDefault/index-dtault';
 
 export default function name() {
     const router = useRouter()
-    // const [storeId, setStoreId] = useState(false)
-    // console.log(router);
-    // useEffect(() => {
-    //     const { storeId } = router.query
-    //     if (storeId) {
-    //         setStoreId(true)
-    //     }
-    // }, [router.isReady])
+    const [readyToGo, setReadyToGo] = useState(false)
+    const [storeId, setStoreId] = useState(null)
+    console.log(router);
+    useEffect(() => {
+        const { storeId } = router.query
+        if (storeId) {
+            setStoreId(storeId)
+            setReadyToGo(true)
+        }
+    }, [router.isReady])
 
     return (
         <>
             {router.isReady ?
-                !!router.query.storeId ?
+                readyToGo ?
                     <Loader message="Store is getting ready for you!..." />
                     :
-                    <DefaultComponent />
+                    !!storeId ?
+                        <Loader message="Store is getting ready for you!..." />
+                        :
+                        <DefaultComponent />
                 :
                 <Loader />
             }

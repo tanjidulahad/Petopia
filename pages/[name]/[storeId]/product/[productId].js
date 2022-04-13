@@ -341,7 +341,7 @@ const ProductDetails = ({
                     </section >
                     : failure
                         ?
-                        <ErrorPage message="failure.message" />
+                        <ErrorPage message={failure.message || 'Something went wrong!'} />
                         :
                         <Loader />
 

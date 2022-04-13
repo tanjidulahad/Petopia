@@ -1,3 +1,4 @@
+import Link from '@components/link';
 import Carousel from 'react-elastic-carousel';
 // import "react-multi-carousel/lib/styles.css";
 
@@ -49,12 +50,14 @@ const SimilaProductList = ({ list }) => {
             {
                 list.map((item, i) => (
                     <div className="w-52 space-y-4" key={i}>
-                        <div className="w-52 h-52 mx-auto">
-                            <img className="w-full h-full sm:w-40 sm:h-40 bg-slate-300 rounded-md  object-cover" src={`${item.primary_img || '/img/default.webp'}`} alt={`...`} />
-                        </div>
-                        <div>
+                        <Link href={`/product/${item.item_id}`}>
+                            <a className="block w-52 h-52 mx-auto">
+                                <img className="w-full h-full sm:w-40 sm:h-40 bg-slate-300 rounded-md  object-cover" src={`${item.primary_img || '/img/default.webp'}`} alt={`...`} />
+                            </a>
+                        </Link>
+                        <a className='block'>
                             <h2 className="line-truncate-1 text-lg font-bold">{item.item_name}</h2>
-                        </div>
+                        </a>
                         <div className="flex">
                             <h2 className="text-lg font-bold">₹  {item.sale_price}</h2>
                         </div>

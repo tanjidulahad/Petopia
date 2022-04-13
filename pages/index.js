@@ -13,6 +13,7 @@ export default function name() {
         if (storeId) {
             setStoreId(storeId)
             setReadyToGo(true)
+            router.push(router.asPath)
         }
     }, [router.isReady])
 
@@ -22,10 +23,7 @@ export default function name() {
                 readyToGo ?
                     <Loader message="Store is getting ready for you!..." />
                     :
-                    !!storeId ?
-                        <Loader message="Store is getting ready for you!..." />
-                        :
-                        <DefaultComponent />
+                    <DefaultComponent />
                 :
                 <Loader />
             }

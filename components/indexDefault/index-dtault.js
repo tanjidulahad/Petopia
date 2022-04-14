@@ -103,7 +103,7 @@ export default function Name() {
     }
 
     return (
-        <div className="flex flex-col bg-white">
+        <div className="flex flex-col bg-white overflow-x-hidden">
 
             {/* modal for mobile view */}
 
@@ -185,13 +185,13 @@ export default function Name() {
                     <div className="flex flex-row flex-wrap justify-between lg:justify-start lg:ml-3">
                         {stores.map((store, index) => {
                             return (
-                                <div className="flex flex-col pt-2 w-1/2 lg:w-1/4 md:w-1/4 items-center lg:items-start md:items-start max-h-60 min-h-36 " key={index}>
+                                <div className="flex flex-col pt-2 w-1/2 lg:w-1/4 md:w-1/4 items-center lg:items-start md:items-start max-h-60 min-h-36 " key={index} onClick={()=>router.push(`/${store.store_name}/${store.store_id}`)}>
                                     <div className='flex items-start '>
                                         <img src={store?.logo_img_url} className="min-h-28 max-h-28" />
                                     </div>
                                     <p className="text-lg font-semibold mt-4">{store.store_name}</p>
-                                    <p className="text-gray-300 text-sm w-44" style={{ fontSize: '12px' }}>{store.store_desc}.<span className='lg:hidden md:hidden'> Visit now</span></p>
-                                    <button className='hidden lg:block md:block bg-[#4A0037CC] text-white border border-[#4A0037CC] hover:bg-white hover:text-[#4A0037CC] cursor-pointer p-1 rounded-lg pl-2 pr-2 ml-12 text-sm mt-2'>Visit Store</button>
+                                    <p className="text-gray-300 text-sm w-44 ml-12" style={{ fontSize: '12px' }}>{store.store_desc}.<span className='lg:hidden md:hidden'> Visit now</span></p>
+                                    <button className='hidden lg:block md:block bg-[#4A0037CC] text-white border border-[#4A0037CC] hover:bg-white hover:text-[#4A0037CC] cursor-pointer p-1 rounded-lg pl-2 pr-2  text-sm mt-2'>Visit Store</button>
                                 </div>
                             )
                         })}
@@ -239,7 +239,7 @@ export default function Name() {
 
 
             {/* footer for web */}
-            <footer className='hidden lg:block md:block bg-black lg:mt-48'>
+            <footer className='hidden lg:block md:block bg-black lg:mt-48 w-full'>
                 <div className='flex justify-center text-[#FFFFFF] gap-24 mt-5'>
                     <ul className="list-disc flex gap-24">
                         <li>Privacy Policy</li>

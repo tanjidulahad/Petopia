@@ -87,3 +87,31 @@ export const updateAddressSuccess = (add) => ({
     type: userActionType.UPDATE_ADDRESS_SUCCESS,
     payload: add
 })
+
+//
+export const registerWithPasswordStart = (data) => ({
+    type: userActionType.REGISTER_WITH_PASSWORD_START,
+    payload: data
+})
+export const registerWithPasswordSuccess = (data) => ({
+    type: userActionType.REGISTER_WITH_PASSWORD_SUCCESS,
+    payload: data
+})
+export const loginWithPasswordStart = (data) => ({
+    type: userActionType.LOGIN_WITH_PASSWORD_START,
+    payload: data
+})
+export const loginWithPasswordSuccess = (data) => ({
+    type: userActionType.LOGIN_WITH_PASSWORD_SUCCESS,
+    payload: data
+})
+export const forgotPasswordStart = (data) => ({
+    type: userActionType.FORGOT_PASSWORD_START,
+    payload: data
+})
+export const forgotPasswordSuccess = (data) => ({
+    type: userActionType.FORGOT_PASSWORD_SUCCESS,
+    payload: data
+})
+
+

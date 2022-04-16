@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import Loader from '../loading/loader';
 
 // Action
-import { authShowToggle } from '@redux/user/user-action'
+import { authShowToggle } from '../../redux/user/user-action'
 
 
 const Protecter = ({ WrappedComponent, authToggle, authshow, authestore, ...props }) => {

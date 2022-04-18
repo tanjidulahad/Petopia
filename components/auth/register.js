@@ -96,7 +96,10 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
                                                                 onChange={phone => setState({ ...state, isdCode: phone })}
                                                             />
                                                         </div>
-                                                        <Input name='phone' className={`py-3 ${error && ' border-red-400'}`} type="tel" placeholder="Enter 10 digit phone number" onChange={onChangeHandler} value={state.phone} />
+                                                        <div className=' relative w-full'>
+                                                            <input className='ml-2 absolute text-center text-sm top-1/2 -translate-y-1/2 w-11 outline-none' value={'+' + state.isdCode} />
+                                                            <Input name='phone' className={`pl-14 py-3 ${error && ' border-red-400'}`} type="tel" placeholder="Enter 10 digit phone number" onChange={onChangeHandler} value={state.phone} />
+                                                        </div>
                                                     </div>
                                                     :
                                                     <div className='mt-2'>

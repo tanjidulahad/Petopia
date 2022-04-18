@@ -38,7 +38,7 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
         if (state.password != state.confirmPassword) return setError("Password and confirm password are not same.");
         setError('')
         setIsLoading(true)
-        registerWithPassword({ state, setError, setUser, setStatus: setIsLoading, storeId: info.store_id })
+        registerWithPassword({ state: { ...state, verificationType: isVarificationPhone ? "PHONE" : 'EMAIL' }, setError, setUser, setStatus: setIsLoading, storeId: info.store_id })
     };
     // const resendHandler = () => {
     //     forgotPassword({ state })

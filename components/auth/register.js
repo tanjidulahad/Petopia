@@ -4,10 +4,10 @@ import { Button, Input } from '@components/inputs'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import Otp from './otp';
-import { getRegisterOtpStart, loginSuccess, authShowToggle, getLoginOtpStart, registerWithPasswordStart } from '@redux/user/user-action';
+import { getRegisterOtpStart, loginSuccess, authShowToggle, getLoginOtpStart, registerWithPasswordStart, forgotPasswordStart } from '@redux/user/user-action';
 
 // Register Component
-const Register = ({ showToggle, setPage, registerWithPassword, userloginSuccess, info }) => {
+const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, userloginSuccess, info }) => {
 
     const [isVarificationPhone, setIsVarificationPhone] = useState(false)
     const [state, setState] = useState({
@@ -40,13 +40,16 @@ const Register = ({ showToggle, setPage, registerWithPassword, userloginSuccess,
         setIsLoading(true)
         registerWithPassword({ state, setError, setUser, setStatus: setIsLoading, storeId: info.store_id })
     };
+    // const resendHandler = () => {
+    //     forgotPassword({ state })
+    // }
 
     return (
         <>
             {
                 !!user ?
                     <Otp username={isVarificationPhone ? state.isdCode + ' ' + state.phone : state.emailId}
-                        setPage={setPage} userId={user.customer_id}
+                        setPage={setPage} userId={user.customer_id} resend={() => forgotPassword({ state })}
                     />
                     :
                     <div className="auth">
@@ -143,6 +146,7 @@ const mapDispatchToProps = dispatch => ({
     // getRegisterOtp: (user) => dispatch(getRegisterOtpStart(user)),
     // otpVerify: (otp) => dispatch(otpVerificationStart(otp)),
     registerWithPassword: (data) => dispatch(registerWithPasswordStart(data)),
+    forgotPassword: (data) => dispatch(forgotPasswordStart(data)),
     userloginSuccess: (data) => dispatch(loginSuccess(data)),
 })
 

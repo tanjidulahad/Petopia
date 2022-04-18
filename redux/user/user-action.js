@@ -114,4 +114,22 @@ export const forgotPasswordSuccess = (data) => ({
     payload: data
 })
 
+export const forgotPasswordOtpVerifyStart = (data) => ({
+    type: userActionType.FORGOT_PASSWORD_OTP_VERIFY_START,
+    payload: data
+})
+export const forgotPasswordOtpVerifySuccess = (data) => ({
+    type: userActionType.FORGOT_PASSWORD_OTP_VERIFY_SUCCESS,
+    payload: data
+})
+
+export const newPasswordCreateStart = (data) => ({
+    type: userActionType.NEW_PASSWORD_CREATE_START,
+    payload: data
+})
+export const newPasswordCreateSuccess = (data) => ({
+    type: userActionType.NEW_PASSWORD_CREATE_SUCCESS,
+    payload: data
+})
+
 

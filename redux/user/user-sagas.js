@@ -149,6 +149,74 @@ function* onLoginWithPasswordStart() {
 }
 
 
+function* onForgotPasswordStart() {
+    yield takeLatest(userActionType.FORGOT_PASSWORD_START, function* ({ payload }) {
+        const { state, setUser, setIsLoading, setError } = payload;
+        try {
+            const { data } = yield nodefetcher('POST', `/customer/forget-password`, state)
+            if (data.status == 'success') {
+                if (setUser) {
+                    setUser(data.customerId)
+                }
+                if (setIsLoading) {
+                    setIsLoading(false)
+                }
+            } else {
+                throw new Error(data.message)
+            }
+        } catch (error) {
+            if (setError) {
+                setError(error.message)
+            }
+
+            if (setIsLoading) {
+                setIsLoading(false)
+            }
+        }
+    })
+}
+
+function* onForgotPasswordOtpVerifyStart() {
+    yield takeLatest(userActionType.FORGOT_PASSWORD_OTP_VERIFY_START, function* ({ payload }) {
+        const { state, setError, setIsLoading, setIsSuccess, setUser } = payload;
+        try {
+            const { data } = yield nodefetcher('POST', `/customer/verify-otp`, state)
+            if (data.status == 'success') {
+                // yield put(setUser(data.customerId))
+                setUser(data.customerDetails)
+                setIsSuccess(true)
+                setIsLoading(false)
+            } else {
+                throw new Error(data.message)
+            }
+        } catch (error) {
+            setError(error.message)
+            setIsLoading(false)
+        }
+    })
+}
+
+function* onNewPasswordCreateStart() {
+    yield takeLatest(userActionType.NEW_PASSWORD_CREATE_START, function* ({ payload }) {
+        const { state, setIsLoading, setError, setIsSuccess } = payload;
+        try {
+            const { data } = yield nodefetcher('POST', `/customer/reset-password`, state)
+            console.log(data);
+            if (data.status == 'success') {
+                // yield put(setUser(data.customerId))
+                setIsSuccess(true)
+                setIsLoading(false)
+            } else {
+                throw new Error(data.message)
+            }
+        } catch (error) {
+            setError(error.message)
+            setIsLoading(false)
+        }
+    })
+}
+
+
 // << Password
 
 
@@ -268,7 +336,7 @@ function* onRemoveAddressStart() {
 
 export default function* userSagas() {
     yield all([call(onGetRegisterOtpStart), call(onGetLoginOtpStart), call(onOtpVerificationStart), call(onLogoutStart), call(onGetAddressStart), call(onAddAddressStart), call(onRemoveAddressStart), call(onUpdateAddressStart),
-    call(onRegisterWithPassword), call(onLoginWithPasswordStart)
+    call(onRegisterWithPassword), call(onLoginWithPasswordStart), call(onForgotPasswordStart), call(onForgotPasswordOtpVerifyStart), call(onNewPasswordCreateStart)
     ])
 
 }

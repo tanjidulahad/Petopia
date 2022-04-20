@@ -20,6 +20,7 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
     const onSubmitHandler = (e) => {
         e.preventDefault();
         if (otp.length != 5) return setError('Please Enter valid OTP.')
+        setIsLoading(true)
         if (forgotPass) {
             forgotPasswordOtpVerify({ state: { otpCode: otp, customerId: userId }, setError, setIsLoading, setIsSuccess, setUser })
         } else {

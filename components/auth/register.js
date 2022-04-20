@@ -75,7 +75,7 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
                                     <div className="mt-6 space-y-6">
                                         <div>
                                             <h3 className='mb-1'>Name</h3>
-                                            <Input name='fullName' className={`py-3 ${error && ' border-red-400'}`} type="text" placeholder="Your name" onChange={onChangeHandler} value={state.name} />
+                                            <Input disabled={isLoading} name='fullName' className={`py-3 ${error && ' border-red-400'}`} type="text" placeholder="Your name" onChange={onChangeHandler} value={state.name} />
                                         </div>
                                         <div>
                                             <div className='w-fit flex' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
@@ -97,23 +97,23 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
                                                             />
                                                         </div>
                                                         <div className=' relative w-full'>
-                                                            <input className='ml-2 absolute text-center text-sm top-1/2 -translate-y-1/2 w-11 outline-none' value={'+' + state.isdCode} />
-                                                            <Input name='phone' className={`pl-14 py-3 ${error && ' border-red-400'}`} type="tel" placeholder="Enter 10 digit phone number" onChange={onChangeHandler} value={state.phone} />
+                                                            <input disabled={isLoading} className='ml-2 absolute text-center text-sm top-1/2 -translate-y-1/2 w-11 outline-none' value={'+' + state.isdCode} />
+                                                            <Input disabled={isLoading} name='phone' className={`pl-14 py-3 ${error && ' border-red-400'}`} type="tel" placeholder="Enter 10 digit phone number" onChange={onChangeHandler} value={state.phone} />
                                                         </div>
                                                     </div>
                                                     :
                                                     <div className='mt-2'>
-                                                        <Input name='emailId' className={`py-3 ${error && ' border-red-400'}`} type="email" placeholder="Enter valid email" onChange={onChangeHandler} value={state.emailId} />
+                                                        <Input disabled={isLoading} name='emailId' className={`py-3 ${error && ' border-red-400'}`} type="email" placeholder="Enter valid email" onChange={onChangeHandler} value={state.emailId} />
                                                     </div>
                                             }
                                         </div>
                                         <div>
                                             <h3 className='mb-1'>Password</h3>
-                                            <Input name='password' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Create a password" onChange={onChangeHandler} value={state.password} />
+                                            <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Create a password" onChange={onChangeHandler} value={state.password} />
                                         </div>
                                         <div>
                                             <h3 className='mb-1'>Confirm Password</h3>
-                                            <Input name='confirmPassword' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Confirm password" onChange={onChangeHandler} value={state.confirmPassword} />
+                                            <Input disabled={isLoading} name='confirmPassword' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Confirm password" onChange={onChangeHandler} value={state.confirmPassword} />
                                         </div>
                                     </div>
                                     <div className="py-8 border-b-2">

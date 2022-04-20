@@ -104,20 +104,20 @@ const Login = ({ showToggle, loginWithPassword, userloginSuccess, forgotPassword
                                                     />
                                                 </div>
                                                 <div className=' relative w-full'>
-                                                    <input className='ml-2 absolute text-center text-sm top-1/2 -translate-y-1/2 w-11 outline-none' value={'+' + state.isdCode} />
-                                                    <Input name='phone' className={`pl-14 py-3 ${error && ' border-red-400'}`} type="tel" placeholder="Enter 10 digit phone number" onChange={onChangeHandler} value={state.phone} />
+                                                    <input disabled={isLoading} className='ml-2 absolute text-center text-sm top-1/2 -translate-y-1/2 w-11 outline-none' value={'+' + state.isdCode} />
+                                                    <Input disabled={isLoading} name='phone' className={`pl-14 py-3 ${error && ' border-red-400'}`} type="tel" placeholder="Enter 10 digit phone number" onChange={onChangeHandler} value={state.phone} />
                                                 </div>
                                             </div>
                                             :
                                             <div className='mt-2'>
-                                                <Input name='emailId' className={`py-3 ${error && ' border-red-400'}`} type="email" placeholder="Enter valid email" onChange={onChangeHandler} value={state.emailId} />
+                                                <Input disabled={isLoading} name='emailId' className={`py-3 ${error && ' border-red-400'}`} type="email" placeholder="Enter valid email" onChange={onChangeHandler} value={state.emailId} />
                                             </div>
                                     }
                                 </div>
                                 {
                                     !forgotPass &&
                                     <div className='mt-6 relative h-fit '>
-                                        <Input name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Enter password" onChange={onChangeHandler} value={state.password} />
+                                        <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Enter password" onChange={onChangeHandler} value={state.password} />
                                         <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowPass(!showPass)}>
                                             {
                                                 showPass ?

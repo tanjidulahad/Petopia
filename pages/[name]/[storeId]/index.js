@@ -204,7 +204,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
                   </div>
                 </div>
               </div>
-              <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollba ' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
+              <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollbar' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
                 <ProductListPage lastEleRef={listLastElement} storeName={info?.store_name} products={products} status={status} banner={banner} />
               </div>
             </div>

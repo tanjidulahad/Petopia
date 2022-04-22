@@ -35,6 +35,15 @@ export const getAdditionalInfoSuccess = (list) => ({
     type: productActionType.GET_PRODUCT_ADDITIONALINFO_SUCCESS,
     payload: list // []
 })
+// Product variant info
+export const getProductVariantStart = (id) => ({
+    type: productActionType.GET_PRODUCT_VARIANT_START,
+    payload: id
+})
+export const getProductVariantSuccess = (list) => ({
+    type: productActionType.GET_PRODUCT_VARIANT_SUCCESS,
+    payload: list // []
+})
 //  Error
 export const errorOnProductDetailPage = (error) => ({
     type: productActionType.ERROR_ON_PRODUCT_DETAIL_PAGE,

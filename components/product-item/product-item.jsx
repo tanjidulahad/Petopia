@@ -51,7 +51,15 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                     })()}
                         onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
                     :
-                    <Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} onClick={() => addToCart(productDataForCart)} >Add</Button>
+                    <>
+                        {
+                            data.is_customizable == "N" ?
+
+                                < Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} onClick={() => addToCart(productDataForCart)} >Add</Button>
+                                :
+                                < Button type="link" href={`/product/${data.item_id}`} className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} >View</Button>
+                        }
+                    </>
             }
         </>
     )

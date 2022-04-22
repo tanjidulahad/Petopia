@@ -39,10 +39,11 @@ const PdpImage = ({ list = [], alt = 'goplinto product image' }) => {
                         //     imageAlt="Example"
                         //     largeImageSrc="/img/default.webp" // Optional
                         // />
+                        
                         <ReactImageMagnify {...{
                             smallImage: {
                                 alt: 'Wristwatch by Ted Baker London',
-                                isFluidWidth: true,
+                                // isFluidWidth: true,
                                 src: list[activeImage] || '/img/default.webp',
                                 srcSet: [
                                     `${list[activeImage] || '/img/default.webp'} 355w`,
@@ -62,6 +63,8 @@ const PdpImage = ({ list = [], alt = 'goplinto product image' }) => {
                                 // width: "100%",
                                 // width: "1500",
                                 // height: "1500"
+                                width:400,
+                                height:400
                             },
                             largeImage: {
                                 alt: '',
@@ -80,6 +83,7 @@ const PdpImage = ({ list = [], alt = 'goplinto product image' }) => {
                             },
 
                         }} style={{}} />
+                       
                         :
                         <>
                             <img className="w-full h-full" src={list[activeImage]} alt={alt} onClick={() => setOpenSlider(true)} />

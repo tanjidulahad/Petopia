@@ -6,6 +6,7 @@ const INITISL_STATE = {
     similarProducts: [],
     // specifications: [],
     // additionalinfo: [],
+    variants:[],
     error: null
 }
 const productDetailsReducer = (state = INITISL_STATE, { type, payload }) => {
@@ -34,6 +35,11 @@ const productDetailsReducer = (state = INITISL_STATE, { type, payload }) => {
             return {
                 ...state,
                 additionalinfo: payload //[]
+            }
+        case productActionType.GET_PRODUCT_VARIANT_SUCCESS:
+            return {
+                ...state,
+                variants: payload //[]
             }
         case productActionType.ERROR_ON_PRODUCT_DETAIL_PAGE:
             return {

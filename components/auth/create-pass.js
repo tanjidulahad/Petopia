@@ -17,13 +17,15 @@ const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSucces
 
     const onChangeHandler = (e) => {
         const { value, name } = e.target;
+        if (value.length > 16 && name == 'password') return;
+        if (value.length > 16 && name == 'confirmPassword') return;
         if (error) setError('')
         setState({ ...state, [name]: value })
     }
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        if (state.password.length < 5) return setError('Please choose strong password.')
-        if (state.password != state.confirmPassword) return setError('Confirm password are not same.')
+        if (!state.password || state.password.length < 8) return setError("Please choose a strong password. Minimum password length should be of eight characters.");
+        if (state.password != state.confirmPassword) return setError("Password and confirm password are not same.");
         setIsLoading(true)
         createNewPassword({ state, setError, setIsLoading, setIsSuccess })
     }

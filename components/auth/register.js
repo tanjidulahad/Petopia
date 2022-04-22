@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { connect } from "react-redux"
 import { Button, Input } from '@components/inputs'
+import { IoEyeOutline, IoEyeOff } from 'react-icons/io5'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import Otp from './otp';
@@ -8,7 +9,7 @@ import { getRegisterOtpStart, loginSuccess, authShowToggle, getLoginOtpStart, re
 
 // Register Component
 const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, userloginSuccess, info }) => {
-
+    const [showPass, setShowPass] = useState(false)
     const [isVarificationPhone, setIsVarificationPhone] = useState(false)
     const [state, setState] = useState({
         storeId: info.store_id,
@@ -27,23 +28,34 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
         const { value, name } = e.target;
         if (error) setError(null);
         if ((!(/^\d*$/.test(value)) || value.length > 10) && name == 'phone') return;
-        setState({ ...state, [name]: value.trim() })
+        console.log(name);
+        // if (name != 'password' && ) value = value.trim()
+        // if (name != 'confirmPassword') value = value.trim()
+        if (value.length > 16 && name == 'password') return;
+        if (value.length > 16 && name == 'confirmPassword') return;
+        setState({ ...state, [name]: value })
     }
     const onSubmitHandler = (e) => {
         e.preventDefault();
         // if (isLoading) return;
         if (!state.fullName) return setError("Please enter your name.");
-        if (!(state.phone || state.emailId)) return setError("Please valid email id or 10 digit phone number.");
-        if (!state.password || state.password.length < 7) return setError("Please choose a strong password.");
+        if (!(state.phone || state.emailId)) return setError("Please enter valid email id or 10 digit phone number.");
+        if (state.verificationType == 'PHONE' && state.phone.length < 10) return setError("Please enter valid 10 digit phone number.");
+        if (state.verificationType == 'EMAIL' && !state.emailId.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return setError("Enter a valid email id!");
+        if (!state.password || state.password.length < 8) return setError("Please choose a strong password. Minimum password length should be of eight characters.");
         if (state.password != state.confirmPassword) return setError("Password and confirm password are not same.");
         setError('')
         setIsLoading(true)
         registerWithPassword({ state: { ...state, verificationType: isVarificationPhone ? "PHONE" : 'EMAIL' }, setError, setUser, setStatus: setIsLoading, storeId: info.store_id })
     };
+    useEffect(() => {
+        setState(state => ({ ...state, verificationType: isVarificationPhone ? "PHONE" : 'EMAIL' }))
+    }, [isVarificationPhone])
+
     // const resendHandler = () => {
     //     forgotPassword({ state })
     // }
-
+    console.log(state);
     return (
         <>
             {
@@ -71,7 +83,7 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
                                     </div>
 
                                 }
-                                <form onSubmit={onSubmitHandler} >
+                                <form onSubmit={onSubmitHandler}  >
                                     <div className="mt-6 space-y-6">
                                         <div>
                                             <h3 className='mb-1'>Name</h3>
@@ -107,10 +119,22 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
                                                     </div>
                                             }
                                         </div>
-                                        <div>
+                                        <div className='mt-6 relative h-fit '>
+                                            {/* <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Enter password" onChange={onChangeHandler} value={state.password} /> */}
+                                            <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Create a password" onChange={onChangeHandler} value={state.password} />
+                                            <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowPass(!showPass)}>
+                                                {
+                                                    showPass ?
+                                                        <IoEyeOff />
+                                                        :
+                                                        <IoEyeOutline />
+                                                }
+                                            </div>
+                                        </div>
+                                        {/* <div>
                                             <h3 className='mb-1'>Password</h3>
                                             <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Create a password" onChange={onChangeHandler} value={state.password} />
-                                        </div>
+                                        </div> */}
                                         <div>
                                             <h3 className='mb-1'>Confirm Password</h3>
                                             <Input disabled={isLoading} name='confirmPassword' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Confirm password" onChange={onChangeHandler} value={state.confirmPassword} />

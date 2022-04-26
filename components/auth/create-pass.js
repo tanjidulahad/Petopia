@@ -17,9 +17,8 @@ const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSucces
 
     const onChangeHandler = (e) => {
         const { value, name } = e.target;
-        if (value.length > 16 && name == 'password') return;
-        if (value.length > 16 && name == 'confirmPassword') return;
         if (error) setError('')
+        if (value.length > 40) return;
         setState({ ...state, [name]: value })
     }
     const onSubmitHandler = (e) => {

@@ -32,6 +32,9 @@ export const setPaymentMethodSuccess = (method) => ({
     type: checkoutActionType.SET_PAYMENT_METHOD_SUCCESS,
     payload: method
 })
+export const setPaymentMethodFailure = () => ({
+    type: checkoutActionType.SET_PAYMENT_METHOD_FAILURE,
+})
 // GET Purchage
 export const getPurchageStart = (data) => ({
     type: checkoutActionType.GET_PURCHASE_START,

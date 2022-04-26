@@ -29,6 +29,7 @@ const Login = ({ showToggle, loginWithPassword, userloginSuccess, forgotPassword
         let { value, name } = e.target;
         if (error) setError(null);
         if ((!(/^\d*$/.test(value)) || value.length > 10) && name == 'phone') return;
+        if (value.length > 40 && name == 'password') return;
         if (name != 'password') value = value.trim();
         setState({ ...state, [name]: value })
     }

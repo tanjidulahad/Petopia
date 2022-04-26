@@ -16,14 +16,18 @@ const uiReducer = (state = INITIAL_STATE, { type, payload }) => {
         case cartActionType.UPDATE_CART:
         case checkoutActionType.SET_BACKEND_CART_START:
         case checkoutActionType.SET_BACKEND_CART_STORE_START:
+        case checkoutActionType.SET_SHIPMENT_METHOD:
+        case checkoutActionType.SET_PAYMENT_METHOD:
             return {
                 ...state,
                 isDetailsLoading: true,
             }
-
+        case checkoutActionType.SET_SHIPMENT_METHOD_SUCCESS:
         case checkoutActionType.GET_PURCHASE_SUCCESS:
         case cartActionType.UPDATE_CART_SUCCESS:
         case checkoutActionType.GET_PURCHASE_FAILURE:
+        case checkoutActionType.SET_PAYMENT_METHOD_SUCCESS:
+        case checkoutActionType.SET_PAYMENT_METHOD_FAILURE:
             return {
                 ...state,
                 isDetailsLoading: false,

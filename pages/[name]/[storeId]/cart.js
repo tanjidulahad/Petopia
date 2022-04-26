@@ -9,6 +9,7 @@ import CartItem from "@components/cart-item/cart-item";
 import { Radio } from "@components/inputs";
 import OnlienPayment from "@components/online-payment/online-payment"
 import Loader from "@components/loading/loader"
+import EmptyCart from "@components/empty-cart"
 
 // Actions
 import { clearCart } from "@redux/cart/cart-actions"
@@ -92,12 +93,12 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         }
 
         // Setting default details
-        if (checkout.purchase) {
-            setPaymentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.paymentMethod });
-        }
-        if (checkout.purchase) {
-            setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.deliveryMethod });
-        }
+        // if (checkout.purchase) {
+        //     setPaymentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.paymentMethod });
+        // }
+        // if (checkout.purchase) {
+        //     setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.deliveryMethod });
+        // }
     }, [user, checkout.purchase, info])
     // useEffect(() => {
     //     if (checkoutDetails.deliveryAddress && checkout.purchase) {
@@ -124,7 +125,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         console.log(checkoutDetails);
         setcheckoutDetails({
             ...checkoutDetails,
-            [name]: value
+            [name]: value,
+            ...(name == 'deliveryMethod' && value == 'N') && { deliveryAddress: null }
         })
         if (name == 'deliveryAddress' && checkout.purchase) {
             setDeliveryAddressToPurchase({ purchaseId: checkout.purchase?.purchase_id, addressId: value })
@@ -247,7 +249,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                     <span className='text-base font-semibold'>My Caer</span>
                 </div>
                 <div className="flex justify-center items-center empty-cart" style={{ minHeight: '80vh' }}>
-                    <div className="h-64 w-64 text-center flex justify-center items-center" style={{ borderRadius: '50%', background: 'rgba(246, 75, 93, 0.13)', boxShadow: 'rgb(246 75 93 / 13%) 0px 0px 100px 100px' }}>
+                    <div className="h-96 w-full sm:w-96 flex-col text-center flex justify-center items-center" style={{ borderRadius: '50%', background: 'rgba(246, 75, 93, 0.13)', boxShadow: 'rgb(246 75 93 / 13%) 0px 0px 100px 100px' }}>
+                        <EmptyCart />
                         <h4>Your Cart is Empty,
                             <span className="red-color">
                                 <Link href='/'> Shop now!</Link>
@@ -524,7 +527,15 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                         <span className="text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
                                                                     </div>
                                                                 </div>
-
+                                                                {
+                                                                    !!purchaseDetails.totalParcelCharge &&
+                                                                    <div className="flex justify-between space-x-2 my-4">
+                                                                        <h6 className="text-lg black-color font-medium">Parcel Charge</h6>
+                                                                        <div>
+                                                                            <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalParcelCharge).toFixed(2)}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                }
                                                                 <div className="flex justify-between space-x-2 my-4">
                                                                     <h6 className="text-lg black-color font-medium">Tax</h6>
                                                                     <div>

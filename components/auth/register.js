@@ -28,11 +28,11 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
         const { value, name } = e.target;
         if (error) setError(null);
         if ((!(/^\d*$/.test(value)) || value.length > 10) && name == 'phone') return;
-        console.log(name);
+        // console.log(name);
         // if (name != 'password' && ) value = value.trim()
         // if (name != 'confirmPassword') value = value.trim()
-        if (value.length > 16 && name == 'password') return;
-        if (value.length > 16 && name == 'confirmPassword') return;
+        if (value.length > 40 && name == 'password') return;
+        if (value.length > 40 && name == 'confirmPassword') return;
         setState({ ...state, [name]: value })
     }
     const onSubmitHandler = (e) => {
@@ -121,6 +121,7 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
                                         </div>
                                         <div className='mt-6 relative h-fit '>
                                             {/* <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Enter password" onChange={onChangeHandler} value={state.password} /> */}
+                                            <h3 className='mb-1'>Password</h3>
                                             <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Create a password" onChange={onChangeHandler} value={state.password} />
                                             <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowPass(!showPass)}>
                                                 {
@@ -132,7 +133,6 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
                                             </div>
                                         </div>
                                         {/* <div>
-                                            <h3 className='mb-1'>Password</h3>
                                             <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Create a password" onChange={onChangeHandler} value={state.password} />
                                         </div> */}
                                         <div>

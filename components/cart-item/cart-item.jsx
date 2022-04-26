@@ -21,10 +21,10 @@ const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
                                 <h3 className=" text-base sm:text-xl capitalize cart-item-title">{data.item_name.toLowerCase()}</h3>
                             </a>
                         </Link>
-                        {data.defaultVariantItem && <p>{Object.keys(data.defaultVariantItem?.variant_item_attributes).map(function (key) {
+                        {data.defaultVariantItem && <p>{ data?.defaultVariantItem?.variant_item_attributes && Object.keys(data?.defaultVariantItem?.variant_item_attributes).map(function (key) {
                             if (key.includes('variant_value')) {
-                                if (data.defaultVariantItem?.variant_item_attributes[key] != null) {
-                                    return <span>{data.defaultVariantItem?.variant_item_attributes[key].variant_value_name}, </span>
+                                if (data?.defaultVariantItem?.variant_item_attributes[key] != null) {
+                                    return <span>{data?.defaultVariantItem?.variant_item_attributes[key].variant_value_name}, </span>
                                 }
                             }
 

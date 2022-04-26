@@ -33,7 +33,7 @@ const visualsStructure = {
     categoryId: null,
     subCategoryId: null,
     storeId: null,
-    defaultVariantItem:null,
+    defaultVariantItem: null,
     images: [], // First element will be primary image
     desc: '',
     rating: { value: 4.5, count: 5.0 },
@@ -129,7 +129,7 @@ const ProductDetails = ({
             subCategoryId: success.sub_category_id,
             storeId: success.store_id,
             variantId: success.defaultVariantItem?.variant_item_id,
-            defaultVariantItem:success.defaultVariantItem,
+            defaultVariantItem: success.defaultVariantItem,
             name: success.item_name,
             images: [...images],
             desc: success.item_desc || '',
@@ -181,9 +181,9 @@ const ProductDetails = ({
     }
 
     // handle variant change
-    const handleVarientOnChange = async (indices, groupName, imagedata, varientValueId) =>{
-        let images=visuals.images
-        if(imagedata){
+    const handleVarientOnChange = async (indices, groupName, imagedata, varientValueId) => {
+        let images = visuals.images
+        if (imagedata) {
             images = Object.values(imagedata).filter(Boolean)
         }
 
@@ -192,14 +192,14 @@ const ProductDetails = ({
         varientvalue[`variant_value_${indices}`] = varientValueId
         const allVariantsComb = await fetchVarientItemById(success.item_id, varientvalue);
         const shouldbeselect = getListedVarants(allVariantsComb, selectedVarientStyle)
-        console.log("should be select",shouldbeselect)
+        console.log("should be select", shouldbeselect)
         vanishVarients(indices, allVariantsComb)
 
         if (shouldbeselect) {
             // setDefaultItem(shouldbeselect);
             setVisuals({
                 ...visuals,
-                images:[...images],
+                images: [...images],
                 defaultVariantItem: shouldbeselect
             })
         }
@@ -209,7 +209,7 @@ const ProductDetails = ({
                 // setDefaultItem(defaultOnChange);
                 setVisuals({
                     ...visuals,
-                    images:[...images],
+                    images: [...images],
                     defaultVariantItem: defaultOnChange
                 })
             }
@@ -270,18 +270,18 @@ const ProductDetails = ({
         const keep = keepVarient.map(element => element.variant_values)
         // const keep=keepProp.map(item=>item.variant_value_id)
         let result
-        if(keepVarients.length){
-            result=keep[0].map(function(item){
-                if(keepVarients.includes(item.variant_value_id)){
+        if (keepVarients.length) {
+            result = keep[0].map(function (item) {
+                if (keepVarients.includes(item.variant_value_id)) {
                     return item.variant_value_id
                 }
             })
         }
-        else{
+        else {
             result = keep[0].map(a => a.variant_value_id);
         }
         // let result = keep[0].map(a => a.variant_value_id);
-        console.log("keep clicked id",result)
+        console.log("keep clicked id", result)
         // setKeepVariants(result)
         let not_displayable = []
         let finalResult = []
@@ -341,28 +341,64 @@ const ProductDetails = ({
 
     }
 
-    console.log("final remaining",keepVarients)
+    console.log("final remaining", keepVarients)
 
     useEffect(() => { // SEO
         const dsc = success.item_name + ', ' + success.item_desc
         setDescriptions(dsc)
     }, [success])
-    const productDataForCart = {
-        item_id: visuals.id,
-        store_id: visuals.storeId,
-        category_id: visuals.categoryId,
-        item_name: visuals.name,
-        sale_price: visuals.price.sale_price,
-        price: visuals.price.price,
-        sub_category_id: visuals.subCategoryId,
-        primary_img: visuals.images[0],
-        is_veg: visuals.item?.is_veg,
-        inventoryDetails: visuals.inventoryDetails,
+
+    const itemAddToCart = () => {
+        const productDataForCart = {
+            item_id: visuals.id,
+            store_id: visuals.storeId,
+            category_id: visuals.categoryId,
+            item_name: visuals.name,
+            sale_price: visuals.price.sale_price,
+            price: visuals.price.price,
+            sub_category_id: visuals.subCategoryId,
+            primary_img: visuals.images[0],
+            is_veg: visuals.item?.is_veg,
+            inventoryDetails: visuals.inventoryDetails,
+            defaultVariantItem: visuals.defaultVariantItem
+        }
+
+        addToCart(productDataForCart)
     }
-    const quantityInCart = cart.filter((item) => item.item_id == visuals.id)[0]?.quantity
+
+    const itemRemoveFromCart=()=>{
+        const productDataForCart = {
+            item_id: visuals.id,
+            store_id: visuals.storeId,
+            category_id: visuals.categoryId,
+            item_name: visuals.name,
+            sale_price: visuals.price.sale_price,
+            price: visuals.price.price,
+            sub_category_id: visuals.subCategoryId,
+            primary_img: visuals.images[0],
+            is_veg: visuals.item?.is_veg,
+            inventoryDetails: visuals.inventoryDetails,
+            defaultVariantItem: visuals.defaultVariantItem
+        }
+        removeFromCart(productDataForCart)
+    }
+    const quantityInCart = cart.filter(function (item) {
+        if (visuals.defaultVariantItem) {
+            if (item.defaultVariantItem) {
+                if (item.defaultVariantItem.variant_item_id == visuals.defaultVariantItem.variant_item_id) {
+                    return item
+                }
+            }
+        }
+        else if (item.item_id == visuals.id) {
+            return item
+        }
+    })[0]?.quantity
     // console.log(quantityInCart, failure);
     console.log(specifications);
     console.log("product specification", allVariants)
+
+    console.log("cart", cart)
     return (
         <>
             <Head>
@@ -398,18 +434,18 @@ const ProductDetails = ({
                                                 <Rating />
                                             </div>
                                             <div className="my-4 md:my-6">
-                                                <span className="text-lg md:text-xl my-6 black-color font-semibold">₹{visuals.defaultVariantItem?visuals.defaultVariantItem.sale_price: visuals.price.sale_price}</span>
+                                                <span className="text-lg md:text-xl my-6 black-color font-semibold">₹{visuals.defaultVariantItem ? visuals.defaultVariantItem.sale_price : visuals.price.sale_price}</span>
                                                 {
                                                     visuals.price.sale_price != visuals.price.price &&
-                                                    <span className="mx-2 md:mx-6 black-color-75 text-sm md:text-lg font-light line-through">₹{visuals.defaultVariantItem?visuals.defaultVariantItem.list_price:visuals.price.price}</span>
+                                                    <span className="mx-2 md:mx-6 black-color-75 text-sm md:text-lg font-light line-through">₹{visuals.defaultVariantItem ? visuals.defaultVariantItem.list_price : visuals.price.price}</span>
                                                 }
                                                 {
-                                                    visuals.defaultVariantItem?
-                                                    Boolean(visuals.defaultVariantItem.list_price - visuals.defaultVariantItem.sale_price) &&
-                                                    <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save ₹{visuals.defaultVariantItem.list_price - visuals.defaultVariantItem.sale_price}</span>
-                                                    :
-                                                    Boolean(visuals.price.price - visuals.price.sale_price) &&
-                                                    <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save ₹{visuals.price.price - visuals.price.sale_price}</span>
+                                                    visuals.defaultVariantItem ?
+                                                        Boolean(visuals.defaultVariantItem.list_price - visuals.defaultVariantItem.sale_price) &&
+                                                        <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save ₹{visuals.defaultVariantItem.list_price - visuals.defaultVariantItem.sale_price}</span>
+                                                        :
+                                                        Boolean(visuals.price.price - visuals.price.sale_price) &&
+                                                        <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save ₹{visuals.price.price - visuals.price.sale_price}</span>
                                                 }
                                             </div>
                                             <div className="my-6">
@@ -428,13 +464,13 @@ const ProductDetails = ({
                                                 <p className="font-montMedium mb-2">{item.variant_group_name}</p>
                                                 <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                                                     {colorVarients.includes(item.variant_group_name) ? item.variant_values.map((varient, idx) => <li key={idx} className="mr-2">
-                                                        <div onClick={() => handleVarientOnChange(item.indices, item.variant_group_name, varient.variant_value_images, varient.variant_value_id)} data-tip={varient.variant_value_name}className={`inline-block py-3 px-3 text-white rounded-full border-2 cursor-pointer ${selectedVarientStyle.includes(varient.variant_value_id) ? "btn-border" : ""}`} style={{ background: `${varient.variant_value_metadata ? varient.variant_value_metadata.color_hexcode : varient.variant_value_name}`, display: `${keepVarients.length && !keepVarients.includes(varient.variant_value_id) ? "none" : ""}` }}></div>                                                        
+                                                        <div onClick={() => handleVarientOnChange(item.indices, item.variant_group_name, varient.variant_value_images, varient.variant_value_id)} data-tip={varient.variant_value_name} className={`inline-block py-3 px-3 text-white rounded-full border-2 cursor-pointer ${selectedVarientStyle.includes(varient.variant_value_id) ? "btn-border" : ""}`} style={{ background: `${varient.variant_value_metadata ? varient.variant_value_metadata.color_hexcode : varient.variant_value_name}`, display: `${keepVarients.length && !keepVarients.includes(varient.variant_value_id) ? "none" : ""}` }}></div>
                                                         <ReactTooltip />
                                                     </li>)
                                                         :
                                                         item.variant_values.map((varient, idx) => <li key={idx} className="mr-2">
                                                             <div onClick={() => handleVarientOnChange(item.indices, item.variant_group_name, varient.variant_value_images, varient.variant_value_id)} className={`inline-block py-3 px-4 text-gray-500 border-2 border-gray-300 rounded-lg cursor-pointer ${selectedVarientStyle.includes(varient.variant_value_id) ? "btn-border" : ""}`}
-                                                            style={{display: `${keepVarients.length && !keepVarients.includes(varient.variant_value_id) ? "none" : ""}`}}
+                                                                style={{ display: `${keepVarients.length && !keepVarients.includes(varient.variant_value_id) ? "none" : ""}` }}
                                                             >{varient.variant_value_name}</div>
                                                         </li>
                                                         )
@@ -448,8 +484,8 @@ const ProductDetails = ({
 
 
                                             <div>
-                                                {visuals.defaultVariantItem && visuals.defaultVariantItem.variant_item_status == "UNAVAILABLE"?<Button className="w-full md:w-auto py-3 px-12 text-base border-2 border-slate-300 text-slate-400 rounded font-bold cursor-not-allowed" >Unavailable</Button>
-                                                :
+                                                {visuals.defaultVariantItem && visuals.defaultVariantItem.variant_item_status == "UNAVAILABLE" ? <Button className="w-full md:w-auto py-3 px-12 text-base border-2 border-slate-300 text-slate-400 rounded font-bold cursor-not-allowed" >Unavailable</Button>
+                                                    :
                                                     quantityInCart ?
                                                         <QuantityID value={quantityInCart} disabledPlush={(() => {
                                                             if (visuals.inventoryDetails) {
@@ -457,9 +493,9 @@ const ProductDetails = ({
                                                             }
                                                             return false
                                                         })()}
-                                                            onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
+                                                            onPlush={itemAddToCart} onMinus={itemRemoveFromCart} />
                                                         :
-                                                        <Button className="w-full md:w-auto py-3 px-12 text-base btn-bg btn-color rounded" onClick={() => addToCart(productDataForCart)} >Add</Button>
+                                                        <Button className="w-full md:w-auto py-3 px-12 text-base btn-bg btn-color rounded" onClick={itemAddToCart} >Add</Button>
                                                 }
                                             </div>
                                             {

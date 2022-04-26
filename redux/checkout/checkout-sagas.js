@@ -183,9 +183,9 @@ function* onOrderConfirmPaymentSuccess() {
 
 function* onAddItemToPurchaseStart() {
     yield takeLatest(checkoutActionType.ADD_ITEM_TO_PUCHASE_START, function* ({ payload }) {
-        const { purchaseId, groupId, customerId, storeId, itemId, orderId } = payload; // cod ==  N, Online Pay == Y
+        const { purchaseId, groupId, customerId, storeId, itemId, orderId,variantItemId } = payload; // cod ==  N, Online Pay == Y
         try {
-            const res = yield fetcher('GET', `?r=orders/add-item&groupId=${groupId}&storeId=${storeId}&purchaseId=${purchaseId}&itemId=${itemId}&quantity=1&orderId=${orderId}&customerId=${customerId}&clientId=011`)
+            const res = yield fetcher('GET', `?r=orders/add-item&groupId=${groupId}&storeId=${storeId}&purchaseId=${purchaseId}&itemId=${itemId}&quantity=1&orderId=${orderId}&customerId=${customerId}&clientId=011${variantItemId?`&variantItemId=${variantItemId}`:""}`)
             yield put(updateCartSuccess())
             if (res.data) {
                 yield put((getPurchageStart(purchaseId)))

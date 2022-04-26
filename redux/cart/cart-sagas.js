@@ -10,6 +10,7 @@ import { getOrderDetailsStart } from "@redux/orders/orders-action";
 import { updateCartSuccess } from "./cart-actions";
 
 function* purchaseItemUpdator({ payload }) {
+    console.log("updator", payload)
     const state = Reducstore.getState()
     const cart = state.cart;
     const purchase = state.checkout.purchase
@@ -45,6 +46,7 @@ function* purchaseItemUpdator({ payload }) {
             // 1. Check purchage Id exist to user
             // 2. Add or Remove New item
             // 3. Update Quantity if exist in order
+            console.log("updator 48", payload)
             if (purchaseDetails?.storeGroupId != store.group_id) {
                 yield put(setCartError({ message: "You trying to add items from a different StoreCourt", payload }))
                 yield put(updateCartSuccess())
@@ -60,17 +62,87 @@ function* purchaseItemUpdator({ payload }) {
                     yield put(getPurchageStart(purchase.purchase_id))
                     return;
                 }
-                const isExist = Object.values(purchaseDetails.orders[orderId].orderItems).find((item) => item.itemId == payload.item_id) || null
+                console.log("payload cart saga",payload)
+                console.log("ordersItems",Object.values(purchaseDetails.orders[orderId].orderItems))
+                const isExist = Object.values(purchaseDetails.orders[orderId].orderItems).find(function(item) {
+                    console.log("item in find",item)
+                    if (item.itemId == payload.item_id) {
+                        if (payload.defaultVariantItem) {
+                            if (item.customizationDetails?.variant_item_id == payload.defaultVariantItem?.variant_item_id) {
+                                return true
+                            }
+                            else {
+                                return false
+                            }
+                        }
+                        else{
+                            return true
+                        }
+                    }
+                    else{
+                        return false
+                    }
+                }) || null
+
+                // const isExist=cart.find(function(item) {
+                //         if (item.item_id == payload.item_id) {
+                //             if (payload.defaultVariantItem) {
+                //                 if (item.defaultVariantItem.variant_item_id == payload.defaultVariantItem.variant_item_id) {
+                //                     return true
+                //                 }
+                //                 else {
+                //                     return false
+                //                 }
+                //             }
+                //             else{
+                //                 return true
+                //             }
+                //         }
+                //         else{
+                //             return false
+                //         }
+                //     }) || null
+                console.log("isExist",isExist)
                 if (isExist) {
-                    const { quantity } = cart.find((item) => item.item_id == payload.item_id) || { quantity: 0 }
+                    const { quantity } = cart.find(function (item) {
+                        if (item.item_id == payload.item_id) {
+                            if (payload.defaultVariantItem) {
+                                if (item.defaultVariantItem.variant_item_id == payload.defaultVariantItem.variant_item_id) {
+                                    return item
+                                }
+                                else {
+                                    return false
+                                }
+                            }
+                            else{
+                                return item
+                            }
+                        }
+                        else {
+                            return false
+                        }
+                        //     if(payload.defaultVariantItem){
+                        //         if(item.defaultVariantItem.variant_item_id==payload.defaultVariantItem.variant_item_id){
+                        //             return item
+                        //         }
+                        //         else{
+                        //             return { quantity: 0 }
+                        //         }
+                        //     }
+                        //     else if(item.item_id == payload.item_id){
+                        //         return item
+                        //     }
+                        // }) || { quantity: 0 }
+                    }) || { quantity: 0 }
                     const { orderItemId } = isExist;
-                    if (quantity) { // quantity > 0
+                    console.log("quantity from cart saga",quantity)
+                    if (quantity>0) { // quantity > 0
                         yield put(updateQuantityToPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))
                     } else {
                         yield put(deleteFromPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))
                     }
                 } else {
-                    const identity = { purchaseId: purchase.purchase_id, groupId: store.group_id, userId: user.customer_id, storeId: store.store_id, itemId: payload.item_id, orderId, customerId: user.customer_id, }
+                    const identity = { purchaseId: purchase.purchase_id, groupId: store.group_id, userId: user.customer_id, storeId: store.store_id, itemId: payload.item_id, orderId, customerId: user.customer_id, variantItemId: payload.defaultVariantItem?.variant_item_id }
                     yield put(addItemTopurchaseStart(identity))
                 }
 

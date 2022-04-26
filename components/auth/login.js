@@ -39,10 +39,12 @@ const Login = ({ showToggle, loginWithPassword, userloginSuccess, forgotPassword
         if (state.verificationType == 'EMAIL' && !state.emailId.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return setError("Enter a valid email id!");
         if (state.verificationType == 'PHONE' && state.phone.length < 10) return setError("Please enter valid 10 digit phone number.");
         setError('')
+        setShowPass(false)
         setIsLoading(true)
         if (forgotPass) {
             forgotPassword({ state, setError, setIsLoading, setUser })
         } else {
+            if (!state.password) return setError("Enter your password!");
             loginWithPassword({ state, setError, setStatus: setIsLoading })
         }
     }

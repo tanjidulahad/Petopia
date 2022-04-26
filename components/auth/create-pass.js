@@ -25,6 +25,7 @@ const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSucces
         e.preventDefault();
         if (!state.password || state.password.length < 8) return setError("Please choose a strong password. Minimum password length should be of eight characters.");
         if (state.password != state.confirmPassword) return setError("Password and confirm password are not same.");
+        setShowPass(false)
         setIsLoading(true)
         createNewPassword({ state, setError, setIsLoading, setIsSuccess })
     }

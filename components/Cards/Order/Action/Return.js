@@ -61,8 +61,8 @@ function Ret({ action, items, closeRetun, user, orderId }) {
 
   return (
     <div id="return" className="auth ">
-      <div className="mt-80 md:mt-0 lg:mt-0  auth-form-container  md:roundec-lg lg:rounded-lg ">
-        <section>
+      <div className="mt-80 md:mt-0 lg:mt-0 auth-form-container  md:roundec-lg lg:rounded-lg ">
+        <section className=' bg-white'>
           <div className="flex p-4 justify-between items-center border-b-2 border-gray-200">
             <h2 className="text-base font-semibold">{action} Order</h2>
             <Button

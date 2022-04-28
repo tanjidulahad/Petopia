@@ -84,6 +84,15 @@ function orderDetail({ getOrderDetails }) {
                                   <span className="text-lg black-color font-medium ml-2">{parseFloat(orderDetails.deliveryCharge) ? `₹${Number(orderDetails.deliveryCharge).toFixed(2)}` : 'Free'}</span>
                                 </div>
                               </div>
+                              {
+                                !!Number(orderDetails.parcelCharge) &&
+                                <div className="flex justify-between space-x-2 my-4">
+                                  <h6 className="text-lg black-color font-medium">Parcel Charge</h6>
+                                  <div>
+                                    <span className="text-lg black-color font-medium ml-2">₹{Number(orderDetails.parcelCharge).toFixed(2)}</span>
+                                  </div>
+                                </div>
+                              }
 
                               <div className="flex justify-between space-x-2 my-4">
                                 <h6 className="text-lg black-color font-medium">Tax</h6>

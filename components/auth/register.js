@@ -119,17 +119,19 @@ const Register = ({ showToggle, setPage, forgotPassword, registerWithPassword, u
                                                     </div>
                                             }
                                         </div>
-                                        <div className='mt-6 relative h-fit '>
+                                        <div className='mt-6 h-fit '>
                                             {/* <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Enter password" onChange={onChangeHandler} value={state.password} /> */}
                                             <h3 className='mb-1'>Password</h3>
-                                            <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Create a password" onChange={onChangeHandler} value={state.password} />
-                                            <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowPass(!showPass)}>
-                                                {
-                                                    showPass ?
-                                                        <IoEyeOff />
-                                                        :
-                                                        <IoEyeOutline />
-                                                }
+                                            <div className=' relative'>
+                                                <Input disabled={isLoading} name='password' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Create a password" onChange={onChangeHandler} value={state.password} />
+                                                <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowPass(!showPass)}>
+                                                    {
+                                                        showPass ?
+                                                            <IoEyeOff />
+                                                            :
+                                                            <IoEyeOutline />
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                         {/* <div>

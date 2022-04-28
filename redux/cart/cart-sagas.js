@@ -9,7 +9,7 @@ import { getPurchageStart, setBackendCartStart, setBackendCartStoreStart, addIte
 import { getOrderDetailsStart } from "@redux/orders/orders-action";
 import { updateCartSuccess } from "./cart-actions";
 
-function* purchaseItemUpdator({ payload }) {
+function* purchaseItemUpdator({ action, payload }) {
     console.log("updator", payload)
     const state = Reducstore.getState()
     const cart = state.cart;
@@ -47,7 +47,7 @@ function* purchaseItemUpdator({ payload }) {
             // 2. Add or Remove New item
             // 3. Update Quantity if exist in order
             console.log("updator 48", payload)
-            if (purchaseDetails?.storeGroupId != store.group_id) {
+            if (purchaseDetails?.storeGroupId != store.group_id, action == cartActionType.REMOVE_FROM_CART) {
                 yield put(setCartError({ message: "You trying to add items from a different StoreCourt", payload }))
                 yield put(updateCartSuccess())
                 return;
@@ -62,10 +62,10 @@ function* purchaseItemUpdator({ payload }) {
                     yield put(getPurchageStart(purchase.purchase_id))
                     return;
                 }
-                console.log("payload cart saga",payload)
-                console.log("ordersItems",Object.values(purchaseDetails.orders[orderId].orderItems))
-                const isExist = Object.values(purchaseDetails.orders[orderId].orderItems).find(function(item) {
-                    console.log("item in find",item)
+                console.log("payload cart saga", payload)
+                console.log("ordersItems", Object.values(purchaseDetails.orders[orderId].orderItems))
+                const isExist = Object.values(purchaseDetails.orders[orderId].orderItems).find(function (item) {
+                    console.log("item in find", item)
                     if (item.itemId == payload.item_id) {
                         if (payload.defaultVariantItem) {
                             if (item.customizationDetails?.variant_item_id == payload.defaultVariantItem?.variant_item_id) {
@@ -75,11 +75,11 @@ function* purchaseItemUpdator({ payload }) {
                                 return false
                             }
                         }
-                        else{
+                        else {
                             return true
                         }
                     }
-                    else{
+                    else {
                         return false
                     }
                 }) || null
@@ -102,7 +102,7 @@ function* purchaseItemUpdator({ payload }) {
                 //             return false
                 //         }
                 //     }) || null
-                console.log("isExist",isExist)
+                console.log("isExist", isExist)
                 if (isExist) {
                     const { quantity } = cart.find(function (item) {
                         if (item.item_id == payload.item_id) {
@@ -114,7 +114,7 @@ function* purchaseItemUpdator({ payload }) {
                                     return false
                                 }
                             }
-                            else{
+                            else {
                                 return item
                             }
                         }
@@ -135,8 +135,8 @@ function* purchaseItemUpdator({ payload }) {
                         // }) || { quantity: 0 }
                     }) || { quantity: 0 }
                     const { orderItemId } = isExist;
-                    console.log("quantity from cart saga",quantity)
-                    if (quantity>0) { // quantity > 0
+                    console.log("quantity from cart saga", quantity)
+                    if (quantity > 0) { // quantity > 0
                         yield put(updateQuantityToPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))
                     } else {
                         yield put(deleteFromPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))

@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { Button } from '../../../inputs'
 
-function orderlList({ list, storeName,status, orderId, createTime, openReturn }) {
+function orderlList({ list, storeName, status, orderId, createTime, openReturn }) {
   console.log(status)
   return (
     <div className="w-full  my-8 border-2 rounded-lg  bg-white">
@@ -55,18 +55,18 @@ function orderlList({ list, storeName,status, orderId, createTime, openReturn })
           }
         </div>
         {
-          status==='CANCELLED_BY_CUSTOMER'?
+          status == 'ORDER_CANCELLED_BY_CUST' || status == "ORDER_DECLINED_BY_RESTAURANT" || status == 'ORDER_DELIVERED_SUCCESS' ?
+            null
+            // <p className='flex items-center ml-2 my-4 btn-color-revers font-bold'  >Order is Cancelled</p>
 
-          <p className='flex items-center ml-2 my-4 btn-color-revers font-bold'  >Order is Cancelled</p>
-
-          :
-          <div className='pt-8 px-8'>
-          <span className='text-lg '>Having problem with order?</span>
-          <Button className='inline ml-2 btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
-        </div>
+            :
+            <div className='pt-8 px-8'>
+              <span className='text-lg '>Having problem with order?</span>
+              <Button className='inline ml-2 btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
+            </div>
 
         }
-  </div>
+      </div>
     </div>
   )
 }

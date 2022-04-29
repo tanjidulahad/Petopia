@@ -1,376 +1,83 @@
 import React, { useEffect, useState } from 'react'
-
-
-// import the stylesheet
-import 'react-step-progress/dist/index.css'
-import { TiTick } from 'react-icons/ti'
-import { BsDot } from 'react-icons/bs'
-import { HiOutlineDotsVertical } from 'react-icons/hi'
-import { CgBorderStyleDotted } from 'react-icons/cg'
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 import moment from 'moment'
 
-export default function Tracker({ details }) {
+function Tracker({ details }) {
+  const [orderStatus, setOrderStatus] = useState(0);
+  const [isCanceled, setIsCanceled] = useState(false)
 
-  const [active, setactive] = useState({
-    step1: 'active',
-    step2:
-      details.orderStatus === '' ||
-        details.orderStatus === 'CANCELLED_BY_CUSTOMER'
-        ? 'pending'
-        : 'active',
-    step3:
-      details.orderStatus !== ''
-        ? details.isDelivery === 'N'
-          ? 'pending'
-          : 'active'
-        : 'inactive',
-    mobupdate: true,
-  })
-
+  const steps = [
+    'Order is Placed',
+    'Order in Progress',
+    'Order Delivered Successfully',
+  ];
+  const stepsCancel = [
+    'Order is Placed',
+    'Order Canceled',
+  ];
+  useEffect(() => {
+    if (details?.orderStatus) {
+      if (details?.orderStatus == "PAYMENT_COMPLETED") {
+        setOrderStatus(0)
+      }
+      else if (details?.orderStatus == "ORDER_CONFIRMED_BY_REST") {
+        setOrderStatus(1)
+      }
+      else if (details?.orderStatus == "PENDING_PICKUP_BY_CUST") {
+        setOrderStatus(2)
+      }
+      else if (details?.orderStatus == "ORDER_DELIVERED_SUCCESS") {
+        setOrderStatus(3)
+      }
+      else if (details?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || details?.orderStatus == "ORDER_CANCELLED_BY_CUST") {
+        setIsCanceled(true)
+        setOrderStatus(2)
+      }
+    }
+  }, [details])
+  console.log('order-can', details)
+  const ccc = {
+    root: {
+      "& .MuiStepIcon-active": { color: "red" },
+      "& .MuiStepIcon-completed": { color: "green" },
+      "& .Mui-disabled .MuiStepIcon-root": { color: "cyan" }
+    }
+  }
   return (
-    <>
-      <div
-        id="tracker"
-        className=" hidden md:flex lg:flex bg-white  justify-center items-center"
-      >
-        <div className="flex flex-col justify-center items-center text-center">
-          <div
-            className="w-10 h-10  ml-4 rounded-full flex justify-center items-center  "
-            style={{
-              backgroundColor:
-                active.step1 === 'active'
-                  ? '#D85A5A'
-                  : active.step1 === 'pending'
-                    ? 'rgb(239 207 207)'
-                    : '#2424243F',
-            }}
-          >
-            {active.step1 === 'active' ? (
-              <TiTick color={'white'} size={20} />
-            ) : (
-              active.step1 === 'pending' && (
-                <BsDot size={40} color={'#D85A5A'} />
-              )
-            )}
-          </div>
-        </div>
+    <div id="tracker" className={` `}>
+      <div className='mt-2'>
+        {
+          isCanceled ?
+            <p className=' font-medium text-base'>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>Order Cancelled on {moment.unix(details?.orderCancelledTime).format('lll')}</p>
+            :
+            orderStatus == 3 ?
+              <>
+                <p className=' font-medium text-base'>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Delivered on {moment.unix(details?.deliveredTime).format('lll')}</p>
+              </>
+              :
+              <div className={'w-full md:flex lg:flex btn-color-revese bg-white justify-center items-center'}>
+                <Stepper activeStep={orderStatus} alternativeLabel className={ccc.root}>
+                  {steps.map((label) => (
+                    <Step key={label}>
+                      <StepLabel >{label}</StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
 
-        <CgBorderStyleDotted
-          size={40}
-          color={active.step1 === 'active' ? '#D85A5A' : '#2424243F'}
-        />
-        <CgBorderStyleDotted
-          size={40}
-          color={active.step1 === 'active' ? '#D85A5A' : '#2424243F'}
-        />
-        <CgBorderStyleDotted
-          size={40}
-          color={active.step1 === 'active' ? '#D85A5A' : '#2424243F'}
-        />
-        <CgBorderStyleDotted
-          size={40}
-          color={active.step1 === 'active' ? '#D85A5A' : '#2424243F'}
-        />
-
-        <div className="flex flex-col  justify-center items-center text-center">
-          <div
-            className="w-10 h-10 bg-red-600  rounded-full flex justify-center items-center "
-            style={{
-              backgroundColor:
-                active.step2 === 'active'
-                  ? '#D85A5A'
-                  : active.step2 === 'pending'
-                    ? 'rgb(239 207 207)'
-                    : '#2424243F',
-            }}
-          >
-            {active.step2 === 'active' ? (
-              <TiTick color={'white'} size={20} />
-            ) : (
-              active.step2 === 'pending' && (
-                <BsDot size={40} color={'#D85A5A'} />
-              )
-            )}
-          </div>
-        </div>
-
-        <CgBorderStyleDotted
-          size={40}
-          color={active.step2 === 'active' ? '#D85A5A' : '#2424243F'}
-        />
-
-        <CgBorderStyleDotted
-          size={40}
-          color={active.step2 === 'active' ? '#D85A5A' : '#2424243F'}
-        />
-
-        <CgBorderStyleDotted
-          size={40}
-          color={active.step2 === 'active' ? '#D85A5A' : '#2424243F'}
-        />
-        <CgBorderStyleDotted
-          size={40}
-          color={active.step2 === 'active' ? '#D85A5A' : '#2424243F'}
-        />
-
-        <div className="flex flex-col justify-center items-center text-center">
-          <div
-            className="w-10 h-10 bg-red-600 text-white rounded-full flex justify-center items-center "
-            style={{
-              backgroundColor:
-                active.step3 === 'active'
-                  ? '#D85A5A'
-                  : active.step3 === 'pending'
-                    ? 'rgb(239 207 207)'
-                    : '#2424243F',
-            }}
-          >
-            {active.step3 === 'active' ? (
-              <TiTick color={'white'} size={20} />
-            ) : (
-              active.step3 === 'pending' && (
-                <BsDot size={40} color={'#D85A5A'} />
-              )
-            )}
-          </div>
-        </div>
+              </div>
+        }
       </div>
-      <div className=" hidden md:flex lg:flex bg-white  justify-center items-center">
-        <div className="flex relative right-10 flex-col justify-center items-center text-center">
-          <p className="flex text-sm   my-1">Order Placed</p>
-          <p
-            className={`flex  text-sm text-gray-400 ${active.step1 === 'active' ? 'text-gray-400' : 'text-white'
-              } `}
-          >
-            {moment.unix(details?.orderPlacedTime).format('lll')}
-          </p>
-        </div>
-
-        <div className="flex flex-col relative  left-2  justify-center items-center text-center">
-          <p className="flex text-sm   my-1">
-            {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-              ? 'Order is Cancelled'
-              : details?.orderStatus === '' || null
-                ? 'Waiting for confirmation'
-                : details?.orderStatus}
-          </p>
-          {
-            <p
-              className={`flex  text-sm ${active.step2 === 'active' ||
-                details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                ? 'text-gray-400'
-                : 'text-white'
-                } `}
-            >
-              {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                ? moment.unix(details?.orderCancelledTime).format('lll')
-                : details?.orderStatus === 'PAYMENT_COMPLETED'
-                  ? moment.unix(details?.paymentCompletedTime).format('lll')
-                  : ''}
-            </p>
-          }
-        </div>
-
-        <div className="flex  relative left-2 md:left-6 lg:left-[58px] flex-col items-center text-center">
-          <p className="flex  text-sm    realtive left-12 md:justify-end lg:justify-center ">
-            Out for delivery
-          </p>
-
-          <p
-            className={`flex   ${active.step3 === 'active' ? 'text-gray-400' : 'text-white'
-              } `}
-          >
-            {details?.isDelivery === 'Y' && details.customerPickupReadyTime
-              ? moment.unix(details.customerPickupReadyTime).format('lll')
-              : 'Mar 28, 2022 3:31 PM'}
-          </p>
-        </div>
-      </div>
-      {/* Mobile vieew */}
-      <div className="block md:hidden lg:hidden flex-col justify-start ">
-        <div
-          className={` ${active.mobupdate
-            ? active.step1 === 'pending'
-              ? 'flex'
-              : 'hidden'
-            : 'flex'
-            } justify-start items-center text-center`}
-        >
-          <div
-            className="w-10 h-10  ml-4 rounded-full flex justify-center items-center  "
-            style={{
-              backgroundColor:
-                active.step1 === 'active'
-                  ? '#D85A5A'
-                  : active.step1 === 'pending'
-                    ? 'rgb(239 207 207)'
-                    : '#2424243F',
-            }}
-          >
-            {active.step1 === 'active' ? (
-              <TiTick color={'white'} size={20} />
-            ) : (
-              active.step1 === 'pending' && (
-                <BsDot size={40} color={'#D85A5A'} />
-              )
-            )}
-          </div>
-          <div className="ml-4">
-            <p className="flex text-sm  ">Order Placed</p>
-            <p
-              className={`flex  text-sm text-gray-400 ${active.step1 === 'active' ? 'text-gray-400' : 'hidden'
-                } `}
-            >
-              {moment.unix(details?.orderPlacedTime).format('lll')}
-            </p>
-          </div>
-        </div>
-        <div
-          className={`${active.mobupdate
-            ? active.step1 === 'pending'
-              ? 'flex'
-              : 'hidden'
-            : 'block'
-            } mx-4`}
-        >
-          <HiOutlineDotsVertical
-            size={40}
-            color={active.step1 === 'active' ? '#D85A5A' : '#2424243F'}
-          />
-          <HiOutlineDotsVertical
-            size={40}
-            color={active.step1 === 'active' ? '#D85A5A' : '#2424243F'}
-          />
-          <HiOutlineDotsVertical
-            size={40}
-            color={active.step1 === 'active' ? '#D85A5A' : '#2424243F'}
-          />
-        </div>
-        <div
-          className={` ${active.mobupdate
-            ? active.step2 === 'pending'
-              ? 'flex'
-              : 'hidden'
-            : 'flex'
-            } ml-4 justify-start items-center text-center`}
-        >
-          <div
-            className="w-10 h-10 bg-red-600  rounded-full flex justify-center items-center "
-            style={{
-              backgroundColor:
-                active.step2 === 'active'
-                  ? '#D85A5A'
-                  : active.step2 === 'pending'
-                    ? 'rgb(239 207 207)'
-                    : '#2424243F',
-            }}
-          >
-            {active.step2 === 'active' ? (
-              <TiTick color={'white'} size={20} />
-            ) : (
-              active.step2 === 'pending' && (
-                <BsDot size={40} color={'#D85A5A'} />
-              )
-            )}
-          </div>
-          <div className="ml-4">
-            <p className="flex text-sm   my-1">
-              {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                ? 'Order is Cancelled'
-                : details?.orderStatus === '' || null
-                  ? 'Waiting for confirmation'
-                  : details?.orderStatus}
-            </p>
-            {
-              <p
-                className={`flex  text-sm ${active.step2 === 'active' ||
-                  details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                  ? 'text-gray-400'
-                  : 'hidden'
-                  } `}
-              >
-                {details?.orderStatus === 'CANCELLED_BY_CUSTOMER'
-                  ? moment.unix(details?.orderCancelledTime).format('lll')
-                  : details?.orderStatus === 'PAYMENT_COMPLETED'
-                    ? moment.unix(details?.paymentCompletedTime).format('lll')
-                    : ''}
-              </p>
-            }
-          </div>
-        </div>
-        <div
-          className={`${active.mobupdate
-            ? active.step2 === 'pending'
-              ? 'flex'
-              : 'hidden'
-            : 'block'
-            } mx-4`}
-        >
-          <HiOutlineDotsVertical
-            size={40}
-            color={active.step2 === 'active' ? '#D85A5A' : '#2424243F'}
-          />
-          <HiOutlineDotsVertical
-            size={40}
-            color={active.step2 === 'active' ? '#D85A5A' : '#2424243F'}
-          />
-          <HiOutlineDotsVertical
-            size={40}
-            color={active.step2 === 'active' ? '#D85A5A' : '#2424243F'}
-          />
-        </div>
-        <div
-          className={` ${active.mobupdate
-            ? active.step3 === 'pending'
-              ? 'flex'
-              : 'hidden'
-            : 'flex'
-            } ml-4 justify-start items-center text-center`}
-        >
-          <div
-            className="w-10 h-10 bg-red-600 text-white rounded-full flex justify-center items-center "
-            style={{
-              backgroundColor:
-                active.step3 === 'active'
-                  ? '#D85A5A'
-                  : active.step3 === 'pending'
-                    ? 'rgb(239 207 207)'
-                    : '#2424243F',
-            }}
-          >
-            {active.step3 === 'active' ? (
-              <TiTick color={'white'} size={20} />
-            ) : (
-              active.step3 === 'pending' && (
-                <BsDot size={40} color={'#D85A5A'} />
-              )
-            )}
-          </div>
-          <div className="mx-4">
-            <p className="flex  text-sm l   realtive left-10 my-1">
-              Out for delivery
-            </p>
-
-            <p
-              className={`flex   ${active.step3 === 'active' ? 'text-gray-400' : 'hidden'
-                } `}
-            >
-              {details?.isDelivery === 'Y' && details.customerPickupReadyTime
-                ? moment.unix(details.customerPickupReadyTime).format('lll')
-                : ''}
-            </p>
-          </div>
-        </div>
-
-        <p
-          className=" mx-16 text-base text-red-800 cursor-pointer"
-          onClick={() => {
-            setactive({ ...active, mobupdate: !active.mobupdate })
-          }}
-        >
-          {active.mobupdate ? 'See all updates' : 'See less update'}
-        </p>
-      </div>
-    </>
+    </div >
   )
 }
+
+export default Tracker

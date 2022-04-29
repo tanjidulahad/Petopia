@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { Button } from '../../../inputs'
 
-function orderlList({ list, storeName,status, orderId, createTime, openReturn }) {
+function orderlList({ list, storeName, status, orderId, createTime, openReturn }) {
   console.log(status)
   return (
     <div className="w-full  my-8 border-2 rounded-lg  bg-white">
@@ -41,6 +41,15 @@ function orderlList({ list, storeName,status, orderId, createTime, openReturn })
                       <Button type='link' href={`/product/${item.orderItemId}`}>
                         <p className="text-left font-semibold text-base text-dark mt-2 ">{item.itemName}</p>
                       </Button>
+                      {item.customizationDetails && <p>{item?.customizationDetails?.variant_item_attributes && Object.keys(item?.customizationDetails?.variant_item_attributes).map(function (key) {
+                        if (key.includes('variant_value')) {
+                          if (item?.customizationDetails?.variant_item_attributes[key] != null) {
+                            return <span>{item?.customizationDetails?.variant_item_attributes[key].variant_value_name}, </span>
+                          }
+                        }
+
+
+                      })}</p>}
                       {/* <p className="text-left text-sm font-medium text-gray-500 mt-2 "> Green, Small</p> */}
                     </div>
                   </div>
@@ -55,18 +64,18 @@ function orderlList({ list, storeName,status, orderId, createTime, openReturn })
           }
         </div>
         {
-          status==='CANCELLED_BY_CUSTOMER'?
+          status === 'CANCELLED_BY_CUSTOMER' ?
 
-          <p className='flex items-center ml-2 my-4 btn-color-revers font-bold'  >Order is Cancelled</p>
+            <p className='flex items-center ml-2 my-4 btn-color-revers font-bold'  >Order is Cancelled</p>
 
-          :
-          <div className='pt-8 px-8'>
-          <span className='text-lg '>Having problem with order?</span>
-          <Button className='inline ml-2 btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
-        </div>
+            :
+            <div className='pt-8 px-8'>
+              <span className='text-lg '>Having problem with order?</span>
+              <Button className='inline ml-2 btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
+            </div>
 
         }
-  </div>
+      </div>
     </div>
   )
 }

@@ -89,7 +89,7 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                                         {data.item_name.toLowerCase()}
                                     </Button>
                                 </h3>
-                                <Rating size={16} />
+                                {/* <Rating size={16} /> */}
                                 <div className="te leading-3">
                                     <h2 className="font-bold black-color text-sm sm:text-2xl inline-block">₹{data.sale_price}</h2>
                                     {

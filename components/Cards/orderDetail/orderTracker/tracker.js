@@ -65,7 +65,7 @@ function Tracker({ details }) {
               </>
               :
               <div className={'w-full md:flex lg:flex btn-color-revese bg-white justify-center items-center'}>
-                <Stepper activeStep={orderStatus} alternativeLabel className={ccc.root}>
+                <Stepper activeStep={orderStatus} alternativeLabel className={ccc.root} >
                   {steps.map((label) => (
                     <Step key={label}>
                       <StepLabel >{label}</StepLabel>

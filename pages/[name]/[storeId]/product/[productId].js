@@ -430,7 +430,7 @@ const ProductDetails = ({
                                             <span className="text-sm md:text-lg black-color-75 capitalize ">{visuals.item.item_status.toLowerCase()}</span>
                                             <h1 className="text-base md:text-lg xl:text-3xl my-6 font-semibold md:font-bold capitalize">{visuals.name.toLowerCase()}</h1>
                                             <div>
-                                                <Rating />
+                                                {/* <Rating /> */}
                                             </div>
                                             <div className="my-4 md:my-6">
                                                 <span className="text-lg md:text-xl my-6 black-color font-semibold">₹{visuals.defaultVariantItem ? visuals.defaultVariantItem.sale_price : visuals.price.sale_price}</span>

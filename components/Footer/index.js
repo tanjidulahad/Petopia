@@ -54,12 +54,12 @@ function index() {
               </a>
             </p>
 
-            <BsDot className="mx-4 my-8" color={'gray'} size={20} />
+            {/* <BsDot className="mx-4 my-8" color={'gray'} size={20} />
             <p className="text-white my-8  ">
               <a href='https://goplinto.com/terms-and-condition' target='_blank'>
                 Term & conditions
               </a>
-            </p>
+            </p> */}
           </div>
           <div className=" h-1/3 mt-10 flex  justify-center  align-center">
             <a className='block' href='https://goplinto.com/' target={'_blank'}>

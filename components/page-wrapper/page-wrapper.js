@@ -7,6 +7,7 @@ import Auth from "@components/auth/auth";
 import Loader from "@components/loading/loader";
 import NavBar from "@components/navbar/navbar";
 import Footer from '@components/Footer'
+import CartErrorPop from "@components/cart-error/cart-error-pop";
 
 import {
     getShopInfoStart, getShopSeoStart, getShopSettingsStart, getSocialProfileStart, getShopDisplaySettingsStart, getPageCountStart, getBannerStart,
@@ -172,6 +173,7 @@ const verifier = ({ children, isLogin, store, errorInGO, getShopInfo, getShopSeo
                 isLogin && <Auth />
             }
             <Popup />
+            <CartErrorPop />
         </>
     )
 }

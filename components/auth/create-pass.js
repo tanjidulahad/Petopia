@@ -18,12 +18,14 @@ const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSucces
     const onChangeHandler = (e) => {
         const { value, name } = e.target;
         if (error) setError('')
+        if (value.length > 40) return;
         setState({ ...state, [name]: value })
     }
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        if (state.password.length < 5) return setError('Please choose strong password.')
-        if (state.password != state.confirmPassword) return setError('Confirm password are not same.')
+        if (!state.password || state.password.length < 8) return setError("Please choose a strong password. Minimum password length should be of eight characters.");
+        if (state.password != state.confirmPassword) return setError("Password and confirm password are not same.");
+        setShowPass(false)
         setIsLoading(true)
         createNewPassword({ state, setError, setIsLoading, setIsSuccess })
     }

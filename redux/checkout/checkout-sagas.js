@@ -8,6 +8,7 @@ import {
     orderPaymentConfirmStart, orderPaymentConfirmSuccess, orderPaymentConfirmError, getPurchageSuccess, getPurchageStart,
     createNewRzpOrderSuccess, getPurchaseFailure,
     clearCheckout,
+    setPaymentMethodFailure,
 } from './checkout-action'
 import { clearCart, updateCartSuccess } from "../cart/cart-actions";
 import { riseError } from "../global-error-handler/global-error-handler-action.ts";
@@ -86,14 +87,16 @@ function* onSetDeliveryAddressToPurchese() {
 
 function* onSetDeliveryMethodToPurchese() {
     yield takeLatest(checkoutActionType.SET_SHIPMENT_METHOD, function* ({ payload }) {
+        const { purchaseId, flag } = payload; // {flag : cod == N; pay Online == Y}
         try {
-            const { purchaseId, flag } = payload; // {flag : cod == N; pay Online == Y}
-            const resSetParcel = yield fetcher('GET', `?r=orders/set-parcel&purchaseId=${purchaseId}&flagStatus=Y`)
+            const resSetParcel = yield fetcher('GET', `?r=orders/set-parcel&purchaseId=${purchaseId}&flagStatus=${flag}`)
             const resSetDelivery = yield fetcher('GET', `?r=orders/set-delivery&purchaseId=${purchaseId}&flagStatus=${flag}`)
             if (resSetDelivery.data && resSetParcel) {
                 yield put(setShipmentMethodSuccess(true))
+                yield put(getPurchageStart(purchaseId))
             }
         } catch (error) {
+            yield put(getPurchageStart(purchaseId))
             if (error.message == 'Network Error') {
                 yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
             } else {
@@ -113,6 +116,7 @@ function* onPaymentMethodToPurchese() {
                 yield put(setPaymentMethodSuccess(res.data))
             }
         } catch (error) {
+            yield put(setPaymentMethodFailure())
             if (error.message == 'Network Error') {
                 yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
             } else {

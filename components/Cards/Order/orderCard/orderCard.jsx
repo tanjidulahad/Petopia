@@ -1,8 +1,28 @@
+import { useState, useEffect } from 'react';
 import moment from 'moment';
 import { Button } from '../../../inputs'
 import { MdKeyboardArrowRight } from 'react-icons/md';
 function OrderCard({ status, message, data }) {
-  console.log(data)
+  const [orderStatus, setOrderStatus] = useState('Order is Placed');
+  useEffect(() => {
+    if (data?.orderStatus) {
+      if (data?.orderStatus == "PAYMENT_COMPLETED") {
+        setOrderStatus("Order is Placed")
+      }
+      else if (data?.orderStatus == "ORDER_CONFIRMED_BY_REST") {
+        setOrderStatus('Order in Progress')
+      }
+      else if (data?.orderStatus == "PENDING_PICKUP_BY_CUST") {
+        setOrderStatus('Order in Progress')
+      }
+      else if (data?.orderStatus == "ORDER_DELIVERED_SUCCESS") {
+        setOrderStatus('Order Delivered Successfully')
+      }
+      else if (data?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || data?.orderStatus == "ORDER_CANCELLED_BY_CUST") {
+        setOrderStatus('Order Canceled')
+      }
+    }
+  }, [data])
   return (
     <div className="w-full  border-2 md:rounded-lg lg:rounded-lg  bg-white">
       <div className="my-4 mx-2 md:mx-0 lg:mx-0 w-full flex justify-between">
@@ -34,7 +54,7 @@ function OrderCard({ status, message, data }) {
               />
             </div>
             <div className="  w-full  ">
-              <p className="text-left font-semibold text-lg  text-red-600">{data?.orderStatus}</p>
+              <p className="text-left font-semibold text-lg  text-red-600">{orderStatus}</p>
               {/* <p className="text-left text-base font-medium text-gray-500 mt-2">Waiting for Confirmation.!</p> */}
             </div>
           </div>
@@ -45,9 +65,25 @@ function OrderCard({ status, message, data }) {
       </div>
       {
         status === 'past' ?
-          <div className=" m-4 w-full h-full flex justify-between align-center">
-            <p className="text-lg font-semibold text-dark mb-2">{data.orderStatus==='CANCELLED_BY_CUSTOMER'?'Order Cancelled': data.isDelivery === "N" ? 'Order Cancelled' : "Delivery Success"}</p>
-          </div>
+          <Button type='link' href={`/account/orderdetail/${data.orderId}`}>
+            <div className=" m-4 w-full h-full flex justify-between align-center">
+              <p className="text-lg font-semibold text-dark mb-2">{(data?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || data?.orderStatus == "ORDER_CANCELLED_BY_CUST") ?
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Order Cancelled
+                </>
+                :
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  Delivery Success
+                </>
+              }</p>
+            </div>
+          </Button>
           :
           <Button type='link' href={`/account/orderdetail/${data.orderId}`}>
             <div className=" m-4 w-full h-full flex justify-center align-center">

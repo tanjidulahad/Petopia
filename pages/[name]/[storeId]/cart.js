@@ -9,44 +9,19 @@ import CartItem from "@components/cart-item/cart-item";
 import { Radio } from "@components/inputs";
 import OnlienPayment from "@components/online-payment/online-payment"
 import Loader from "@components/loading/loader"
+import EmptyCart from "@components/empty-cart"
 
 // Actions
 import { clearCart } from "@redux/cart/cart-actions"
 import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle } from "@redux/user/user-action"
 import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart, applyCouponCodeStart } from '@redux/checkout/checkout-action'
 import PageWrapper from "@components/page-wrapper/page-wrapper"
-
 // Function
 import { readyCartData, groupBy } from '@utils/utill'
 import AddressForm from "@components/address-form/address-form"
-// const readyCartData = function (arr, key) {
-//     return arr.reduce(function (rv, x) {
-//         (rv[x[key]] = rv[x[key]] || []).push({
-//             item_id: x.item_id,
-//             barcode_id: null,
-//             quantity: x.quantity,
-//             variant_item_id: x.defaultVariantItem?.variant_item_id | null,
-//         });
-//         return rv;
-//     }, {});
-// };
-const addressStructure = {
-    full_name: "",
-    phone: "",
-    address_line_1: "",
-    address_line_2: "",
-    city: "",
-    address_fields: {},
-    address_tag: "Home",
-    country: "India",
-    is_default: "",
-    latitude: null,
-    longitude: null,
-    state: "",
-    zip_code: ""
-}
+
 const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
-    initiateOrder, clearCheckout, createNewRzpOrder, clearCart, isDetailsLoading }) => {
+    initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout }) => {
 
     const [newAddress, setNewAddress] = useState(null)
     const [isAddressActive, setIsAddressActive] = useState(false);
@@ -74,37 +49,20 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         if (!cart.length) return;
         // Do nothing if don't have storeId and user 
         if (!info || !user) return;
-
         const data = readyCartData(cart, 'store_id')
-        // const data = {
-        //     [info.store_id]: [
-        //         ...cart.map(item => ({
-        //             item_id: item.item_id,
-        //             barcode_id: null,
-        //             quantity: item.quantity,
-        //             variant_item_id: item.defaultVariantItem?.variant_item_id | null,
-        //         }))
-        //     ]
-        // }
         //  Creating browsercart 
         if (!checkout.purchase) {
             setBackendCart({ userId: user.customer_id, groupId: info.group_id, data })
         }
 
         // Setting default details
-        if (checkout.purchase) {
-            setPaymentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.paymentMethod });
-        }
-        if (checkout.purchase) {
-            setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.deliveryMethod });
-        }
+        // if (checkout.purchase) {
+        //     setPaymentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.paymentMethod });
+        // }
+        // if (checkout.purchase) {
+        //     setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.deliveryMethod });
+        // }
     }, [user, checkout.purchase, info])
-    // useEffect(() => {
-    //     if (checkoutDetails.deliveryAddress && checkout.purchase) {
-    //         setDeliveryAddressToPurchase({ purchaseId: checkout.purchase?.purchase_id, addressId: checkoutDetails.deliveryAddress })
-    //     }
-    //     console.log();
-    // }, [userAddress])
 
     useEffect(() => {
         if (user) {
@@ -124,7 +82,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         console.log(checkoutDetails);
         setcheckoutDetails({
             ...checkoutDetails,
-            [name]: value
+            [name]: value,
+            ...(name == 'deliveryMethod' && value == 'N') && { deliveryAddress: null }
         })
         if (name == 'deliveryAddress' && checkout.purchase) {
             setDeliveryAddressToPurchase({ purchaseId: checkout.purchase?.purchase_id, addressId: value })
@@ -247,7 +206,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                     <span className='text-base font-semibold'>My Caer</span>
                 </div>
                 <div className="flex justify-center items-center empty-cart" style={{ minHeight: '80vh' }}>
-                    <div className="h-64 w-64 text-center flex justify-center items-center" style={{ borderRadius: '50%', background: 'rgba(246, 75, 93, 0.13)', boxShadow: 'rgb(246 75 93 / 13%) 0px 0px 100px 100px' }}>
+                    <div className="h-96 w-full sm:w-96 flex-col text-center flex justify-center items-center" style={{ borderRadius: '50%', background: 'rgba(246, 75, 93, 0.13)', boxShadow: 'rgb(246 75 93 / 13%) 0px 0px 100px 100px' }}>
+                        <EmptyCart />
                         <h4>Your Cart is Empty,
                             <span className="red-color">
                                 <Link href='/'> Shop now!</Link>
@@ -273,8 +233,12 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 md:gap-6 2xl:gap-10">
                         <div className="w-full lg:col-span-7 xl:col-span-8 col-auto ">
                             <div className="w-full bg-white rounded">
-                                <div className="px-3 py-10 sm:px-10 border-b-2">
+                                <div className="px-3 flex justify-between py-10 sm:px-10 border-b-2">
                                     <h2>Review your order</h2>
+                                    {
+                                        !!cart.length &&
+                                        <Button className='btn-color-revers text-base font-extrabold' onClick={() => { clearCart(); clearCheckout() }}>Clear Cart</Button>
+                                    }
                                 </div>
                                 {
                                     Object.values(cartGroups).map((item, i) => (
@@ -524,7 +488,15 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                         <span className="text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
                                                                     </div>
                                                                 </div>
-
+                                                                {
+                                                                    !!purchaseDetails.totalParcelCharge &&
+                                                                    <div className="flex justify-between space-x-2 my-4">
+                                                                        <h6 className="text-lg black-color font-medium">Parcel Charge</h6>
+                                                                        <div>
+                                                                            <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalParcelCharge).toFixed(2)}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                }
                                                                 <div className="flex justify-between space-x-2 my-4">
                                                                     <h6 className="text-lg black-color font-medium">Tax</h6>
                                                                     <div>
@@ -718,6 +690,6 @@ const mapDispatchToProps = dispatch => ({
 
     applyCouponCode: (payload) => dispatch(applyCouponCodeStart(payload)),
 
-    authToggle: () => dispatch(authShowToggle())
+    authToggle: () => dispatch(authShowToggle()),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(Cart))

@@ -86,7 +86,7 @@ const ProductDetails = ({
         getSpecifications({ setSpecifications, id: productId })
         fetchSimilarProducts({ setSimilarProducts, id: productId })
         fetchProductVariants({ setAllVariants, id: productId })
-    }, [router.isReady])
+    }, [router.query])
     useEffect(() => {
         // Run with Product change
         if (!Object.keys(success).length || !success) {
@@ -366,7 +366,7 @@ const ProductDetails = ({
         addToCart(productDataForCart)
     }
 
-    const itemRemoveFromCart=()=>{
+    const itemRemoveFromCart = () => {
         const productDataForCart = {
             item_id: visuals.id,
             store_id: visuals.storeId,
@@ -395,10 +395,9 @@ const ProductDetails = ({
         }
     })[0]?.quantity
     // console.log(quantityInCart, failure);
-    console.log(specifications);
-    console.log("product specification", allVariants)
-
-    console.log("cart", cart)
+    // console.log(specifications);
+    // console.log("product specification", allVariants)
+    // console.log("cart", cart)
     return (
         <>
             <Head>
@@ -502,7 +501,7 @@ const ProductDetails = ({
                                                 visuals.inventoryDetails ?
                                                     <>
                                                         {
-                                                            visuals.inventoryDetails.min_order_quantity > 0 &&
+                                                            visuals.inventoryDetails.min_order_quantity > 1 &&
                                                             <div className="">
                                                                 <span className="text-sm black-color-75">*Minimum order quantity is {visuals.inventoryDetails.min_order_quantity}.</span>
                                                             </div>
@@ -515,36 +514,7 @@ const ProductDetails = ({
                                                     </>
                                                     : <></>
                                             }
-                                            <div className="my-6">
-                                                {
-                                                    console.log(defaultVariant)
-                                                    // defaultVariant.map(varient => (<>
-                                                    //     <h6 className="text-base font-semibold md:text-xl md:font-medium">Size</h6>
-                                                    //     <div className="flex mt-6">
-                                                    //         {
-                                                    //             varient.map(() => (
-                                                    //                 <div className="mr-6 size-tab-active rounded flex items-center justify-center border-2 w-12 h-12 ">
-                                                    //                     <span className="text-base md:text-xl font-medium">S</span>
-                                                    //                 </div>
 
-                                                    //             ))
-                                                    //         }
-                                                    //     </div>
-                                                    // </>))
-                                                }
-                                                {/* <h6 className="text-base font-semibold md:text-xl md:font-medium">Size</h6>
-                                            <div className="flex mt-6">
-                                                <div className="mr-6 size-tab rounded flex items-center justify-center border-2 w-12 h-12 ">
-                                                    <span className="text-base md:text-xl font-medium">M</span>
-                                                </div>
-                                                <div className="mr-6 size-tab rounded flex items-center justify-center border-2 w-12 h-12 ">
-                                                    <span className="text-base md:text-xl font-medium">L</span>
-                                                </div>
-                                                <div className="mr-6 size-tab rounded flex items-center justify-center border-2 w-12 h-12 ">
-                                                    <span className="text-base md:text-xl font-medium">XL</span>
-                                                </div>
-                                            </div> */}
-                                            </div>
                                             {
                                                 !!visuals.specifications.length &&
                                                 <div className="mt-14">

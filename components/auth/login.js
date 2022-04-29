@@ -26,19 +26,25 @@ const Login = ({ showToggle, loginWithPassword, userloginSuccess, forgotPassword
     const [isLoading, setIsLoading] = useState(false) // loading failed success
 
     const onChangeHandler = (e) => {
-        const { value, name } = e.target;
+        let { value, name } = e.target;
         if (error) setError(null);
         if ((!(/^\d*$/.test(value)) || value.length > 10) && name == 'phone') return;
+        if (value.length > 40 && name == 'password') return;
+        if (name != 'password') value = value.trim();
         setState({ ...state, [name]: value })
     }
     const onSubmitHandler = (e) => {
         e.preventDefault();
         if (!(state.phone || state.emailId)) return setError("Enter valid 10 digit phone number or email id!");
+        if (state.verificationType == 'EMAIL' && !state.emailId.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) return setError("Enter a valid email id!");
+        if (state.verificationType == 'PHONE' && state.phone.length < 10) return setError("Please enter valid 10 digit phone number.");
         setError('')
+        setShowPass(false)
         setIsLoading(true)
         if (forgotPass) {
             forgotPassword({ state, setError, setIsLoading, setUser })
         } else {
+            if (!state.password) return setError("Enter your password!");
             loginWithPassword({ state, setError, setStatus: setIsLoading })
         }
     }

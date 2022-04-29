@@ -105,6 +105,7 @@ function* onOtpVerificationStart() {
         } catch (error) {
             console.log(error);
             setError(error.message)
+            setStatus(false)
         }
     })
 }

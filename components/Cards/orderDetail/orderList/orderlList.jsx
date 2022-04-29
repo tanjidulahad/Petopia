@@ -64,9 +64,9 @@ function orderlList({ list, storeName, status, orderId, createTime, openReturn }
           }
         </div>
         {
-          status === 'CANCELLED_BY_CUSTOMER' ?
-
-            <p className='flex items-center ml-2 my-4 btn-color-revers font-bold'  >Order is Cancelled</p>
+          status == 'ORDER_CANCELLED_BY_CUST' || status == "ORDER_DECLINED_BY_RESTAURANT" || status == 'ORDER_DELIVERED_SUCCESS' ?
+            null
+            // <p className='flex items-center ml-2 my-4 btn-color-revers font-bold'  >Order is Cancelled</p>
 
             :
             <div className='pt-8 px-8'>

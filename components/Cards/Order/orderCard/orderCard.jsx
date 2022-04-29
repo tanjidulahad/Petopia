@@ -18,7 +18,7 @@ function OrderCard({ status, message, data }) {
       else if (data?.orderStatus == "ORDER_DELIVERED_SUCCESS") {
         setOrderStatus('Order Delivered Successfully')
       }
-      else if (data?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || data?.orderStatus == "ORDER_CANCELLED_BY_CUST") {
+      else if (data?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || data?.orderStatus == "CANCELLED_BY_CUSTOMER") {
         setOrderStatus('Order Canceled')
       }
     }
@@ -67,7 +67,7 @@ function OrderCard({ status, message, data }) {
         status === 'past' ?
           <Button type='link' href={`/account/orderdetail/${data.orderId}`}>
             <div className=" m-4 w-full h-full flex justify-between align-center">
-              <p className="text-lg font-semibold text-dark mb-2">{(data?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || data?.orderStatus == "ORDER_CANCELLED_BY_CUST") ?
+              <p className="text-lg font-semibold text-dark mb-2">{(data?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || data?.orderStatus == "CANCELLED_BY_CUSTOMER") ?
                 <>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />

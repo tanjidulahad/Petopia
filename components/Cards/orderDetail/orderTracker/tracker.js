@@ -31,7 +31,7 @@ function Tracker({ details }) {
       else if (details?.orderStatus == "ORDER_DELIVERED_SUCCESS") {
         setOrderStatus(3)
       }
-      else if (details?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || details?.orderStatus == "ORDER_CANCELLED_BY_CUST") {
+      else if (details?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || details?.orderStatus == "CANCELLED_BY_CUSTOMER") {
         setIsCanceled(true)
         setOrderStatus(2)
       }

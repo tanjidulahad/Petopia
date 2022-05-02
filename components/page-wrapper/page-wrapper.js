@@ -14,6 +14,7 @@ import {
     getShopInfoSuccess, getShopSeoSuccess, getShopSettingsSuccess, getSocialProfileSuccess,
 } from "@redux/shop/shop-action";
 import Popup from "@components/popup/popup";
+import { createSeasionId } from "services/pickytoClient";
 
 function hexToRGB(hex, alpha) {
     var r = parseInt(hex.slice(1, 3), 16),
@@ -27,16 +28,24 @@ function hexToRGB(hex, alpha) {
     }
 }
 
-const verifier = ({ children, isLogin, store, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner }) => {
+const verifier = ({userId, children, isLogin, store, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner }) => {
     const router = useRouter()
     const { displaySettings } = store
 
     useEffect(() => {
         const { storeId } = router.query
         if (!store.isReadyToGo && storeId) {
+
+            var seassion_id
+            if (!userId) {
+                seassion_id = createSeasionId()
+            } else {
+                seassion_id = userId
+            }
+
             getBanner(storeId)
             getShopSeo(storeId);
-            getShopInfo(storeId);
+            getShopInfo({storeId,seassion_id});
             getPageCount({ storeId })
             getShopSettings(storeId);
             getSocialProfile(storeId);
@@ -184,7 +193,8 @@ const mapStateToProps = state => ({
     // displaySettings: state.store.displaySettings,
     isReadyToGo: state.store.isReadyToGo,
     errorInGO: state.store.error,
-    isLogin: !state.user.currentUser
+    isLogin: !state.user.currentUser,
+    userId: state.user.currentUser?.customer_id,
 })
 const mapDispatchToProps = dispatch => ({
     getBanner: (shopId) => dispatch(getBannerStart(shopId)),

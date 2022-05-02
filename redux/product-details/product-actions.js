@@ -1,8 +1,8 @@
 import productActionType from './product-action-type'
 
-export const productDetailsFetchStart = (item) => ({
+export const productDetailsFetchStart = ({ id,seassion_id, onSuccess, onFailure }) => ({
     type: productActionType.PRODUCT_DETAILS_FETCH_START,
-    payload: item
+    payload: { id,seassion_id, onSuccess, onFailure }
 })
 export const productDetailsFetchSuccess = (product) => ({
     type: productActionType.PRODUCT_DETAILS_FETCH_SUCCESS,

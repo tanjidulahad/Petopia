@@ -24,7 +24,7 @@ import { productDetailsFetchStart, similarProductFetchStart, getAdditionalInfoSt
 // Components
 import Rating from "@components/rating-stars/rating";
 import PageWrapper from "@components/page-wrapper/page-wrapper";
-import { getVariantItemByItemId } from "services/pickytoClient";
+import { createSeasionId, getVariantItemByItemId } from "services/pickytoClient";
 
 const visualsStructure = {
     view: false, // true if want to view on page otherwise false till product details are not fiiled in this object
@@ -48,7 +48,7 @@ const visualsStructure = {
     similarProducts: []  //[...similarProducts]
 }
 
-const ProductDetails = ({
+const ProductDetails = ({user,
     cart, addToCart, removeFromCart,
     fetchProductDetails, fetchSimilarProducts, getAdditionalInfo, getSpecifications, fetchProductVariants }) => {
     const [success, onSuccess] = useState({})
@@ -81,7 +81,15 @@ const ProductDetails = ({
     useEffect(() => {
         const { productId } = router.query
         if (!productId) return;
-        fetchProductDetails({ id: productId, onSuccess, onFailure })
+        // get seassionid
+        var seassion_id
+        if (!user) {
+            seassion_id = createSeasionId()
+        } else {
+            seassion_id = user?.customer_id
+        }
+
+        fetchProductDetails({ id: productId,seassion_id, onSuccess, onFailure })
         getAdditionalInfo({ setAdditionalInfo, id: productId })
         getSpecifications({ setSpecifications, id: productId })
         fetchSimilarProducts({ setSimilarProducts, id: productId })
@@ -611,6 +619,7 @@ const mapStateToProps = state => ({
     // Other States
     cart: state.cart,
     wishlist: state.wishlist.list,
+    user: state.user.currentUser,
 })
 const mapDispatchToProps = dispatch => ({
     // Cart Dispatch

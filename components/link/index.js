@@ -29,6 +29,14 @@ export const redirect = (href = '') => {
     }
     return Router.push
 }
+export const linkReplace = (href = '') => {
+    const state = store.getState()
+    const info = state.store.info
+    if (info) {
+        return Router.push(`/${info.store_name.replaceAll(" ", '-').trim()}/${info.store_id}${href}`)
+    }
+    return Router.push
+}
 
 export const getBasePath = () => {
     const state = store.getState()

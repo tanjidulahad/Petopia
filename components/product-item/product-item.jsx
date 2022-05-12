@@ -89,7 +89,7 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                                         {data.item_name.toLowerCase()}
                                     </Button>
                                 </h3>
-                                <Rating size={16} />
+                                {/* <Rating size={16} /> */}
                                 <div className="te leading-3">
                                     <h2 className="font-bold black-color text-sm sm:text-2xl inline-block">₹{data.sale_price}</h2>
                                     {
@@ -98,7 +98,7 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                                     }
                                     {
                                         !!(data.price - data.sale_price) &&
-                                        <span className="text-xs sm:text-lg success-color line-through ml-2 md:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
+                                        <span className="text-xs sm:text-lg success-color ml-2 md:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
                                     }
                                 </div>
                                 <div>

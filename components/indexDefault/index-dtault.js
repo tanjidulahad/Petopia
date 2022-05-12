@@ -185,7 +185,7 @@ export default function Name() {
                     <div className="flex flex-row flex-wrap justify-between lg:justify-start lg:ml-3">
                         {stores.map((store, index) => {
                             return (
-                                <div className="flex flex-col pt-2 w-1/2 lg:w-1/4 md:w-1/4 items-center lg:items-start md:items-start max-h-60 min-h-36 " key={index} onClick={()=>router.push(`/${store.store_name}/${store.store_id}`)}>
+                                <div className="flex flex-col pt-2 w-1/2 lg:w-1/4 md:w-1/4 items-center lg:items-start md:items-start max-h-60 min-h-36 " key={index} onClick={() => router.push(`/${store.store_name}/${store.store_id}`)}>
                                     <div className='flex items-start '>
                                         <img src={store?.logo_img_url} className="min-h-28 max-h-28" />
                                     </div>
@@ -242,9 +242,12 @@ export default function Name() {
             <footer className='hidden lg:block md:block bg-black lg:mt-48 w-full'>
                 <div className='flex justify-center text-[#FFFFFF] gap-24 mt-5'>
                     <ul className="list-disc flex gap-24">
-                        <li>Privacy Policy</li>
-                        <li>Return & Refunds</li>
-                        <li>Terms of Service</li>
+                        <li><a href='https://goplinto.com/privacy-policy' target='_blank'>
+                            Privacy Policy
+                        </a></li>
+                        <li><a href='https://goplinto.com/refund-policy' target='_blank'>
+                            Return & Refunds
+                        </a></li>
                     </ul>
                 </div>
                 <div className="flex flex-col mt-4 items-center">

@@ -58,7 +58,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
   return (
     <>
       <nav className='sm:sticky top-0 ' ref={ref} style={{ backgroundImage: ` url("${headerImg.src}")` }}>
-        <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative nav-bg` : 'hidden'} >
+        <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-2 sm:pb-4 relative nav-bg` : 'hidden'} >
           <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
             <Button className='text-left' type='link' href='/'>
               <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>
@@ -66,14 +66,14 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
                   <img className='w-100 h-100 object-contain' src={info.logo_img_url || '/img/default-store.webp'} alt="..." />
                 </div>
                 <div className='white-color mt-4 sm:mt-0'>
-                  <h1 className='text-2xl font-extrabold'>{info.store_name}</h1>
+                  <h1 className='text-xl lg:text-2xl font-extrabold'>{info.store_name}</h1>
                   <div className='mt-3 hidden md:block'>
                     {
                       !!info.address && <>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-geo-alt-fill inline" viewBox="0 0 16 16">
                           <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
                         </svg>
-                        <span className=' text-base font-semibold tracking-tight ml-2 '>No. 9, 11th Cross St, Indira Nagar, Adyar, Chennai, Tamil Nadu 600020.</span>
+                        <span className='text-sm lg:text-base font-semibold tracking-tight ml-2 '>No. 9, 11th Cross St, Indira Nagar, Adyar, Chennai, Tamil Nadu 600020.</span>
                       </>
                     }
                   </div>

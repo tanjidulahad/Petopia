@@ -2,49 +2,48 @@ import { connect } from 'react-redux'
 import { useState } from 'react'
 import { Button, Radio, Checkbox } from '@components/inputs'
 import fetcher from '@redux/utility'
+import { linkReplace, redirect } from '@components/link'
 function Ret({ action, items, closeRetun, user, orderId }) {
   const [final, setfinal] = useState(false)
-  console.log(items, orderId)
-  const [reason, setreason] = useState({
-    reason1: '',
-    reason2: '',
-    custom: '',
-  })
-  const onReasonHandler = (e) => {
-    const { value, name, } = e.target
-
-    if (name === 'r1') {
-      setPayload({ ...payload, cancelReason: value })
-    }
-    if (name === 'r2') {
-      setPayload({ ...payload, cancelReason: value })
-
-
-    }
-    if (name === 'custom') {
-      console.log(name, value)
-      setPayload({ ...payload, cancelReason: value })
-
-
-    }
-  }
-
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
+  const [success, setSuccess] = useState(null)
   const [payload, setPayload] = useState({
-
     customerId: user.customer_id,
     cancelReason: '',
     orderItemId: [], // null should be passed when the entire order is to be cancelled
   })
+  const [reason, setreason] = useState({
+    r: '',
+    custom: '',
+  })
+  // useEffect(() => {
+  //   setEnableCancel(()=>{
+
+  //   })
+  // })
+
+  const onReasonHandler = (e) => {
+    const { value, name, } = e.target
+    if (error) setError('')
+    setreason({
+      ...name == 'custom' ? { r: '', custom: value } : { r: value, custom: "" }
+    })
+    setPayload({ ...payload, cancelReason: value })
+    // if (name === 'r1') {
+    //   setPayload({ ...payload, cancelReason: value })
+    // }
+    // if (name === 'r2') {
+    //   setPayload({ ...payload, cancelReason: value })
+    // }
+    // if (name === 'custom') {
+    //   console.log(name, value)
+    //   setPayload({ ...payload, cancelReason: value })
+    // }
+  }
   const onChangeHandler = (e) => {
+    if (error) setError('')
     const { value, checked, name, type } = e.target
-
-
-    if (type === "submit") {
-      setPayload({ ...payload, cancelReason: reason.custom ? reason.custom : reason.reason1 ? reason.reason1 : reason.reason2 && reason.reason2 })
-      fetcher('post', `/?r=my-orders/cancel-order&orderId=${orderId}`, payload).then(response => console.log(response)).catch(err => console.log(err))
-    }
-
-
     if (checked) {
       setPayload({
         ...payload,
@@ -57,12 +56,39 @@ function Ret({ action, items, closeRetun, user, orderId }) {
       })
     }
   }
+  const onSubmitHandler = () => {
+    if (!payload.orderItemId.length) return setError('Select at least one product.')
+    if (!payload.cancelReason) return setError('Please tell us the reason.')
+    setPayload({ ...payload, cancelReason: reason.custom ? reason.custom : reason.reason1 ? reason.reason1 : reason.reason2 && reason.reason2 })
+    setIsLoading(true)
+    fetcher('post', `/?r=my-orders/cancel-order&orderId=${orderId}`, payload)
+      .then(res => {
+        const { data } = res
+        if (data) {
+          setSuccess(true)
+          setTimeout(() => {
+            linkReplace(`/account/orderdetail/${orderId}`)
+            closeRetun(false)
+            // redirect
+          }, 4000)
+        }
+        setIsLoading(false)
+      })
+      .catch(error => {
+        if (error.response) {
+          setError(error.response.data.message)
+        } else {
+          setError(error.message)
+        }
+        setIsLoading(false)
+      })
+  }
 
-
+  console.log(payload, items);
   return (
     <div id="return" className="auth ">
-      <div className="mt-80 md:mt-0 lg:mt-0 auth-form-container  md:roundec-lg lg:rounded-lg ">
-        <section className=' bg-white'>
+      <div className="md:mt-0 relative lg:mt-0 auth-form-container  md:roundec-lg lg:rounded-lg ">
+        <div className=' bg-white'>
           <div className="flex p-4 justify-between items-center border-b-2 border-gray-200">
             <h2 className="text-base font-semibold">{action} Order</h2>
             <Button
@@ -88,6 +114,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
               </svg>
             </Button>
           </div>
+          <span className='mt-3 p-4 text-red-500'>{error}</span>
           <div className="p-4">
             <h3 className="text-sm  text-gray-600">
               {final
@@ -97,42 +124,45 @@ function Ret({ action, items, closeRetun, user, orderId }) {
             {final ? (
               <>
                 <div className="mt-4 mx-1 flex flex-around  ">
-                  <Radio
+                  <Radio id='2'
                     className="mt-3 "
-                    name="r1"
+                    name="r"
                     value="Product defective"
-                    onClick={(e) => {
+                    checked={reason.r == 'Product defective'}
+                    onChange={(e) => {
                       onReasonHandler(e)
                     }}
                   />
 
-                  <h3
+                  <label htmlFor='2'
                     className="text-sm flex text-gray-400 mt-2 mx-3"
                     style={{ alignItems: 'center' }}
                   >
                     Product defective
-                  </h3>
+                  </label>
                 </div>
                 <div className="mt-4 mx-1 flex flex-around  ">
                   <Radio
+                    id='1'
                     className="mt-3 "
-                    name="r2"
-                    value=" Delivery box damaged"
-                    onClick={(e) => {
+                    name="r"
+                    value="Delivery box damaged"
+                    checked={reason.r == 'Delivery box damaged'}
+                    onChange={(e) => {
                       onReasonHandler(e)
                     }}
                   />
 
-                  <h3
+                  <label htmlFor='1'
                     className="text-sm flex text-gray-400 mt-2 mx-3"
                     style={{ alignItems: 'center' }}
                   >
                     Delivery box damaged
-                  </h3>
+                  </label>
                 </div>
-                <div className="mt-4 mx-1 flex flex-around hidden md:block lg:block  ">
+                <div className="mt-4 mx-1 flex flex-around ">
                   <textarea
-                    className="mx-6 border-2 border-gray-200 rounded-lg"
+                    className="w-full outline-none p-2 border-2 border-gray-200 rounded-lg"
                     rows="4"
                     cols="50"
                     name="custom"
@@ -142,29 +172,28 @@ function Ret({ action, items, closeRetun, user, orderId }) {
                     }}
                   ></textarea>
                 </div>
-                <div className="mt-4 mx-1 flex flex-around block md:hidden lg:hidden ">
-                  <textarea
-                    className="mx-6 border-2 border-gray-200 rounded-lg"
-                    rows="4"
-                    cols="35"
-                    name="custom"
-                    value={reason.custom}
-                    onChange={(e) => {
-                      onReasonHandler(e)
-                    }}
-                  ></textarea>
-                </div>
 
                 <div className="flex justify-center md:justify-end lg:justify-end my-6 mb-40 lg:my-2 md:my-2">
-                  <Button
-                    className={`w-full md:w-max lg:w-max m-2 btn-color text-lg font-medium btn-bg px-4 py-1 rounded `}
+                  <button
+                    className={`w-full md:w-max lg:w-max m-2 btn-color ${(!isLoading && success) ? 'bg-green-500' : ' btn-bg'} text-lg font-medium  px-9 py-3 rounded `}
                     type="button"
-                    onClick={(e) => {
-                      onChangeHandler(e)
+                    onClick={onSubmitHandler}
+                    disabled={isLoading || success}
+                    style={{
+                      ...isLoading && {
+                        opacity: 0.6,
+                        cursor: "not-allowed"
+                      },
                     }}
                   >
-                    Place Return Request
-                  </Button>
+                    {
+                      isLoading ? "Canceling order..." :
+                        !isLoading && success ?
+                          "Order Canceled"
+                          :
+                          'Place Return Request'
+                    }
+                  </button>
                 </div>
               </>
             ) : (
@@ -213,7 +242,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
 
                 <div className="flex justify-end ">
                   <Button
-                    className={`w-max m-2 btn-color text-lg font-medium btn-bg px-4 py-1 rounded `}
+                    className={`w-max m-2 btn-color text-lg font-medium btn-bg px-9 py-3 rounded `}
                     type="button"
                     onClick={(e) => {
                       setfinal(
@@ -228,7 +257,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
               </>
             )}
           </div>
-        </section>
+        </div>
       </div>
     </div>
   )

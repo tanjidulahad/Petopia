@@ -56,6 +56,20 @@ function Tracker({ details, display }) {
       }
     }
   }, [details])
+  const style = display ? {
+    compoleted: {
+      color: display.primary_color || '#E83B3B'
+    },
+    active: {
+      color: '#E83B3B'
+    },
+    pending: {
+      color: '#c5c5c5'
+    },
+    check: {
+      color: '#fff'
+    },
+  } : {}
   return (
     <div id="tracker" className={` `}>
       <div className='mt-2'>
@@ -77,24 +91,12 @@ function Tracker({ details, display }) {
               :
               <>
                 <div className={'w-full hidden mx-auto sm:w-3/5 sm:flex flex-col justify-center items-center'}>
-                  <Stepper steps={steps} activeStep={orderStatus + 1} sx={display ? {
-                    compoleted: {
-                      color: display.primary_color || '#E83B3B'
-                    },
-                    active: {
-                      color: '#E83B3B'
-                    },
-                    pending: {
-                      color: '#c5c5c5'
-                    },
-                    check: {
-                      color: '#fff'
-                    },
-                  } : {}} />
+                  <Stepper steps={steps} activeStep={orderStatus + 1} sx={style} />
                 </div>
                 <div className={'w-full flex sm:hidden space-x-5 items-center'}>
-                  <div className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 scale-75  bg-[#D85A5A]`} style={{
-                    boxShadow: `0px 0px 0px 10px ${hexToRGB('#D85A5A', 0.15)}`,
+                  <div className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 scale-75`} style={{
+                    boxShadow: `0px 0px 0px 10px ${hexToRGB(display?.primary_color || '#E83B3B', 0.15)}`,
+                    backgroundColor: display?.primary_color || '#E83B3B'
                   }} >
                   </div>
                   <div>
@@ -120,7 +122,7 @@ function Tracker({ details, display }) {
             <div className='py-4'>
 
             </div>
-            <Stepper steps={steps} vertical={true} activeStep={orderStatus + 1} />
+            <Stepper steps={steps} vertical={true} activeStep={orderStatus + 1} sx={style} />
           </div>
         </div>
       }

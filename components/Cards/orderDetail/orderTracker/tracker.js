@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Stepper from '@components/stepper/stepper';
 import moment from 'moment'
+import { connect } from 'react-redux';
 
 function hexToRGB(hex, alpha) {
   var r = parseInt(hex.slice(1, 3), 16),
@@ -14,7 +15,7 @@ function hexToRGB(hex, alpha) {
   }
 }
 
-function Tracker({ id, details }) {
+function Tracker({ details, display }) {
   const [orderStatus, setOrderStatus] = useState(0);
   const [isCanceled, setIsCanceled] = useState(false)
   const [isTrackerOpen, setIsTrackerOpen] = useState(false)
@@ -55,7 +56,6 @@ function Tracker({ id, details }) {
       }
     }
   }, [details])
-  console.log(steps[orderStatus].lable)
   return (
     <div id="tracker" className={` `}>
       <div className='mt-2'>
@@ -77,7 +77,20 @@ function Tracker({ id, details }) {
               :
               <>
                 <div className={'w-full hidden mx-auto sm:w-3/5 sm:flex flex-col justify-center items-center'}>
-                  <Stepper steps={steps} activeStep={orderStatus + 1} />
+                  <Stepper steps={steps} activeStep={orderStatus + 1} sx={display ? {
+                    compoleted: {
+                      color: display.primary_color || '#E83B3B'
+                    },
+                    active: {
+                      color: '#E83B3B'
+                    },
+                    pending: {
+                      color: '#c5c5c5'
+                    },
+                    check: {
+                      color: '#fff'
+                    },
+                  } : {}} />
                 </div>
                 <div className={'w-full flex sm:hidden space-x-5 items-center'}>
                   <div className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 scale-75  bg-[#D85A5A]`} style={{
@@ -115,4 +128,8 @@ function Tracker({ id, details }) {
   )
 }
 
-export default Tracker
+const mapStateToProps = state => ({
+  display: state.store.displaySettings
+})
+
+export default connect(mapStateToProps)(Tracker)

@@ -38,7 +38,7 @@ const Stepper = ({ activeStep = 1, vertical = false, steps = [], sx = {} }) => {
                             <div key={i} className={`flex relative ${!vertical ? 'flex-col  justify-start items-center' : 'justify-center items-start '} px-2 flex-1`}>
                                 {
                                     activeStep >= i + 1 ?
-                                        <div key={i} className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 ${!vertical && 'mb-4 flex-col'} shadow-[#D85A5A]`} style={{
+                                        <div key={i} className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 ${!vertical && 'mb-4 flex-col'}`} style={{
                                             boxShadow: `none`,
                                             backgroundColor: activeStep >= i + 1 ? style.compoleted.color : style.pending.color
                                         }} >
@@ -50,7 +50,7 @@ const Stepper = ({ activeStep = 1, vertical = false, steps = [], sx = {} }) => {
                                             }
                                         </div>
                                         :
-                                        <div key={i} className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 scale-75 ${!vertical && 'mb-4 flex-col'} shadow-[#D85A5A]`} style={{
+                                        <div key={i} className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 scale-75 ${!vertical && 'mb-4 flex-col'} `} style={{
                                             boxShadow: `0px 0px 0px 10px ${activeStep + 1 == i + 1 ? hexToRGB(style.compoleted.color, 0.15) : hexToRGB(style.pending.color, 0.15)}`,
                                             backgroundColor: activeStep + 1 == i + 1 ? style.compoleted.color : style.pending.color,
                                         }} />

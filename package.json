@@ -8,10 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
-    "@mui/material": "^5.6.3",
-    "antd": "^4.19.5",
     "axios": "^0.26.0",
     "babel-plugin-styled-components": "^2.0.6",
     "moment": "^2.29.1",
@@ -23,9 +19,6 @@
     "react-dom": "17.0.2",
     "react-elastic-carousel": "^0.11.5",
     "react-icons": "^4.3.1",
-    "react-image-magnifiers": "^1.4.0",
-    "react-image-magnify": "^2.7.4",
-    "react-multi-carousel": "^2.8.0",
     "react-phone-input-2": "^2.15.0",
     "react-player": "^2.10.0",
     "react-rating-stars-component": "^2.2.0",
@@ -35,6 +28,7 @@
     "react-slick": "^0.28.1",
     "react-social-icons": "^5.13.0",
     "react-step-progress": "^1.0.3",
+    "react-stepper-component-with-svg": "^1.0.7",
     "react-swipeable": "^6.2.1",
     "react-tooltip": "^4.2.21",
     "redux": "^4.1.2",

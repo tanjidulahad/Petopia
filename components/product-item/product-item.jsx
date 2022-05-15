@@ -65,7 +65,7 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
     )
     return (
         <>
-            <div className="w-100 block product-item">
+            <div className="w-100 flex flex-col items-start sm:items-end lg:items-start product-item">
                 <div className="flex flex-row justify-between space-x-4 w-full">
                     <div>
                         <div className="flex w-full relative">

@@ -141,6 +141,10 @@ const verifier = ({ children, isLogin, store, errorInGO, getShopInfo, getShopSeo
                         background-color : ${themeColors.bgColor};
                         box-shadow : 0px 0px 0px 2px ${themeColors.bgColor};
                     }
+                    input[type=checkbox]:checked:after {
+                        background-color : ${themeColors.bgColor};
+                        box-shadow : 0px 0px 0px 2px ${themeColors.bgColor};
+                    }
                 </style>`)
             head.innerHTML = style
         }

@@ -1,6 +1,5 @@
 import Link from '@components/link';
 import Carousel from 'react-elastic-carousel';
-// import "react-multi-carousel/lib/styles.css";
 
 const LeftArrow = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">

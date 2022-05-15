@@ -3,7 +3,6 @@ import { useRouter, withRouter } from "next/router";
 import ReactPlayer from 'react-player'
 import { connect } from "react-redux";
 import Head from "next/head";
-import { Tooltip } from 'antd';
 import ReactTooltip from 'react-tooltip';
 
 

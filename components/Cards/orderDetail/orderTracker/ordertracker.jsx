@@ -1,7 +1,7 @@
 import React from 'react'
 import Tracker from './tracker';
 
-function Ordertracker({ data,details }) {
+function Ordertracker({ data, details }) {
   return (
     <div className="w-full  border-2 rounded-lg  bg-white">
       <div className="my-4  w-full flex justify-between">

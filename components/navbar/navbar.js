@@ -58,14 +58,14 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
   return (
     <>
       <nav className='sm:sticky top-0 ' ref={ref} style={{ backgroundImage: ` url("${headerImg.src}")` }}>
-        <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-2 sm:pb-4 relative nav-bg` : 'hidden'} >
+        <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative nav-bg nav-color` : 'hidden'} >
           <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
             <Button className='text-left' type='link' href='/'>
               <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>
                 <div className='h-20 w-20 shrink-0 flex items-center justify-center overflow-hidden rounded-md'>
                   <img className='w-100 h-100 object-contain' src={info.logo_img_url || '/img/default-store.webp'} alt="..." />
                 </div>
-                <div className='white-color mt-4 sm:mt-0'>
+                <div className=' mt-4 sm:mt-0'>
                   <h1 className='text-xl lg:text-2xl font-extrabold'>{info.store_name}</h1>
                   <div className='mt-3 hidden md:block'>
                     {
@@ -84,12 +84,12 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
             {
               <MediaQuery minWidth={640}>
 
-                <div className="hidden sm:flex justify-end items-center white-color ">
+                <div className="hidden sm:flex justify-end items-center  ">
                   <Button href="/contact" className='whitespace-nowrap font-bold inline-block tracking-tight mr-2 text-lg' onClick={() => { setShowContact(true) }} >Contact Us</Button>
                   <div>
-                    <Button className='flex items-center white-color' type='link' href='/cart'>
-                      <span className='text-lg font-bold tracking-tight md:ml-5 lg:ml-8 white-color mx-2'> Cart </span>
-                      <span className=" white-color font-bold  my-4 relative" >
+                    <Button className='flex items-center ' type='link' href='/cart'>
+                      <span className='text-lg font-bold tracking-tight md:ml-5 lg:ml-8  mx-2'> Cart </span>
+                      <span className="  font-bold  my-4 relative" >
                         <IoCartOutline size={25} />
                         {
                           !!totalItems &&
@@ -105,7 +105,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
                         <Button onClick={openAuth} className=" bg-white text-black max-h-min text-base font-medium rounded py-3 px-8 hover:bg-rose-600 hover:text-white " title="Sign In"></Button>
                       </div>
                       :
-                      <div className=" flex relative white-color items-center my-6 ml-8 cursor-pointer account">
+                      <div className=" flex relative items-center my-6 ml-8 cursor-pointer account">
                         <div className="mt-2 w-10 h-10 bg-gray-100 text-gray-400 p-5 overflow-hidden flex justify-center items-center rounded-full">
                           <span className='text-sm font-extrabold	' >{(() => {
                             const name = user.full_name.split(' ')
@@ -119,7 +119,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
                           })()}</span>
                         </div>
                         <div className='flex '>
-                          <span className='block min-w-max white-color text-lg font-bold tracking-tight  mt-2  ml-2 mr-2'> My Account</span>
+                          <span className='block min-w-max text-lg font-bold tracking-tight  mt-2  ml-2 mr-2'> My Account</span>
                           <BsChevronDown className="mt-2" size={25} />
                         </div>
 
@@ -176,7 +176,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
         }
         {/* Navbar for mobile */}
         <MediaQuery maxWidth={640}>
-          <div id='mob-navbar' className="mob-navbar z-10 py-2 flex sm:justify-end items-center white-color justify-between w-full fixed sm:relative bottom-0 left-0 right-0 bg-white sm:bg-transparent " style={{ boxShadow: '0px -1px 4px #00000033' }}>
+          <div id='mob-navbar' className="mob-navbar z-10 py-2 flex sm:justify-end items-center  justify-between w-full fixed sm:relative bottom-0 left-0 right-0 bg-white sm:bg-transparent " style={{ boxShadow: '0px -1px 4px #00000033' }}>
             <div className='text-black w-1/5'>
               <Button type='link' href='/' className={`block sm:hidden text-center text-xs ${router.asPath == '/' || router.pathname == '/[name]/[storeId]' && 'btn-nav-color-active'}`}>
                 <svg className='mx-auto' id="home" xmlns="http://www.w3.org/2000/svg" width="24" height="24" style={{ fill: 'inherit', color: 'inherit' }} viewBox="0 0 24 24">

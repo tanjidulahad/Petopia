@@ -51,9 +51,11 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         if (!info || !user) return;
         const data = readyCartData(cart, 'store_id')
         //  Creating browsercart 
-        if (!checkout.purchase) {
-            setBackendCart({ userId: user.customer_id, groupId: info.group_id, data })
-        }
+        setBackendCart({ userId: user.customer_id, groupId: info.group_id, purchaseId: checkout.purchase?.purchase_id, data })
+        // For syncup with backend (important)
+        // if (!checkout.purchase) {
+        //     setBackendCart({ userId: user.customer_id, groupId: info.group_id, data })
+        // }
 
         // Setting default details
         // if (checkout.purchase) {
@@ -62,7 +64,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         // if (checkout.purchase) {
         //     setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.deliveryMethod });
         // }
-    }, [user, checkout.purchase, info])
+    }, [user, totalItems])
 
     useEffect(() => {
         if (user) {

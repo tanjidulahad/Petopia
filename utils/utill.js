@@ -24,3 +24,20 @@ export const readyCartData = function (arr) {
         return rv;
     }, {});
 };
+
+export const productDataForCart = (data = {}) => {
+    return {
+        item_id: Number(data?.item_id),
+        store_id: data?.store_id,
+        category_id: data?.category_id,
+        item_name: data?.item_name,
+        sale_price: data?.sale_price,
+        price: data?.price,
+        sub_category_id: data?.sub_category_id,
+        primary_img: data?.primary_img,
+        is_veg: data?.is_veg,
+        inventoryDetails: data?.inventoryDetails,
+        store_name: data?.storeName || '',
+        store_logo: data?.storeLogoUrl || '/img/default.webp'
+    }
+}

@@ -33,6 +33,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
   const { category, subCategoryId, search, name } = Router.query;
   const [status, setStatus] = useState('loading') //status == loading || failed || success
   const [q, setq] = useState(search ? search : '');
+  const [selectedCategory, setSelectedCategory] = useState('All Items')
   // UI Vars
   const [scrollPosition, setScrollPosition] = useState(0);
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 768 })
@@ -176,33 +177,23 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
             no-scrollbar"
               style={{ top: isSmDevice && navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}
             >
-              <CatList list={categories.length > 0 && categories} />
+              <CatList list={categories.length > 0 && categories} setSelectedCategory={setSelectedCategory} />
             </div>
             <div className="md:pt-8 md:py-6 col-span-full md:col-span-9 xl:col-span-7 sm:col-span-12  pt-6 md:border-l xl:border-r
             ">
-              {/* md:overflow-y-auto
-            md:flex flex-col sticky
-            no-scrollbar"
-              style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}
-            > */}
-              {/* <div className='text-base w-full px-4 md:px-8 serach-bar fixed flex flex-col -mt-6 md:-mt-8 xl:-mt-6 -ml-4 xl:ml-0' style={{ maxWidth: '775px', top: navHeight }}> */}
-              {/* <div className='text-base w-full px-4 md:px-8 serach-bar fixed flex flex-col -mt-6 md:-mt-8 xl:-mt-6 xl:ml-0' style={{ maxWidth: plpc, top: navHeight }}> */}
               <div className={` transition-all text-base w-full px-4 md:px-8 serach-bar ${(scrollPosition >= navHeight) && !isSmDevice ? 'fixed bg-white  px-2 pt-2' : 'absolute -mt-6'} sm:fixed flex flex-col md:-mt-8 xl:-mt-6 xl:ml-0`} style={{ maxWidth: plpc, top: (scrollPosition >= navHeight - 10) && !isSmDevice ? '0px' : navHeight }}>
                 <div className='relative'>
-                  <Input className='py-2.5 md:py-2 bg-gray-100 md:bg-white pl-8 md:pl-3 border-0 md:border border-gray-100 md:shadow-md' style={{ top: navHeight }} onChange={searchHandler} placeholder='Search for items' ></Input>
-                  <div className='absolute top-1/2 -translate-y-1/2 pl-2 w-20 md:hidden'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="17.811" height="17.811" viewBox="0 0 17.811 17.811">
-                      <g id="search" transform="translate(0.75 0.75)">
-                        <circle id="Ellipse_8" data-name="Ellipse 8" cx="7" cy="7" r="7" fill="none" stroke="rgba(36,36,36,0.5)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
-                        <line id="Line_41" data-name="Line 41" x1="3.916" y1="3.916" transform="translate(12.084 12.084)" fill="none" stroke="rgba(36,36,36,0.5)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
-                      </g>
+                  <Input className='py-2.5 md:py-2 bg-gray-100 md:bg-white pl-9  border-0 md:border border-gray-100 md:shadow-md' style={{ top: navHeight }} onChange={searchHandler} placeholder='Search for items' />
+                  <div className='absolute text-gray-400 top-1/2 -translate-y-1/2 pl-2 w-20 '>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
                 </div>
               </div>
               <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollbar' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
                 <div className='h-0' ref={listRef}></div>
-                <ProductListPage lastEleRef={listLastElement} storeName={info?.store_name} products={products} status={status} banner={banner} />
+                <ProductListPage lastEleRef={listLastElement} storeName={info?.store_name} products={products} status={status} banner={banner} selectedCategory={selectedCategory} />
               </div>
             </div>
             <div className="md:pt-8 md:py-6 hidden xl:col-span-3 mt-0 xl:block  space-y-6">

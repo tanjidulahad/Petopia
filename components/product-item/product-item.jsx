@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import { QuantityID, Button } from "../inputs";
 import Rating from '../rating-stars/rating'
 
-import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
+import { addToCart, removeFromCart } from "@redux/cart/cart-actions";
+import { productDataForCart } from "@utils/utill";
 
 const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoading }) => {
     if (!data) {
@@ -24,20 +25,21 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
         )
     }
     const itemInCart = cart.find((item) => (item.item_id == data.item_id)) || {}
-    const productDataForCart = {
-        item_id: Number(data.item_id),
-        store_id: data.store_id,
-        category_id: data.category_id,
-        item_name: data.item_name,
-        sale_price: data.sale_price,
-        price: data.price,
-        sub_category_id: data.sub_category_id,
-        primary_img: data.primary_img,
-        is_veg: data.is_veg,
-        inventoryDetails: data.inventoryDetails,
-        store_name: info.store_name || '',
-        store_logo: info.logo_img_url || '/img/default.webp'
-    }
+    const readyForCart = productDataForCart(data)
+    // {
+    //     item_id: Number(data.item_id),
+    //     store_id: data.store_id,
+    //     category_id: data.category_id,
+    //     item_name: data.item_name,
+    //     sale_price: data.sale_price,
+    //     price: data.price,
+    //     sub_category_id: data.sub_category_id,
+    //     primary_img: data.primary_img,
+    //     is_veg: data.is_veg,
+    //     inventoryDetails: data.inventoryDetails,
+    //     store_name: info.store_name || '',
+    //     store_logo: info.logo_img_url || '/img/default.webp'
+    // }
     const LocalQuantityID = ({ className }) => (
         // This component used two times 
         <>
@@ -49,13 +51,13 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                         }
                         return false
                     })()}
-                        onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
+                        onPlush={() => addToCart(readyForCart)} onMinus={() => removeFromCart(readyForCart)} />
                     :
                     <>
                         {
                             data.is_customizable == "N" ?
 
-                                < Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} onClick={() => addToCart(productDataForCart)} >Add</Button>
+                                < Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} onClick={() => addToCart(readyForCart)} >Add</Button>
                                 :
                                 < Button type="link" href={`/product/${data.item_id}`} className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} >View</Button>
                         }

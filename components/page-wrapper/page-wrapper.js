@@ -58,8 +58,9 @@ const verifier = ({ children, isLogin, store, errorInGO, getShopInfo, getShopSeo
                 bgColor: '#d85a5a',
                 bgColor50: hexToRGB('0.13'),
                 fillColor: '#d85a5a',
-                navColor: 'transparent',
+                navColor: '#ffffff',
                 footerColor: '#000',
+                btnBg: "#D85A5A"
             }
             if (displaySettings) {
                 themeColors = {
@@ -67,11 +68,11 @@ const verifier = ({ children, isLogin, store, errorInGO, getShopInfo, getShopSeo
                     color: '#fff',
                     bgColor: displaySettings.primary_color || '#d85a5a',
                     bgColor50: hexToRGB(displaySettings.primary_color, '0.13') || 'rgba(246, 75, 93, 0.13)',
-
                     fillColor: displaySettings.primary_color || '#d85a5a',
-
                     navColor: displaySettings.navbar_color || 'transparent',
-                    footerColor: displaySettings.secondary_color.includes('#') ? displaySettings.secondary_color : '#' + displaySettings.secondary_color || '#000',
+                    footerColor: displaySettings.navbar_color || '#000',
+                    btnBg: displaySettings?.secondary_color || "#D85A5A",
+                    bgColor50: hexToRGB(displaySettings?.secondary_color || "#D85A5A", '0.13'),
                 }
 
             }
@@ -81,55 +82,63 @@ const verifier = ({ children, isLogin, store, errorInGO, getShopInfo, getShopSeo
             // style.innerHTML = (`
             const style = (` <style>
                     .btn-border{
-                    border-color: ${themeColors.bgColor};
+                        border-color: ${themeColors.btnBg};
                     }
                     .btn-bg {
-                    background-color: ${themeColors.bgColor};
+                        background-color: ${themeColors.btnBg};
                     }
                     .btn-bg-revese {
-                    background-color: ${themeColors.color};
+                        background-color: ${themeColors.color};
                     }
                     .btn-bg-light {
-                    background-color: ${themeColors.bgColor50};
+                        background-color: ${themeColors.bgColor50};
                     }
                     .btn-color {
-                    color: ${themeColors.color};
+                        color: ${themeColors.color};
                     }
                     .btn-color-revese {
-                    color: ${themeColors.bgColor};
+                        color: ${themeColors.btnBg};
                     }
                     .btn-color-revers {
-                    color: ${themeColors.bgColor};
+                        color: ${themeColors.btnBg};
                     }
                     .btn-hover-color {
-                    transition: 0.3s ease-in-out;
+                        transition: 0.3s ease-in-out;
                     }
                     .btn-hover-color:hover {
-                    color: ${themeColors.bgColor};
+                        color: ${themeColors.btnBg};
                     }
-                    //
                     .btn-nav-color {
-                    color: $black-color-75;
-                    fill: $black-color-75;
+                        color: $black-color-75;
+                        fill: $black-color-75;
                     }
                     .btn-nav-color-active {
-                    color: ${themeColors.bgColor};
-                    fill: ${themeColors.bgColor};
+                        color: ${themeColors.btnBg};
+                        fill: ${themeColors.btnBg};
                     }
                     .nav-bg{
-                        background-color: ${themeColors.navColor}!important;
+                        background-color: ${themeColors.bgColor}!important;
+                    }
+                    .nav-color{
+                        color : ${themeColors.navColor};
                     }
                     .footer-bg{
-                        background-color: ${themeColors.footerColor}
+                        background-color: ${themeColors.bgColor}
+                    }
+                    .footer-color{
+                        color: ${themeColors.footerColor}
                     }
                     .empty-cart-svg path {
                         fill : ${themeColors.fillColor}
                     }
                     .cat-active{
                         background: transparent linear-gradient(90deg, #d85a5a00 0%, ${hexToRGB(themeColors.bgColor, '0.25')} 100%) 0% 0% no-repeat padding-box;
-                        border-right: 4px solid ${themeColors.bgColor};
+                        border-right: ${themeColors.bgColor};
                     }
                     .cat-active{
+                    }
+                    .mob-cat .active{
+                        border-color: ${themeColors.bgColor}
                     }
                     .border-static {
                         border-color : ${themeColors.bgColor};

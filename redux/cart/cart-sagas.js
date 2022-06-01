@@ -33,7 +33,7 @@ function* purchaseItemUpdator({ action, payload }) {
     // }
     if (!purchase) { // null => true
         // Create a purchase
-        yield put(setBackendCartStart({ userId: user.customer_id, customerId: user.customer_id, groupId: store.group_id, data }))
+        // yield put(setBackendCartStart({ userId: user.customer_id, customerId: user.customer_id, groupId: store.group_id, data }))
     } else {
         if (purchaseDetails) {
             // Tasks 
@@ -41,7 +41,6 @@ function* purchaseItemUpdator({ action, payload }) {
             // 1. Check purchage Id exist to user
             // 2. Add or Remove New item
             // 3. Update Quantity if exist in order
-            console.log("updator 48", payload)
             if (purchaseDetails?.storeGroupId != store.group_id, action == cartActionType.REMOVE_FROM_CART) {
                 yield put(setCartError({ message: "You trying to add items from a different StoreCourt", payload }))
                 yield put(updateCartSuccess())
@@ -98,18 +97,18 @@ function* purchaseItemUpdator({ action, payload }) {
                     }) || { quantity: 0 }
                     const { orderItemId } = isExist;
                     if (quantity > 0) { // quantity > 0
-                        yield put(updateQuantityToPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))
+                        // yield put(updateQuantityToPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))
                     } else {
                         yield put(deleteFromPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))
                     }
                 } else {
                     // const identity = { purchaseId: purchase.purchase_id, groupId: store.group_id, userId: user.customer_id, storeId: store.store_id, itemId: payload.item_id, orderId, customerId: user.customer_id, variantItemId: payload.defaultVariantItem?.variant_item_id }
-                    yield put(setBackendCartStoreStart({ userId: user.customer_id, groupId: store.group_id, purchaseId: purchase?.purchase_id, data }))
+                    // yield put(setBackendCartStoreStart({ userId: user.customer_id, groupId: store.group_id, purchaseId: purchase?.purchase_id, data }))
                     // yield put(addItemTopurchaseStart(identity))
                 }
 
             } else {
-                yield put(setBackendCartStoreStart({ userId: user.customer_id, groupId: store.group_id, purchaseId: purchase?.purchase_id, data }))
+                // yield put(setBackendCartStoreStart({ userId: user.customer_id, groupId: store.group_id, purchaseId: purchase?.purchase_id, data }))
             }
         }
     }

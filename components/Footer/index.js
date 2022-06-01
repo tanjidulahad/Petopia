@@ -31,13 +31,13 @@ function index() {
   }, [])
 
   return (
-    <footer style={{
+    <footer className=' bg-[#242424] footer-bg footer-color' style={{
       paddingBottom: mobNavHeight,
     }}
     >
-      <div className="hidden sm:block w-full bg-dark-900" >
+      <div className="hidden sm:block w-full bg-dark-900 bg-[#242424] bg-opacity-70" >
         {/* <div className="px-32 footer-bg pb-10 " > */}
-        <div className="px-32 bg-black pb-10 " >
+        <div className="px-32 " >
           <div
             className="  border-b-2 border-gray-800 h-1/3 flex flex-row justify-center "
             style={{ alignItems: 'center' }}
@@ -77,6 +77,62 @@ function index() {
                 />
               </div>
             </a>
+          </div>
+        </div>
+        <div className='px-2 md:px-6 w-full flex flex-row items-start justify-between mt-9  md:pb-0 space-x-1 md:space-x-4 '>
+          <div className={`w-full basis-2/12 flex-grow flex flex-col flex-auto justify-center pb-10 space-y-3 items-center`} >
+            <p className='inline-block w-full text-center  mb-2 text-[6px] md:text-sm lg:text-base md:px-2' >{'Cloud Hosted on'}</p>
+            <div className={`w-full flex flex-row justify-between items-start max-h-8 `}>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/aws dark mode copy@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/Azure web services copy@2x.png'} className='w-full h-full object-contain' />
+              </div>
+            </div>
+          </div>
+          <div className={`w-full basis-3/12 flex-grow flex flex-col flex-auto justify-center items-center space-y-3 divide-x-2`} >
+            <p className='w-full text-center  mb-2 text-[6px] md:text-sm lg:text-base md:px-2' >{'Secured Payments with'}</p>
+            <div className={`w-full flex flex-row justify-between items-start px-2 border-[#212B3680]`}>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/pci-compliant.f0aea468@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/ssl-final@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/https (1)@2x.png'} className='w-full h-full object-contain' />
+              </div>
+            </div>
+          </div>
+          <div className={`w-full basis-7/12 flex-grow flex flex-col flex-auto justify-center items-center space-y-3 divide-x-2`} >
+            <p className='w-full text-center  mb-2 text-[6px] md:text-sm lg:text-base md:px-2' >{'Secured Payments with'}</p>
+            <div className={`w-full flex flex-row justify-between items-baseline px-2 border-[#212B3680]`}>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/amex@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/master card@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/visa copy@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/upi@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/paytm@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/pe copy 2@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/google pay copy@2x.png'} className='w-full h-full object-contain' />
+              </div>
+              <div className=' h-[12px] md:h-12 w-[12px] md:w-10 lg:w-16'>
+                <img src={'/static/images/& more.svg'} className='w-full h-full object-contain' />
+              </div>
+            </div>
           </div>
         </div>
       </div>

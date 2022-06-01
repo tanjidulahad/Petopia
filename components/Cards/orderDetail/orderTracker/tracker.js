@@ -32,10 +32,6 @@ function Tracker({ details, display }) {
     }
 
   ];
-  const stepsCancel = [
-    'Order is Placed',
-    'Order Canceled',
-  ];
   useEffect(() => {
     if (details?.orderStatus) {
       if (details?.orderStatus == "PAYMENT_COMPLETED") {

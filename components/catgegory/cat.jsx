@@ -5,10 +5,12 @@ import MediaQuery from "react-responsive"
 import { Button } from "@components/inputs"
 import { useRouter } from "next/router"
 
-const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
+const CatList = ({ title = "Categories", list = [], closeMenu, setSelectedCategory, ...props }) => {
 
-    const data = (Router?.router?.state?.query)
     const router = useRouter()
+    const data = (Router?.router?.state?.query)
+    const [activeSubcategoryList, setActiveSubcategoryList] = useState([])
+    const [activeSubcategory, setActiveSubcategory] = useState(false)
     // alert(category,SubCategoryId)
     const [active, setactive] = useState({
         activeid: "",
@@ -20,7 +22,8 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
     })
 
     const activeHandler = (item) => {
-        setactive({ ...active, activeid: item.category_id, active: !active.active })
+        setSelectedCategory(item.category_name || '')
+        setactive({ ...active, activeid: item.category_id, active: active.activeid == item.category_id ? !active.active : true })
     }
     const subHandler = (item) => {
         setactive({
@@ -30,10 +33,10 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
             },
         })
     }
-    const { category: activeId } = router.query
+    const { category: activeId, subCategoryId } = router.query
     const goToList = () => {
         if (window) {
-            window.scrollBy(0, 400)
+            // window.scrollBy(0, 400)
         }
     }
     const breackPoint = 768
@@ -48,8 +51,8 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                     <li className={`${'active'} `} onClick={closeMenu}>
                         <Link href={`/`}>
                             <a >
-                                <div className={`text-left py-1 mt-3 cursor-pointer ${!router.query.category ? 'cat-active btn-color-revers font-semibold' : 'black-color-75'}`}>
-                                    <span className="  text-lg  ">All Products</span>
+                                <div className={`text-left py-1 mt-3 cursor-pointer ${!router.query.category ? 'cat-active btn-color-revers font-semibold' : 'black-color-75'}`} onClick={() => setSelectedCategory('All Items')}>
+                                    <span className=" text-lg ">All Items</span>
                                     {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
                                 </div>
 
@@ -62,18 +65,10 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
 
                                 <Link href={`/?category=${item.category_id}`}>
                                     <a>
-                                        {parseInt(data?.category, 10) === item.category_id ?
-                                            <div className={`text-left flex py-1 mt-3 btn-color-revers cursor-pointer cat-active`} >
-                                                <span className={` text-base font-semibold `} >{item.category_name}</span>
-                                                {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
-                                            </div>
-                                            :
-
-                                            <div className=" text-left flex py-1 mt-3  cursor-pointer " onClick={() => { activeHandler(item) }} >
-                                                <span className={` text-base font-medium black-color-75  `} >{item.category_name}</span>
-                                                {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
-                                            </div>
-                                        }
+                                        <div className={`text-left flex py-1 mt-3 cursor-pointer ${parseInt(data?.category, 10) === item.category_id ? 'btn-color-revers cat-active font-semibold' : 'font-medium black-color-75'}`} onClick={() => { activeHandler(item) }}>
+                                            <span className={` text-base  `} >{item.category_name}</span>
+                                            {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
+                                        </div>
                                     </a>
                                 </Link>
                                 {
@@ -84,16 +79,9 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                                                 <li key={i}>
                                                     <Link href={`/?category=${item.category_id}&subCategoryId=${subitem.sub_category_id}`}>
                                                         <a>
-                                                            {parseInt(data?.subCategoryId, 10) === subitem.sub_category_id ?
-
-                                                                <div className="flex flex-col justify-content-center mt-3 cursor-pointer " >
-                                                                    <span className={` text-base font-semibold btn-color-revers `} onClick={() => { subHandler(subitem) }} >{subitem.sub_category_name}</span>
-                                                                </div>
-                                                                :
-                                                                <div className="flex flex-col justify-content-center mt-3 cursor-pointer ">
-                                                                    <span className={` text-base font-medium black-color-75  `} onClick={() => { subHandler(subitem) }} >{subitem.sub_category_name}</span>
-                                                                </div>
-                                                            }
+                                                            <div className="flex flex-col justify-content-center mt-3 cursor-pointer " >
+                                                                <span className={` text-base  ${parseInt(data?.subCategoryId, 10) === subitem.sub_category_id ? 'font-semibold btn-color-revers' : 'font-medium black-color-75'}`} onClick={() => { subHandler(subitem) }} >{subitem.sub_category_name}</span>
+                                                            </div>
                                                         </a>
                                                     </Link>
                                                 </li>))
@@ -113,13 +101,45 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                             <Button className=" text-base  " type="link" href={`/`} >All Items</Button>
                         </div>
                         {
-                            list && list.map((item, i) => (
-                                <div className={`inline-block  py-3 rounded px-3 shrink-0 h-fit w-fit ${item.category_id == activeId && 'active font-semibold'}`} onClick={goToList} key={i}>
+                            list && list?.map((item, i) => (<>
+                                <div className={`inline-block  py-3 rounded px-3 shrink-0 h-fit w-fit ${item.category_id == activeId && 'active border-b-4 font-semibold'}`} onClick={() => {
+                                    goToList();
+                                    setActiveSubcategoryList(item.subcategories);
+                                    setActiveSubcategory(
+                                        item.category_id == activeId ? !activeSubcategory : true
+                                    )
+                                }} key={i}>
                                     <Button className="text-base  " type="link" href={`/?category=${item.category_id}`} >{item.category_name}</Button>
                                 </div>
-                            ))
+                            </>))
                         }
                     </div>
+                    {
+                        !!activeSubcategoryList.length && activeSubcategory &&
+                        <div className=" mob-sub-cat absolute top-[75px] inset-x-0 h-50 overflow-y-auto shadow-xl bg-white rounded-sm  py-6 active border-b-4" >
+                            <span className="block sticky -top-4 mr-auto cursor-pointer" onClick={() => { setActiveSubcategory(false) }} >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-auto mr-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </span>
+                            {
+                                <ul className="ul-list px-6 space-y-4 ">
+                                    {
+                                        activeSubcategoryList.map((subitem, i) => (
+                                            <li key={i}>
+                                                <Link href={`/?category=${activeId}&subCategoryId=${subitem.sub_category_id}`}>
+                                                    <a>
+                                                        <div className={`flex flex-col justify-content-center cursor-pointer `}>
+                                                            <span className={` text-base font-semibold ${subCategoryId == subitem.sub_category_id && 'btn-color-revers'}`} onClick={() => { subHandler(subitem); setActiveSubcategory(false) }} >{subitem.sub_category_name}</span>
+                                                        </div>
+                                                    </a>
+                                                </Link>
+                                            </li>))
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    }
                 </div>
             </MediaQuery>
         </div>

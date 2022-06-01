@@ -62,7 +62,7 @@ function orderDetail({ getOrderDetails }) {
                           {
                             !!address &&
                             <div className="  w-full  m-4  ">
-                              <p className="text-left font-bold text-xl  text-dark">Delivery Address</p>
+                              <p className="text-left font-bold text-xl  text-dark">Shipping Address</p>
                               <div className="flex mt-2">
                                 {/* <FiHome className='text-red-500' size={20} /> */}
                                 <div>
@@ -76,7 +76,7 @@ function orderDetail({ getOrderDetails }) {
                             </div>
                           }
                           <div className="  w-full  m-4  ">
-                            <p className="text-left font-bold text-xl  text-dark">Shipment Method</p>
+                            <p className="text-left font-bold text-xl  text-dark">Shipping method</p>
                             <div className="flex mt-2">
                               <div>
                                 <p className="text-left mx-4 font-medium text-base  text-gray-500">{orderDetails.isDelivery === "Y" ? "Delivery" : "Pick Up"}</p>
@@ -84,7 +84,7 @@ function orderDetail({ getOrderDetails }) {
                             </div>
                           </div>
                           <div className="  w-full  m-4  ">
-                            <p className="text-left font-bold text-xl  text-dark">Payment Method</p>
+                            <p className="text-left font-bold text-xl  text-dark">Payment mode</p>
                             <div className="flex mt-2">
                               <div>
                                 <p className="text-left mx-4 font-medium text-base  text-gray-500">{orderDetails.paymentDetails.length ? orderDetails.paymentDetails[0].payment_mode == 'COD' ? 'Pay On Delivery' : 'Online' : null}</p>

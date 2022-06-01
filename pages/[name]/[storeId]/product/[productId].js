@@ -47,7 +47,7 @@ const visualsStructure = {
     similarProducts: []  //[...similarProducts]
 }
 
-const ProductDetails = ({
+const ProductDetails = ({ info,
     cart, addToCart, removeFromCart,
     fetchProductDetails, fetchSimilarProducts, getAdditionalInfo, getSpecifications, fetchProductVariants }) => {
     const [success, onSuccess] = useState({})
@@ -347,38 +347,39 @@ const ProductDetails = ({
         setDescriptions(dsc)
     }, [success])
 
+    const productDataForCart = {
+        item_id: visuals.id,
+        store_id: visuals.storeId,
+        category_id: visuals.categoryId,
+        item_name: visuals.name,
+        sale_price: visuals.price.sale_price,
+        price: visuals.price.price,
+        sub_category_id: visuals.subCategoryId,
+        primary_img: visuals.images[0],
+        is_veg: visuals.item?.is_veg,
+        inventoryDetails: visuals.inventoryDetails,
+        defaultVariantItem: visuals.defaultVariantItem,
+        store_name: info.store_name || '',
+        store_logo: info.logo_img_url || '/img/default.webp'
+    }
     const itemAddToCart = () => {
-        const productDataForCart = {
-            item_id: visuals.id,
-            store_id: visuals.storeId,
-            category_id: visuals.categoryId,
-            item_name: visuals.name,
-            sale_price: visuals.price.sale_price,
-            price: visuals.price.price,
-            sub_category_id: visuals.subCategoryId,
-            primary_img: visuals.images[0],
-            is_veg: visuals.item?.is_veg,
-            inventoryDetails: visuals.inventoryDetails,
-            defaultVariantItem: visuals.defaultVariantItem
-        }
-
         addToCart(productDataForCart)
     }
 
     const itemRemoveFromCart = () => {
-        const productDataForCart = {
-            item_id: visuals.id,
-            store_id: visuals.storeId,
-            category_id: visuals.categoryId,
-            item_name: visuals.name,
-            sale_price: visuals.price.sale_price,
-            price: visuals.price.price,
-            sub_category_id: visuals.subCategoryId,
-            primary_img: visuals.images[0],
-            is_veg: visuals.item?.is_veg,
-            inventoryDetails: visuals.inventoryDetails,
-            defaultVariantItem: visuals.defaultVariantItem
-        }
+        // const productDataForCart = {
+        //     item_id: visuals.id,
+        //     store_id: visuals.storeId,
+        //     category_id: visuals.categoryId,
+        //     item_name: visuals.name,
+        //     sale_price: visuals.price.sale_price,
+        //     price: visuals.price.price,
+        //     sub_category_id: visuals.subCategoryId,
+        //     primary_img: visuals.images[0],
+        //     is_veg: visuals.item?.is_veg,
+        //     inventoryDetails: visuals.inventoryDetails,
+        //     defaultVariantItem: visuals.defaultVariantItem
+        // }
         removeFromCart(productDataForCart)
     }
     const quantityInCart = cart.filter(function (item) {
@@ -480,7 +481,6 @@ const ProductDetails = ({
                                                 : ""
                                             }
 
-
                                             <div>
                                                 {visuals.defaultVariantItem && visuals.defaultVariantItem.variant_item_status == "UNAVAILABLE" ? <Button className="w-full md:w-auto py-3 px-12 text-base border-2 border-slate-300 text-slate-400 rounded font-bold cursor-not-allowed" >Unavailable</Button>
                                                     :
@@ -497,21 +497,20 @@ const ProductDetails = ({
                                                 }
                                             </div>
                                             {
-                                                visuals.inventoryDetails ?
-                                                    <>
-                                                        {
-                                                            visuals.inventoryDetails.min_order_quantity > 1 &&
-                                                            <div className="">
-                                                                <span className="text-sm black-color-75">*Minimum order quantity is {visuals.inventoryDetails.min_order_quantity}.</span>
-                                                            </div>
-                                                        } {
-                                                            (visuals.inventoryDetails.max_order_quantity == quantityInCart && visuals.inventoryDetails.max_order_quantity > 0) || visuals.inventoryDetails.inventory_quantity == quantityInCart &&
-                                                            <div className="">
-                                                                <span className="text-sm success-color">*You reached to maximum order quantity {visuals.inventoryDetails.max_order_quantity}.</span>
-                                                            </div>
-                                                        }
-                                                    </>
-                                                    : <></>
+                                                !!visuals.inventoryDetails &&
+                                                <>
+                                                    {
+                                                        visuals.inventoryDetails.min_order_quantity > 1 &&
+                                                        <div className="">
+                                                            <span className="text-sm black-color-75">*Minimum order quantity is {visuals.inventoryDetails.min_order_quantity}.</span>
+                                                        </div>
+                                                    } {
+                                                        (visuals.inventoryDetails.max_order_quantity == quantityInCart && visuals.inventoryDetails.max_order_quantity > 0) || visuals.inventoryDetails.inventory_quantity == quantityInCart &&
+                                                        <div className="">
+                                                            <span className="text-sm success-color">*You reached to maximum order quantity {visuals.inventoryDetails.max_order_quantity}.</span>
+                                                        </div>
+                                                    }
+                                                </>
                                             }
 
                                             {
@@ -539,45 +538,44 @@ const ProductDetails = ({
                             </div>
                         </div>
                         {
-                            visuals.additionalinfo.length ?
-                                <div className="w-full mt-3 bg-white ">
-                                    <div className="wrapper mx-auto">
-                                        <div className="py-20  px-4 sm:px-4">
-                                            <div className="border-l-8 border-static additional-info">
-                                                <h3 className="ml-4 md:ml-8 text-base md:text-xl">
-                                                    Additional Info
-                                                </h3>
-                                            </div>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 mt-10  gap-y-10 gap-x-4 md:gap-8 lg:gap-x-16 xl:gap-x-24">
-                                                {/* // <div className="grid grid-cols-2 mt-10 gap-y-10 gap-x-36"> */}
-                                                {
-                                                    visuals.additionalinfo.map((item, i) => (
-                                                        <div className="w-full" key={i} >
-                                                            <div className="w-full product-addinfo-img-c border rounded">
-                                                                {
-                                                                    item.media_type == "IMAGE" ?
-                                                                        <img className="w-full h-full object-fill" src={item.media_url} alt='...' />
-                                                                        :
-                                                                        <ReactPlayer height={'100%'} width={'100%'} url={item.media_url} />
-                                                                }
-                                                            </div>
-                                                            <div className="mt-8">
-                                                                <h2 className="text-base md:text-xl font-semibold capitalize">{item.title}{item.title.toLowerCase()}</h2>
-                                                                <p className="mt-6 text-sm md:text-lg black-color-75 leading-7 tracking-tight normal-case">
-                                                                    {
-                                                                        item.description
-                                                                    }
-                                                                </p>
-                                                            </div>
+                            !!visuals.additionalinfo.length &&
+                            <div className="w-full mt-3 bg-white ">
+                                <div className="wrapper mx-auto">
+                                    <div className="py-20  px-4 sm:px-4">
+                                        <div className="border-l-8 border-static additional-info">
+                                            <h3 className="ml-4 md:ml-8 text-base md:text-xl">
+                                                Additional Info
+                                            </h3>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 mt-10  gap-y-10 gap-x-4 md:gap-8 lg:gap-x-16 xl:gap-x-24">
+                                            {/* // <div className="grid grid-cols-2 mt-10 gap-y-10 gap-x-36"> */}
+                                            {
+                                                visuals.additionalinfo.map((item, i) => (
+                                                    <div className="w-full" key={i} >
+                                                        <div className="w-full product-addinfo-img-c border rounded">
+                                                            {
+                                                                item.media_type == "IMAGE" ?
+                                                                    <img className="w-full h-full object-fill" src={item.media_url} alt='...' />
+                                                                    :
+                                                                    <ReactPlayer height={'100%'} width={'100%'} url={item.media_url} />
+                                                            }
                                                         </div>
-                                                    ))
-                                                }
-                                                {/* </div> */}
-                                            </div>
+                                                        <div className="mt-8">
+                                                            <h2 className="text-base md:text-xl font-semibold capitalize">{item.title}{item.title.toLowerCase()}</h2>
+                                                            <p className="mt-6 text-sm md:text-lg black-color-75 leading-7 tracking-tight normal-case">
+                                                                {
+                                                                    item.description
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            }
+                                            {/* </div> */}
                                         </div>
                                     </div>
                                 </div>
-                                : <></>
+                            </div>
                         }
                         {
                             !!visuals.similarProducts.length &&
@@ -609,7 +607,7 @@ const ProductDetails = ({
 const mapStateToProps = state => ({
     // Other States
     cart: state.cart,
-    wishlist: state.wishlist.list,
+    info: state.store.info
 })
 const mapDispatchToProps = dispatch => ({
     // Cart Dispatch

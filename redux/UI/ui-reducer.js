@@ -10,10 +10,10 @@ const INITIAL_STATE = {
 
 const uiReducer = (state = INITIAL_STATE, { type, payload }) => {
     switch (type) {
+        // case cartActionType.ADD_TO_CART:
+        // case cartActionType.REMOVE_FROM_CART:
+        // case cartActionType.UPDATE_CART:
         case checkoutActionType.GET_PURCHASE_START:
-        case cartActionType.ADD_TO_CART:
-        case cartActionType.REMOVE_FROM_CART:
-        case cartActionType.UPDATE_CART:
         case checkoutActionType.SET_BACKEND_CART_START:
         case checkoutActionType.SET_BACKEND_CART_STORE_START:
         case checkoutActionType.SET_SHIPMENT_METHOD:

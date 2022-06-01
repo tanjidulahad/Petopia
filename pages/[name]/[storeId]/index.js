@@ -30,8 +30,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
   const storeId = info.store_id;
   const [searchResult, setSearchResult] = useState([])
   const Router = useRouter();
-  const { category, subCategory, search, name } = Router.query;
-  // let { page } = Router.query;
+  const { category, subCategoryId, search, name } = Router.query;
   const [status, setStatus] = useState('loading') //status == loading || failed || success
   const [q, setq] = useState(search ? search : '');
   // UI Vars
@@ -52,10 +51,6 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && pageCount) {
-        console.log("visible");
-        console.log(page + 1);
-        console.log(Router);
-        console.log(status);
         if (page < pageCount && !search) {
           setPage(page + 1)
         }
@@ -85,15 +80,14 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
 
     } else if (category) {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
-      getCategoryProducts({ storeId, categoryId: category, subCategoryId: subCategory, page, setStatus })
-      // getPageCount({ storeId, categoryId: category })
-
-      // setq('') // Cleaning query string of search
+      getCategoryProducts({ storeId, categoryId: category, subCategoryId, page, setStatus })
+      listRef?.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
     } else {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
       getShopProducts({ storeId, page, setStatus })
-      // getPageCount({ storeId, categoryId: category })
-      // setq('') // Cleaning query string of search
     }
   }, [Router.query, page])
   useEffect(() => {
@@ -105,7 +99,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     }
     setPage(1)
     clearProductList()
-  }, [category, search])
+  }, [category, subCategoryId, search])
 
   useEffect(() => { // UI function
 
@@ -160,6 +154,8 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     setq(value)
 
   }
+  const listRef = useRef(null)
+
   const cartGroups = groupBy(cart, 'store_id')
   return (
     <div >
@@ -205,6 +201,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
                 </div>
               </div>
               <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollbar' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
+                <div className='h-0' ref={listRef}></div>
                 <ProductListPage lastEleRef={listLastElement} storeName={info?.store_name} products={products} status={status} banner={banner} />
               </div>
             </div>

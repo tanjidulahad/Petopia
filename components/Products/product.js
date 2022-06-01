@@ -1,10 +1,8 @@
 import ProductItem from "../product-item/product-item";
-import { Button } from "@components/inputs";
 import Link from "@components/link";
-import Loader from "@components/loading/loader";
 import Router from "next/router";
-// import ProductCard from '../Cards/ProductListCard/index'
 function product({ products = [], status, storeName, lastEleRef }) {
+
   return (
     <div className="my-4">
       <div className="relative flex flex-row md:px-2 mb-8 justify-end sm:justify-between align-center md:sticky md:z-10 top-0 bg-white">
@@ -22,14 +20,14 @@ function product({ products = [], status, storeName, lastEleRef }) {
 
         </div>
       </div>
-      <div className="flex flex-col px-2 sm:py-0 space-y-4 md:space-y-3 divide-y md:divide-y-0">
+      <div className="flex flex-col px-2 sm:py-0 space-y-4 md:space-y-3 divide-y md:divide-y-0" >
         {
           status == 'success' || status == 'loading'
             ?
             products.length && (status == 'loading' || status == 'success')
               ? <>
                 {products.map((item, i) => (
-                  <div className="pt-4" key={i}>
+                  <div className="pt-6" key={i}>
                     <ProductItem data={item} />
                   </div>
                 ))}

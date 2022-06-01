@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Link from "@components/link";
-import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
+import { addToCart, removeFromCart } from "@redux/cart/cart-actions";
 import { QuantityID } from "../inputs";
 const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
     return (
@@ -21,19 +21,13 @@ const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
                                 <h3 className=" text-base sm:text-xl capitalize cart-item-title">{data.item_name.toLowerCase()}</h3>
                             </a>
                         </Link>
-                        {data.defaultVariantItem && <p>{ data?.defaultVariantItem?.variant_item_attributes && Object.keys(data?.defaultVariantItem?.variant_item_attributes).map(function (key) {
+                        {data.defaultVariantItem && <p>{data?.defaultVariantItem?.variant_item_attributes && Object.keys(data?.defaultVariantItem?.variant_item_attributes).map(function (key) {
                             if (key.includes('variant_value')) {
                                 if (data?.defaultVariantItem?.variant_item_attributes[key] != null) {
                                     return <span>{data?.defaultVariantItem?.variant_item_attributes[key].variant_value_name}, </span>
                                 }
                             }
-
-
                         })}</p>}
-
-                        {/* <div>
-                            <span className="black-color-75 text-base">Green, Small</span>
-                        </div> */}
                         <div>
                             <span className="font-medium black-color-75  text-base sm:text-xl inline-block sm:mr-2">₹{data.sale_price}</span>
                             {
@@ -42,7 +36,7 @@ const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
                             }
                             {
                                 (data.price - data.sale_price) &&
-                                <span className=" text-base sm:text-base success-color line-through ml-4 lg:ml-0 xl:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
+                                <span className=" text-base sm:text-base success-color ml-4 lg:ml-0 xl:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
                             }
                         </div>
                     </div>

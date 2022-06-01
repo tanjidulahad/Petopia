@@ -17,11 +17,6 @@ function* purchaseItemUpdator({ action, payload }) {
     const purchaseDetails = state.checkout.purchaseDetails
     const user = state.user.currentUser;
     const store = state.store.info;
-    // const cart = cartState();
-    // const purchase = purchaseState();
-    // const purchaseDetails = purchaseDetailsState();
-    // const user = userState();
-    // const store = storeState();
     if (!user || !store) {
         yield put(updateCartSuccess())
         return
@@ -62,8 +57,6 @@ function* purchaseItemUpdator({ action, payload }) {
                     yield put(getPurchageStart(purchase.purchase_id))
                     return;
                 }
-                console.log("payload cart saga", payload)
-                console.log("ordersItems", Object.values(purchaseDetails.orders[orderId].orderItems))
                 const isExist = Object.values(purchaseDetails.orders[orderId].orderItems).find(function (item) {
                     console.log("item in find", item)
                     if (item.itemId == payload.item_id) {
@@ -84,25 +77,6 @@ function* purchaseItemUpdator({ action, payload }) {
                     }
                 }) || null
 
-                // const isExist=cart.find(function(item) {
-                //         if (item.item_id == payload.item_id) {
-                //             if (payload.defaultVariantItem) {
-                //                 if (item.defaultVariantItem.variant_item_id == payload.defaultVariantItem.variant_item_id) {
-                //                     return true
-                //                 }
-                //                 else {
-                //                     return false
-                //                 }
-                //             }
-                //             else{
-                //                 return true
-                //             }
-                //         }
-                //         else{
-                //             return false
-                //         }
-                //     }) || null
-                console.log("isExist", isExist)
                 if (isExist) {
                     const { quantity } = cart.find(function (item) {
                         if (item.item_id == payload.item_id) {
@@ -121,29 +95,17 @@ function* purchaseItemUpdator({ action, payload }) {
                         else {
                             return false
                         }
-                        //     if(payload.defaultVariantItem){
-                        //         if(item.defaultVariantItem.variant_item_id==payload.defaultVariantItem.variant_item_id){
-                        //             return item
-                        //         }
-                        //         else{
-                        //             return { quantity: 0 }
-                        //         }
-                        //     }
-                        //     else if(item.item_id == payload.item_id){
-                        //         return item
-                        //     }
-                        // }) || { quantity: 0 }
                     }) || { quantity: 0 }
                     const { orderItemId } = isExist;
-                    console.log("quantity from cart saga", quantity)
                     if (quantity > 0) { // quantity > 0
                         yield put(updateQuantityToPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))
                     } else {
                         yield put(deleteFromPurchaseStart({ quantity, orderItemId, purchaseId: purchase?.purchase_id }))
                     }
                 } else {
-                    const identity = { purchaseId: purchase.purchase_id, groupId: store.group_id, userId: user.customer_id, storeId: store.store_id, itemId: payload.item_id, orderId, customerId: user.customer_id, variantItemId: payload.defaultVariantItem?.variant_item_id }
-                    yield put(addItemTopurchaseStart(identity))
+                    // const identity = { purchaseId: purchase.purchase_id, groupId: store.group_id, userId: user.customer_id, storeId: store.store_id, itemId: payload.item_id, orderId, customerId: user.customer_id, variantItemId: payload.defaultVariantItem?.variant_item_id }
+                    yield put(setBackendCartStoreStart({ userId: user.customer_id, groupId: store.group_id, purchaseId: purchase?.purchase_id, data }))
+                    // yield put(addItemTopurchaseStart(identity))
                 }
 
             } else {

@@ -63,13 +63,13 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                                 <Link href={`/?category=${item.category_id}`}>
                                     <a>
                                         {parseInt(data?.category, 10) === item.category_id ?
-                                            <div className={`text-center flex py-1 mt-3 btn-color-revers cursor-pointer cat-active`} >
+                                            <div className={`text-left flex py-1 mt-3 btn-color-revers cursor-pointer cat-active`} >
                                                 <span className={` text-base font-semibold `} >{item.category_name}</span>
                                                 {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
                                             </div>
                                             :
 
-                                            <div className=" text-center flex py-1 mt-3  cursor-pointer " onClick={() => { activeHandler(item) }} >
+                                            <div className=" text-left flex py-1 mt-3  cursor-pointer " onClick={() => { activeHandler(item) }} >
                                                 <span className={` text-base font-medium black-color-75  `} >{item.category_name}</span>
                                                 {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
                                             </div>
@@ -81,7 +81,7 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                                     <ul className="ul-list pl-6">
                                         {
                                             item.subcategories.map((subitem, i) => (
-                                                <li >
+                                                <li key={i}>
                                                     <Link href={`/?category=${item.category_id}&subCategoryId=${subitem.sub_category_id}`}>
                                                         <a>
                                                             {parseInt(data?.subCategoryId, 10) === subitem.sub_category_id ?
@@ -102,36 +102,6 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                                 }
                             </li>
                         ))
-                        // list?.map((item) => (
-                        //     <li key={item.category_id} onClick={closeMenu} className={`font-w-400 ${category == item.category_id && 'active'}`}>
-
-                        //    <Link href={`/?category=${item.category_id}`}>
-                        //       <Link>
-                        //           <div className=" text-center flex mt-4  ">
-                        //               <span className=" text-lg font-medium text-gray-600  active:text-blue-600 ">{item.category_name}</span>
-                        //               {/* <span className="font-16 font-w-400 dark-blue-50">22</span> */}
-                        //           </div>
-                        //       </Link>
-                        //   </Link>
-                        //   <ul className="ul-list " style={{ paddingLeft: '8px' }}>
-                        //       {
-                        //           item.subcategories.map((subitem, i) => (
-                        //               <li >
-                        //                   <Link href={`/?category=${item.category_id}&subCategoryId=${subitem.sub_category_id}`}>
-                        //                       <Link>
-                        //                           <div className="flex flex-col justify-content-center mt-4">
-                        //                               <span className={` text-lg font-medium text-gray-600  `} >{subitem.sub_category_name}</span>
-
-                        //                           </div>
-                        //                       </Link>
-                        //                   </Link>
-                        //               </li>
-                        //           ))
-                        //       }
-                        //   </ul>
-                        //     </li>
-
-                        // ))
                     }
                 </ul>
             </MediaQuery>
@@ -152,8 +122,6 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                     </div>
                 </div>
             </MediaQuery>
-            {/* <Button type="link" href={`/?category=${item.category_id}`} ></Button> */}
-
         </div>
     )
 }

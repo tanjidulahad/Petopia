@@ -23,7 +23,7 @@ import { productDetailsFetchStart, similarProductFetchStart, getAdditionalInfoSt
 // Components
 import Rating from "@components/rating-stars/rating";
 import PageWrapper from "@components/page-wrapper/page-wrapper";
-import { getVariantItemByItemId } from "services/pickytoClient";
+import { createSeasionId, getVariantItemByItemId } from "services/pickytoClient";
 
 const visualsStructure = {
     view: false, // true if want to view on page otherwise false till product details are not fiiled in this object
@@ -47,7 +47,7 @@ const visualsStructure = {
     similarProducts: []  //[...similarProducts]
 }
 
-const ProductDetails = ({ info,
+const ProductDetails = ({ info, user,
     cart, addToCart, removeFromCart,
     fetchProductDetails, fetchSimilarProducts, getAdditionalInfo, getSpecifications, fetchProductVariants }) => {
     const [success, onSuccess] = useState({})
@@ -80,7 +80,15 @@ const ProductDetails = ({ info,
     useEffect(() => {
         const { productId } = router.query
         if (!productId) return;
-        fetchProductDetails({ id: productId, onSuccess, onFailure })
+        // get seassionid
+        var seassion_id
+        if (!user) {
+            seassion_id = createSeasionId()
+        } else {
+            seassion_id = user?.customer_id
+        }
+
+        fetchProductDetails({ id: productId, seassion_id, onSuccess, onFailure })
         getAdditionalInfo({ setAdditionalInfo, id: productId })
         getSpecifications({ setSpecifications, id: productId })
         fetchSimilarProducts({ setSimilarProducts, id: productId })
@@ -550,7 +558,7 @@ const ProductDetails = ({ info,
                                         <div className="grid grid-cols-1 sm:grid-cols-2 mt-10  gap-y-10 gap-x-4 md:gap-8 lg:gap-x-16 xl:gap-x-24">
                                             {/* // <div className="grid grid-cols-2 mt-10 gap-y-10 gap-x-36"> */}
                                             {
-                                                visuals.additionalinfo.map((item, i) => (
+                                                [...visuals.additionalinfo, ...visuals.additionalinfo].map((item, i) => (
                                                     <div className="w-full" key={i} >
                                                         <div className="w-full product-addinfo-img-c border rounded">
                                                             {
@@ -607,7 +615,9 @@ const ProductDetails = ({ info,
 const mapStateToProps = state => ({
     // Other States
     cart: state.cart,
-    info: state.store.info
+    info: state.store.info,
+    wishlist: state.wishlist.list,
+    user: state.user.currentUser,
 })
 const mapDispatchToProps = dispatch => ({
     // Cart Dispatch

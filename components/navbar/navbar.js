@@ -58,7 +58,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
   return (
     <>
       <nav className='sm:sticky top-0 ' ref={ref} style={{ backgroundImage: ` url("${headerImg.src}")` }}>
-        <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-20 sm:pt-4 sm:pb-8 relative nav-bg nav-color` : 'hidden'} >
+        <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-10 sm:pt-4 sm:pb-8 relative nav-bg nav-color` : 'hidden'} >
           <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
             <Button className='text-left' type='link' href='/'>
               <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>

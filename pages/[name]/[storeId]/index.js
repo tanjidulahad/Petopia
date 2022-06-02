@@ -33,7 +33,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
   const { category, subCategoryId, search, name } = Router.query;
   const [status, setStatus] = useState('loading') //status == loading || failed || success
   const [q, setq] = useState(search ? search : '');
-  const [selectedCategory, setSelectedCategory] = useState('All Items')
+  const [selectedCategory, setSelectedCategory] = useState(search || 'All Items')
   // UI Vars
   const [scrollPosition, setScrollPosition] = useState(0);
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 768 })
@@ -78,6 +78,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     if (search) {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
       getSearchProducts({ storeId, q: q.trim(), setSearchResult, setStatus })
+      setSelectedCategory(search || 'All Items')
 
     } else if (category) {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
@@ -171,7 +172,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
       <section>
         <div className='wrapper mx-auto'>
           <div className=" grid grid-cols-1 sm:grid-cols-12 gap-6">
-            <div className="md:mt-10  col-span-full md:col-span-3 xl:col-span-2 border-gray-300 z-10 bg-white
+            <div className="md:mt-10 col-span-full md:col-span-3 xl:col-span-2 border-gray-300 z-10 bg-white
             md:overflow-y-auto
             md:flex sticky top-12
             no-scrollbar"
@@ -179,7 +180,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
             >
               <CatList list={categories.length > 0 && categories} setSelectedCategory={setSelectedCategory} />
             </div>
-            <div className="md:pt-8 md:py-6 col-span-full md:col-span-9 xl:col-span-7 sm:col-span-12  pt-6 md:border-l xl:border-r
+            <div className="md:pt-8 md:py-6 col-span-full md:col-span-9 xl:col-span-7 sm:col-span-12 md:border-l xl:border-r
             ">
               <div className={` transition-all text-base w-full px-4 md:px-8 serach-bar ${(scrollPosition >= navHeight) && !isSmDevice ? 'fixed bg-white  px-2 pt-2' : 'absolute -mt-6'} sm:fixed flex flex-col md:-mt-8 xl:-mt-6 xl:ml-0`} style={{ maxWidth: plpc, top: (scrollPosition >= navHeight - 10) && !isSmDevice ? '0px' : navHeight }}>
                 <div className='relative'>

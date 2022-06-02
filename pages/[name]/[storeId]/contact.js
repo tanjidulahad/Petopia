@@ -18,18 +18,18 @@ const Contact = ({ info, socialProfile }) => {
             <section className=" bg-gray-100">
                 <div className="wrapper">
                     <div className=" flex flex-col justify-center items-center py-16 rounded-md w-full">
-                        <div className="text-center flex flex-col items-center">
-                            <div className="h-44 w-44">
+                        <div className=" items-start sm:text-center flex flex-col justify-start sm:justify-center w-full px-4">
+                            <div className="h-36 w-36 sm:h-44 sm:w-44 sm:mx-auto">
                                 <img className="w-full h-auto object-contain" src={info.logo_img_url || 'default-store.webp'} alt={info.store_name} />
                             </div>
-                            <h6 className="text-2xl font-semibold mt-8">{info.store_name}</h6>
                         </div>
-                        <div className="mt-8 px-4 pb-8 border-b-2 w-full ">
+                        <h6 className="text-base w-full text-left sm:text-center px-4 sm:text-2xl font-semibold mt-8">{info.store_name}</h6>
+                        <div className="mt-8 px-4 pb-6 sm:pb-8 border-b-2 w-full ">
                             <p className="text-left md:text-center w-full">
                                 {info.store_desc}
                             </p>
                         </div>
-                        <div className="flex flex-col space-y-12 justify-start md:justify-center items-start md:items-center py-8">
+                        <div className="px-4 flex flex-col space-y-8 sm:space-y-12 justify-start md:justify-center items-start md:items-center py-8">
                             <p className="font-semibold md:font-normal">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline btn-color-revers mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />

@@ -85,7 +85,8 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                                     <LocalQuantityID />
                                 </div>
                             </div>
-                            <div className="flex flex-col justify-between pl-4 ">
+                            {/* <div className="flex flex-col justify-between pl-4 "> */}
+                            <div className="flex flex-col pl-4 space-y-4">
                                 <h3 className="capitalize text-sm sm:text-xl cart-item-title product-item-truncate">
                                     <Button className=" capitalize " type="link" href={`/product/${data.item_id}`} >
                                         {data.item_name.toLowerCase()}

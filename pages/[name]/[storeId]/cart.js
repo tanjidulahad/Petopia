@@ -230,7 +230,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                 </button>
                 <span className='text-base font-semibold'>My Cart</span>
             </div>
-            <section className="bg-black-color-lighter cart relative pb-16">
+            <section className="bg-black-color-lighter cart relative sm:pb-16">
                 <div className="wrapper mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 md:gap-6 2xl:gap-10">
                         <div className="w-full lg:col-span-7 xl:col-span-8 col-auto ">
@@ -273,8 +273,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                             {
                                 !!purchaseDetails &&
                                 <>
-                                    {/* Delivery method */}
-                                    <div className="w-full mt-10 px-3 py-10 sm:px-10 bg-white rounded">
+                                    {/* Delivery method >> */}
+                                    <div className="w-full mt-3 sm:mt-10 px-3 py-10 sm:px-10 bg-white rounded">
                                         <div className="">
                                             <h2>Delivery Method</h2>
                                         </div>
@@ -343,7 +343,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                     </div>
                                                                                     <div>
                                                                                         <h6>{item.address_tag}</h6>
-                                                                                        <div className="my-4">
+                                                                                        <div className="">
                                                                                             <span className="home">{item.address_line_1}, {item.address_line_2}</span>
                                                                                             <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
                                                                                             <span className="country">{item.country},</span>
@@ -376,17 +376,18 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                             }
                                                                                         </div>
                                                                                         <div className="ml-2 w-full">
-                                                                                            <h3 className="text-xl font-semibold">{item.address_tag}</h3>
-                                                                                            <div className="my-4">
+                                                                                            <h3 className="text-base sm:text-xl font-semibold">{item.address_tag}</h3>
+                                                                                            <h5 className="text-sm sm:text-base">{item.full_name}</h5>
+                                                                                            <div className="text-sm sm:text-base">
                                                                                                 <span className="home">{item.address_line_1}, {item.address_line_2}</span>
                                                                                                 <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
                                                                                                 <span className="country">{item.country},</span>
                                                                                                 <span className="country font-w-bold">+91 {item.phone}</span>
                                                                                             </div>
-                                                                                            <button className="btn-color-revese my-2" onClick={() => { setNewAddress(item); setIsAddressActive(true) }}>Edit</button>
+                                                                                            <button className="btn-color-revese my-2 text-sm sm:text-xl" onClick={() => { setNewAddress(item); setIsAddressActive(true) }}>Edit</button>
                                                                                             {
                                                                                                 checkoutDetails.deliveryAddress != item.address_id &&
-                                                                                                <label className="block my-2 btn-bg btn-color py-3.5 px-8 rounded max-w-fit cursor-pointer" htmlFor={`address${i}`} >Deliver Here</label>
+                                                                                                <label className="block my-2 btn-bg btn-color py-3 sm:py-3.5 px-6 sm:px-8 rounded max-w-fit cursor-pointer text-sm sm:text-xl" htmlFor={`address${i}`} >Deliver Here</label>
                                                                                             }
                                                                                         </div>
                                                                                     </div>
@@ -410,8 +411,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                             }
                                         </div>
                                     </div>
-                                    {/* Payment options */}
-                                    <div className="w-full px-3 mt-10 py-10 sm:px-10 bg-white rounded">
+                                    {/* << Delivery method */}
+                                    {/* Payment options >> */}
+                                    <div className="w-full px-3 mt-3 sm:mt-10 py-10 sm:px-10 bg-white rounded">
                                         <div className="">
                                             <h2>Choose Payment Option </h2>
                                         </div>
@@ -447,10 +449,11 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                             }
                                         </div>
                                     </div>
+                                    {/* << Payment options */}
                                 </>
                             }
                         </div>
-                        {/* Invoice section */}
+                        {/* Invoice section >> */}
                         <div className="w-full col-span-auto lg:col-span-5 xl:col-span-4 ">
                             {
                                 !!user &&
@@ -466,9 +469,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                     </div>
                                     <div>
 
-                                        <div className="mt-10 pb-10 bg-white rounded">
+                                        <div className="mt-3 sm:mt-10 pb-10 bg-white rounded">
                                             <div className="px-3 py-10 sm:px-10 border-b-2 rounded">
-                                                <h2>Invoice</h2>
+                                                <h2 className="">Invoice</h2>
                                             </div>
                                             {
                                                 !isDetailsLoading ?
@@ -476,61 +479,61 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                     <>
                                                         <div className="px-3 py-10 sm:px-10">
                                                             <div className="flex justify-between space-x-2 border-b-2 border-dashed pb-6">
-                                                                <h6 className="text-lg font-semibold">Item Total</h6>
+                                                                <h6 className=" text-sm sm:text-lg font-semibold">Item Total</h6>
                                                                 <div>
                                                                     <span className="black-color-75 text-base">{purchaseDetails.itemCount} item(s)</span>
-                                                                    <span className="text-lg font-medium ml-2">₹ {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
+                                                                    <span className=" text-sm sm:text-lg font-medium ml-2">₹ {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
                                                                 </div>
                                                             </div>
-                                                            <div className=" border-b-2 border-dashed">
+                                                            <div className=" border-b-2 border-dashed space-y-2 sm:space-y-4">
 
-                                                                <div className="flex justify-between space-x-2 my-4">
-                                                                    <h6 className="text-lg black-color font-medium">Delivery Charge</h6>
+                                                                <div className="flex justify-between space-x-2 mt-2 sm:mt-4">
+                                                                    <h6 className=" text-sm sm:text-lg black-color font-medium">Delivery Charge</h6>
                                                                     <div>
-                                                                        <span className="text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                                                        <span className=" text-sm sm:text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
                                                                     </div>
                                                                 </div>
                                                                 {
                                                                     !!purchaseDetails.totalParcelCharge &&
-                                                                    <div className="flex justify-between space-x-2 my-4">
-                                                                        <h6 className="text-lg black-color font-medium">Parcel Charge</h6>
+                                                                    <div className="flex justify-between space-x-2 ">
+                                                                        <h6 className=" text-sm sm:text-lg black-color font-medium">Parcel Charge</h6>
                                                                         <div>
-                                                                            <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalParcelCharge).toFixed(2)}</span>
+                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalParcelCharge).toFixed(2)}</span>
                                                                         </div>
                                                                     </div>
                                                                 }
-                                                                <div className="flex justify-between space-x-2 my-4">
-                                                                    <h6 className="text-lg black-color font-medium">Tax</h6>
+                                                                <div className="flex justify-between space-x-2 ">
+                                                                    <h6 className=" text-sm sm:text-lg black-color font-medium">Tax</h6>
                                                                     <div>
-                                                                        <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalTaxAmount).toFixed(2)}</span>
+                                                                        <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalTaxAmount).toFixed(2)}</span>
                                                                     </div>
                                                                 </div>
                                                                 {
                                                                     purchaseDetails?.totalConvenienceCharge ?
-                                                                        <div className="flex justify-between space-x-2 my-4">
-                                                                            <h6 className="text-lg black-color font-medium">Convenience Charge</h6>
+                                                                        <div className="flex justify-between space-x-2 ">
+                                                                            <h6 className=" text-sm sm:text-lg black-color font-medium">Convenience Charge</h6>
                                                                             <div>
-                                                                                <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalConvenienceCharge).toFixed(2)}</span>
+                                                                                <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalConvenienceCharge).toFixed(2)}</span>
                                                                             </div>
                                                                         </div>
                                                                         : null
                                                                 }
-                                                                <div className="flex justify-between space-x-2 my-4">
-                                                                    <h6 className="text-lg black-color font-medium">Coupon Applied</h6>
+                                                                <div className="flex justify-between space-x-2 ">
+                                                                    <h6 className=" text-sm sm:text-lg black-color font-medium">Coupon Applied</h6>
                                                                     <div>
-                                                                        <span className="text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
+                                                                        <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
                                                                     </div>
                                                                 </div>
-                                                                <div className="flex justify-between space-x-2 my-4">
-                                                                    <h6 className="text-lg success-color font-medium">Discount</h6>
+                                                                <div className="flex justify-between space-x-2 ">
+                                                                    <h6 className=" text-sm sm:text-lg success-color font-medium">Discount</h6>
                                                                     <div>
-                                                                        <span className="text-lg success-color font-medium ml-2">- ₹{Number(purchaseDetails.totalSavings).toFixed(2)}</span>
+                                                                        <span className=" text-sm sm:text-lg success-color font-medium ml-2">- ₹{Number(purchaseDetails.totalSavings).toFixed(2)}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className="flex justify-between mt-4 border-dashed">
-                                                                <h2 className="text-2xl font-bold">Total Amount</h2>
-                                                                <h2 className="text-2xl font-bold">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
+                                                            <div className="flex justify-between mt-2 sm:mt-4 border-dashed">
+                                                                <h2 className="text-base sm:text-2xl font-bold">Total Amount</h2>
+                                                                <h2 className="text-base sm:text-2xl font-bold">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
                                                             </div>
 
                                                         </div>
@@ -599,6 +602,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                 }
                             </div>
                         </div>
+                        {/* << Invoice section */}
                     </div>
                 </div>
             </section>

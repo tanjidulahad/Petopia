@@ -11,8 +11,8 @@ import { useSwipeable } from "react-swipeable";
 
 let count = 0;
 let slideInterval;
-export default function Slider({banner}) {
-  const featuredProducts=banner
+export default function Slider({ banner }) {
+  const featuredProducts = banner
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -49,27 +49,27 @@ export default function Slider({banner}) {
     count = (count + 1) % featuredProducts.length;
     setCurrentIndex(count);
 
-  slideRef.current?.classList?.add("fade-anim");
+    slideRef.current?.classList?.add("fade-anim");
 
 
   };
 
-const handleOnPrevSlide=()=>{
+  const handleOnPrevSlide = () => {
 
-  count = (count - 1) % featuredProducts.length;
-  count===-1?
-  setCurrentIndex(featuredProducts.length-1)
+    count = (count - 1) % featuredProducts.length;
+    count === -1 ?
+      setCurrentIndex(featuredProducts.length - 1)
 
-  :setCurrentIndex(count)
-}
-const handleOnNextSlide=()=>{
-  count = (count + 1) % featuredProducts.length;
+      : setCurrentIndex(count)
+  }
+  const handleOnNextSlide = () => {
+    count = (count + 1) % featuredProducts.length;
     setCurrentIndex(count);
 
-  
 
 
-}
+
+  }
 
   const handlers = useSwipeable({
     onSwipedLeft: () => handleOnPrevSlide(),
@@ -78,35 +78,35 @@ const handleOnNextSlide=()=>{
     trackMouse: true
   });
 
-const slider={
-  width:`1000px`,
-maxHeight:`352px`,
-borderRadius: `8px`,
-opacity: 1,
-}
-const dot={
-  fontSize:`20px`,
-  display: `flex`,
-  alignItems: `center`
-}
+  const slider = {
+    width: `1000px`,
+    maxHeight: `352px`,
+    borderRadius: `8px`,
+    opacity: 1,
+  }
+  const dot = {
+    fontSize: `20px`,
+    display: `flex`,
+    alignItems: `center`
+  }
   return (
 
- <div ref={slideRef} className="w-full select-none relative">
-    <div {...handlers}>
-      <div className=" mx-2 " >
-        <img style={slider} src={featuredProducts[currentIndex]?.banner_img_url} alt="" onScroll={()=>{alert("hello")}}/>
-      </div>
+    <div ref={slideRef} className="w-full select-none relative">
+      <div {...handlers}>
+        <div className=" mx-2 " >
+          <img style={slider} src={featuredProducts[currentIndex]?.banner_img_url} alt="" onScroll={() => { alert("hello") }} />
+        </div>
       </div>
 
-      <div className=" w-full flex justify-center flex-row my-2">
-          {
-              featuredProducts.map((value,index)=>(
-                <div key={index} style={dot} >
-                <GoPrimitiveDot className="cursor-pointer" color={ index === currentIndex ?"#D85A5A":"#2424243F"} onClick={()=>{setCurrentIndex(index)}}/>
+      <div className=" w-full justify-center flex-row my-2 hidden sm:flex">
+        {
+          featuredProducts.map((value, index) => (
+            <div key={index} style={dot} >
+              <GoPrimitiveDot className="cursor-pointer" color={index === currentIndex ? "#D85A5A" : "#2424243F"} onClick={() => { setCurrentIndex(index) }} />
             </div>
 
-              ))
-          }
+          ))
+        }
 
 
       </div>

@@ -1,8 +1,8 @@
 import shopActionType from './shop-action-type';
 // Shop Info
-export const getShopInfoStart = (storeId) => ({
+export const getShopInfoStart = ({storeId,seassion_id}) => ({
     type: shopActionType.GET_SHOP_INFO_START,
-    payload: storeId
+    payload: {storeId,seassion_id}
 })
 export const getShopInfoSuccess = (storeInfo) => ({
     type: shopActionType.GET_SHOP_INFO_SUCCESS,

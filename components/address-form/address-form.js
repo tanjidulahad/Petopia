@@ -5,19 +5,27 @@ import { addAddressStart, getAddressStart, removeAddressStart, updateAddressStar
 
 const AddressForm = ({ user, address, getAddress, addAddress, removeAddress, updateAddress, edit = null, close }) => {
     const addressStructure = {
-        full_name: "",
-        phone: "",
+        address_fields: null,
+        address_id: "",
         address_line_1: "",
         address_line_2: "",
+        address_status: "",
+        address_tag: "",
         city: "",
-        address_fields: {},
-        address_tag: "Home",
         country: "India",
+        country_code: "",
+        create_date: "",
+        customer_id: "",
+        delivery_schema_id: "",
+        full_name: "",
         is_default: "",
-        latitude: null,
-        longitude: null,
+        last_modified_date: "",
+        latitude: "",
+        longitude: "",
+        phone: "",
         state: "",
-        zip_code: ""
+        state_code: "",
+        zip_code: "",
     }
     const [newAddress, setNewAddress] = useState(edit || addressStructure)
     const [isAddressActive, setIsAddressActive] = useState(false);
@@ -38,8 +46,8 @@ const AddressForm = ({ user, address, getAddress, addAddress, removeAddress, upd
         if (newAddress?.address_id) {
             console.log('fasdfas');
             updateAddress({
-                userId: user.customer_id, setError, addressId: newAddress.address_id, address: (({ full_name, phone, address_line_1, address_line_2, city, address_fields, address_tag, country, is_default, latitude, longitude, state, zip_code }) =>
-                    ({ full_name, phone, address_line_1, address_line_2, city, address_fields: {}, address_tag, country, is_default, latitude, longitude, state, zip_code }))(newAddress)
+                userId: user.customer_id, addressId: newAddress.address_id,
+                address: newAddress
             })
         } else {
             console.log('addAddress');
@@ -49,6 +57,7 @@ const AddressForm = ({ user, address, getAddress, addAddress, removeAddress, upd
         // setNewAddress(addressStructure);
         close()
     }
+    console.log(edit);
     return (<>
 
         <div className="fixed inset-0 px-4 sm:px-8 md:px-20 bg-black-color-lighter bg-opacity-75 address-form">

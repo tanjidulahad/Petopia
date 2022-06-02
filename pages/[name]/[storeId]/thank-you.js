@@ -24,7 +24,7 @@ const ThankYou = ({ confirmOrder }) => {
     }, [router.isReady])
 
     return (
-        <section>
+        <section className="h-[100vh]">
             {
                 status == 'loading'
                     ?
@@ -32,8 +32,8 @@ const ThankYou = ({ confirmOrder }) => {
                     :
                     status == 'success'
                         ?
-                        <div className="wrapper mx-auto">
-                            <div className="thank-you py-16">
+                        <div className="wrapper mx-auto bg-[#F2F2F2]">
+                            <div className="thank-you py-16 bg-white">
                                 <div className="flex justify-center items-center flex-col">
                                     <div className="">
                                         <div className="animation-ctn">
@@ -49,13 +49,16 @@ const ThankYou = ({ confirmOrder }) => {
                                         </div>
                                     </div>
                                     <div className=" text-center mt-10">
-                                        <h3 className="text-3xl font-bold">Thank you, your order has been placed successfully.!</h3>
-                                        <div className='pt-6 pb-10'>
-                                            <span className="text-xl black-color-75  pb-10">An order confirmation mail has been sent to you.</span>
+                                        <h3 className=" text-sm sm:text-3xl font-bold">Thank you, your order has been placed successfully.!</h3>
+                                        <div className='pt-4 sm:pt-6 pb-10'>
+                                            <span className="text-xs sm:text-xl black-color-75  pb-10">An order confirmation mail has been sent to you.</span>
                                         </div>
-                                        <h4 className="text-2xl">Order Id - #{orderId}</h4>
+                                        <h4 className="text-sm sm:text-2xl">Order Id - #{orderId}</h4>
+                                        <div className="pt-4 sm:mt-6">
+                                            <Button className="text-sm sm:text-xl py-3 sm:py-4 w-40 sm:w-60 block mx-auto  btn-border btn-bg-revese btn-color-revese rounded border-2 " type="link" href={`/account/orderdetail/${orderId}`} title="View Order Details" />
+                                        </div>
                                         <div className="mt-6">
-                                            <Button className="py-4 w-60 block mx-auto  btn-border btn-bg-revese btn-color-revese rounded border-2 " type="link" href={`/account/orderdetail/${orderId}`} title="View Order Details" />
+                                            <Button className="text-sm sm:text-xl py-4 w-60 block mx-auto text-[#242424BF]" type="link" href={`/`} title="Continue Shopping" />
                                         </div>
                                     </div>
                                 </div>
@@ -63,8 +66,8 @@ const ThankYou = ({ confirmOrder }) => {
                             </div>
                         </div>
                         :
-                        <div className="wrapper mx-auto">
-                            <div className="thank-you py-16">
+                        <div className="wrapper mx-auto bg-[#F2F2F2]">
+                            <div className="thank-you py-16 bg-white">
                                 <div className="flex justify-center items-center flex-col">
                                     <div className="">
                                         <div className="animation-ctn">

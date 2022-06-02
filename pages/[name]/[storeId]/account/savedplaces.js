@@ -16,19 +16,27 @@ import AddressForm from '@components/address-form/address-form'
 function Savedplaces({ user, address, getAddress, addAddress, removeAddress, updateAddress }) {
 
   const addressStructure = {
-    full_name: "",
-    phone: "",
+    address_fields: null,
+    address_id: "",
     address_line_1: "",
     address_line_2: "",
+    address_status: "",
+    address_tag: "",
     city: "",
-    address_fields: {},
-    address_tag: "Home",
     country: "India",
+    country_code: "",
+    create_date: "",
+    customer_id: "",
+    delivery_schema_id: "",
+    full_name: "",
     is_default: "",
-    latitude: null,
-    longitude: null,
+    last_modified_date: "",
+    latitude: "",
+    longitude: "",
+    phone: "",
     state: "",
-    zip_code: ""
+    state_code: "",
+    zip_code: "",
   }
   const [newAddress, setNewAddress] = useState(addressStructure)
   const [isAddressActive, setIsAddressActive] = useState(false);
@@ -83,7 +91,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
               {
                 [...address].map((item, i) => (
                   <div className="w-full rounded-lg shadow" key={i}>
-                    <Address type={item.address_tag == `Home` ? 'Home' : 'Work'} data={item} onEdit={() => { setNewAddress(item); setIsAddressActive(true) }} onRemove={() => removeAddress({ userId: user.customer_id, addressId: item.address_id, setError })} />
+                    <Address type={item.address_tag == `Home` ? 'Home' : 'Work'} data={item} onEdit={() => { setNewAddress({ addressStructure, ...item }); setIsAddressActive(true) }} onRemove={() => removeAddress({ userId: user.customer_id, addressId: item.address_id, setError })} />
                   </div>
                 ))
               }
@@ -107,7 +115,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
                 {
                   [...address].map((item, i) => (
                     <div className="w-full rounded-lg shadow" key={i}>
-                      <Address type={item.address_tag == `Home` ? 'Home' : 'Work'} data={item} onEdit={() => { setNewAddress(item); setIsAddressActive(true) }} onRemove={() => removeAddress({ userId: user.customer_id, addressId: item.address_id, setError })} />
+                      <Address type={item.address_tag == `Home` ? 'Home' : 'Work'} data={item} onEdit={() => { setNewAddress({ addressStructure, ...item }); setIsAddressActive(true) }} onRemove={() => removeAddress({ userId: user.customer_id, addressId: item.address_id, setError })} />
                     </div>
                   ))
                 }

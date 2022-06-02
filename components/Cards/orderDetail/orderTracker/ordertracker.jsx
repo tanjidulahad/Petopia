@@ -6,8 +6,8 @@ function Ordertracker({ data, details }) {
     <div className="w-full  border-2 rounded-lg  bg-white">
       <div className="my-4  w-full flex justify-between">
         <div className="px-4  w-full flex ">
-          <div className="  w-full  m-4  ">
-            <p className="text-left font-bold text-xl  text-dark">Order #{data.orderId}</p>
+          <div className=" w-full  m-4  ">
+            <p className="text-left font-bold text-base md:text-xl  text-dark">Order #{data.orderId}</p>
           </div>
         </div>
       </div>

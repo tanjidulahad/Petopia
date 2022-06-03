@@ -23,8 +23,10 @@ const Popup = ({ logout, logoutStart, logOutCancel }) => {
                             <p className='text-base font-medium'>Are you sure? You want to log out !</p>
                         </div>
                         <div className="mt-10 flex justify-between space-x-4 text-lg text-white">
-                            <Button className="py-3 w-full  font-semibold hover:bg-red-500 hover:text-white text-red-500 border-2 border-red-500 rounded transition-all " type="button" onClick={() => { logoutStart(); logOutCancel() }} >{'Yes'}</Button>
-                            <Button className="py-3 w-full bg-red-500  font-semibold   border-2  rounded transition-all" type="button" onClick={() => { logOutCancel() }} >{'No, wait'}</Button>
+                            {/* <Button className="py-3 w-full  font-semibold border btn-color-reverse btn-border border-2  rounded transition-all " type="button" onClick={() => { logoutStart(); logOutCancel() }} >{'Yes'}</Button>
+                            <Button className="py-3 w-full btn-color btn-border text-white rounded transition-all" type="button" onClick={() => { logOutCancel() }} >{'No, wait'}</Button> */}
+                            <Button className="py-3 w-full  font-semibold btn-color-revers btn-border border-2 border-red-500 rounded transition-all " type="button" onClick={() => { logoutStart(); logOutCancel() }} >{'Yes'}</Button>
+                            <Button className="py-3 w-full btn-bg font-semibold btn-color  border-2  rounded transition-all" type="button" onClick={() => { logOutCancel() }} >{'No, wait'}</Button>
                         </div>
 
                     </div>

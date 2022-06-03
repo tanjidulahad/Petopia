@@ -28,7 +28,7 @@ function hexToRGB(hex, alpha) {
     }
 }
 
-const verifier = ({userId, children, isLogin, store, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner }) => {
+const verifier = ({ userId, children, isLogin, store, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner }) => {
     const router = useRouter()
     const { displaySettings } = store
 
@@ -45,7 +45,7 @@ const verifier = ({userId, children, isLogin, store, errorInGO, getShopInfo, get
 
             getBanner(storeId)
             getShopSeo(storeId);
-            getShopInfo({storeId,seassion_id});
+            getShopInfo({ storeId, seassion_id });
             getPageCount({ storeId })
             getShopSettings(storeId);
             getSocialProfile(storeId);
@@ -54,7 +54,6 @@ const verifier = ({userId, children, isLogin, store, errorInGO, getShopInfo, get
     }, [router])
 
     useEffect(() => { // Setting store colors
-        console.log(displaySettings);
         //  Primary colors for buttons, navbg
         // Secondry colors for footer
         // if (displaySettings) {

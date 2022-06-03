@@ -49,10 +49,10 @@ function Profile({ type, fullname, email_id, phone, id }) {
           <input type="text" name="emailId" value={profile.emailId} placeholder="Email" onChange={(e) => { onChange(e) }} className="w-full border-2 bg-white h-10 rounded p-2 focus:outline-none" />
 
         </div>
-        <div className="my-4 ">
+        {/* <div className="my-4 ">
           <button className="btn-bg btn-color p-2  px-4 rounded text-sm text-white " onClick={onSubmitHandler}> Save details</button>
 
-        </div>
+        </div> */}
       </div>
 
     </div>

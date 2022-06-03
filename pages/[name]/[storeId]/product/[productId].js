@@ -118,7 +118,7 @@ const ProductDetails = ({ info, user,
                     setGetVariant(defaultVariant[`variant_value_${i}`])
                 }
             }
-            // console.log(getVariant);
+            // 
             setDefaultVarian(getVariant)
         }
         // SetingUp images
@@ -158,15 +158,15 @@ const ProductDetails = ({ info, user,
     // marking default variant
     useEffect(() => {
         if (visuals.defaultVariantItem) {
-            console.log("selectedVariantItem", visuals.defaultVariantItem)
+
             const defaultVar = Object.keys(visuals.defaultVariantItem).map(key => {
                 if (key.includes("variant_value")) {
                     return visuals.defaultVariantItem[key]
                 }
             }).filter(Boolean)
-            // console.log("defaultV", defaultVar)
+            // 
             const selectedDefaultVariant = defaultVar.map(e => e.variant_value_id)
-            console.log("selectedDefaultVariant", selectedDefaultVariant)
+
             setSelectedVarientStyle(selectedDefaultVariant)
 
         }
@@ -178,7 +178,7 @@ const ProductDetails = ({ info, user,
             ...visuals,
             view: false,
         })
-        // console.log(itemid, variantvalueid)
+        // 
         const res = await getVariantItemByItemId(itemid, variantvalueid)
         setVisuals({
             ...visuals,
@@ -199,7 +199,7 @@ const ProductDetails = ({ info, user,
         varientvalue[`variant_value_${indices}`] = varientValueId
         const allVariantsComb = await fetchVarientItemById(success.item_id, varientvalue);
         const shouldbeselect = getListedVarants(allVariantsComb, selectedVarientStyle)
-        console.log("should be select", shouldbeselect)
+
         vanishVarients(indices, allVariantsComb)
 
         if (shouldbeselect) {
@@ -288,7 +288,7 @@ const ProductDetails = ({ info, user,
             result = keep[0].map(a => a.variant_value_id);
         }
         // let result = keep[0].map(a => a.variant_value_id);
-        console.log("keep clicked id", result)
+
         // setKeepVariants(result)
         let not_displayable = []
         let finalResult = []
@@ -312,7 +312,7 @@ const ProductDetails = ({ info, user,
                 }
             }
 
-            console.log("need not to display", not_displayable)
+
 
             if (x["is_displayable"] != "N") {
                 for (let i = 1; i <= 5; i++) {
@@ -341,14 +341,12 @@ const ProductDetails = ({ info, user,
             setKeepVariants(finalResult)
         }
         else {
-            // console.log("need not to display",not_displayable)
-            // console.log("now Displaying",result)
+            // 
+            // 
             setKeepVariants(result)
         }
 
     }
-
-    console.log("final remaining", keepVarients)
 
     useEffect(() => { // SEO
         const dsc = success.item_name + ', ' + success.item_desc
@@ -402,10 +400,10 @@ const ProductDetails = ({ info, user,
             return item
         }
     })[0]?.quantity
-    // console.log(quantityInCart, failure);
-    // console.log(specifications);
-    // console.log("product specification", allVariants)
-    // console.log("cart", cart)
+    // 
+    // 
+    // 
+    // 
     return (
         <>
             <Head>
@@ -417,8 +415,8 @@ const ProductDetails = ({ info, user,
             </Head>
             <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
                 <button className='flex items-center black-color-75 mr-4' onClick={router.back}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
                     </svg>
                 </button>
                 <span className='text-base font-semibold'>Product</span>
@@ -435,8 +433,8 @@ const ProductDetails = ({ info, user,
                                     </div>
                                     <div className="relative overflow-auto no-scrollbar w-full h-full">
                                         <div className=" lg:absolute w-full top-0">
-                                            <span className="text-sm md:text-lg black-color-75 capitalize ">{visuals.item.item_status.toLowerCase()}</span>
-                                            <h1 className="text-base md:text-lg xl:text-3xl my-6 font-semibold md:font-bold capitalize">{visuals.name.toLowerCase()}</h1>
+                                            {/* <span className="text-sm md:text-lg black-color-75 capitalize ">{visuals.item.item_status.toLowerCase()}</span> */}
+                                            <h1 className="text-base md:text-lg xl:text-3xl mb-6 font-semibold md:font-bold capitalize">{visuals.name.toLowerCase()}</h1>
                                             <div>
                                                 {/* <Rating /> */}
                                             </div>
@@ -464,27 +462,23 @@ const ProductDetails = ({ info, user,
                                                     <Button className="btn-color-revers" onClick={() => setViewdscmore(!viewdscmore)}>{viewdscmore ? 'hide' : 'more'}.</Button>
                                                 }
                                             </div>
-
-
                                             {/* varients */}
                                             {allVariants ? allVariants.map((item, idx) => <div key={idx} className="my-6">
                                                 <p className="font-montMedium mb-2">{item.variant_group_name}</p>
                                                 <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                                                     {colorVarients.includes(item.variant_group_name) ? item.variant_values.map((varient, idx) => <li key={idx} className="mr-2">
-                                                        <div onClick={() => handleVarientOnChange(item.indices, item.variant_group_name, varient.variant_value_images, varient.variant_value_id)} data-tip={varient.variant_value_name} className={`inline-block py-3 px-3 text-white rounded-full border-2 cursor-pointer ${selectedVarientStyle.includes(varient.variant_value_id) ? "btn-border" : ""}`} style={{ background: `${varient.variant_value_metadata ? varient.variant_value_metadata.color_hexcode : varient.variant_value_name}`, display: `${keepVarients.length && !keepVarients.includes(varient.variant_value_id) ? "none" : ""}` }}></div>
+                                                        <div onClick={() => handleVarientOnChange(item.indices, item.variant_group_name, varient.variant_value_images, varient.variant_value_id)} data-tip={varient.variant_value_name} className={`inline-block py-3 px-3 text-white rounded-full border-2 cursor-pointer ${selectedVarientStyle.includes(varient.variant_value_id) ? "border-static" : ""}`} style={{ background: `${varient.variant_value_metadata ? varient.variant_value_metadata.color_hexcode : varient.variant_value_name}`, display: `${keepVarients.length && !keepVarients.includes(varient.variant_value_id) ? "none" : ""}` }}></div>
                                                         <ReactTooltip />
                                                     </li>)
                                                         :
                                                         item.variant_values.map((varient, idx) => <li key={idx} className="mr-2">
-                                                            <div onClick={() => handleVarientOnChange(item.indices, item.variant_group_name, varient.variant_value_images, varient.variant_value_id)} className={`inline-block py-3 px-4 text-gray-500 border-2 border-gray-300 rounded-lg cursor-pointer ${selectedVarientStyle.includes(varient.variant_value_id) ? "btn-border" : ""}`}
+                                                            <div onClick={() => handleVarientOnChange(item.indices, item.variant_group_name, varient.variant_value_images, varient.variant_value_id)} className={`inline-block py-3 px-4 text-gray-500 border-2 border-gray-300 rounded-lg cursor-pointer ${selectedVarientStyle.includes(varient.variant_value_id) ? "border-static" : ""}`}
                                                                 style={{ display: `${keepVarients.length && !keepVarients.includes(varient.variant_value_id) ? "none" : ""}` }}
                                                             >{varient.variant_value_name}</div>
                                                         </li>
                                                         )
                                                     }
                                                 </ul>
-
-
                                             </div>)
                                                 : ""
                                             }
@@ -555,10 +549,10 @@ const ProductDetails = ({ info, user,
                                                 Additional Info
                                             </h3>
                                         </div>
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 mt-10  gap-y-10 gap-x-4 md:gap-8 lg:gap-x-16 xl:gap-x-24">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 mt-10  gap-y-10 gap-x-4 md:gap-8 lg:gap-x-20 xl:gap-x-28">
                                             {/* // <div className="grid grid-cols-2 mt-10 gap-y-10 gap-x-36"> */}
                                             {
-                                                [...visuals.additionalinfo, ...visuals.additionalinfo].map((item, i) => (
+                                                [...visuals.additionalinfo].map((item, i) => (
                                                     <div className="w-full" key={i} >
                                                         <div className="w-full product-addinfo-img-c border rounded">
                                                             {

@@ -50,10 +50,11 @@ function index({ banner, products = [], status, storeName, lastEleRef, selectedC
                       <ProductItem />
                       <ProductItem />
                       <ProductItem />
+                      <ProductItem />
+                      <ProductItem />
                     </>
                   }
-                  <div className="h-6"></div>
-                  <div className="h-8" ref={lastEleRef}></div>
+                  <div className="border-0 mt-[0px!important]" ref={lastEleRef}></div>
                 </>
                 : products.length < 1 && status == 'success' ?
                   <div className="flex justify-center items-center" style={{ height: "30vh" }}>
@@ -69,6 +70,8 @@ function index({ banner, products = [], status, storeName, lastEleRef, selectedC
                   </div>
                   :
                   <>
+                    <ProductItem />
+                    <ProductItem />
                     <ProductItem />
                     <ProductItem />
                     <ProductItem />

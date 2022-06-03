@@ -42,20 +42,20 @@ function index() {
             className="  border-b-2 border-gray-800 h-1/3 flex flex-row justify-center "
             style={{ alignItems: 'center' }}
           >
-            <p className="text-white my-8">
+            <p className=" my-8">
               <a href='https://goplinto.com/privacy-policy' target='_blank'>
                 Privacy Policy
               </a>
             </p>
             <BsDot className="mx-4 my-8 " color={'gray'} size={20} />
-            <p className="text-white my-8 ">
+            <p className=" my-8 ">
               <a href='https://goplinto.com/refund-policy' target='_blank'>
                 Return & Refunds
               </a>
             </p>
 
             {/* <BsDot className="mx-4 my-8" color={'gray'} size={20} />
-            <p className="text-white my-8  ">
+            <p className=" my-8  ">
               <a href='https://goplinto.com/terms-and-condition' target='_blank'>
                 Term & conditions
               </a>
@@ -63,7 +63,7 @@ function index() {
           </div>
           <div className=" h-1/3 mt-10 flex  justify-center  align-center">
             <a className='block' href='https://goplinto.com/' target={'_blank'}>
-              <p className="text-white flex justify-center mx-auto">
+              <p className=" flex justify-center mx-auto">
                 Online Store Created Using
               </p>
 

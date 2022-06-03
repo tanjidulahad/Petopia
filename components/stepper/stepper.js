@@ -52,7 +52,7 @@ const Stepper = ({ activeStep = 1, vertical = false, steps = [], sx = {} }) => {
                                             backgroundColor: activeStep + 1 == i + 1 ? style.compoleted.color : style.pending.color,
                                         }} />
                                 }
-                                <div className={`text-black w-full  ${vertical ? `text-left -ml-2.5 border-dashed ${i + 1 != steps.length && `h-24 border-l-2`}` : 'text-center'} inline-block`} style={{
+                                <div className={`text-black w-full  ${vertical ? `text-left -ml-2.5 border-dashed ${i + 1 != steps.length && ` min-h-[130px] border-l-2`}` : 'text-center '} inline-block`} style={{
                                     // minHeight: ' 80px',
                                     borderColor: vertical ? activeStep >= i + 1 || activeStep + 1 == i + 1 ? style.compoleted.color : style.pending.color : 'none'
                                 }}>

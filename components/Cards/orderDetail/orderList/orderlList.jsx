@@ -14,7 +14,7 @@ function orderlList({ list, storeName, status, orderId, createTime, openReturn }
             <p className="hidden md:block lg:block  text-left font-bold text-sm md:w-max">{storeName || ""}</p>
             <p className="text-left text-sm font-medium text-gray-500 md:w-max ">Order #{orderId}</p>
           </div>
-          <p className="text-left  text-sm font-medium text-gray-500 ">{moment.unix(createTime).format('lll')}</p>
+          <p className="text-left  text-sm font-medium text-gray-500 ">{moment.unix(createTime).format('Do MMM YYYY, h:mm a')}</p>
         </div>
       </div>
       <div className="mt-4 sm:mt-0 mb-8 border-gray-200 border-t-2" >
@@ -60,8 +60,8 @@ function orderlList({ list, storeName, status, orderId, createTime, openReturn }
 
             :
             <div className='pt-8 px-4 sm:px-10'>
-              <span className='text-lg '>Having problem with order?</span>
-              <Button className='inline ml-2 btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
+              <span className='text-sm sm:text-lg '>Having problem with order?</span>
+              <Button className='inline font-medium ml-2 text-sm sm:text-lg btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
             </div>
 
         }

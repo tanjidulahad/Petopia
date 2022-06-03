@@ -51,11 +51,11 @@ function mobprofile({ user, logout }) {
           </div>
 
           <div className="w-max shrink-0 pr-4">
-            <Link href='/account/profile ' >
+            {/* <Link href='/account/profile ' >
               <p className=" cursor-pointer text-lg m-2 font-semibold btn-color-revers  relative ">
                 Edit
               </p>
-            </Link>
+            </Link> */}
           </div>
         </div>
 

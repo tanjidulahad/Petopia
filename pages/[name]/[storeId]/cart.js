@@ -238,8 +238,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                 <div className="px-3 flex justify-between py-10 sm:px-10 border-b-2">
                                     <h2>Review your order</h2>
                                     {
-                                        !!cart.length &&
-                                        <Button className='btn-color-revers text-base font-extrabold' onClick={() => { clearCart(); clearCheckout() }}>Clear Cart</Button>
+                                        // !!cart.length &&
+                                        // <Button className='btn-color-revers text-base font-extrabold' onClick={() => { clearCart(); clearCheckout() }}>Clear Cart</Button>
                                     }
                                 </div>
                                 {

@@ -4,8 +4,8 @@ import Carousel from 'react-elastic-carousel';
 const LeftArrow = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
         <g id="left" transform="translate(-80 -5533)">
-            <circle id="Ellipse_403" dataName="Ellipse 403" cx="28" cy="28" r="28" transform="translate(80 5533)" fill="rgba(36,36,36,0.25)" />
-            <path id="Path_3418" dataName="Path 3418" d="M1012.356,10295.25l-9,9,9,9" transform="translate(-900.356 -4743.25)" fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" stroke-width="4" />
+            <circle id="Ellipse_403" dataname="Ellipse 403" cx="28" cy="28" r="28" transform="translate(80 5533)" fill="rgba(36,36,36,0.25)" />
+            <path id="Path_3418" datavame="Path 3418" d="M1012.356,10295.25l-9,9,9,9" transform="translate(-900.356 -4743.25)" fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" />
         </g>
     </svg>
 )
@@ -13,8 +13,8 @@ const LeftArrow = () => (
 
 const RightArrow = () => (
     <svg id="right" xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
-        <circle id="Ellipse_403" dataName="Ellipse 403" cx="28" cy="28" r="28" fill="rgba(36,36,36,0.25)" />
-        <path id="Path_3418" dataName="Path 3418" d="M1003.356,10295.249l8,8-8,8" transform="translate(-978.856 -10274.749)" fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" stroke-width="2.5" />
+        <circle id="Ellipse_403" dataname="Ellipse 403" cx="28" cy="28" r="28" fill="rgba(36,36,36,0.25)" />
+        <path id="Path_3418" datavame="Path 3418" d="M1003.356,10295.249l8,8-8,8" transform="translate(-978.856 -10274.749)" fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" />
     </svg>
 )
 function myArrow({ type, onClick, isEdge }) {

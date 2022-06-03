@@ -37,7 +37,7 @@ function OrderCard({ status, message, data }) {
           </div>
         </div>
         <div className="mt-6 md:mt-4 lg:mt-4  w-full relative -left-4 md:-left-0 lg:-left-0 flex justify-end ">
-          <p className="text-left  text-sm font-medium text-gray-500  lg:mr-4  mr-2">{moment.unix(data.orderPlacedTime).format('lll')}</p>
+          <p className="text-left  text-sm font-medium text-gray-500  lg:mr-4  mr-2">{moment.unix(data.orderPlacedTime).format('Do MMM YYYY, h:mm a')}</p>
         </div>
       </div>
       <div className="my-4 mx-2 md:mx-0 lg:mx-0 border-t-2  border-gray-200 border-b-2  w-full flex justify-between">

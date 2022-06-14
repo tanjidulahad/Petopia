@@ -8,7 +8,7 @@ import Otp from './otp';
 import { getRegisterOtpStart, loginSuccess, authShowToggle, getLoginOtpStart, registerWithPasswordStart, forgotPasswordStart } from '@redux/user/user-action';
 
 // Register Component
-const Register = ({fcmToken, showToggle, setPage, forgotPassword, registerWithPassword, userloginSuccess, info }) => {
+const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithPassword, userloginSuccess, info }) => {
     const [showPass, setShowPass] = useState(false)
     const [isVarificationPhone, setIsVarificationPhone] = useState(false)
     const [state, setState] = useState({
@@ -20,7 +20,7 @@ const Register = ({fcmToken, showToggle, setPage, forgotPassword, registerWithPa
         emailId: "",
         phone: "",
         isdCode: "91", // ..mandatory if verificationType is PHONE
-        deviceId:fcmToken
+        deviceId: fcmToken
     });
     const [isLoading, setIsLoading] = useState(false)
     const [user, setUser] = useState(null)
@@ -61,7 +61,7 @@ const Register = ({fcmToken, showToggle, setPage, forgotPassword, registerWithPa
         <>
             {
                 !!user ?
-                    <Otp username={isVarificationPhone ? state.isdCode + ' ' + state.phone : state.emailId}
+                    <Otp verificationType={state.verificationType} username={isVarificationPhone ? state.isdCode + ' ' + state.phone : state.emailId}
                         setPage={setPage} userId={user.customer_id} resend={() => forgotPassword({ state })}
                     />
                     :

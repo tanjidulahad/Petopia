@@ -8,7 +8,7 @@ import Otp from './otp'
 import { loginSuccess, authShowToggle, getLoginOtpStart, loginWithPasswordStart, forgotPasswordStart } from '@redux/user/user-action'
 
 // Login Component
-const Login = ({fcmToken, showToggle, loginWithPassword, userloginSuccess, forgotPassword, setPage, info }) => {
+const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forgotPassword, setPage, info }) => {
     const [isVarificationPhone, setIsVarificationPhone] = useState(true)
     const [forgotPass, setForgotPass] = useState(false)
     const [showPass, setShowPass] = useState(false)
@@ -20,7 +20,7 @@ const Login = ({fcmToken, showToggle, loginWithPassword, userloginSuccess, forgo
         emailId: "",
         phone: "",
         isdCode: "91",
-        deviceId:fcmToken
+        deviceId: fcmToken
     })
     // const [user, setUser] = useState(null) // {}
     const [error, setError] = useState("") // ""
@@ -46,7 +46,7 @@ const Login = ({fcmToken, showToggle, loginWithPassword, userloginSuccess, forgo
             forgotPassword({ state, setError, setIsLoading, setUser })
         } else {
             if (!state.password) return setError("Enter your password!");
-            loginWithPassword({ state, setError, setStatus: setIsLoading })
+            loginWithPassword({ state, setError, setStatus: setIsLoading, setUser })
         }
     }
     useEffect(() => {
@@ -64,7 +64,7 @@ const Login = ({fcmToken, showToggle, loginWithPassword, userloginSuccess, forgo
         <>
             {
                 user ?
-                    <Otp username={isVarificationPhone ? state.isdCode + ' ' + state.phone : state.emailId}
+                    <Otp verificationType={state.verificationType} username={isVarificationPhone ? state.isdCode + ' ' + state.phone : state.emailId}
                         setPage={setPage} userId={user} forgotPass={forgotPass} resend={() => forgotPassword({ state })}
                     />
                     :

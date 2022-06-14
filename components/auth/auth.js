@@ -2,7 +2,7 @@ import { useFirebase } from '../../firebase/useFirebase';
 import { useEffect, useState } from 'react'
 import { connect } from "react-redux"
 
-import { authShowToggle, getLoginOtpStart, getRegisterOtpStart, otpVerificationStart } from "../../redux/user/user-action";
+import { authShowToggle, getLoginOtpStart, getRegisterOtpStart, otpVerificationStart } from "@redux/user/user-action";
 
 import Login from './login';
 import Register from './register';
@@ -11,13 +11,14 @@ import Register from './register';
 
 const Auth = ({ show, user }) => {
     const [page, setPage] = useState(true) // true == login, false == Register
-    const [fcmToken,setFcmToken]=useState('')
+    const [fcmToken, setFcmToken] = useState('')
 
-    useEffect(()=>{
-        useFirebase().then(res=>{
+    useEffect(() => {
+        console.log('sdfdsfsfsdfsd');
+        useFirebase().then(res => {
             setFcmToken(res)
         })
-    },[])
+    }, [page])
 
     return (
         <>

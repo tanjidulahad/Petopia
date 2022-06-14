@@ -91,9 +91,15 @@ function* onGetRegisterOtpStart() {
 
 function* onOtpVerificationStart() {
     yield takeLatest(userActionType.OTP_VERIFICATION_START, function* ({ payload }) {
-        const { userId, storeId, otp, setError, setStatus, setUser } = payload;
+        const { userId, storeId, otp, setError, setStatus, setUser, mode } = payload;
         try {
-            const res = yield nodefetcher('GET', `/customer/email-login-validate-otp?customerId=${userId}&otp=${otp}&storeId=${storeId}`)
+            // const res = yield nodefetcher('GET', `/customer/email-login-validate-otp?customerId=${userId}&otp=${otp}&storeId=${storeId}`)
+            const res = yield nodefetcher('POST', `/customer/verify-account`, {
+                customerId: userId,
+                storeId,
+                otpCode: otp,
+                verificationType: mode
+            })
             if (res.data.status == 'success') {
                 // setUser(res.data.customerDetails)
                 yield put(loginSuccess(res.data.customerDetails))
@@ -132,11 +138,15 @@ function* onRegisterWithPassword() {
 
 function* onLoginWithPasswordStart() {
     yield takeLatest(userActionType.LOGIN_WITH_PASSWORD_START, function* ({ payload }) {
-        const { state, setStatus, setError } = payload;
+        const { state, setStatus, setError, setUser } = payload;
         try {
             const { data } = yield nodefetcher('POST', `/customer/login`, state)
             if (data.status == 'success') {
-                yield put(loginSuccess(data.customerDetails))
+                if (data.customerDetails.is_account_verified == 'N') {
+                    return setUser(data.customerDetails.customer_id)
+                } else {
+                    yield put(loginSuccess(data.customerDetails))
+                }
                 setStatus('success')
             }
             else {

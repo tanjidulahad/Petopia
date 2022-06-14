@@ -4,7 +4,7 @@ import { Button, Input } from '../inputs';
 import CreateNewPassword from './create-pass'
 import { otpVerificationStart, authShowToggle, forgotPasswordOtpVerifyStart } from '@redux/user/user-action';
 
-const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, userId, info, forgotPass, forgotPasswordOtpVerify }) => {
+const Otp = ({ showToggle, username, resend, setPage, otpVerify, verificationType, onSuccess, userId, info, forgotPass, forgotPasswordOtpVerify }) => {
     const [isSuccess, setIsSuccess] = useState(false)
     const [otp, setOtp] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -24,7 +24,7 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, onSuccess, user
         if (forgotPass) {
             forgotPasswordOtpVerify({ state: { otpCode: otp, customerId: userId }, setError, setIsLoading, setIsSuccess, setUser })
         } else {
-            otpVerify({ userId, storeId: info.store_id, otp, setError, setStatus: setIsLoading })
+            otpVerify({ userId, storeId: info.store_id, otp, setError, setStatus: setIsLoading, mode: verificationType })
         }
     }
     useEffect(() => {

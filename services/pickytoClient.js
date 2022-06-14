@@ -68,7 +68,7 @@ const getCountry = () => {
         return null;
     }
 
-    const _country = timezones[timezone].c[0];
-    const country = countries[_country];
-    return country;
+    // const _country = timezones[timezone].c[0];
+    // const country = countries[_country];
+    return 'country';
 }

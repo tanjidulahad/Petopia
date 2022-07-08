@@ -105,9 +105,11 @@ function orderDetail({ getOrderDetails }) {
                         <>
                           <div className="px-3 py-10 sm:px-10">
                             <div className="flex justify-between space-x-2 border-b-2 border-dashed pb-6">
-                              <h6 className="text-lg font-semibold">Item Total</h6>
                               <div>
-                                <span className="black-color-75 text-base">{orderDetails.itemCount} item(s)</span>
+                                <h6 className="text-lg font-semibold inline">Item Total</h6>
+                                <span className="black-color-75 text-base inline ml-2">({orderDetails.itemCount} item)</span>
+                              </div>
+                              <div>
                                 <span className="text-lg font-medium ml-2">₹ {Number(orderDetails.orderAmount).toFixed(2)}</span>
                               </div>
                             </div>

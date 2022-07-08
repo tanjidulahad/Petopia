@@ -101,7 +101,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
                     // !isLogin && !user ?
                     !user ?
                       <div className="w-32 ml-8 shrink-0 flex items-center">
-                        <Button onClick={openAuth} className=" bg-white text-black max-h-min text-base font-medium rounded py-3 px-8 hover:bg-rose-600 hover:text-white " title="Sign In"></Button>
+                        <Button onClick={openAuth} className="text-black max-h-min text-base font-medium btn-color btn-bg rounded py-3 px-8 hover:scale-[97%] transition-all  " title="Sign In"></Button>
                       </div>
                       :
                       <div className=" flex relative items-center my-6 ml-8 cursor-pointer account">
@@ -237,7 +237,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
             </div>
 
             <div className='block sm:hidden text-black text-center text-xs font-semibold  w-1/5'>
-              <Button className={`btn-nav-color ${router.asPath.includes('account') && 'btn-nav-color-active'}`} type='link' href='/account'>
+              <Button className={`btn-nav-color ${router.asPath.includes('account') && 'btn-nav-color-active'}`} {...user ? { type: 'link', href: '/account' } : { onClick: () => openAuth() }}>
                 <svg className='mx-auto' id="account" xmlns="http://www.w3.org/2000/svg" width="25" height="25" style={{ fill: 'inherit', color: 'inherit' }} viewBox="0 0 24 24">
                   <path id="Path_3437" data-name="Path 3437" d="M0,0H24V24H0Z" fill="none"></path>
                   <path className="bottom-nav-icons" id="Path_3438" data-name="Path 3438"

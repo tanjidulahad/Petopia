@@ -12,7 +12,7 @@ function mobprofile({ user, logout }) {
 
   return (
     <div>
-      <div className=" block lg:hidden md:hidden shadow-xl bg-white  " style={{ height: '100vh' }}>
+      <div className=" block lg:hidden md:hidden shadow-xl bg-white  " style={{ height: '90vh' }}>
         {/* <p className="text-base font-bold text-dark flex justify-start px-4 py-2 shadow-md">Profile</p> */}
         <div className=" flex justify-between my-6 mx-2">
           <div className="flex justify-around items-center my-2 w-full">
@@ -84,7 +84,7 @@ function mobprofile({ user, logout }) {
 
                     <div className="mx-4  pt-2 flex">
                       <img src='/img/my orders.svg' />
-                      <p className="  mx-2   text-sm relative  font-semibold relative  text-gray-600">
+                      <p className="  mx-2   text-sm font-semibold relative text-gray-600">
                         {" "}
                         My Orders
                       </p>
@@ -207,8 +207,6 @@ function mobprofile({ user, logout }) {
               //   </div>
             }
 
-
-
             <div className=" h-10 mb-6 ">
               <div className="mx-4  pt-2 flex">
                 <img src='/img/login.svg' />
@@ -218,8 +216,77 @@ function mobprofile({ user, logout }) {
                 </p>
               </div>
             </div>
+
+
           </div>
         </div>
+        <div className=' sticky top-full w-full footer-bg '>
+          <div className='bg-[#242424] bg-opacity-70 [padding-top:12px!important] [padding-bottom:12px!important] text-white'>
+            <p className=" text-[9px] font-light text-center">powered by</p>
+            <a href="https://goplinto.com" target={'_blank'} className=" block h-8 text-center w-32 font-semibold m-auto mt-2"><img className="w-full h-auto" src="https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png" alt="Goplinto" /></a>
+
+            <div className='px-2 md:px-6 w-full flex-row items-start justify-between mt-2.5 md:pb-0 space-x-1 md:space-x-4 space-y-4'>
+              <div className="w-full flex flex-row items-start justify-between">
+                <div className={`w-full basis-2/12 flex-grow flex flex-col flex-auto justify-center space-y-3 items-center`} >
+                  <p className='inline-block w-full text-center text-[7px] md:text-sm lg:text-base md:px-2' >{'Cloud Hosted on'}</p>
+                  <div className={`w-full flex flex-row justify-center items-start max-h-8 space-x-4`}>
+                    <div className=' w-6 h-6 '>
+                      <img src={'/static/images/aws dark mode copy@2x.png'} className='w-full h-full object-contain' />
+                    </div>
+                    <div className=' w-6 h-6'>
+                      <img src={'/static/images/Azure web services copy@2x.png'} className='w-full h-full object-contain' />
+                    </div>
+                  </div>
+                </div>
+                <div className={`w-full basis-3/12 flex-grow flex flex-col flex-auto justify-center items-center space-y-3 divide-x-2`} >
+                  <p className='w-full text-center text-[7px] md:text-sm lg:text-base md:px-2' >{'Secured Payments with'}</p>
+                  <div className={`w-full flex flex-row justify-center items-start px-2 border-[#212B3680]  space-x-4`}>
+                    <div className=' h-6 w-6 '>
+                      <img src={'/static/images/pci-compliant.f0aea468@2x.png'} className='w-full h-full object-contain' />
+                    </div>
+                    <div className=' h-6 w-6 '>
+                      <img src={'/static/images/ssl-final@2x.png'} className='w-full h-full object-contain' />
+                    </div>
+                    <div className=' h-6 w-6 '>
+                      <img src={'/static/images/https (1)@2x.png'} className='w-full h-full object-contain' />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div className={`w-full basis-7/12 flex-grow flex flex-col flex-auto justify-center items-center space-y-3`} >
+                <p className='w-full text-center text-[7px] md:text-sm lg:text-base md:px-2' >{'Secured Payments with'}</p>
+                <div className={`w-full flex flex-row justify-between items-baseline px-2`}>
+                  <div className=' h-6 w-6'>
+                    <img src={'/static/images/amex@2x.png'} className='w-full h-full object-contain' />
+                  </div>
+                  <div className=' h-6 w-6'>
+                    <img src={'/static/images/master card@2x.png'} className='w-full h-full object-contain' />
+                  </div>
+                  <div className=' h-6 w-6'>
+                    <img src={'/static/images/visa copy@2x.png'} className='w-full h-full object-contain' />
+                  </div>
+                  <div className=' h-6 w-6'>
+                    <img src={'/static/images/upi@2x.png'} className='w-full h-full object-contain' />
+                  </div>
+                  <div className=' h-6 w-6'>
+                    <img src={'/static/images/paytm@2x.png'} className='w-full h-full object-contain' />
+                  </div>
+                  <div className=' h-6 w-6'>
+                    <img src={'/static/images/pe copy 2@2x.png'} className='w-full h-full object-contain' />
+                  </div>
+                  <div className=' h-6 w-6'>
+                    <img src={'/static/images/google pay copy@2x.png'} className='w-full h-full object-contain' />
+                  </div>
+                  <div className=' h-6 w-6'>
+                    <img src={'/static/images/& more.svg'} className='w-full h-full object-contain' />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   )

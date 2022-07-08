@@ -33,6 +33,7 @@ function index() {
   return (
     <footer className=' bg-[#242424] footer-bg footer-color' style={{
       paddingBottom: mobNavHeight,
+      color: '#fff'
     }}
     >
       <div className="hidden sm:block w-full bg-dark-900 bg-[#242424] bg-opacity-70" >

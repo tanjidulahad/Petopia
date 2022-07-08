@@ -17,8 +17,10 @@ function orderlList({ list, storeName, status, orderId, createTime, openReturn }
           <p className="text-left  text-sm font-medium text-gray-500 ">{moment.unix(createTime).format('Do MMM YYYY, h:mm a')}</p>
         </div>
       </div>
-      <div className="mt-4 sm:mt-0 mb-8 border-gray-200 border-t-2" >
-        <div className='border-b-2 px-4 sm:px-10  py-6'>
+      <div className="mt-4 sm:mt-0 border-gray-200 border-t-2" >
+        {/* <div className="mt-4 sm:mt-0 mb-8 border-gray-200 border-t-2" > */}
+        {/* <div className='border-b-2 px-4 sm:px-10  py-6'> */}
+        <div className=' px-4 sm:px-10  py-6'>
           {
             list?.map((item, i) => (
               <div className="flex justify-between items-center" key={i}>
@@ -54,15 +56,15 @@ function orderlList({ list, storeName, status, orderId, createTime, openReturn }
           }
         </div>
         {
-          (status == 'ORDER_CANCELLED_BY_CUST' || status == 'CANCELLED_BY_CUSTOMER') || status == "ORDER_DECLINED_BY_RESTAURANT" || status == 'ORDER_DELIVERED_SUCCESS' ?
-            null
-            // <p className='flex items-center ml-2 my-4 btn-color-revers font-bold'  >Order is Cancelled</p>
+          // (status == 'ORDER_CANCELLED_BY_CUST' || status == 'CANCELLED_BY_CUSTOMER') || status == "ORDER_DECLINED_BY_RESTAURANT" || status == 'ORDER_DELIVERED_SUCCESS' ?
+          //   null
+          //   // <p className='flex items-center ml-2 my-4 btn-color-revers font-bold'  >Order is Cancelled</p>
 
-            :
-            <div className='pt-8 px-4 sm:px-10'>
-              <span className='text-sm sm:text-lg '>Having problem with order?</span>
-              <Button className='inline font-medium ml-2 text-sm sm:text-lg btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
-            </div>
+          //   :
+          //   <div className='pt-8 px-4 sm:px-10'>
+          //     <span className='text-sm sm:text-lg '>Having problem with order?</span>
+          //     <Button className='inline font-medium ml-2 text-sm sm:text-lg btn-color-revers' onClick={() => openReturn(true)} >Cancel Order</Button>
+          //   </div>
 
         }
       </div>

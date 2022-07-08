@@ -95,9 +95,9 @@ export default function Slider({ banner }) {
 
     <div ref={slideRef} className="w-full select-none relative">
       <div {...handlers}>
-        <div className=" mx-2 " >
-          <img style={slider} onClick={() => featuredProducts[currentIndex]?.target_url ? router.push(featuredProducts[currentIndex]?.target_url) : null} src={featuredProducts[currentIndex]?.banner_img_url} alt="" onScroll={() => { alert("hello") }} />
-        </div>
+        <a className="block mx-2 " onClick={(e) => !featuredProducts[currentIndex]?.target_url && e.preventDefault()} href={featuredProducts[currentIndex]?.target_url ? featuredProducts[currentIndex]?.target_url : 'javascript:void(0)'} target={'_blank'} >
+          <img style={slider} src={featuredProducts[currentIndex]?.banner_img_url} alt="" onScroll={() => { alert("hello") }} />
+        </a>
       </div>
 
       <div className=" w-full justify-center flex-row my-2 hidden sm:flex">

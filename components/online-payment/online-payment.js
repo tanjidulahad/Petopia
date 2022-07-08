@@ -22,6 +22,7 @@ const OnlienPayment = ({ store, user, themeColor = '#F64B5D', checkout, setConfi
             order_id: rzpOrderId,
             handler: async (response) => {
                 if (!response.razorpay_payment_id) {
+                    document.body.style.overflow = 'auto';
                     setError("Your payment seems to have failed, please try again");
                 } else {
                     setConfirmPayment({
@@ -41,7 +42,10 @@ const OnlienPayment = ({ store, user, themeColor = '#F64B5D', checkout, setConfi
                 color: themeColor,
             },
             modal: {
-                "ondismiss": () => setInitiateStatus('pending')
+                "ondismiss": () => {
+                    setInitiateStatus('pending');
+                    document.body.style.overflow = 'auto'
+                }
             }
         };
         const rzp = new window.Razorpay(options);

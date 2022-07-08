@@ -453,7 +453,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                 <span className="block text-base black-color-75 tracking-tight">( Cash, UPI)</span>
                                                             </div>
                                                         </div>
-                                                        <span className="ml-8 sm:ml-0 text-xs red-color tracking-tighter">Cash on delivery is not eligible for wallet transactions</span>
+                                                        {/* <span className="ml-8 sm:ml-0 text-xs red-color tracking-tighter">Cash on delivery is not eligible for wallet transactions</span> */}
                                                     </label>
                                                 </div>
                                             }
@@ -468,7 +468,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                             {
                                 !!user &&
                                 <>
-                                    <div className="bg-white">
+                                    {/* <div className="bg-white">
                                         <div className="px-2 py-10 sm:px-10 border-b-2 rounded">
                                             <h2>Promo / Gift Code</h2>
                                         </div>
@@ -476,10 +476,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                             <input type="text" className="text-base font-medium w-full border-b-2 focus:outline-none focus:border-b-2 " onChange={(e) => setCouponCode(e.target.value)} value={couponCode} placeholder="Have any Promo Code?" />
                                             <button className="py-2 btn-color rounded px-4 text-base btn-bg " onClick={onCouponAppyHandler} >Apply</button>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div>
-
-                                        <div className="mt-3 sm:mt-10 pb-10 bg-white rounded">
+                                        <div className=" pb-10 bg-white rounded">
                                             <div className="px-3 py-10 sm:px-10 border-b-2 rounded">
                                                 <h2 className="">Invoice</h2>
                                             </div>
@@ -667,8 +666,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                             Confirm your Order for  Cash On Delivery
                         </div>
                         <div className="flex justify-between space-x-4 pt-4 w-full text-white">
-                            <Button className="py-3 w-full  font-semibold hover:bg-red-500 hover:text-white text-red-500 border-2 border-red-500 rounded transition-all " onClick={() => setConfirmOrder(false)}>Cancel</Button>
-                            <Button className="py-3 w-full bg-red-500  font-semibold   border-2  rounded transition-all" onClick={() => { initiatePayment(); setConfirmOrder(false) }} >Confirm</Button>
+                            <Button className="py-3 w-full  font-semibold btn-color-revers btn-border border-2  rounded transition-all hover:scale-[98%] " onClick={() => setConfirmOrder(false)}>Cancel</Button>
+                            <Button className="py-3 w-full btn-bg btn-color  font-semibold   border-2  rounded transition-all hover:scale-[98%]" onClick={() => { initiatePayment(); setConfirmOrder(false) }} >Confirm</Button>
                         </div>
                     </div>
                 </div >

@@ -23,7 +23,7 @@ function accountLayout(WrappedComponent) {
                 </div> */}
                 <section className="bg-gray-100 w-full ">
                     <div className="wrapper mx-auto">
-                        <div className="md:grid md:grid-cols-12 gap-10 py-6">
+                        <div className="md:grid md:grid-cols-12 gap-10 md:py-6">
                             {/* <div className=" hidden md:block lg:block lg:col-span-2 md:col-span-4 col-span-0 my-0  md:my-10 lg:my-10  "> */}
                             <div className="hidden md:block md:col-span-5 lg:col-span-4 xl:col-span-3 ">
                                 <SideProfile userdetail={props.user} />

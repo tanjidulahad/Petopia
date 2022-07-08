@@ -15,7 +15,7 @@ const Contact = ({ info, socialProfile, close }) => {
                     <div className=" flex flex-col justify-center items-center py-16 rounded-md w-full">
                         <div className="text-center flex flex-col items-center">
                             <div className="h-24 w-24">
-                                <img className="w-full h-auto object-contain" src={info.logo_img_url || 'default-store.webp'} alt={info.store_name} />
+                                <img className="w-full h-auto object-contain" src={info.logo_img_url || '/img/default-store.webp'} alt={info.store_name} />
                             </div>
                             <h6 className="text-xl font-semibold mt-8">{info.store_name}</h6>
                         </div>

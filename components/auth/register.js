@@ -111,7 +111,7 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
                                                                 containerClass='py-4 w-fit h-full'
                                                                 buttonClass='w-full'
                                                                 // country={'us'}
-                                                                enableAreaCodes={true}
+                                                                // enableAreaCodes={true}
                                                                 value={state.isdCode}
                                                                 onChange={phone => setState({ ...state, isdCode: phone })}
                                                             />

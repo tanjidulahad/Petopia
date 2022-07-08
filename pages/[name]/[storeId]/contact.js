@@ -68,13 +68,19 @@ const Contact = ({ info, socialProfile }) => {
                                         <h5>Follow Us</h5>
                                         <div className=" flex justify-center items-center space-x-4  mt-8">
                                             {
-                                                socialProfile.map((itme, i) => (
+                                                socialProfile.map((item, i) => (
                                                     <>
                                                         {
-                                                            !!itme.social_account_link &&
-                                                            <div className=" w-fit h-fit rounded-full bg-black text-white">
-                                                                <SocialIcon bgColor="#000" fgColor="#fff" url={`https://${itme.social_account_link}`} target='_blank' key={i} />
-                                                            </div>
+                                                            !!item.social_account_link &&
+                                                            <a target="_blank" className='block' href={(item.social_account_link.indexOf('http://') == 0 || item.social_account_link.indexOf('https://') == 0) ? `${item.social_account_link}` : `https://${item.social_account_link}`}
+                                                                style={{ width: "2rem", height: '2rem', maxHeight: '2rem', borderRadius: '50%' }}
+                                                                bgColor="#fff" fgColor="#000"
+                                                                key={i}>
+                                                                <img src={item?.logo_img_url || ''} alt="Goplinto" />
+                                                            </a>
+                                                            // <div className=" w-fit h-fit rounded-full bg-black text-white">
+                                                            //     <SocialIcon bgColor="#000" fgColor="#fff" url={`https://${itme.social_account_link}`} target='_blank' key={i} />
+                                                            // </div>
                                                         }
                                                     </>
                                                 ))

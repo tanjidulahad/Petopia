@@ -10,7 +10,7 @@ import { getOrderDetailsStart } from "@redux/orders/orders-action";
 import { updateCartSuccess } from "./cart-actions";
 
 function* purchaseItemUpdator({ action, payload }) {
-    console.log("updator", payload)
+
     const state = Reducstore.getState()
     const cart = state.cart;
     const purchase = state.checkout.purchase
@@ -51,13 +51,13 @@ function* purchaseItemUpdator({ action, payload }) {
                 // const orderId = purchase.orders[0][store.store_id].order_id; [].
                 const orderId = purchase.orders.find(item => Object.keys(item)[0] == store.store_id)[store.store_id].order_id
                 const isOrderIdExist = Object.keys(purchaseDetails.orders).includes(`${orderId}`)
-                console.log(orderId, isOrderIdExist, Object.keys(purchaseDetails.orders));
+
                 if (!isOrderIdExist) {
                     yield put(getPurchageStart(purchase.purchase_id))
                     return;
                 }
                 const isExist = Object.values(purchaseDetails.orders[orderId].orderItems).find(function (item) {
-                    console.log("item in find", item)
+
                     if (item.itemId == payload.item_id) {
                         if (payload.defaultVariantItem) {
                             if (item.customizationDetails?.variant_item_id == payload.defaultVariantItem?.variant_item_id) {

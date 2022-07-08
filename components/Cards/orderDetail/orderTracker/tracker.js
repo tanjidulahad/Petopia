@@ -25,7 +25,10 @@ function Tracker({ details, display }) {
       dsc: moment.unix(details.orderPlacedTime).format('Do MMM YYYY, h:mm a')
     },
     {
-      lable: 'Order in Progress',
+      lable: 'Order Confirmed',
+    },
+    {
+      lable: details.isDelivery == "Y" ? ' Order Shipped' : 'Ready for Pick-up',
     },
     {
       lable: 'Order Delivered Successfully',
@@ -46,15 +49,15 @@ function Tracker({ details, display }) {
       else if (details?.orderStatus == "ORDER_DELIVERED_SUCCESS") {
         setOrderStatus(3)
       }
-      else if (details?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || details?.orderStatus == "CANCELLED_BY_CUSTOMER") {
+      else if (details?.orderStatus == "ORDER_DECLINED_BY_RESTAURANT" || details?.orderStatus == "CANCELLED_BY_CUSTOMER" || details?.orderStatus == "ORDER_CANCELLED_BY_REST") {
         setIsCanceled(true)
-        setOrderStatus(2)
+        setOrderStatus(1)
       }
     }
   }, [details])
   const style = display ? {
     compoleted: {
-      color: display.primary_color || '#E83B3B'
+      color: display?.secondary_color || '#E83B3B'
     },
     active: {
       color: '#E83B3B'
@@ -91,9 +94,19 @@ function Tracker({ details, display }) {
                 </div>
                 <div className={'w-full flex sm:hidden space-x-5 items-center'}>
                   <div className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 scale-75`} style={{
-                    boxShadow: `0px 0px 0px 10px ${hexToRGB(display?.primary_color || '#E83B3B', 0.15)}`,
-                    backgroundColor: display?.primary_color || '#E83B3B'
+                    // boxShadow: `0px 0px 0px 10px ${hexToRGB(display?.primary_color || '#E83B3B', 0.15)}`,
+                    // backgroundColor: display?.primary_color || '#E83B3B'
                   }} >
+                    <span class="flex h-5 w-5">
+                      <span class={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75`} style={{
+                        backgroundColor: display?.secondary_color || '#3aa39f',
+                        animationDuration: '1.5s'
+                      }} ></span>
+                      <span class={`relative inline-flex rounded-full h-5 w-5 [background-color:${display?.secondary_color || '#3aa39f'}]`} style={{
+                        backgroundColor: display?.secondary_color || '#3aa39f',
+                        animationDuration: '1.5s'
+                      }}></span>
+                    </span>
                   </div>
                   <div>
                     <h6 className='text-lg font-semibold'>{steps[orderStatus]?.lable}</h6>

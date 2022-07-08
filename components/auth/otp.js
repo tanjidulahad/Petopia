@@ -22,7 +22,13 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, verificationTyp
         if (otp.length != 5) return setError('Please Enter valid OTP.')
         setIsLoading(true)
         if (forgotPass) {
-            forgotPasswordOtpVerify({ state: { otpCode: otp, customerId: userId }, setError, setIsLoading, setIsSuccess, setUser })
+            forgotPasswordOtpVerify({
+                state: {
+                    otpCode: otp,
+                    customerId: userId,
+                    verificationType
+                }, setError, setIsLoading, setIsSuccess, setUser
+            })
         } else {
             otpVerify({ userId, storeId: info.store_id, otp, setError, setStatus: setIsLoading, mode: verificationType })
         }
@@ -35,7 +41,7 @@ const Otp = ({ showToggle, username, resend, setPage, otpVerify, verificationTyp
         }
         return () => clearInterval(timer);
     }, [counter]);
-    console.log(username);
+
     return (
         <>
             {

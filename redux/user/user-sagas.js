@@ -15,7 +15,7 @@ function* onGetLoginOtpStart() {
         try {
             if (phone.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
                 const res = yield axios.get(`${process.env.NEXT_PUBLIC_PLINTO_NODE_URL}/customer/email-login-register?&emailId=${phone}&authType=LOGIN&storeId=${storeId}`)
-                console.log(res);
+
                 if (res.data.status == 'success') {
                     const { customerId, fullName, } = res.data
                     const user = {
@@ -46,7 +46,7 @@ function* onGetLoginOtpStart() {
                 }
             }
         } catch (error) {
-            // console.log(error);
+
             if (error?.response?.data?.message == 'Please enter your name for the sign up process!') {
                 error.message = 'Please Register Before login!.'
             }
@@ -60,7 +60,7 @@ function* onGetRegisterOtpStart() {
         try {
             if (state.phone.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
                 const res = yield axios.get(`${process.env.NEXT_PUBLIC_PLINTO_NODE_URL}/customer/email-login-register?&emailId=${state.phone}&fullName=${state.name}&authType=SIGNUP&storeId=${storeId}`)
-                console.log(res);
+
                 if (res.data.status == 'success') {
                     setUserId(res.data.customerId)
                 } else {
@@ -81,7 +81,7 @@ function* onGetRegisterOtpStart() {
                 }
             }
         } catch (error) {
-            console.log(error);
+
             setError(error.message)
         }
     })
@@ -109,7 +109,7 @@ function* onOtpVerificationStart() {
             }
 
         } catch (error) {
-            console.log(error);
+
             setError(error.message)
             setStatus(false)
         }
@@ -120,7 +120,7 @@ function* onRegisterWithPassword() {
         const { state, setError, setUser, setStatus } = payload
         try {
             const { data } = yield nodefetcher('POST', `/customer/register`, { ...state })
-            console.log(data);
+
             if (data.status == 'success') {
                 setUser(data.customerDetails)
                 setStatus(false)
@@ -129,7 +129,7 @@ function* onRegisterWithPassword() {
                 throw new Error(data.message)
             }
         } catch (error) {
-            console.log(error);
+
             setError(error.message)
             setStatus(false)
         }
@@ -212,7 +212,7 @@ function* onNewPasswordCreateStart() {
         const { state, setIsLoading, setError, setIsSuccess } = payload;
         try {
             const { data } = yield nodefetcher('POST', `/customer/reset-password`, state)
-            console.log(data);
+
             if (data.status == 'success') {
                 // yield put(setUser(data.customerId))
                 setIsSuccess(true)
@@ -251,7 +251,7 @@ function* onLogoutStart() {
         } catch (error) {
             yield put(cleareUserStart());
             yield put(clearCheckout());
-            console.log(error);
+
         }
     })
 }
@@ -260,14 +260,14 @@ function* onLogoutStart() {
 function* onGetAddressStart() {
     yield takeLatest(userActionType.GET_ADDRESS_START, function* ({ payload }) {
         const { userId, setError } = payload
-        console.log(payload);
+
         try {
             const res = yield fetcher('GET', `?r=customer/get-address-book&customerId=${userId}`);
             if (res.data) {
                 yield put(getAddressSuccess(res.data))
             }
         } catch (error) {
-            // console.log(error);
+
             if (setError) {
                 setError(error)
             }
@@ -304,10 +304,10 @@ function* onAddAddressStart() {
 function* onUpdateAddressStart() {
     yield takeLatest(userActionType.UPDATE_ADDRESS_START, function* ({ payload }) {
         const { userId, addressId, address, setError } = payload;
-        console.log({ customerAddressDetails: address });
+
         try {
             const res = yield fetcher('POST', `?r=customer/update-address&addressId=${addressId}&customerId=${userId}`, { customerAddressDetails: address })
-            console.log(res);
+
             if (res.data) {
                 yield put(getAddressStart({ userId, setError }))
             }

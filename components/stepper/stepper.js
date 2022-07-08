@@ -50,11 +50,17 @@ const Stepper = ({ activeStep = 1, vertical = false, steps = [], sx = {} }) => {
                                         <div key={i} className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 scale-75 ${!vertical && 'mb-4 flex-col'} `} style={{
                                             boxShadow: `0px 0px 0px 10px ${activeStep + 1 == i + 1 ? hexToRGB(style.compoleted.color, 0.15) : hexToRGB(style.pending.color, 0.15)}`,
                                             backgroundColor: activeStep + 1 == i + 1 ? style.compoleted.color : style.pending.color,
-                                        }} />
+                                        }} >
+                                            <div className={`h-5 w-5 rounded-full ${activeStep + 1 == i + 1 ? 'animate-ping opacity-[60!important] [animation-duration:1.5s] ' : ''}`} style={{
+                                                // boxShadow: `0px 0px 0px 10px ${activeStep + 1 == i + 1 ? hexToRGB(style.compoleted.color, 0.15) : hexToRGB(style.pending.color, 0.15)}`,
+                                                backgroundColor: activeStep + 1 == i + 1 ? style.compoleted.color : style.pending.color,
+                                            }} />
+                                        </div>
                                 }
                                 <div className={`text-black w-full  ${vertical ? `text-left -ml-2.5 border-dashed ${i + 1 != steps.length && ` min-h-[130px] border-l-2`}` : 'text-center '} inline-block`} style={{
                                     // minHeight: ' 80px',
-                                    borderColor: vertical ? activeStep >= i + 1 || activeStep + 1 == i + 1 ? style.compoleted.color : style.pending.color : 'none'
+                                    borderColor: vertical ? activeStep >= i + 1 ? style.compoleted.color : style.pending.color : 'none'
+                                    // borderColor: vertical ? activeStep >= i + 1 || activeStep + 1 == i + 1 ? style.compoleted.color : style.pending.color : 'none'
                                 }}>
                                     <span className={`text-sm font-semibold tracking-normal inline-block ${vertical && 'pl-6'} `}>
                                         {item?.lable}

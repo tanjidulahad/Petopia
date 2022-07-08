@@ -25,7 +25,7 @@ function* onBannerFetchStart() {
             const res = yield fetcher('GET', `?r=stores/get-banners&storeId=${id}`)
             yield put(bannersFetchSuccess(res.data))
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     })
 }
@@ -35,7 +35,7 @@ function* onProductListFetchStart() {
             const res = yield fetcher('GET', `?r=catalog/get-items&storeId=${id}`)
             yield put(productListFetchSuccess(res.data))
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     })
 }

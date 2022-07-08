@@ -36,6 +36,7 @@ const visualsStructure = {
     images: [], // First element will be primary image
     desc: '',
     rating: { value: 4.5, count: 5.0 },
+    item_status: "AVAILABLE",
     price: {
         price: Number(0).toFixed(2), //499.90
         sale_price: Number().toFixed(2), //399.99
@@ -146,6 +147,7 @@ const ProductDetails = ({ info, user,
                 sale_price: Number(success.sale_price).toFixed(2),
                 currency: currency['INR']
             },
+            item_status: success.item_status || "AVAILABLE",
             inventoryDetails: success.inventoryDetails,
             // specifications: [...defaultVariant.map((item) => ({ name: item.variant_group_name, value: item.variant_value_name }))],
             specifications: [...specifications],
@@ -484,22 +486,25 @@ const ProductDetails = ({ info, user,
                                             }
 
                                             <div>
-                                                {visuals.defaultVariantItem && visuals.defaultVariantItem.variant_item_status == "UNAVAILABLE" ? <Button className="w-full md:w-auto py-3 px-12 text-base border-2 border-slate-300 text-slate-400 rounded font-bold cursor-not-allowed" >Unavailable</Button>
-                                                    :
-                                                    quantityInCart ?
-                                                        <QuantityID value={quantityInCart} disabledPlush={(() => {
-                                                            if (visuals.inventoryDetails) {
-                                                                return visuals.inventoryDetails.max_order_quantity == quantityInCart && visuals.inventoryDetails.max_order_quantity > 0 || visuals.inventoryDetails.inventory_quantity <= quantityInCart
-                                                            }
-                                                            return false
-                                                        })()}
-                                                            onPlush={itemAddToCart} onMinus={itemRemoveFromCart} />
+                                                {
+                                                    visuals.defaultVariantItem && visuals.defaultVariantItem.variant_item_status == "UNAVAILABLE" ? <Button className="w-full md:w-auto py-3 px-12 text-base border-2 border-slate-300 text-slate-400 rounded font-bold cursor-not-allowed" >Unavailable</Button>
                                                         :
-                                                        <Button className="w-full md:w-auto py-3 px-12 text-base btn-bg btn-color rounded" onClick={itemAddToCart} >Add</Button>
+                                                        visuals.item_status == 'AVAILABLE' && (visuals?.inventoryDetails ? visuals.inventoryDetails?.inventory_quantity > 0 : true) ?
+                                                            quantityInCart ?
+                                                                <QuantityID value={quantityInCart} disabledPlush={(() => {
+                                                                    if (visuals.inventoryDetails) {
+                                                                        return visuals.inventoryDetails.max_order_quantity == quantityInCart && visuals.inventoryDetails.max_order_quantity > 0 || visuals.inventoryDetails.inventory_quantity <= quantityInCart
+                                                                    }
+                                                                    return false
+                                                                })()}
+                                                                    onPlush={itemAddToCart} onMinus={itemRemoveFromCart} />
+                                                                :
+                                                                <Button className="w-full md:w-auto py-3 px-12 text-base btn-bg btn-color rounded" onClick={itemAddToCart} >Add</Button>
+                                                            : <Button className="w-full md:w-auto py-3 px-12 text-base border-2 border-slate-300 text-slate-400 rounded font-bold cursor-not-allowed" disabled={true} >Unavailable</Button>
                                                 }
                                             </div>
                                             {
-                                                !!visuals.inventoryDetails &&
+                                                !!visuals.inventoryDetails && (visuals.item_status == 'AVAILABLE' && (visuals?.inventoryDetails ? visuals.inventoryDetails?.inventory_quantity > 0 : true)) &&
                                                 <>
                                                     {
                                                         visuals.inventoryDetails.min_order_quantity > 1 &&

@@ -1,8 +1,8 @@
 import shopActionType from './shop-action-type';
 // Shop Info
-export const getShopInfoStart = ({storeId,seassion_id}) => ({
+export const getShopInfoStart = ({ storeId, seassion_id }) => ({
     type: shopActionType.GET_SHOP_INFO_START,
-    payload: {storeId,seassion_id}
+    payload: { storeId, seassion_id }
 })
 export const getShopInfoSuccess = (storeInfo) => ({
     type: shopActionType.GET_SHOP_INFO_SUCCESS,
@@ -118,5 +118,23 @@ export const getBannerStart = (payload) => ({
 })
 export const getBannerSuccess = (data) => ({
     type: shopActionType.GET_BANNER_SUCCESS,
+    payload: data
+})
+
+export const getShopWidgets = (storeId) => ({
+    type: shopActionType.GET_SHOP_WIDGETS,
+    payload: storeId
+})
+export const setShopWidgets = (data) => ({
+    type: shopActionType.SET_SHOP_WIDGETS,
+    payload: data
+})
+
+export const getCountryCodeStart = (payload) => ({
+    type: shopActionType.GET_COUNTRY_CODE_START,
+    payload
+})
+export const setCountryCodeSuccess = (data) => ({
+    type: shopActionType.SET_COUNTRY_CODE_SUCCESS,
     payload: data
 })

@@ -44,14 +44,16 @@ function OrderCard({ status, message, data }) {
         <div className='flex w-full my-6'>
           <div className=" lg:px-4 md:pl-4  w-full flex items-center space-x-4">
             <div className="w-28 h-28 rounded bg-gray-900 shrink-0">
-              <img className="w-full h-full rounded object-cover opacity-80" src={(() => {
-                const obj = Object.values(data.orderItems).find(item => item.itemImg);
-                if (obj) {
-                  return obj.itemImg
-                }
-                return `/img/default.webp`
-              })()}
-              />
+              <Button type='link' href={`/account/orderdetail/${data.orderId}`}>
+                <img className="w-full h-full rounded object-cover opacity-80" src={(() => {
+                  const obj = Object.values(data.orderItems).find(item => item.itemImg);
+                  if (obj) {
+                    return obj.itemImg
+                  }
+                  return `/img/default.webp`
+                })()}
+                />
+              </Button>
             </div>
             <div className="  w-full  ">
               <p className="text-left font-semibold text-lg  btn-color-revers">{orderStatus}</p>
@@ -59,7 +61,9 @@ function OrderCard({ status, message, data }) {
             </div>
           </div>
           <div className="mt-5 mr-4  w-full flex justify-end w-max align-center">
-            <MdKeyboardArrowRight className="text-gray-500" size={30} />
+            <Button type='link' href={`/account/orderdetail/${data.orderId}`}>
+              <MdKeyboardArrowRight className="text-gray-500" size={30} />
+            </Button>
           </div>
         </div>
       </div>

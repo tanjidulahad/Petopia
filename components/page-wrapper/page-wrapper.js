@@ -11,7 +11,7 @@ import CartErrorPop from "@components/cart-error/cart-error-pop";
 
 import {
     getShopInfoStart, getShopSeoStart, getShopSettingsStart, getSocialProfileStart, getShopDisplaySettingsStart, getPageCountStart, getBannerStart,
-    getShopInfoSuccess, getShopSeoSuccess, getShopSettingsSuccess, getSocialProfileSuccess,
+    getShopInfoSuccess, getShopSeoSuccess, getShopSettingsSuccess, getSocialProfileSuccess, getShopWidgets, getCountryCodeStart,
 } from "@redux/shop/shop-action";
 import Popup from "@components/popup/popup";
 import { createSeasionId } from "services/pickytoClient";
@@ -28,7 +28,7 @@ function hexToRGB(hex, alpha) {
     }
 }
 
-const verifier = ({ userId, children, isLogin, store, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner }) => {
+const verifier = ({ userId, children, isLogin, store, getShopWidgets, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner, getCountyCode }) => {
     const router = useRouter()
     const { displaySettings } = store
 
@@ -49,7 +49,9 @@ const verifier = ({ userId, children, isLogin, store, errorInGO, getShopInfo, ge
             getPageCount({ storeId })
             getShopSettings(storeId);
             getSocialProfile(storeId);
-            getShopDisplaySettings(storeId)
+            getShopDisplaySettings(storeId);
+            getShopWidgets(storeId)
+            getCountyCode()
         }
     }, [router])
 
@@ -136,6 +138,16 @@ const verifier = ({ userId, children, isLogin, store, errorInGO, getShopInfo, ge
                     .footer-color{
                         color: ${themeColors.footerColor}
                     }
+                    .login-toggle{
+                            border-color:${themeColors.btnBg || '#D85A5A'};
+                            color : ${themeColors.btnBg || '#D85A5A'};
+                            background-color: #fff;
+                        }
+                        .login-toggle-active{
+                            border-color:${themeColors.btnBg || '#D85A5A'};
+                            color : #fff;
+                            background-color: ${themeColors.btnBg || '#D85A5A'};
+                        }
                     .empty-cart-svg path {
                         fill : ${themeColors.fillColor}
                     }
@@ -216,6 +228,8 @@ const mapDispatchToProps = dispatch => ({
     getShopSettings: (shopId) => dispatch(getShopSettingsStart(shopId)),
     getSocialProfile: (shopId) => dispatch(getSocialProfileStart(shopId)),
     getShopDisplaySettings: (storeId) => dispatch(getShopDisplaySettingsStart(storeId)),
+    getShopWidgets: (data) => dispatch(getShopWidgets(data)),
+    getCountyCode: () => dispatch(getCountryCodeStart())
 })
 
 const HOC = connect(mapStateToProps, mapDispatchToProps)(verifier)

@@ -1,14 +1,13 @@
 /**
  * @type {import('next').NextConfig}
  */
- const withPWA = require("next-pwa");
 const path = require('path')
-module.exports = withPWA({
-  pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
-  },
+module.exports = {
+  // pwa: {
+  //   dest: "public",
+  //   register: true,
+  //   skipWaiting: true,
+  // },
 
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
@@ -59,7 +58,7 @@ module.exports = withPWA({
     ]
   ]
 
-})
+}
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unused-vars */

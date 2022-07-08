@@ -8,7 +8,6 @@ function Profile({ type, fullname, email_id, phone, id }) {
   })
   const onChange = (e) => {
     const { value, name } = e.target;
-    console.log(value)
     setprofile({ ...profile, [name]: value })
   }
   const onSubmitHandler = () => {

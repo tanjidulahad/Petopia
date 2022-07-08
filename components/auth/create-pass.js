@@ -18,8 +18,9 @@ const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSucces
     const onChangeHandler = (e) => {
         const { value, name } = e.target;
         if (error) setError('')
-        if (value.length > 40) return;
-        setState({ ...state, [name]: value })
+        if (value.length > 24) return;
+        let val = value.replace(/\s\s+/g, '').trim()
+        setState({ ...state, [name]: val })
     }
     const onSubmitHandler = (e) => {
         e.preventDefault();

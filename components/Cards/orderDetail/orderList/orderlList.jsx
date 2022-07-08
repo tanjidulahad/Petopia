@@ -2,7 +2,7 @@ import moment from 'moment'
 import { Button } from '../../../inputs'
 
 function orderlList({ list, storeName, status, orderId, createTime, openReturn }) {
-  console.log(status)
+
   return (
     <div className="w-full  my-8 border-2 rounded-lg  bg-white">
       <div className="w-full px-4 sm:px-10 py-6">

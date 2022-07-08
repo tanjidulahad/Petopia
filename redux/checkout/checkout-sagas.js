@@ -61,7 +61,7 @@ function* onGetPurchageStart() {
             const res = yield fetcher('GET', `?r=orders/get-purchase&purchaseId=${payload}`)
             yield put(getPurchageSuccess(res.data))
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             yield put(getPurchaseFailure(error))
         }
     })
@@ -145,7 +145,7 @@ function* onInitiatePayment() {
                 // }
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             // yield put(orderPaymentConfirmError(error))
             setInitiateStatus('failure')
             // if (error.message == 'Network Error') {
@@ -159,7 +159,7 @@ function* onInitiatePayment() {
 function* onOrderConfirmPayment() {
     yield takeLatest(checkoutActionType.ORDER_PAYMENT_CONFIRM_START, function* ({ payload }) {
         const { purchaseId, method, customerId, amount, id, setStatus } = payload; // cod ==  N, Online Pay == Y
-        console.log(payload);
+        // console.log(payload);
         try {
             let res = {}
             if (method == 'COD') {
@@ -172,7 +172,7 @@ function* onOrderConfirmPayment() {
                 yield put(orderPaymentConfirmSuccess(res.data))
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             setStatus('failure')
             yield put(orderPaymentConfirmError(error))
         }
@@ -193,10 +193,10 @@ function* onAddItemToPurchaseStart() {
             yield put(updateCartSuccess())
             if (res.data) {
                 yield put((getPurchageStart(purchaseId)))
-                console.log('Update successfull');
+                // console.log('Update successfull');
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             yield put((getPurchageStart(purchaseId)))
             yield put(updateCartSuccess())
             if (error.message == 'Network Error') {
@@ -216,10 +216,10 @@ function* onUpdateQuantityStart() {
             if (res.data) {
                 yield put(updateCartSuccess())
                 yield put((getPurchageStart(purchaseId)))
-                console.log(res, 'Update successfull');
+                // console.log(res, 'Update successfull');
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             yield put(updateCartSuccess())
             yield put((getPurchageStart(purchaseId)))
             if (error.message == 'Network Error') {
@@ -243,7 +243,7 @@ function* onDeleteItemFromPurchaseStart() {
         } catch (error) {
             yield put(updateCartSuccess())
             yield put((getPurchageStart(purchaseId)))
-            console.log(error);
+            // console.log(error);
             // console.log(error);
             // yield put((getPurchageStart(purchaseId)))
             // yield put(orderPaymentConfirmError(error))
@@ -266,7 +266,7 @@ function* onCreateNewRzpOrderStart() {
                 setRzpOrder(res.data)
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             setError(error)
             // if (error.message == 'Network Error') {
             //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.back() }, onOkName: "GO Back" }))
@@ -291,7 +291,7 @@ function* onCouponCodeApplyStart() {
                 onError({ message: 'Operation Failed!.' })
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             onError({ message: 'Operation Failed!.' })
             // yield put(orderPaymentConfirmError(error))
         }

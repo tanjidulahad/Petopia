@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useState, useEffect, useRef } from "react";
 import { GoPrimitiveDot } from "react-icons/go";
 
@@ -13,6 +14,7 @@ let count = 0;
 let slideInterval;
 export default function Slider({ banner }) {
   const featuredProducts = banner
+  const router = useRouter()
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -94,7 +96,7 @@ export default function Slider({ banner }) {
     <div ref={slideRef} className="w-full select-none relative">
       <div {...handlers}>
         <div className=" mx-2 " >
-          <img style={slider} src={featuredProducts[currentIndex]?.banner_img_url} alt="" onScroll={() => { alert("hello") }} />
+          <img style={slider} onClick={() => featuredProducts[currentIndex]?.target_url ? router.push(featuredProducts[currentIndex]?.target_url) : null} src={featuredProducts[currentIndex]?.banner_img_url} alt="" onScroll={() => { alert("hello") }} />
         </div>
       </div>
 
@@ -107,12 +109,7 @@ export default function Slider({ banner }) {
 
           ))
         }
-
-
       </div>
-
     </div>
-
-
   );
 }

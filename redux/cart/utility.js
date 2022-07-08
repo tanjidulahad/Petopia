@@ -1,7 +1,7 @@
 import orderlList from "@components/Cards/orderDetail/orderList/orderlList";
 
 export const addCartItem = (cartItems, cartItemToAdd) => {
-    console.log("cartItemToAdd", cartItemToAdd)
+
     const extingCartItem = cartItems.find(function (cartItem) {
         if (cartItemToAdd.defaultVariantItem) {
             if (cartItem.defaultVariantItem) {
@@ -16,7 +16,7 @@ export const addCartItem = (cartItems, cartItemToAdd) => {
         }
     });
 
-    console.log("existingCartItem", extingCartItem)
+
     if (extingCartItem) {
         return cartItems.map(cartItem => (
             cartItemToAdd.defaultVariantItem && cartItem.defaultVariantItem ? cartItem.defaultVariantItem.variant_item_id == cartItemToAdd.defaultVariantItem.variant_item_id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem : cartItem.item_id === cartItemToAdd.item_id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
@@ -24,7 +24,7 @@ export const addCartItem = (cartItems, cartItemToAdd) => {
         ))
     }
     else {
-        console.log("cartItemToAdd in else", cartItemToAdd)
+
         return [...cartItems, { ...cartItemToAdd, quantity: 1 }]
     }
 }
@@ -66,7 +66,7 @@ export const removeFromCart = (cartItems, cartItemToRemove) => {
     //     })
     // }
 
-    // console.log("extingCartItem from remove",extingCartItem);
+
     // if (extingCartItem) {
     //     return cartItems.map(cartItem => (
     //         cartItem.defaultVariantItem?cartItem.defaultVariantItem.variant_item_id == cartItemToRemove.defaultVariantItem.variant_item_id ? { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem  :  cartItem.item_id === cartItemToRemove.item_id ? { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem
@@ -87,7 +87,7 @@ export const removeFromCart = (cartItems, cartItemToRemove) => {
         }
     });
 
-    console.log(extingCartItem);
+
     if (extingCartItem?.quantity === 1) {
         return cartItems.filter(function (cartItem) {
             if (cartItemToRemove.defaultVariantItem && cartItem.defaultVariantItem) {
@@ -128,9 +128,9 @@ export const filterCart = (cartItems, orderDetails) => {
     //Retriving items from Order details ***it is very mess
     let storeName = "";
     const ordersList = Object.values(orderDetails.orders)
-    console.log("orderList", ordersList)
+
     const backendCart = ordersList.map(item => item.orderItems).reduce((rv, item) => [...rv, ...Object.values(item)], []).map(function (item) {
-        console.log("item", item)
+
         return ({
             item_id: Number(item.itemId),
             quantity: item.itemQuantity,
@@ -148,7 +148,7 @@ export const filterCart = (cartItems, orderDetails) => {
             defaultVariantItem: item.customizationDetails ? { ...item.customizationDetails } : null
         })
     }) // Item id and quantity filter
-    console.log(backendCart);
+
     if (backendCart.length) {
         const newCart = []
         // const newCartItem = [...cartItems.length > backendCart.length ? cartItems : backendCart].map(item => {
@@ -167,7 +167,7 @@ export const filterCart = (cartItems, orderDetails) => {
         //         }
         //     })
         // })
-        // console.log(newCartItem, newCart);
+
         return backendCart //newCart
     } else {
         return cartItems
@@ -187,7 +187,7 @@ export const filterCart = (cartItems, orderDetails) => {
 //         primary_img: item.itemImg,
 //         is_veg: item.isVeg,
 //     })) // Item id and quantity filter
-//     console.log(backendCart);
+
 //     if (backendCart.length) {
 //         const newCart = []
 //         const newCartItem = [...cartItems.length > backendCart.length ? cartItems : backendCart].map(item => {
@@ -198,7 +198,7 @@ export const filterCart = (cartItems, orderDetails) => {
 //                 }
 //             })
 //         })
-//         console.log(newCartItem, newCart);
+
 //         return newCart
 //     } else {
 //         return cartItems

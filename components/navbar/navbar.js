@@ -35,7 +35,6 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
     // const handleScroll = () => {
     //   const position = window.pageYOffset;
     //   setScrollPosition(position);
-    //   console.log(position);
     // };
     // window.addEventListener("scroll", handleScroll);
     // return () => {

@@ -1,6 +1,6 @@
 import Router from 'next/router'
 import { takeLatest, all, call, put } from "redux-saga/effects";
-import fetcher from "../utility";
+import fetcher, { defaultCountryCode } from "../utility";
 import shopActionType from './shop-action-type'
 import {
     getShopInfoSuccess, getShopSeoSuccess, getShopSettingsSuccess, getSocialProfileSuccess,
@@ -9,14 +9,16 @@ import {
     getPageCountSuccess,
     getBannerSuccess,
     getShopProductsPaginationSuccess,
-    errorInGo
+    errorInGo,
+    setShopWidgets,
+    setCountryCodeSuccess
 } from "./shop-action";
 import { riseError } from "../global-error-handler/global-error-handler-action.ts";
 
 function* getShopInfoStart() {
-    yield takeLatest(shopActionType.GET_SHOP_INFO_START, function* ({ payload}) {
+    yield takeLatest(shopActionType.GET_SHOP_INFO_START, function* ({ payload }) {
 
-        const {storeId,seassion_id}=payload
+        const { storeId, seassion_id } = payload
 
         try {
             if (!storeId.match(/^\d+$/)) {
@@ -32,7 +34,7 @@ function* getShopInfoStart() {
             // } else {
             //     yield put(riseError({ name: error.name, message: error.message, onOk: () => { Router.reload() }, onOkName: "Reload" }))
             // }
-            // console.log(error);
+
         }
     })
 }
@@ -44,7 +46,7 @@ function* getShopSeoStart() {
             if (!res.data) return;
             yield put(getShopSeoSuccess(res.data))
         } catch (error) {
-            // console.log(error);
+
         }
     })
 }
@@ -56,7 +58,7 @@ function* getShopBannerStart() {
             if (!res.data) return;
             yield put(getBannerSuccess(res.data))
         } catch (error) {
-            // console.log(error);
+
         }
     })
 }
@@ -68,7 +70,7 @@ function* getShopPageCountStart() {
             if (!res.data) return;
             yield put(getPageCountSuccess(res.data))
         } catch (error) {
-            // console.log(error);
+
         }
     })
 }
@@ -88,7 +90,7 @@ function* getShopSettingsStart() {
             // } else {
             //     yield put(riseError({ name: error.name, message: "Unable to get store Settings!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
             // }
-            // console.log(error);
+
         }
     })
 }
@@ -104,7 +106,7 @@ function* getShopDisplaySettingsStart() {
             // } else {
             //     yield put(riseError({ name: error.name, message: "Unable to get store Settings!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
             // }
-            // console.log(error);
+
         }
     })
 }
@@ -116,7 +118,7 @@ function* onGetSocialProfileStart() {
             if (!res.data) return;
             yield put(getSocialProfileSuccess(res.data))
         } catch (error) {
-            // console.log(error);
+
         }
     })
 }
@@ -196,7 +198,6 @@ function* onGetCategoryProductsStart() {
                 if (setStatus) setStatus('success')
             }
         } catch (error) {
-            console.log(error);
             if (setStatus) setStatus('failed')
         }
     })
@@ -207,23 +208,49 @@ function* onProductSerachStart() {
         const { storeId, q, setSearchResult, setStatus } = payload //status == loading || failed || success
         try {
             const res = yield fetcher('GET', `?r=catalog-search/search-items&storeId=${storeId}&searchKey=${q}`)
-            console.log(res);
             if (Array.isArray(res.data)) {
                 yield put(getSearchProductsSuccess(res.data))
                 // setSearchResult(res.data)
                 if (setStatus) setStatus('success')
             }
         } catch (error) {
-            console.log(error);
             if (setStatus) setStatus('failed')
         }
     })
 }
 
+function* onGetShopWidgets() {
+    yield takeLatest(shopActionType.GET_SHOP_WIDGETS, function* ({ payload }) {
+        try {
+            const res = yield fetcher('GET', `?r=stores/get-all-widget-integrations&storeId=${payload}`);
+            if (res.data) {
+                yield put(setShopWidgets(res.data))
+            }
+
+        } catch (error) {
+            // yield put(errorOnProductDetailPage(error))
+        }
+    })
+}
+
+function* getCountryCode() {
+    yield takeLatest(shopActionType.GET_COUNTRY_CODE_START, function* ({ payload }) {
+        // const { success, onError, isLoading } = payload
+        try {
+            const res = yield fetcher('GET', `?r=store-config/get-countries`);
+            if (res.data) {
+                yield put(setCountryCodeSuccess(res.data))
+            }
+        } catch (error) {
+            yield put(setCountryCodeSuccess(defaultCountryCode))
+            // yield put(errorOnProductDetailPage(error))
+        }
+    })
+}
 
 export default function* shopSagas() {
     yield all([call(getShopInfoStart), call(getShopSeoStart), call(getShopSettingsStart), call(onGetSocialProfileStart),
-    call(onGetCategoriesStart), call(onGetSubCategoriesStart), call(onGetShopProductsStart), call(onGetCategoryProductsStart),
-    call(onProductSerachStart), call(getShopDisplaySettingsStart), call(getShopPageCountStart), call(getShopBannerStart)
+    call(onGetCategoriesStart), call(onGetSubCategoriesStart), call(onGetShopProductsStart), call(onGetCategoryProductsStart), call(getCountryCode),
+    call(onProductSerachStart), call(getShopDisplaySettingsStart), call(getShopPageCountStart), call(getShopBannerStart), call(onGetShopWidgets)
     ])
 }

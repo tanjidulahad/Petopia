@@ -14,7 +14,6 @@ const Auth = ({ show, user }) => {
     const [fcmToken, setFcmToken] = useState('')
 
     useEffect(() => {
-        console.log('sdfdsfsfsdfsd');
         useFirebase().then(res => {
             setFcmToken(res)
         })
@@ -37,9 +36,7 @@ const mapStateToProps = state => ({
     show: state.user.show,
     user: state.user.currentUser
 })
-// const mapDispatchToProps = dispatch => ({
-//     showToggle: () => dispatch(authShowToggle()),
-// })
+
 
 export default connect(mapStateToProps)(Auth)
 

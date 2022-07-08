@@ -44,20 +44,20 @@ const AddressForm = ({ user, address, getAddress, addAddress, removeAddress, upd
             return;
         }
         if (newAddress?.address_id) {
-            console.log('fasdfas');
+
             updateAddress({
                 userId: user.customer_id, addressId: newAddress.address_id,
                 address: newAddress
             })
         } else {
-            console.log('addAddress');
+
             addAddress({ userId: user.customer_id, address: newAddress, setError });
         }
         // setIsAddressActive(false);
         // setNewAddress(addressStructure);
         close()
     }
-    console.log(edit);
+
     return (<>
 
         <div className="fixed inset-0 px-4 sm:px-8 md:px-20 bg-black-color-lighter bg-opacity-75 address-form">

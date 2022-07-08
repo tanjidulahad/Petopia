@@ -17,7 +17,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
 
   const addressStructure = {
     address_fields: null,
-    address_id: "",
+    // address_id: "",
     address_line_1: "",
     address_line_2: "",
     address_status: "",
@@ -132,7 +132,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
       }
       {
         isAddressActive &&
-        <AddressForm edit={newAddress} close={() => { setIsAddressActive(false) }} />
+        <AddressForm edit={newAddress} close={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} />
         // <div className="fixed inset-0 px-4 sm:px-8 md:px-20 bg-black-color-lighter address-form">
         //   <div className='py-6 md:px-20 flex justify-end '>
         //     <svg onClick={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

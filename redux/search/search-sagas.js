@@ -9,7 +9,6 @@ function* onSearchStart() { // We are not saving search data in redux, so pass s
         try {
 
         } catch (error) {
-            console.log(error);
             wishlistError(error)
         }
     })

@@ -13,7 +13,6 @@ const OnlienPayment = ({ store, user, themeColor = '#F64B5D', checkout, setConfi
         const rzpOrderId = rzpOrder.id;
         const customerId = user.customer_id
         const purchaseId = checkout.purchase.purchase_id
-        console.log(checkout);
         const options = {
             key: process.env.NEXT_PUBLIC_RAZORPAY_API_KEY,
             amount: (orderAmount * 100).toFixed(2), // Accept in Paisa (₹1 = 100 paisa)

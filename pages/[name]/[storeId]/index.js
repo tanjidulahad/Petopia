@@ -33,7 +33,8 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
   const { category, subCategoryId, search, name } = Router.query;
   const [status, setStatus] = useState('loading') //status == loading || failed || success
   const [q, setq] = useState(search ? search : '');
-  const [selectedCategory, setSelectedCategory] = useState(search || 'All Items')
+  const [selectedCategory, setSelectedCategory] = useState(search || 'All Products')
+  const [selectedSubCategory, setSelectedSubCategory] = useState(search || '')
   // UI Vars
   const [scrollPosition, setScrollPosition] = useState(0);
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 768 })
@@ -43,7 +44,6 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
   const [plpc, setPlpc] = useState(775) // in vh
   const [description, setDescription] = useState("")
   const [page, setPage] = useState(1)
-  // console.log(Router);
 
   // Pagination
   const observer = useRef()
@@ -52,7 +52,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && pageCount) {
-        if (page < pageCount && !search) {
+        if (page < pageCount && !search && products.length > 19) {
           setPage(page + 1)
         }
       }
@@ -78,18 +78,37 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     if (search) {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
       getSearchProducts({ storeId, q: q.trim(), setSearchResult, setStatus })
-      setSelectedCategory(search || 'All Items')
+      setSelectedCategory('Search Results for "' + search + '"' || 'All Products')
 
     } else if (category) {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
-      getCategoryProducts({ storeId, categoryId: category, subCategoryId, page, setStatus })
-      listRef?.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
+      getCategoryProducts({ storeId, categoryId: category, subCategoryId, page, setStatus });
+      setSelectedCategory((categories.find(item => item.category_id == category) || {
+        category_id: null,
+        category_name: 'All Products',
+        img_url: null
+      }).category_name)
+      const subcat = (categories.find(item => item.category_id == category) || {
+        category_id: null,
+        category_name: 'All Products',
+        img_url: null,
+        subCategories: []
+      }).subCategories.find(item => item.sub_category_id == subCategoryId) || {
+        sub_category_id: null,
+        category_id: null,
+        sub_category_name: "",
+        img_url: null,
+      }
+      setSelectedSubCategory(subcat.sub_category_name)
+      // listRef?.current?.scrollIntoView({
+      //   behavior: 'smooth',
+      //   block: 'start',
+      // })
     } else {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
-      getShopProducts({ storeId, page, setStatus })
+      getShopProducts({ storeId, page, setStatus });
+      setSelectedSubCategory("");
+      setSelectedCategory('')
     }
   }, [Router.query, page])
   useEffect(() => {
@@ -128,7 +147,6 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     const handleScroll = () => {
       const position = window.pageYOffset;
       setScrollPosition(position);
-      // console.log(position);
     };
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -140,7 +158,6 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
   useEffect(() => {
     const dsc = products.reduce((dsc, item) => dsc + ", " + item.item_name + ', ' + item.item_desc, "")
     setDescription(dsc)
-    console.log(products.length);
   }, [products])
   // Pagination
 
@@ -180,8 +197,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
             >
               <CatList list={categories.length > 0 && categories} setSelectedCategory={setSelectedCategory} />
             </div>
-            <div className="md:pt-8 md:py-6 col-span-full md:col-span-9 xl:col-span-7 sm:col-span-12 md:border-l xl:border-r
-            ">
+            <div className="md:pt-8 md:py-6 col-span-full md:col-span-9 xl:col-span-7 sm:col-span-12 md:border-l xl:border-r">
               <div className={` transition-all text-base w-full px-4 md:px-8 serach-bar ${(scrollPosition >= navHeight) && !isSmDevice ? 'fixed bg-white  px-2 pt-2' : 'absolute -mt-6'} sm:fixed flex flex-col md:-mt-8 xl:-mt-6 xl:ml-0`} style={{ maxWidth: plpc, top: (scrollPosition >= navHeight - 10) && !isSmDevice ? '0px' : navHeight }}>
                 <div className='relative'>
                   <Input className='py-2.5 md:py-2 bg-gray-100 md:bg-white pl-9  border-0 md:border border-gray-100 md:shadow-md' style={{ top: navHeight }} onChange={searchHandler} placeholder='Search for items' />
@@ -194,7 +210,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
               </div>
               <div id='plp-container' className='md:overflow-y-auto md:flex flex-col md:sticky no-scrollbar' style={{ top: navHeight, ...isDesktopOrLaptop && { height: `${restHeight}vh` } }}>
                 <div className='h-0' ref={listRef}></div>
-                <ProductListPage lastEleRef={listLastElement} storeName={info?.store_name} products={products} status={status} banner={banner} selectedCategory={selectedCategory} />
+                <ProductListPage lastEleRef={listLastElement} storeName={info?.store_name} products={products} status={status} banner={banner} selectedCategory={selectedCategory} selectedSubCategory={selectedSubCategory} />
               </div>
             </div>
             <div className="md:pt-8 md:py-6 hidden xl:col-span-3 mt-0 xl:block  space-y-6">

@@ -37,7 +37,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
     //   setPayload({ ...payload, cancelReason: value })
     // }
     // if (name === 'custom') {
-    //   console.log(name, value)
+    //   
     //   setPayload({ ...payload, cancelReason: value })
     // }
   }
@@ -84,7 +84,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
       })
   }
 
-  console.log(payload, items);
+
   return (
     <div id="return" className="auth ">
       <div className="md:mt-0 relative lg:mt-0 auth-form-container  md:roundec-lg lg:rounded-lg ">

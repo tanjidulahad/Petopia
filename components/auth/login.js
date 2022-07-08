@@ -8,7 +8,7 @@ import Otp from './otp'
 import { loginSuccess, authShowToggle, getLoginOtpStart, loginWithPasswordStart, forgotPasswordStart } from '@redux/user/user-action'
 
 // Login Component
-const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forgotPassword, setPage, info }) => {
+const Login = ({ fcmToken, showToggle, loginWithPassword, countryCode, userloginSuccess, forgotPassword, setPage, info }) => {
     const [isVarificationPhone, setIsVarificationPhone] = useState(true)
     const [forgotPass, setForgotPass] = useState(false)
     const [showPass, setShowPass] = useState(false)
@@ -30,7 +30,7 @@ const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forg
         let { value, name } = e.target;
         if (error) setError(null);
         if ((!(/^\d*$/.test(value)) || value.length > 10) && name == 'phone') return;
-        if (value.length > 40 && name == 'password') return;
+        if (value.length > 24 && name == 'password') return;
         if (name != 'password') value = value.trim();
         setState({ ...state, [name]: value })
     }
@@ -58,7 +58,7 @@ const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forg
             setIsLoading('')
         }
     }, [error])
-    console.log(state);
+
 
     return (
         <>
@@ -93,19 +93,21 @@ const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forg
                                 </div>
                                 <div>
                                     <div className='w-fit flex' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
-                                        <span className={`py-2 px-3 transition-all  duration-500 border-2 border-static ${isVarificationPhone ? 'text-white font-medium btn-bg' : 'btn-color-revese'}`}>Phone Number</span>
-                                        <span className={`py-2 px-3 transition-all duration-500 border-2 border-static ${!isVarificationPhone ? 'text-white font-medium btn-bg' : 'btn-color-revese'}`}>Email</span>
+                                        <span className={`py-2 px-3 transition-all  duration-500 border-2 ${isVarificationPhone ? `login-toggle` : `login-toggle-active`}`}>Phone Number</span>
+                                        <span className={`py-2 px-3 transition-all duration-500 border-2 ${!isVarificationPhone ? `login-toggle` : `login-toggle-active`}`}>Email</span>
                                     </div>
                                     {
                                         isVarificationPhone ?
                                             <div className='mt-2 flex space-x-2'>
-                                                <div className='w-16 shrink-0 relative'>
+                                                <div className='w-14 shrink-0 relative'>
                                                     <PhoneInput
                                                         inputClass='hidden'
                                                         containerClass='py-4 w-full h-full'
                                                         buttonClass='w-full flag-div'
                                                         // country={'us'}
-                                                        enableAreaCodes={true}
+                                                        // regions={Object.keys(countryCode)}
+                                                        // enableAreaCodes={true}
+                                                        // onlyCountries={Object.values(countryCode).map(item => item.country_code)}
                                                         value={state.isdCode}
                                                         onChange={phone => setState({ ...state, isdCode: phone })}
                                                     />
@@ -168,7 +170,8 @@ const mapDispatchToProps = dispatch => ({
     userloginSuccess: (data) => dispatch(loginSuccess(data)),
 })
 const mapStateToProps = (state) => ({
-    info: state.store.info
+    info: state.store.info,
+    countryCode: state.store.countryCode
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -81,7 +81,6 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     // Change function to chagen address payment and shipment methods
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
-        console.log(checkoutDetails);
         setcheckoutDetails({
             ...checkoutDetails,
             [name]: value,
@@ -118,6 +117,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
 
     // Initial Payment function
     const initiatePayment = () => {
+        if (info.store_status == "INACTIVE" || info.is_open_today == "N") {
+            return;
+        }
         if (!enablePayment) return;
         const orderId = Object.keys(purchaseDetails.orders)[0]
         const { purchase } = checkout
@@ -179,7 +181,6 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                     const ele = document.getElementById('mob-navbar')
                     if (ele) {
                         if (ele.offsetWidth != mobNavHeight) {
-                            // console.log(ele);
                             setMobNavHeight(ele.offsetHeight)
                         }
 
@@ -189,7 +190,6 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
             objerver.observe(document.body)
         }
     }, [])
-    // console.log(checkoutDetails);
     //  Ready by Store ids
     const cartGroups = groupBy(cart, 'store_id')
     const themeColor = displaySettings && (() => displaySettings.navbar_color)() || '#F64B5D'
@@ -283,7 +283,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                 storeSettings.is_delivery_available == 'Y' &&
                                                 <div className="">
                                                     <label className={`sm:p-8 delivery-inputs border-color border-gray-400 ${checkoutDetails.deliveryMethod == 'Y' ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} htmlFor="delivery">
-                                                        <Radio id='delivery' name='deliveryMethod' value={'Y'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'Y'} />
+                                                        <div className=" inline">
+                                                            <Radio id='delivery' name='deliveryMethod' value={'Y'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'Y'} />
+                                                        </div>
                                                         <span className="ml-4 font-semibold text-base">Delivery</span>
                                                     </label>
                                                 </div>
@@ -292,7 +294,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                 storeSettings.is_parcel_available == 'Y' &&
                                                 <div className="pt-4 sm:pt-0">
                                                     <label className={`sm:p-8 delivery-inputs border-color border-gray-400 ${checkoutDetails.deliveryMethod == 'N' ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} htmlFor="pickup">
-                                                        <Radio id='pickup' name='deliveryMethod' value={'N'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'N'} />
+                                                        <div className=" inline">
+                                                            <Radio id='pickup' name='deliveryMethod' value={'N'} onChange={onChangeHandler} checked={checkoutDetails.deliveryMethod == 'N'} />
+                                                        </div>
                                                         <span className="ml-4 font-semibold text-base">Self Pick Up</span>
                                                     </label>
                                                 </div>
@@ -362,7 +366,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                         userAddress.map((item, i) => (
                                                                             <div className="address flex h-full" key={i}>
                                                                                 <div className={`p-0 sm:p-8 delivery-inputs border-gray-400 ${checkoutDetails.deliveryAddress == item.address_id ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} >
-                                                                                    <Radio className='hidden' id={`address${i}`} name='deliveryAddress' checked={checkoutDetails.deliveryAddress == item.address_id} value={item.address_id} onChange={onChangeHandler} />
+                                                                                    <div>
+                                                                                        <Radio className='hidden' id={`address${i}`} name='deliveryAddress' checked={checkoutDetails.deliveryAddress == item.address_id} value={item.address_id} onChange={onChangeHandler} />
+                                                                                    </div>
                                                                                     <div className="flex">
                                                                                         <div className="btn-color-revers">
                                                                                             {
@@ -423,7 +429,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                 <div className="">
                                                     <label className={`sm:p-8 h-full delivery-inputs border-color border-gray-400 ${checkoutDetails.paymentMethod == 'Y' ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} htmlFor="online">
                                                         <div className="flex">
-                                                            <Radio className='mt-2' id='online' name='paymentMethod' value="Y" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'Y'} />
+                                                            <div>
+                                                                <Radio className='mt-2' id='online' name='paymentMethod' value="Y" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'Y'} />
+                                                            </div>
                                                             <div className="pl-4">
                                                                 <h3 className="font-semibold text-base block">Online Payment</h3>
                                                                 <span className="block text-base black-color-75 tracking-tight">( UPI, Credit/Debit cards, Wallet, Net banking )</span>
@@ -437,7 +445,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                 <div className="pt-4 sm:pt-0">
                                                     <label className={`sm:p-8 h-full delivery-inputs border-color border-gray-400 ${checkoutDetails.paymentMethod == 'N' ? 'border-solid border-static' : 'border-dashed'} sm:border-2 rounded block w-full`} htmlFor="cod">
                                                         <div className="flex">
-                                                            <Radio className='mt-2' id='cod' name='paymentMethod' value="N" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'N'} />
+                                                            <div>
+                                                                <Radio className='mt-2' id='cod' name='paymentMethod' value="N" onChange={onChangeHandler} checked={checkoutDetails.paymentMethod == 'N'} />
+                                                            </div>
                                                             <div className="pl-4">
                                                                 <h3 className="font-semibold text-base block">Cash On Delivery</h3>
                                                                 <span className="block text-base black-color-75 tracking-tight">( Cash, UPI)</span>
@@ -577,20 +587,23 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                             </div>
                                             <div className="flex justify-end items-center" >
                                                 {
-                                                    !!purchaseDetails ?
-                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={() => checkoutDetails.paymentMethod == "N" ? setConfirmOrder(true) : initiatePayment()} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N'} style={{
-                                                            ...(!enablePayment || storeSettings?.is_checkout_enabled == 'N') && {
-                                                                opacity: 0.6,
-                                                                cursor: "not-allowed"
-                                                            },
-                                                        }} >
-                                                            <span className="hidden sm:inline">
-                                                                Proceed to Pay ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
-                                                            </span>
-                                                            <span className="sm:hidden inline">Check Out</span>
-                                                        </Button>
+                                                    info.store_status == "INACTIVE" || info.is_open_today == "N" ?
+                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center opacity-70 cursor-not-allowed" disabled={true} >Closed</Button>
                                                         :
-                                                        <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center opacity-70" disabled={true} >Loading...</Button>
+                                                        !!purchaseDetails ?
+                                                            <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={() => checkoutDetails.paymentMethod == "N" ? setConfirmOrder(true) : initiatePayment()} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N'} style={{
+                                                                ...(!enablePayment || storeSettings?.is_checkout_enabled == 'N') && {
+                                                                    opacity: 0.6,
+                                                                    cursor: "not-allowed"
+                                                                },
+                                                            }} >
+                                                                <span className="hidden sm:inline">
+                                                                    Proceed to Pay ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
+                                                                </span>
+                                                                <span className="sm:hidden inline">Check Out</span>
+                                                            </Button>
+                                                            :
+                                                            <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center opacity-70 cursor-not-allowed" disabled={true} >Loading...</Button>
                                                 }
 
                                             </div>

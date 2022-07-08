@@ -15,7 +15,9 @@ const INITIAL_STATE = {
     pageCount: 1,
     // About products
     products: [],
-    categories: []
+    categories: [],
+    widgets: null,
+    countryCode: null
 }
 
 const isReady = ({ info, settings }) => {
@@ -98,6 +100,16 @@ const shopReducer = (state = INITIAL_STATE, { type, payload }) => {
             return {
                 ...state,
                 categories: insertSubcat(state, payload)
+            }
+        case storeActionType.SET_COUNTRY_CODE_SUCCESS:
+            return {
+                ...state,
+                countryCode: payload
+            }
+        case storeActionType.SET_SHOP_WIDGETS:
+            return {
+                ...state,
+                widgets: payload
             }
 
         default:

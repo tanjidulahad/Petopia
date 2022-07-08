@@ -25,7 +25,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
   // useEffect(() => {
   //   setIsLoading((orderList.length || orderListPast.length) && true)
   // }, [orderList, orderListPast])
-  console.log(orderList, orderListPast);
+
   return (
     <>
       {

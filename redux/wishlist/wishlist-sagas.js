@@ -13,7 +13,6 @@ function* onWishlistItemAddStart() {
         if (!variantId) { variantId = null };
         try {
             const res = yield fetcher('GET', `?r=customer/add-item-to-wishlist&customerId=${userId}&storeId=${storeId}&itemId=${id}&variantItemId=${variantId}`);
-            console.log(res);
             if (!res.data) throw "Adding to wishlist faild"
             yield put(addWishlistSuccess(item))
         } catch (error) {
@@ -34,7 +33,6 @@ function* onGetWishlistStart() {
             const pageNum = payload?.pageNum | 1;
             if (!userId) return //throw "Login before adding to wishlist"
             const res = yield fetcher('GET', `?r=customer/get-wishlist-items&customerId=${userId}&pageNum=${pageNum}&storeId=${storeId}`);
-            console.log(res);
             if (!res.data) throw "Fetching wishlist Failed"
             yield put(getWishlistSuccess(res.data))
         } catch (error) {
@@ -43,7 +41,6 @@ function* onGetWishlistStart() {
             } else {
                 yield put(riseError({ message: "Unable to add to wishlist!", onOk: () => { return }, onOkName: "Close" }))
             }
-            // console.log(error);
             // wishlistError(error)
         }
     })

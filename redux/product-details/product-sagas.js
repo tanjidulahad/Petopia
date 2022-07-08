@@ -10,7 +10,7 @@ import { riseError } from "../global-error-handler/global-error-handler-action.t
 // Product Details
 function* onProductFetchStart() {
     yield takeLatest(productActionType.PRODUCT_DETAILS_FETCH_START, function* ({ payload }) {
-        const { id,seassion_id, onSuccess, onFailure } = payload;
+        const { id, seassion_id, onSuccess, onFailure } = payload;
         try {
             const res = yield fetcher('GET', `?r=catalog/get-item-details&itemId=${id}&customerId=${seassion_id}`)
             yield put(productDetailsFetchSuccess(res.data))
@@ -41,7 +41,7 @@ function* onSimilarProductFetchStart() {
                 setSimilarProducts(res.data)
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             // if (error.message == 'Network Error') {
             //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
             // } else {
@@ -83,7 +83,7 @@ function* onGetAdditionalInfoStart() {
 
 function* onGetVariantsStart() {
     yield takeLatest(productActionType.GET_PRODUCT_VARIANT_START, function* ({ payload }) {
-        const { setAllVariants,id } = payload
+        const { setAllVariants, id } = payload
         try {
             const res = yield fetcher('GET', `?r=catalog/get-variant-groups-by-item-id&itemId=${id}`);
             if (Array.isArray(res.data)) {

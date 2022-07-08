@@ -36,7 +36,6 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const path = router.asPath;
-    // console.log((/#!(\/.*)$/.exec(router.asPath) || []), 'fadfasdfsadfds');
     if (path != '/' && !path.includes('[')) {
       router.replace(path);
       setRedirected(true)

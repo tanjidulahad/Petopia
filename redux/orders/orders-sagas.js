@@ -41,8 +41,7 @@ function* onGetCurrentOrdersListStart() {
 }
 function* onGetPastOrdersListStart() {
     yield takeLatest(ordersActionType.GET_PAST_ORDERS_LIST_START, function* ({ payload }) {
-        const { userId, setOrderList, setError, status } = payload
-        console.log(payload);
+        const { userId, setOrderList, setError, status } = payload;
         try {
             const res = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=PAST`)
             if (res.data) {
@@ -50,7 +49,6 @@ function* onGetPastOrdersListStart() {
                 status('success')
             }
         } catch (error) {
-            // console.log(error);
             setError(error)
             status('failure')
         }

@@ -29,12 +29,19 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
         const { value, name } = e.target;
         if (error) setError(null);
         if ((!(/^\d*$/.test(value)) || value.length > 10) && name == 'phone') return;
-        // console.log(name);
+        // 
         // if (name != 'password' && ) value = value.trim()
         // if (name != 'confirmPassword') value = value.trim()
-        if (value.length > 40 && name == 'password') return;
-        if (value.length > 40 && name == 'confirmPassword') return;
-        setState({ ...state, [name]: value })
+        if (value.length > 24 && name == 'password') return;
+        if (value.length > 24 && name == 'confirmPassword') return;
+        let val = ''
+        if (name == 'password') {
+            val = value.replace(/\s\s+/g, '').trim()
+        } else {
+            val = value.replace(/\s\s+/g, ' ').trimStart()
+        }
+        console.log(val);
+        setState({ ...state, [name]: val })
     }
     const onSubmitHandler = (e) => {
         e.preventDefault();
@@ -56,7 +63,7 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
     // const resendHandler = () => {
     //     forgotPassword({ state })
     // }
-    console.log(state);
+
     return (
         <>
             {
@@ -88,17 +95,17 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
                                     <div className="mt-6 space-y-6">
                                         <div>
                                             <h3 className='mb-1'>Name</h3>
-                                            <Input disabled={isLoading} name='fullName' className={`py-3 ${error && ' border-red-400'}`} type="text" placeholder="Your name" onChange={onChangeHandler} value={state.name} />
+                                            <Input disabled={isLoading} name='fullName' className={`py-3 ${error && ' border-red-400'}`} type="text" placeholder="Your name" onChange={onChangeHandler} value={state.fullName} />
                                         </div>
                                         <div>
                                             <div className='w-fit flex' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
-                                                <span className={`py-2 px-3 transition-all  duration-500 border-2 border-static ${isVarificationPhone ? 'text-white font-medium btn-bg' : 'btn-color-revese'}`}>Phone Number</span>
-                                                <span className={`py-2 px-3 transition-all duration-500 border-2 border-static ${!isVarificationPhone ? 'text-white font-medium btn-bg' : 'btn-color-revese'}`}>Email</span>
+                                                <span className={`py-2 px-3 transition-all  duration-500 border-2 ${isVarificationPhone ? `login-toggle` : `login-toggle-active`}`}>Phone Number</span>
+                                                <span className={`py-2 px-3 transition-all duration-500 border-2 ${!isVarificationPhone ? `login-toggle` : `login-toggle-active`}`}>Email</span>
                                             </div>
                                             {
                                                 isVarificationPhone ?
                                                     <div className='mt-2 flex space-x-2'>
-                                                        <div className='w-16 shrink-0'>
+                                                        <div className='w-14 shrink-0'>
                                                             <PhoneInput
                                                                 inputClass='hidden'
                                                                 containerClass='py-4 w-fit h-full'
@@ -116,7 +123,7 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
                                                     </div>
                                                     :
                                                     <div className='mt-2'>
-                                                        <Input disabled={isLoading} name='emailId' className={`py-3 ${error && ' border-red-400'}`} type="email" placeholder="Enter valid email" onChange={onChangeHandler} value={state.emailId} />
+                                                        <Input disabled={isLoading} name='emailId' pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className={`py-3 ${error && ' border-red-400'}`} type="email" placeholder="Enter valid email" onChange={onChangeHandler} value={state.emailId} />
                                                     </div>
                                             }
                                         </div>

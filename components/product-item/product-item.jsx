@@ -44,24 +44,27 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
         // This component used two times 
         <>
             {
-                data.is_customizable == "N" && itemInCart?.quantity ?
-                    <QuantityID disabled={isDetailsLoading} value={itemInCart.quantity} disabledPlush={(() => {
-                        if (itemInCart.inventoryDetails) {
-                            return itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity
-                        }
-                        return false
-                    })()}
-                        onPlush={() => addToCart(readyForCart)} onMinus={() => removeFromCart(readyForCart)} />
-                    :
-                    <>
-                        {
-                            data.is_customizable == "N" ?
+                data.item_status == 'AVAILABLE' && (data?.inventoryDetails ? data.inventoryDetails?.inventory_quantity > 0 : true) ?
+                    data.is_customizable == "N" && itemInCart?.quantity ?
+                        <QuantityID disabled={isDetailsLoading} value={itemInCart.quantity} disabledPlush={(() => {
+                            if (itemInCart.inventoryDetails) {
+                                return itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity
+                            }
+                            return false
+                        })()}
+                            onPlush={() => addToCart(readyForCart)} onMinus={() => removeFromCart(readyForCart)} />
+                        :
+                        <>
+                            {
+                                data.is_customizable == "N" ?
 
-                                < Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} onClick={() => addToCart(readyForCart)} >Add</Button>
-                                :
-                                < Button type="link" href={`/product/${data.item_id}`} className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} >View</Button>
-                        }
-                    </>
+                                    < Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} onClick={() => addToCart(readyForCart)} >Add</Button>
+                                    :
+                                    < Button type="link" href={`/product/${data.item_id}`} className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-9 sm:py-3 sm:px-12 ${className} ${isDetailsLoading && 'disabled'}`} disabled={isDetailsLoading} >View</Button>
+                            }
+                        </>
+                    :
+                    < Button className={`btn-color btn-bg max-h-min text-base font-medium rounded py-2.5 px-3 sm:py-3 sm:px-4 opacity-50 ${className} disabled`} disabled={true} >Unavailable</Button>
             }
         </>
     )

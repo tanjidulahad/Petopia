@@ -365,6 +365,7 @@ const ProductDetails = ({ info, user,
         sub_category_id: visuals.subCategoryId,
         primary_img: visuals.images[0],
         is_veg: visuals.item?.is_veg,
+        item_status: true,
         inventoryDetails: visuals.inventoryDetails,
         defaultVariantItem: visuals.defaultVariantItem,
         store_name: info.store_name || '',
@@ -415,25 +416,27 @@ const ProductDetails = ({ info, user,
                     content={`${descriptions}, The pizzeria is the largest pizza restaurant chain in the Country with multiple outlets in and around. The pizzeria is known for its fresh pizzas made using organic produce and local ingredients.`} />
                 <meta name="keywords" content={`${descriptions} , Amazon.in, Amazon, Online Shopping, online shopping india, india shopping online, amazon india, amazn, buy online, buy mobiles online, buy books online, buy movie dvd's online, kindle, kindle fire hd, kindle e-readers, ebooks, computers, laptop, toys, trimmers, watches, fashion jewellery, home, kitchen, small appliances, beauty, Sports, Fitness &amp; Outdoors`} />
             </Head>
-            <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
-                <button className='flex items-center black-color-75 mr-4' onClick={router.back}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
-                    </svg>
-                </button>
-                <span className='text-base font-semibold'>Product</span>
+            <div className=" min-h-[64px] sm:hidden">
+                <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white fixed top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
+                    <button className='flex items-center black-color-75 mr-4' onClick={router.back}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+                            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                        </svg>
+                    </button>
+                    <span className='text-base font-semibold'>Product</span>
+                </div>
             </div>
             {
                 visuals.view ?
                     <section className="bg-black-color-lighter pdp">
                         <div className="w-full bg-white relative">
                             <div className="wrapper mx-auto">
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 py-20 px-4 sm:px-4 overflow-x-hidden">
-                                    <div className="w-full ">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 pt-10 sm:pt-20 pb-20 px-4 sm:px-4 overflow-x-hidden">
+                                    <div className="w-full mb-6 sm:mb-1">
                                         {/* <img src={visuals.images[0]} alt={visuals.name} /> */}
                                         <PdpImage name={visuals.name} list={visuals.images} />
                                     </div>
-                                    <div className="relative overflow-auto no-scrollbar w-full h-full">
+                                    <div className="relative overflow-auto no-scrollbar  w-full h-full">
                                         <div className=" lg:absolute w-full top-0">
                                             {/* <span className="text-sm md:text-lg black-color-75 capitalize ">{visuals.item.item_status.toLowerCase()}</span> */}
                                             <h1 className="text-base md:text-lg xl:text-3xl mb-6 font-semibold md:font-bold capitalize">{visuals.name.toLowerCase()}</h1>

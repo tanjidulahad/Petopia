@@ -35,6 +35,7 @@ export const productDataForCart = (data = {}) => {
         sub_category_id: data?.sub_category_id,
         primary_img: data?.primary_img,
         is_veg: data?.is_veg,
+        item_status: true,
         inventoryDetails: data?.inventoryDetails,
         store_name: data?.storeName || '',
         store_logo: data?.storeLogoUrl || '/img/default.webp'

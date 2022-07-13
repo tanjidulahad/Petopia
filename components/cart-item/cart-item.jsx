@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import Link from "@components/link";
-import { addToCart, removeFromCart } from "@redux/cart/cart-actions";
-import { QuantityID } from "../inputs";
-const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
+import { addToCart, removeFromCart, deleteItemFromCart } from "@redux/cart/cart-actions";
+import { Button, QuantityID } from "../inputs";
+const CartItem = ({ addToCart, deleteFromCart, removeFromCart, data, isDetailsLoading }) => {
     return (
         <div className="w-100 block ">
             <div className="grid grid-cols-12 gap-4 ">
@@ -46,13 +46,21 @@ const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
                 <div className="col-span-4 sm:col-span-5">
                     <div className="flex flex-col sm:flex-row justify-between w-full h-full items-end sm:items-center space-y-3">
                         <div>
-                            <QuantityID value={data.quantity} disabled={isDetailsLoading} disabledPlush={(() => {
-                                if (data.inventoryDetails) {
-                                    return data.inventoryDetails.max_order_quantity == data.quantity && data.inventoryDetails.max_order_quantity > 0 || data.inventoryDetails.inventory_quantity <= data.quantity
-                                }
-                                return false
-                            })()}
-                                onPlush={() => addToCart(data)} onMinus={() => removeFromCart(data)} />
+                            {
+                                // data?.item_status is dependent on orderDetails api's {invalidReason: "CURRENTLY_UNAVAILABLE"} data
+                                data?.item_status == false && data?.item_status != undefined ?
+                                    < div >
+                                        <Button className="text-sm red-color font-bold" onClick={() => deleteFromCart(data)} >Remove</Button>
+                                    </div>
+                                    :
+                                    <QuantityID value={data.quantity} disabled={isDetailsLoading} disabledPlush={(() => {
+                                        if (data.inventoryDetails) {
+                                            return data.inventoryDetails.max_order_quantity == data.quantity && data.inventoryDetails.max_order_quantity > 0 || data.inventoryDetails.inventory_quantity <= data.quantity
+                                        }
+                                        return false
+                                    })()}
+                                        onPlush={() => addToCart(data)} onMinus={() => removeFromCart(data)} />
+                            }
                         </div>
                         <div>
                             <h2 className="font-bold black-color text-base sm:text-2xl block w-full">₹{data.quantity * data.sale_price}</h2>
@@ -61,21 +69,27 @@ const CartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
                 </div>
             </div>
             {
+                data?.item_status == false && data?.item_status != undefined &&
+                < div >
+                    <span className=" text-xs sm:text-sm red-color">*Sorry, This product is currently unavailable.</span>
+                </div>
+            }
+            {
                 !!data.inventoryDetails && <>
                     {
                         data.inventoryDetails.min_order_quantity > 1 &&
                         <div className="">
-                            <span className="text-sm red-color">*Minimum order quantity is {data.inventoryDetails.min_order_quantity}.</span>
+                            <span className="text-xs sm:text-sm red-color">*Minimum order quantity is {data.inventoryDetails.min_order_quantity}.</span>
                         </div>
                     } {
                         data.inventoryDetails.max_order_quantity == data.quantity && data.inventoryDetails.max_order_quantity > 0 || data.inventoryDetails.inventory_quantity <= data.quantity &&
                         <div className="">
-                            <span className="text-sm success-color">*You reached to maximum order quantity.</span>
+                            <span className="text-xs sm:text-sm success-color">*You reached to maximum order quantity.</span>
                         </div>
                     }
                 </>
             }
-        </div>
+        </div >
     )
 }
 
@@ -85,7 +99,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(addToCart(item)),
-    removeFromCart: (item) => dispatch(removeFromCart(item))
+    removeFromCart: (item) => dispatch(removeFromCart(item)),
+    deleteFromCart: (item) => dispatch(deleteItemFromCart(item))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartItem);

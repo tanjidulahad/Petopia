@@ -31,7 +31,7 @@ function ImageMagnifier({
         >
             <img
                 src={src}
-                style={{ height: height, width: width }}
+                style={{ height: height, width: width, borderRadius: '3px' }}
                 onMouseEnter={(e) => {
                     // update image size and turn-on magnifier
                     const elem = e.currentTarget;
@@ -102,21 +102,38 @@ function App({ src }) {
 
 
 
-const PdpImage = ({ list: images = [], alt = 'goplinto product image' }) => {
+const PdpImage = ({ list: list = [], alt = 'goplinto product image' }) => {
 
     const [activeImage, setActiveImage] = useState(0)
     const isDesktopOrLaptop = useMediaQuery({ minWidth: 640 })
     const [openSlider, setOpenSlider] = useState(false)
 
+    useEffect(() => {
+        if (list.length > 1) {
+            const timer = setInterval(() => setActiveImage(activeImage + 1 < list.length ? activeImage + 1 : 0), 5000);
+            return () => clearInterval(timer);
+        }
+    }, [activeImage]);
+
+    useEffect(() => {
+        if (openSlider) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'auto'
+        }
+        return () => {
+            document.body.style.overflow = 'auto'
+        }
+    }, [openSlider]);
 
     return (
         <div className="flex w-full justify-start items-start md:space-x-4 pdp-images" >
             <div className=" max-h-full pdp-image-list-c min-w-fit">
                 <div className="pdp-image-list hidden sm:flex flex-col max-w-fit space-y-3 md:space-y-4">
                     {
-                        [...images].map((item, i) => (
-                            <div className="w-20 h-20 overflow-hidden rounded-md cursor-pointer" key={i} onClick={() => setActiveImage(i)}>
-                                <img className={`w-full h-full object-cover ${activeImage == i && 'opacity-60'}`} src={item} alt={alt} />
+                        [...list].map((item, i) => (
+                            <div className="w-20 h-20 overflow-hidden rounded-md cursor-pointer hover:scale-[98%] transition-all hover:grayscale" key={i} onClick={() => setActiveImage(i)}>
+                                <img className={`w-full h-full object-cover transition-all ${activeImage == i && 'opacity-80 grayscale scale-[97%]'}`} src={item} alt={alt} />
                             </div>
                         ))
                     }
@@ -126,13 +143,13 @@ const PdpImage = ({ list: images = [], alt = 'goplinto product image' }) => {
             <div className="mx-auto pdp-primary-image flex h-full min-h-full justify-center">
                 <div className="w-full h-auto relative sm:pl-4 md:pl-0">
                     {isDesktopOrLaptop ?
-                        <App src={`${images[activeImage] || '/static/images/default.png'}`} />
+                        <App src={`${list[activeImage] || '/static/images/default.png'}`} />
                         :
                         <>
-                            <img className="w-full h-full" src={images[activeImage]} alt={alt} onClick={() => setOpenSlider(true)} />
+                            <img className="w-full h-full" src={list[activeImage]} alt={alt} onClick={() => setOpenSlider(true)} />
                             <div className='w-full py-4 flex space-x-2 justify-center'>
                                 {
-                                    images.map((item, i) => (
+                                    list.map((item, i) => (
                                         <div className={`${i == activeImage && 'active'} border-b-4 w-4 cursor-pointer`} onClick={() => setActiveImage(i)} key={i} />
                                     ))
                                 }
@@ -146,12 +163,12 @@ const PdpImage = ({ list: images = [], alt = 'goplinto product image' }) => {
                                         </svg>
                                     </div>
                                     <div className='mob-pdp-image-c my-6 mx-auto flex justify-center items-center overflow-hidden ' style={{ height: '400px ', maxWidth: '400px' }}>
-                                        <img className='w-full h-full object-contain ' src={images[activeImage] || '/static/images/default.png'} alt={alt} />
+                                        <img className='w-full h-full object-contain ' src={list[activeImage] || '/static/images/default.png'} alt={alt} />
                                     </div>
                                     <div className='w-full px-4 mb-10'>
                                         <div className='flex overflow-x-auto space-x-6 items-center no-scrollbar'>
                                             {
-                                                images.map((item, i) => (
+                                                list.map((item, i) => (
                                                     <div className={`${i == activeImage && 'active'} overflow-hidden h-20 w-20 p-4 flex-shrink-0 border-b-4 cursor-pointer `} onClick={() => setActiveImage(i)} key={i}>
                                                         <img className="w-full h-auto object-contain" src={item} alt={alt} />
                                                     </div>

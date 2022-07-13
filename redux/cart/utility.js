@@ -121,6 +121,7 @@ export const deleteFromCart = (cartItems, cartItemToRemove) => {
     if (extingCartItem.quantity > 0) {
         return cartItems.filter(cartItem => cartItem.item_id !== cartItemToRemove.item_id)
     }
+    return cartItems;
 }
 
 export const filterCart = (cartItems, orderDetails) => {
@@ -141,16 +142,16 @@ export const filterCart = (cartItems, orderDetails) => {
             store_id: item.storeId,
             sub_category_id: 98,
             primary_img: item.itemImg,
+            item_status: item.invalidReason == 'CURRENTLY_UNAVAILABLE' ? false : true,
             is_veg: item.isVeg,
             orderId: item.orderId,
             store_name: orderDetails.orders[item.orderId]?.storeName,
-            store_logo: '/img/default.webp',
+            store_logo: orderDetails?.orders?.[item.orderId]?.storeLogoUrl || '/img/default.webp',
             defaultVariantItem: item.customizationDetails ? { ...item.customizationDetails } : null
         })
     }) // Item id and quantity filter
 
-    if (backendCart.length) {
-        const newCart = []
+    if (backendCart.length > 0) {
         // const newCartItem = [...cartItems.length > backendCart.length ? cartItems : backendCart].map(item => {
         //     return [...cartItems.length < backendCart.length ? backendCart : cartItems].some(val => {
         //         if (item.item_id == val.item_id) {

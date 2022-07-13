@@ -147,7 +147,17 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
                                         </div> */}
                                         <div>
                                             <h3 className='mb-1'>Confirm Password</h3>
-                                            <Input disabled={isLoading} name='confirmPassword' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Confirm password" onChange={onChangeHandler} value={state.confirmPassword} />
+                                            <div className=' relative'>
+                                                <Input disabled={isLoading} name='confirmPassword' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Confirm password" onChange={onChangeHandler} value={state.confirmPassword} />
+                                                <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowPass(!showPass)}>
+                                                    {
+                                                        showPass ?
+                                                            <IoEyeOff />
+                                                            :
+                                                            <IoEyeOutline />
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="py-8 border-b-2">

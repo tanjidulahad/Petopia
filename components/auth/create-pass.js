@@ -95,7 +95,15 @@ const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSucces
                                     </div>
                                     <div className='mt-6 relative h-fit'>
                                         <h3 className='mb-1'>Confirm password</h3>
-                                        <Input name='confirmPassword' className={`py-3 ${error && ' border-red-400'}`} type="password" placeholder="Confirm password" value={state.confirmPassword} onChange={onChangeHandler} disabled={isLoading} />
+                                        <Input name='confirmPassword' className={`py-3 ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Confirm password" value={state.confirmPassword} onChange={onChangeHandler} disabled={isLoading} />
+                                        <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowPass(!showPass)}>
+                                            {
+                                                showPass ?
+                                                    <IoEyeOff />
+                                                    :
+                                                    <IoEyeOutline />
+                                            }
+                                        </div>
                                     </div>
                                 </div>
 

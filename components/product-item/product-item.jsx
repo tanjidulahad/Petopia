@@ -121,19 +121,24 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                     </div>
                 </div>
                 {
-                    !!itemInCart.inventoryDetails && <>
-                        {
-                            itemInCart.inventoryDetails.min_order_quantity > 1 &&
-                            <div className="">
-                                <span className="text-sm red-color">*Minimum order quantity is {itemInCart.inventoryDetails.min_order_quantity}.</span>
-                            </div>
-                        } {
-                            itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity &&
-                            <div className="">
-                                <span className="text-sm success-color">*You reached to maximum order quantity.</span>
-                            </div>
-                        }
-                    </>
+                    !itemInCart?.item_status && itemInCart?.item_status != undefined ?
+                        <div className="">
+                            <span className=" text-xs sm:text-sm red-color">*Sorry, This product is currently unavailable</span>
+                        </div>
+                        :
+                        !!itemInCart.inventoryDetails && <>
+                            {
+                                itemInCart.inventoryDetails.min_order_quantity > 1 &&
+                                <div className="">
+                                    <span className=" text-xs sm:text-sm red-color">*Minimum order quantity is {itemInCart.inventoryDetails.min_order_quantity}.</span>
+                                </div>
+                            } {
+                                itemInCart.inventoryDetails.max_order_quantity == itemInCart.quantity && itemInCart.inventoryDetails.max_order_quantity > 0 || itemInCart.inventoryDetails.inventory_quantity <= itemInCart.quantity &&
+                                <div className="">
+                                    <span className=" text-xs sm:text-sm success-color">*You reached to maximum order quantity.</span>
+                                </div>
+                            }
+                        </>
                 }
             </div>
 

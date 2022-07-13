@@ -78,7 +78,8 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     if (search) {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
       getSearchProducts({ storeId, q: q.trim(), setSearchResult, setStatus })
-      setSelectedCategory('Search Results for "' + search + '"' || 'All Products')
+      console.log(search.length, search.length > 12);
+      setSelectedCategory(`Search Results for "${search.length > 24 ? search.substring(0, 24) + "..." : search}"` || 'All Products')
 
     } else if (category) {
       setStatus('loading') // Set to success default Because its run whene All  products are fetching
@@ -235,10 +236,10 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
                             <div className="text-xs font-medium black-color-75 ml-4">{item.length} items</div>
                           </div>
                         </div>
-                        <div className=' space-y-2'>
+                        <div className=' space-y-2 divide-y'>
                           {
                             item.map((data, j) => (
-                              <div className='pt-4' key={j} >
+                              <div className='pt-4 ' key={j} >
                                 <HomeCartItem data={data} />
                               </div>
                             ))

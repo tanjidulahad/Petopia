@@ -141,8 +141,9 @@ export const clearCheckout = () => ({
 })
 
 //  CLear Check out
-export const getPurchaseFailure = () => ({
+export const getPurchaseFailure = (payload) => ({
     type: checkoutActionType.GET_PURCHASE_FAILURE,
+    payload
 })
 
 

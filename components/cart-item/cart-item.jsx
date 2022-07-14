@@ -18,7 +18,7 @@ const CartItem = ({ addToCart, deleteFromCart, removeFromCart, data, isDetailsLo
                     <div className="flex flex-col justify-between">
                         <Link href={`/product/${data.item_id}`}>
                             <a className="block">
-                                <h3 className=" text-base sm:text-xl capitalize cart-item-title">{data.item_name.toLowerCase()}</h3>
+                                <h3 className=" text-base sm:text-xl capitalize cart-item-title">{data?.item_name?.toLowerCase()}</h3>
                             </a>
                         </Link>
                         {data.defaultVariantItem && <p>{Object.keys(data.defaultVariantItem).map(function (key) {
@@ -75,7 +75,7 @@ const CartItem = ({ addToCart, deleteFromCart, removeFromCart, data, isDetailsLo
                 </div>
             }
             {
-                !!data.inventoryDetails && <>
+                !!data.inventoryDetails && (data?.item_status == true || data?.item_status == undefined) && <>
                     {
                         data.inventoryDetails.min_order_quantity > 1 &&
                         <div className="">

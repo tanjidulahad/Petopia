@@ -9,6 +9,7 @@ import {
     createNewRzpOrderSuccess, getPurchaseFailure,
     clearCheckout,
     setPaymentMethodFailure,
+    setCartError,
 } from './checkout-action'
 import { clearCart, updateCartSuccess } from "../cart/cart-actions";
 import { riseError } from "../global-error-handler/global-error-handler-action.ts";
@@ -24,11 +25,14 @@ function* onSetBackendCartStart() {
             yield put((getPurchageStart(res.data?.purchase_id)))
         } catch (error) {
             yield put(updateCartSuccess())
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { setBackendCartStart({ userId, groupId, data }) }, onOkName: "Reload" }))
-            } else {
-                yield put(riseError({ name: error.name, message: "Unable to get cart products!", onOk: () => { return }, onOkName: "CLOSE" }))
-            }
+            yield put(getPurchaseFailure(error))
+            // if (error.message == 'Network Error') {
+            // yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { setBackendCartStart({ userId, groupId, data }) }, onOkName: "Reload" }))
+            // } else {
+            //     yield put((getPurchageStart(purchaseId)))
+            // yield put(getPurchaseFailure(error))
+            // yield put(riseError({ name: error.name, message: "Unable to get cart products!", onOk: () => { return }, onOkName: "CLOSE" }))
+            // }
             // yield put(errorOnProductDetailPage(error))
         }
     })

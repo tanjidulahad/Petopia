@@ -72,11 +72,11 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         }
     }, [user])
 
-    useEffect(() => {
-        if (checkout.purchase?.purchase_id) {
-            getPurchage(checkout.purchase?.purchase_id)
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (checkout.purchase?.purchase_id) {
+    //         getPurchage(checkout.purchase?.purchase_id)
+    //     }
+    // }, [])
 
     // Change function to chagen address payment and shipment methods
     const onChangeHandler = (e) => {

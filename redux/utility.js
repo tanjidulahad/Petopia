@@ -13,8 +13,8 @@ import axios from 'axios'
 
 // PLINTO_KEY = ac6522e1b1e545b690e08d4d27aaf348
 
-const fetcher = (method, url, body = {}) => (new Promise((resolve, reject) => {
-    axios({
+const fetcher = (method, url, body = {}) => (new Promise(async (resolve, reject) => {
+    await axios({
         method,
         url: `${process.env.NEXT_PUBLIC_PLINTO_URL}${url}`,
         data: body,

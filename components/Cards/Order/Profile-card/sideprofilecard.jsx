@@ -40,13 +40,19 @@ function Sideprofilecard({ user, logout }) {
               <p className="lg:text-base md:text-base   font-bold flex  justify-center  text-gray-900">
                 {user?.full_name}
               </p>
-              <p className="lg:text-base md:text-left  md:text-sm font-medium flex   justify-center text-gray-500">
-                {user?.phone}
-              </p>
-              <p className="lg:text-sm text-xs flex  justify-center font-medium text-center  text-gray-500">
-                {user?.email_id === null ? "N/A" : user?.email_id}
+              {
+                user?.phone &&
+                <p className="lg:text-base md:text-left  md:text-sm font-medium flex   justify-center text-gray-500">
+                  +${user.isd_code_phone_number} - ${user.customer_phone}
+                </p>
+              }
+              {
+                user?.email_id &&
+                <p className="lg:text-sm text-xs flex  justify-center font-medium text-center  text-gray-500">
+                  {user?.email_id}
+                </p>
+              }
 
-              </p>
             </div>
             <div className="absolute top-0 right-4 ">
               <Link href='/account/profile ' >

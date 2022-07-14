@@ -140,7 +140,7 @@ export const filterCart = (cartItems, orderDetails) => {
             sale_price: item.discountedItemPrice,
             price: item.itemPrice,
             store_id: item.storeId,
-            sub_category_id: 98,
+            sub_category_id: item?.sub_category_id,
             primary_img: item.itemImg,
             item_status: item.invalidReason == 'CURRENTLY_UNAVAILABLE' ? false : true,
             is_veg: item.isVeg,
@@ -150,7 +150,6 @@ export const filterCart = (cartItems, orderDetails) => {
             defaultVariantItem: item.customizationDetails ? { ...item.customizationDetails } : null
         })
     }) // Item id and quantity filter
-
     if (backendCart.length > 0) {
         // const newCartItem = [...cartItems.length > backendCart.length ? cartItems : backendCart].map(item => {
         //     return [...cartItems.length < backendCart.length ? backendCart : cartItems].some(val => {
@@ -171,6 +170,7 @@ export const filterCart = (cartItems, orderDetails) => {
 
         return backendCart //newCart
     } else {
+        // return backendCart
         return cartItems
     }
 

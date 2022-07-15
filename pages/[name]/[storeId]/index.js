@@ -160,6 +160,12 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
     const dsc = products.reduce((dsc, item) => dsc + ", " + item.item_name + ', ' + item.item_desc, "")
     setDescription(dsc)
   }, [products])
+  useEffect(() => {
+    if (!cart.length) {
+      clearCheckout();
+    }
+  }, [cart])
+
   // Pagination
 
   const searchHandler = (e) => {

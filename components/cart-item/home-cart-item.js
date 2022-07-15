@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import Link from "@components/link";
-import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
+import { addToCart, removeFromCart, deleteItemFromCart } from "../../redux/cart/cart-actions";
 import { Button, QuantityID } from "../inputs";
 import { IoScale } from "react-icons/io5";
-const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading }) => {
+const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading, deleteFromCart }) => {
     return (
         <div className="w-100 block ">
             <div className="grid grid-cols-12 gap-4 ">
@@ -75,7 +75,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(addToCart(item)),
-    removeFromCart: (item) => dispatch(removeFromCart(item))
+    removeFromCart: (item) => dispatch(removeFromCart(item)),
+    deleteFromCart: (item) => dispatch(deleteItemFromCart(item))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeCartItem);

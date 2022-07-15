@@ -43,7 +43,7 @@ function Sideprofilecard({ user, logout }) {
               {
                 user?.phone &&
                 <p className="lg:text-base md:text-left  md:text-sm font-medium flex   justify-center text-gray-500">
-                  +${user.isd_code_phone_number} - ${user.customer_phone}
+                  +{user.isd_code_phone_number} - {user.customer_phone}
                 </p>
               }
               {

@@ -520,7 +520,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                     </div>
                                                                 </div>
                                                                 {
-                                                                    purchaseDetails?.totalConvenienceCharge ?
+                                                                    !!purchaseDetails?.totalConvenienceCharge ?
                                                                         <div className="flex justify-between space-x-2 ">
                                                                             <h6 className=" text-sm sm:text-lg black-color font-medium">Convenience Charge</h6>
                                                                             <div>

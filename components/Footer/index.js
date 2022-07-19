@@ -71,7 +71,7 @@ function index() {
               <div className="flex justify-center mx-auto">
                 <img
                   src={
-                    'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'
+                    '/img/goplinto_logo.png'
                   }
                   alt="Picture of the author"
                   className="w-1/4 my-2 mr-16 md:mr-8 lg:mr-8"

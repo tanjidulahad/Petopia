@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-
+import { useRouter } from 'next/router'
 import withAuth from '@components/auth/withAuth'
 import OrderCard from '@components/Cards/Order/orderCard/orderCard'
 import accountLayout from '@components/layout/account-layout'
@@ -11,6 +11,7 @@ import { getCurrentOrdersListStart, getPastOrdersListStart } from '@redux/orders
 import PageWrapper from '@components/page-wrapper/page-wrapper'
 
 function Myorders({ user, getCurrentOrders, getPastOrders }) {
+  const router = useRouter()
   const [orderList, setOrderList] = useState([]);
   const [orderListPast, setOrderListPast] = useState([]);
   const [isLoadingCurrent, setIsLoadingCurrent] = useState('loading')
@@ -18,8 +19,8 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    getCurrentOrders({ userId: user.customer_id, setOrderList, setError, setIsLoadingCurrent })
-    getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError, status: setIsLoadingPast })
+    getCurrentOrders({ userId: user.customer_id, setOrderList, setError, setIsLoadingCurrent, storeId: router.query.storeId })
+    getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError, status: setIsLoadingPast, storeId: router.query.storeId })
   }, [])
 
   // useEffect(() => {

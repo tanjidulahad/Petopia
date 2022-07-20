@@ -20,7 +20,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
 
   useEffect(() => {
     getCurrentOrders({ userId: user.customer_id, setOrderList, setError, setIsLoadingCurrent, storeId: router.query.storeId })
-    getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError, status: setIsLoadingPast, storeId: router.query.storeId })
+    // getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError, status: setIsLoadingPast, storeId: router.query.storeId })
   }, [])
 
   // useEffect(() => {
@@ -40,7 +40,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
 
               <p className="text-xl mx-2 mt-4 md:mt-0 lg:mt-0 md:mx-0 lg:mx-0 text-gray-900 font-bold">
                 {' '}
-                Current Orders
+                Orders
               </p>
               <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
                 {
@@ -55,7 +55,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
                     </div>
                 }
               </div>
-              <p className="text-xl mx-2 mt-4 md:mt-0 lg:mt-0 md:mx-0 lg:mx-0 text-gray-900 font-bold"> Past Orders</p>
+              {/* <p className="text-xl mx-2 mt-4 md:mt-0 lg:mt-0 md:mx-0 lg:mx-0 text-gray-900 font-bold"> Past Orders</p>
               <div className="grid lg:grid-cols-2 md-grid-cols-1  gap-6 my-5">
                 {
                   orderListPast.length ?
@@ -69,7 +69,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
                       <p className='text-lg'>You haven't past ordered !</p>
                     </div>
                 }
-              </div>
+              </div> */}
             </>
       }
     </>

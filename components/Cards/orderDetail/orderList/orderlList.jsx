@@ -26,11 +26,11 @@ function orderlList({ list, storeName, status, orderId, createTime, openReturn }
               <div className="flex justify-between items-center" key={i}>
                 <div className="flex justify-start">
                   <div className=" flex max-w-fill ">
-                    <Button className=" mt-2 rounded bg-gray-900 w-20 h-20 shrink-0 block" type='link' href={`/product/${item.orderItemId}`}>
+                    <Button className=" mt-2 rounded bg-gray-900 w-20 h-20 shrink-0 block" type='link' href={`/product/${item.itemId}`}>
                       <img className="w-full h-full rounded object-cover opacity-80" src={item.itemImg || '/img/default.webp'} />
                     </Button>
                     <div className="   my-2 mx-6 md:ml-6 ">
-                      <Button type='link' href={`/product/${item.orderItemId}`}>
+                      <Button type='link' href={`/product/${item.itemId}`}>
                         <p className="text-left font-semibold text-base text-dark mt-2 ">{item.itemName}</p>
                       </Button>
                       {item.customizationDetails && <p>{item?.customizationDetails?.variant_item_attributes && Object.keys(item?.customizationDetails?.variant_item_attributes).map(function (key) {

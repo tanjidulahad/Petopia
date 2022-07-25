@@ -116,23 +116,43 @@ function* purchaseItemUpdator({ action, payload }) {
 }
 
 
-function* onAddToCartStart() {
-    yield takeLatest(cartActionType.ADD_TO_CART, purchaseItemUpdator)
-}
+// function* onAddToCartStart() {
+//     yield takeLatest(cartActionType.ADD_TO_CART, purchaseItemUpdator)
+// }
+// function* onRemoveFromCartStart() {
+//     yield takeLatest(cartActionType.REMOVE_FROM_CART, purchaseItemUpdator)
+// }
+// function* onDeleteFromCartStart() {
+//     yield takeLatest(cartActionType.DELETE_FROM_CART, purchaseItemUpdator)
+// }
+
 function* onRemoveFromCartStart() {
-    yield takeLatest(cartActionType.REMOVE_FROM_CART, purchaseItemUpdator)
+    yield takeLatest(cartActionType.REMOVE_FROM_CART, function* () {
+        const state = Reducstore.getState()
+        const cart = state.cart;
+        if (cart.length == 0) {
+            yield put(clearCheckout())
+        }
+    })
 }
 function* onDeleteFromCartStart() {
-    yield takeLatest(cartActionType.DELETE_FROM_CART, purchaseItemUpdator)
+    yield takeLatest(cartActionType.DELETE_FROM_CART, function* () {
+        const state = Reducstore.getState()
+        const cart = state.cart;
+        if (cart.length == 0) {
+            yield put(clearCheckout())
+        }
+    })
 }
 
 
 
 // Cart root sagas
 export default function* cartSagas() {
-    yield all([call(onAddToCartStart),
-    call(onRemoveFromCartStart),
-    call(onDeleteFromCartStart)
+    yield all([
+        // call(onAddToCartStart),
+        call(onRemoveFromCartStart),
+        call(onDeleteFromCartStart)
     ]);
 }
 

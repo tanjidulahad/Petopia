@@ -223,7 +223,8 @@ function mobprofile({ user, logout }) {
         <div className=' sticky top-full w-full footer-bg '>
           <div className='bg-[#242424] bg-opacity-70 [padding-top:12px!important] [padding-bottom:12px!important] text-white'>
             <p className=" text-[9px] font-light text-center">powered by</p>
-            <a href="https://goplinto.com" target={'_blank'} className=" block h-8 text-center w-32 font-semibold m-auto mt-2"><img className="w-full h-auto" src="https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png" alt="Goplinto" /></a>
+            <a href="https://goplinto.com" target={'_blank'} className=" block h-8 text-center w-32 font-semibold m-auto mt-2">
+              <img className="w-full h-auto" src="/img/goplinto_logo.png" alt="Goplinto" /></a>
 
             <div className='px-2 md:px-6 w-full flex-row items-start justify-between mt-2.5 md:pb-0 space-x-1 md:space-x-4 space-y-4'>
               <div className="w-full flex flex-row items-start justify-between">

@@ -15,16 +15,15 @@ import { logOutStart } from '@redux/user/user-action'
 import {
   getShopInfoStart, getShopSeoStart, getShopSettingsStart, getSocialProfileStart, getShopDisplaySettingsStart
 } from "@redux/shop/shop-action";
-import { logOut } from "@redux/UI/ui-action";
+import { contactPopup, logOut } from "@redux/UI/ui-action";
 import Contact from "@components/contact/contact"
 
 
-const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref }) => {
+const Navbar = ({ user, cart, contactPopup, isContactOpen, displaySettings, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref }) => {
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const [isLogin, setIsLogin] = useState(false)
   const [mobNaveHeight, setMobNaveHeight] = useState(10)
-  const [showContact, setShowContact] = useState(false)
-  // const [scrollPosition, setScrollPosition] = useState(0);
+  const [searchInput, setSearchInput] = useState(null);
 
   // const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
   const storeId = info.store_id;
@@ -32,6 +31,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
   const router = useRouter();
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 640 })
   useEffect(() => {
+    setSearchInput(document.getElementById('search-input') || null)
     // const handleScroll = () => {
     //   const position = window.pageYOffset;
     //   setScrollPosition(position);
@@ -46,18 +46,22 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
     setIsLogin(!!user)
   }, [user])
 
-  const onInputChangeHandler = (e) => {
-    setQuery(e.target.value)
-    if (!searchHandler) {
-      router.push(`/`);
-    }
-    searchHandler(e) // This handler function comming from PLP page via redux
-  }
+  // const onInputChangeHandler = (e) => {
+  //   setQuery(e.target.value)
+  //   if (!searchHandler) {
+  //     router.push(`/`);
+  //   }
+  //   searchHandler(e) // This handler function comming from PLP page via redux
+  // }
 
   return (
     <>
       <nav className='sm:sticky top-0 ' ref={ref} style={{ backgroundImage: ` url("${headerImg.src}")` }}>
-        <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body pt-8 pb-10 sm:pt-4 sm:pb-8 relative nav-bg nav-color` : 'hidden'} >
+        <div id='big-navbar' className={(router.pathname == "/[name]/[storeId]" || ['search', 'category'].some(val => router.asPath.includes(val))) ||
+          isDesktopOrLaptop ?
+          ` navbar-body pt-8 pb-10 sm:pt-4 sm:pb-8 relative nav-bg nav-color transition-all duration-500 ${!searchInput && isDesktopOrLaptop ? 'pt-[8px!important] pb-[6px!important]' : ''}`
+          : 'hidden'
+        } >
           <div className='flex justify-center sm:justify-between wrapper sm:space-x-2'>
             <Button className='text-left' type='link' href='/'>
               <div className='flex flex-col justify-center sm:flex-row items-center sm:space-x-6'>
@@ -86,7 +90,7 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
               <MediaQuery minWidth={640}>
 
                 <div className="hidden sm:flex justify-end items-center  ">
-                  <Button href="/contact" className='whitespace-nowrap font-bold inline-block tracking-tight mr-2 text-lg' onClick={() => { setShowContact(true) }} >Contact Us</Button>
+                  <Button href="/contact" className='whitespace-nowrap font-bold inline-block tracking-tight mr-2 text-lg' onClick={() => { contactPopup(true) }} >Contact Us</Button>
                   <div>
                     <Button className='flex items-center ' type='link' href='/cart'>
                       <span className='text-lg font-bold tracking-tight md:ml-5 lg:ml-8  mx-2'> Cart </span>
@@ -107,17 +111,23 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
                       </div>
                       :
                       <div className=" flex relative items-center my-6 ml-8 cursor-pointer account">
-                        <div className="mt-2 w-10 h-10 bg-gray-100 text-gray-400 p-5 overflow-hidden flex justify-center items-center rounded-full">
-                          <span className='text-sm font-extrabold	' >{(() => {
-                            const name = user.full_name.split(' ')
-                            if (name.length) {
-                              if (name.length > 1) {
-                                return `${name[0][0]}${name[name.length - 1][0]}`.toUpperCase()
-                              }
-                              return `${name[0][0]}${name[0][1]}`.toUpperCase()
-                            }
-                            return 'A'
-                          })()}</span>
+                        <div className="mt-2 w-10 h-10 bg-gray-100 text-gray-400 overflow-hidden flex justify-center items-center rounded-full">
+                          {user?.profile_pic ?
+                            <img src={user?.profile_pic} className='w-full h-full object-cover' />
+                            :
+                            <span className='text-sm font-extrabold	' >{
+                              (() => {
+                                const name = user.full_name.split(' ')
+                                if (name.length) {
+                                  if (name.length > 1) {
+                                    return `${name[0][0]}${name[name.length - 1][0]}`.toUpperCase()
+                                  }
+                                  return `${name[0][0]}${name[0][1]}`.toUpperCase()
+                                }
+                                return 'A'
+                              })()
+                            }</span>
+                          }
                         </div>
                         <div className='flex '>
                           <span className='block min-w-max text-lg font-bold tracking-tight  mt-2  ml-2 mr-2'> My Account</span>
@@ -253,10 +263,10 @@ const Navbar = ({ user, cart, displaySettings, openAuth, logOut, getShopInfo, ge
         </MediaQuery>
       </nav >
       {
-        showContact &&
+        isContactOpen &&
         <div className="fixed inset-0 bg-gray-500 z-50 bg-opacity-90 p-2 sm:p-4 md:p-8 z-10000">
           <div className="w-full h-full rounded-md md:16 lg:px24 xl:px-32 overflow-y-auto">
-            <Contact close={setShowContact} />
+            <Contact close={contactPopup} />
           </div>
         </div>
       }
@@ -287,7 +297,8 @@ const mapStateToProps = state => ({
   info: state.store.info,
   displaySettings: state.store.displaySettings,
   // Search handler from plp
-  searchHandler: state.search.searchHandler
+  searchHandler: state.search.searchHandler,
+  isContactOpen: state.ui.isContactOpen
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -298,6 +309,7 @@ const mapDispatchToProps = dispatch => ({
   getShopSeo: (shopId) => dispatch(getShopSeoStart(shopId)),
   getShopSettings: (shopId) => dispatch(getShopSettingsStart(shopId)),
   getSocialProfile: (shopId) => dispatch(getSocialProfileStart(shopId)),
-  getShopDisplaySettings: (storeId) => dispatch(getShopDisplaySettingsStart(storeId))
+  getShopDisplaySettings: (storeId) => dispatch(getShopDisplaySettingsStart(storeId)),
+  contactPopup: (nothing) => dispatch(contactPopup())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar)

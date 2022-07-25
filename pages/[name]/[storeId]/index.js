@@ -205,7 +205,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
               <CatList list={categories.length > 0 && categories} setSelectedCategory={setSelectedCategory} />
             </div>
             <div className="md:pt-8 md:py-6 col-span-full md:col-span-9 xl:col-span-7 sm:col-span-12 md:border-l xl:border-r">
-              <div className={` transition-all text-base w-full px-4 md:px-8 serach-bar ${(scrollPosition >= navHeight) && !isSmDevice ? 'fixed bg-white  px-2 pt-2' : 'absolute -mt-6'} sm:fixed flex flex-col md:-mt-8 xl:-mt-6 xl:ml-0`} style={{ maxWidth: plpc, top: (scrollPosition >= navHeight - 10) && !isSmDevice ? '0px' : navHeight }}>
+              <div id="search-input" className={` transition-all text-base w-full px-4 md:px-8 serach-bar ${(scrollPosition >= navHeight) && !isSmDevice ? 'fixed bg-white  px-2 pt-2' : 'absolute -mt-6'} sm:fixed flex flex-col md:-mt-8 xl:-mt-6 xl:ml-0`} style={{ maxWidth: plpc, top: (scrollPosition >= navHeight - 10) && !isSmDevice ? '0px' : navHeight }}>
                 <div className='relative'>
                   <Input className='py-2.5 md:py-2 bg-gray-100 md:bg-white pl-9  border-0 md:border border-gray-100 md:shadow-md' style={{ top: navHeight }} onChange={searchHandler} placeholder='Search for items' />
                   <div className='absolute text-gray-400 top-1/2 -translate-y-1/2 pl-2 w-20 '>

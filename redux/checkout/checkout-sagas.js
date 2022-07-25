@@ -118,6 +118,7 @@ function* onPaymentMethodToPurchese() {
             const res = yield fetcher('GET', `?r=orders/set-convenience-flag&purchaseId=${purchaseId}&flagStatus=${flag}`)
             if (res.data) {
                 yield put(setPaymentMethodSuccess(res.data))
+                yield put(getPurchageStart(purchaseId))
             }
         } catch (error) {
             yield put(setPaymentMethodFailure())

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, memo } from "react"
 import { useRouter } from "next/router"
 import { connect } from "react-redux"
 import Link, { redirect } from "@components/link"
@@ -19,9 +19,10 @@ import PageWrapper from "@components/page-wrapper/page-wrapper"
 // Function
 import { readyCartData, groupBy } from '@utils/utill'
 import AddressForm from "@components/address-form/address-form"
+import { getShopSettingsStart } from "@redux/shop/shop-action"
 
 const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
-    initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout }) => {
+    initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout, getShopSettings }) => {
 
     const [newAddress, setNewAddress] = useState(null)
     const [isAddressActive, setIsAddressActive] = useState(false);
@@ -39,9 +40,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     const [confirmOrder, setConfirmOrder] = useState(false)
     const [checkoutDetails, setcheckoutDetails] = useState({
         // deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
-        deliveryAddress: null,
-        deliveryMethod: "",
-        paymentMethod: '',
+        deliveryAddress: purchaseDetails?.deliveryAddressDetails?.address_id || null,
+        deliveryMethod: purchaseDetails?.isDelivery || "",
+        paymentMethod: purchaseDetails?.payment || '',
     })
     const router = useRouter();
 
@@ -65,6 +66,10 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         //     setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: checkoutDetails.deliveryMethod });
         // }
     }, [user, totalItems])
+    useEffect(() => {
+        getShopSettings(info?.store_id);
+    }, [checkoutDetails, totalItems])
+
 
     useEffect(() => {
         if (user) {
@@ -101,19 +106,19 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         const { deliveryAddress, deliveryMethod, paymentMethod } = checkoutDetails;
         setEnablePayment((() => {
             let [d, p] = [false, false]
-            if ((deliveryMethod == 'Y' && deliveryAddress) || deliveryMethod == 'N') {
+            if ((deliveryMethod == 'Y' && deliveryAddress && storeSettings?.is_delivery_available == "Y") || (deliveryMethod == 'N' && storeSettings?.is_parcel_available == "Y")) {
                 d = true
             } else {
                 d = false
             }
-            if (paymentMethod) {
+            if ((paymentMethod == 'Y' && storeSettings?.is_payment_accepted == "Y") || (paymentMethod == 'N' && storeSettings?.is_cod_accepted == "Y")) {
                 p = true;
             } else {
                 p = false;
             }
             return d && p
         })())
-    }, [checkoutDetails])
+    }, [checkoutDetails, storeSettings])
 
     // Initial Payment function
     const initiatePayment = () => {
@@ -314,7 +319,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                             storeSettings &&
                                                             <p className="text-base ">
                                                                 <span className="text-base font-semibold">
-                                                                    {storeSettings.pickupPointDetails.pickup_point_name}
+                                                                    {storeSettings?.pickupPointDetails?.pickup_point_name}
                                                                 </span>
                                                                 <br />{storeSettings.pickupPointDetails.address}, {storeSettings.pickupPointDetails.city}{' '}
                                                                 <br />
@@ -325,7 +330,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                     </div>
                                                 </div>
                                             }{
-                                                checkoutDetails.deliveryMethod == 'Y' && <>
+                                                checkoutDetails.deliveryMethod == 'Y' && storeSettings?.is_delivery_available == "Y" && <>
                                                     <div className="">
                                                         <h2>Choose Delivery Address</h2>
                                                     </div>
@@ -496,14 +501,16 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                     <span className=" text-sm sm:text-lg font-medium ml-2">₹ {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
                                                                 </div>
                                                             </div>
-                                                            <div className=" border-b-2 border-dashed space-y-2 sm:space-y-4">
-
-                                                                <div className="flex justify-between space-x-2 mt-2 sm:mt-4">
-                                                                    <h6 className=" text-sm sm:text-lg black-color font-medium">Delivery Charge</h6>
-                                                                    <div>
-                                                                        <span className=" text-sm sm:text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                                            <div className=" border-b-2 border-dashed space-y-2 sm:space-y-4 pt-2">
+                                                                {
+                                                                    checkoutDetails.deliveryMethod != 'N' &&
+                                                                    <div className="flex justify-between space-x-2  sm:mt-4">
+                                                                        <h6 className=" text-sm sm:text-lg black-color font-medium">Delivery Charge</h6>
+                                                                        <div>
+                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                }
                                                                 {
                                                                     !!purchaseDetails.totalParcelCharge &&
                                                                     <div className="flex justify-between space-x-2 ">
@@ -529,12 +536,15 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                         </div>
                                                                         : null
                                                                 }
-                                                                <div className="flex justify-between space-x-2 ">
-                                                                    <h6 className=" text-sm sm:text-lg black-color font-medium">Coupon Applied</h6>
-                                                                    <div>
-                                                                        <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
+                                                                {
+                                                                    !!purchaseDetails?.totalCouponSavingsAmount &&
+                                                                    <div className="flex justify-between space-x-2 ">
+                                                                        <h6 className=" text-sm sm:text-lg black-color font-medium">Coupon Applied</h6>
+                                                                        <div>
+                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                }
                                                                 <div className="flex justify-between space-x-2 ">
                                                                     <h6 className=" text-sm sm:text-lg success-color font-medium">Discount</h6>
                                                                     <div>
@@ -717,7 +727,8 @@ const mapDispatchToProps = dispatch => ({
     clearCart: () => dispatch(clearCart()),
 
     applyCouponCode: (payload) => dispatch(applyCouponCodeStart(payload)),
+    getShopSettings: (payload) => dispatch(getShopSettingsStart(payload)),
 
     authToggle: () => dispatch(authShowToggle()),
 })
-export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(Cart))
+export default connect(mapStateToProps, mapDispatchToProps)(memo(PageWrapper(Cart)))

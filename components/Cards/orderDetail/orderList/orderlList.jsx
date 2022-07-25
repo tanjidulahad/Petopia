@@ -31,7 +31,8 @@ function orderlList({ list, storeName, status, orderId, createTime, openReturn }
                     </Button>
                     <div className="   my-2 mx-6 md:ml-6 ">
                       <Button type='link' href={`/product/${item.itemId}`}>
-                        <p className="text-left font-semibold text-base text-dark mt-2 ">{item.itemName}</p>
+                        <p className="text-left font-semibold text-base text-dark mt-2 line-truncate-2">{item.itemName}</p>
+                        <p className="text-left font-normal text-xs sm:text-sm text-dark mt-2 line-truncate-2 text-gray-400">Quantity: {item.itemQuantity}</p>
                       </Button>
                       {item.customizationDetails && <p>{item?.customizationDetails?.variant_item_attributes && Object.keys(item?.customizationDetails?.variant_item_attributes).map(function (key) {
                         if (key.includes('variant_value')) {
@@ -46,9 +47,9 @@ function orderlList({ list, storeName, status, orderId, createTime, openReturn }
                     </div>
                   </div>
                 </div>
-                <div className=" max-w-fit my-4  ">
+                <div className=" max-w-fit my-4 shrink-0">
                   <div className="mt-8  w-full flex justify-end align-center ">
-                    <p className="text-left  text-lg font-bold text-gray-900 mr-4 ">₹ {item.discountedOrderItemAmount}</p>
+                    <p className="text-left  text-lg font-bold text-gray-900 sm:mr-4 inline-block ">₹ {item.discountedOrderItemAmount}</p>
                   </div>
                 </div>
               </div>

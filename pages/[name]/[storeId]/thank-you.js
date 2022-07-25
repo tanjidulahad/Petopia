@@ -3,18 +3,22 @@ import { connect } from 'react-redux'
 import { Button } from "@components/inputs"
 import { useRouter } from "next/router"
 import PageLoader from '@components/loading/loader'
+import { redirect } from "@components/link"
 
 // Actions
 import { orderPaymentConfirmStart } from "@redux/checkout/checkout-action"
 import PageWrapper from "@components/page-wrapper/page-wrapper"
 
-const ThankYou = ({ confirmOrder }) => {
+const ThankYou = ({ purchase, confirmOrder }) => {
     const [status, setStatus] = useState('loading') // loading, success, failure
     const [orderId, setOrderId] = useState(null)
-
     const router = useRouter();
     useEffect(() => {
         if (!router.isReady) return;
+        if (!purchase) {
+            redirect('/cart')
+            return
+        }
         const { id } = router.query
         const data = JSON.parse(atob(id))
 
@@ -97,8 +101,11 @@ const ThankYou = ({ confirmOrder }) => {
         </section>)
 }
 
+const mapStateToProps = state => ({
+    purchase: state.checkout.purchase
+})
 const mapDispatchToProps = dispatch => ({
     confirmOrder: (payload) => dispatch(orderPaymentConfirmStart(payload))
 })
 
-export default connect(null, mapDispatchToProps)(PageWrapper(ThankYou));
+export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(ThankYou));

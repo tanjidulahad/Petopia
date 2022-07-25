@@ -4,6 +4,7 @@ import store from '@redux/store';
 import { Provider } from 'react-redux';
 import Router, { useRouter } from 'next/router'
 import NProgress from 'nprogress'; //nprogress module
+import GoogleAnalytics from '@components/GoogleAnalytics/GoogleAnalytics';
 import 'nprogress/nprogress.css'
 
 // Global Styles
@@ -45,6 +46,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <Layout>
+        <GoogleAnalytics />
         <Component {...pageProps} />
       </Layout>
     </Provider>

@@ -77,9 +77,9 @@ function* getShopPageCountStart() {
 function* getShopSettingsStart() {
     yield takeLatest(shopActionType.GET_SHOP_SETTINGS_START, function* ({ payload: storeId }) {
         try {
-            if (!storeId.match(/^\d+$/)) {
-                throw "Please provide valid storeid!.";
-            }
+            // if (!storeId.match(/^\d+$/)) {
+            //     throw "Please provide valid storeid!.";
+            // }
             const res = yield fetcher('GET', `?r=stores/get-store-settings&storeId=${storeId}`)
             if (!res.data) return;
             yield put(getShopSettingsSuccess(res.data))

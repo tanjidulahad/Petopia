@@ -5,7 +5,8 @@ import uiActionType from "@redux/UI/ui-action-type";
 
 const INITIAL_STATE = {
     isDetailsLoading: false,
-    logout: false
+    logout: false,
+    isContactOpen: false
 }
 
 const uiReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -42,6 +43,11 @@ const uiReducer = (state = INITIAL_STATE, { type, payload }) => {
             return {
                 ...state,
                 logout: false,
+            }
+        case uiActionType.CONTACT_POPUP:
+            return {
+                ...state,
+                isContactOpen: !state.isContactOpen
             }
 
         default:

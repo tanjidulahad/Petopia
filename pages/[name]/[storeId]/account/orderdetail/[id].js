@@ -114,13 +114,15 @@ function orderDetail({ getOrderDetails }) {
                               </div>
                             </div>
                             <div className=" border-b-2 border-dashed">
-
-                              <div className="flex justify-between space-x-2 my-4">
-                                <h6 className="text-lg black-color font-medium">Delivery Charge</h6>
-                                <div>
-                                  <span className="text-lg black-color font-medium ml-2">{parseFloat(orderDetails.deliveryCharge) ? `₹${Number(orderDetails.deliveryCharge).toFixed(2)}` : 'Free'}</span>
+                              {
+                                !!Number(orderDetails.deliveryCharge) &&
+                                <div className="flex justify-between space-x-2 my-4">
+                                  <h6 className="text-lg black-color font-medium">Delivery Charge</h6>
+                                  <div>
+                                    <span className="text-lg black-color font-medium ml-2">{parseFloat(orderDetails.deliveryCharge) ? `₹${Number(orderDetails.deliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                  </div>
                                 </div>
-                              </div>
+                              }
                               {
                                 !!Number(orderDetails.parcelCharge) &&
                                 <div className="flex justify-between space-x-2 my-4">
@@ -138,7 +140,7 @@ function orderDetail({ getOrderDetails }) {
                                 </div>
                               </div>
                               {
-                                orderDetails.convenienceFee ?
+                                Number(orderDetails.convenienceFee) ?
                                   <div className="flex justify-between space-x-2 my-4">
                                     <h6 className="text-lg black-color font-medium">Convenience Charge</h6>
                                     <div>
@@ -147,12 +149,12 @@ function orderDetail({ getOrderDetails }) {
                                   </div>
                                   : null
                               }
-                              <div className="flex justify-between space-x-2 my-4">
+                              {/* <div className="flex justify-between space-x-2 my-4">
                                 <h6 className="text-lg black-color font-medium">Coupon Applied</h6>
                                 <div>
                                   <span className="text-lg black-color font-medium ml-2">₹ {Number(orderDetails.couponSavingsAmount).toFixed(2)}</span>
                                 </div>
-                              </div>
+                              </div> */}
                               <div className="flex justify-between space-x-2 my-4">
                                 <h6 className="text-lg success-color font-medium">Discount</h6>
                                 <div>

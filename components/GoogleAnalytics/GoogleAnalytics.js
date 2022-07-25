@@ -13,16 +13,16 @@ const GoogleAnalytics = ({ widgets }) => {
                                 strategy="lazyOnload"
                                 src={`https://www.googletagmanager.com/gtag/js?id=${widgets != null && widgets?.GOOGLE_ANALYTICS?.integration_attributes?.trackingId}`}
                             />
-
                             <Script strategy="lazyOnload">
                                 {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${widgets != null && widgets?.GOOGLE_ANALYTICS?.integration_attributes?.trackingId}', {
-              page_path: window.location.pathname,
-            });
-                `}
+                                    window.dataLayer = window.dataLayer || [];
+                                    function gtag(){dataLayer.push(arguments);}
+                                    gtag('js', new Date());
+                                    gtag('config', '${widgets != null && widgets?.GOOGLE_ANALYTICS?.integration_attributes?.trackingId}', {
+                                    page_path: window.location.pathname,
+                                    });
+                                        `
+                                }
                             </Script>
                         </>
                         :

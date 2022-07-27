@@ -5,10 +5,11 @@ import plintoLogo from './plintoLogo.jpg'
 import { orderPaymentConfirmStart } from "../../redux/checkout/checkout-action"
 import Loader from "../loading/loader"
 
-const OnlienPayment = ({ store, user, themeColor = '#F64B5D', checkout, setConfirmPayment, rzpOrder, children, setInitiateStatus, setError }) => {
+const OnlienPayment = ({ store, user, themeColor = '#F64B5D', checkout, setConfirmPayment, rzpOrder, children, setInitiateStatus, setError,setRzpOrder }) => {
     useEffect(() => {
         // if (!checkout.rzpOrder) Router.push(`/${store.store_name.replaceAll(' ', '-').trim()}/${store.store_id}/cart`)
         // Payment details
+        
         const orderAmount = checkout.purchaseDetails.calculatedPurchaseTotal;
         const rzpOrderId = rzpOrder.id;
         const customerId = user.customer_id
@@ -44,13 +45,14 @@ const OnlienPayment = ({ store, user, themeColor = '#F64B5D', checkout, setConfi
             modal: {
                 "ondismiss": () => {
                     setInitiateStatus('pending');
+                    setRzpOrder(null)
                     document.body.style.overflow = 'auto'
                 }
             }
         };
         const rzp = new window.Razorpay(options);
         rzp.open();
-    }, [])
+    },[])
     return (
         <>
             {children}

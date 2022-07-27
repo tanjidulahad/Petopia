@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { redirect } from "@components/link"
 
 import Auth from "@components/auth/auth";
 import Loader from "@components/loading/loader";
@@ -30,7 +31,15 @@ function hexToRGB(hex, alpha) {
 
 const verifier = ({ userId, children, isLogin, store, getShopWidgets, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner, getCountyCode }) => {
     const router = useRouter()
-    const { displaySettings } = store
+    const { displaySettings,info } = store
+
+    useEffect(()=>{
+        if(info){
+            if(info.store_status=='INACTIVE'){
+                redirect(`/inactive`)
+            }
+        }
+    },[info])
 
     useEffect(() => {
         const { storeId } = router.query

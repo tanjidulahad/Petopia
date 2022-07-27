@@ -99,8 +99,8 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
                                         </div>
                                         <div>
                                             <div className='w-fit flex' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
-                                                <span className={`py-2 px-3 transition-all  duration-500 border-2 ${isVarificationPhone ? `login-toggle` : `login-toggle-active`}`}>Phone Number</span>
-                                                <span className={`py-2 px-3 transition-all duration-500 border-2 ${!isVarificationPhone ? `login-toggle` : `login-toggle-active`}`}>Email</span>
+                                                <span className={`py-2 px-3 transition-all  duration-500 border-2 ${!isVarificationPhone ? `login-toggle` : `login-toggle-active`}`}>Phone Number</span>
+                                                <span className={`py-2 px-3 transition-all duration-500 border-2 ${isVarificationPhone ? `login-toggle` : `login-toggle-active`}`}>Email</span>
                                             </div>
                                             {
                                                 isVarificationPhone ?

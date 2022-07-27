@@ -19,10 +19,10 @@ import PageWrapper from "@components/page-wrapper/page-wrapper"
 // Function
 import { readyCartData, groupBy } from '@utils/utill'
 import AddressForm from "@components/address-form/address-form"
-import { getShopSettingsStart } from "@redux/shop/shop-action"
+import { getShopInfoStart, getShopSettingsStart } from "@redux/shop/shop-action"
 
 const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
-    initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout, getShopSettings }) => {
+    initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout, getShopSettings,fetchgetShopInfo }) => {
 
     const [newAddress, setNewAddress] = useState(null)
     const [isAddressActive, setIsAddressActive] = useState(false);
@@ -68,6 +68,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     }, [user, totalItems])
     useEffect(() => {
         getShopSettings(info?.store_id);
+        fetchgetShopInfo({ storeId:""+info?.store_id, seassion_id:user?.customer_id });
     }, [checkoutDetails, totalItems])
 
 
@@ -100,6 +101,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         if (name == 'deliveryMethod' && checkout.purchase) {
             setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: value });
         }
+
 
     }
     useEffect(() => {
@@ -610,8 +612,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                     <span className="sm:hidden inline">Check Out</span>
                                                                 </Button>
                                                                 :
-                                                                <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={() => checkoutDetails.paymentMethod == "N" ? setConfirmOrder(true) : initiatePayment()} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N'} style={{
-                                                                    ...(!enablePayment || storeSettings?.is_checkout_enabled == 'N') && {
+                                                                <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center" onClick={() => checkoutDetails.paymentMethod == "N" ? setConfirmOrder(true) : initiatePayment()} disabled={!enablePayment || storeSettings.is_checkout_enabled == 'N' || isDetailsLoading} style={{
+                                                                    ...(!enablePayment || storeSettings?.is_checkout_enabled == 'N' || isDetailsLoading) && {
                                                                         opacity: 0.6,
                                                                         cursor: "not-allowed"
                                                                     },
@@ -661,8 +663,8 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                             </div>
                         </div>
                     </div>
-                    : initiateStatus == 'loading' && rzpOrder
-                        ? <OnlienPayment themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError }} />
+                    : (initiateStatus == 'loading' && rzpOrder) && checkoutDetails.paymentMethod == 'Y'
+                        ? <OnlienPayment themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError, setRzpOrder }} />
                         : null
             }
             <div className='fixed right-0 bottom-36 sm:bottom-3 space-y-2'>
@@ -730,5 +732,6 @@ const mapDispatchToProps = dispatch => ({
     getShopSettings: (payload) => dispatch(getShopSettingsStart(payload)),
 
     authToggle: () => dispatch(authShowToggle()),
+    fetchgetShopInfo: (shopId) => dispatch(getShopInfoStart(shopId)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(memo(PageWrapper(Cart)))

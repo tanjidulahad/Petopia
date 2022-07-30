@@ -74,14 +74,14 @@ function Tracker({ details, display }) {
       <div className='mt-2'>
         {
           isCanceled ?
-            <p className=' font-medium text-base'>
+            <p className='px-4 sm:px-10 font-medium text-base'>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>Order Cancelled on {moment.unix(details?.orderCancelledTime).format('lll')}</p>
             :
             orderStatus == 3 ?
               <>
-                <p className=' font-medium text-base'>
+                <p className=' px-4 sm:px-10 font-medium text-base'>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
@@ -119,8 +119,11 @@ function Tracker({ details, display }) {
         }
       </div>
       {
-        isTrackerOpen &&
-        <div className="auth block sm:hidden">
+        // isTrackerOpen &&
+        <div className="auth block sm:hidden transition-all duration-[1000ms]" style={{
+          bottom: isTrackerOpen ? 0 : '-100%',
+          top: isTrackerOpen ? 0 : '300%'
+        }}>
           <div className="p-6 bg-white auth-form-container rounded" style={{ height: 'fit-content' }} >
             <div className="flex justify-between items-center border-b-2 pb-2 ">
               <h2 className="text-base sm:text-2xl font-semibold">Track Order #{details.orderId}</h2>

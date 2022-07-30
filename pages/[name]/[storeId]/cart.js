@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import { connect } from "react-redux"
 import Link, { redirect } from "@components/link"
 import { Button } from "@components/inputs"
+import { useMediaQuery } from "react-responsive"
 
 // Components
 import CartItem from "@components/cart-item/cart-item";
@@ -23,7 +24,7 @@ import { getShopInfoStart, getShopSettingsStart } from "@redux/shop/shop-action"
 
 const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
     initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout, getShopSettings, fetchgetShopInfo }) => {
-
+    const isDesktopOrLaptop = useMediaQuery({ minWidth: 640 })
     const [newAddress, setNewAddress] = useState(null)
     const [isAddressActive, setIsAddressActive] = useState(false);
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
@@ -367,9 +368,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                         <h6>{item.address_tag}</h6>
                                                                                         <div className="">
                                                                                             <span className="home">{item.address_line_1}, {item.address_line_2}</span>
-                                                                                            <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
-                                                                                            <span className="country">{item.country},</span>
-                                                                                            <span className="country font-w-bold">+91 {item.phone}</span>
+                                                                                            <span className="state-pin">{item.city}, {item.state} {item.zip_code}, </span>
+                                                                                            <span className="country">{item.country}, </span><br />
+                                                                                            <span className="country font-w-bold">{(item.phone + '').length > 10 && '+'} {item.phone}</span>
                                                                                         </div>
                                                                                         <Button className="btn-color-revers font-semibold" onClick={() => { setcheckoutDetails(details => ({ ...details, deliveryAddress: null })) }}>CHANGE</Button>
                                                                                     </div>
@@ -404,9 +405,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                             <h5 className="text-sm sm:text-base">{item.full_name}</h5>
                                                                                             <div className="text-sm sm:text-base">
                                                                                                 <span className="home">{item.address_line_1}, {item.address_line_2}</span>
-                                                                                                <span className="state-pin">{item.city}, {item.state} {item.zip_code},</span>
-                                                                                                <span className="country">{item.country},</span>
-                                                                                                <span className="country font-w-bold">+91 {item.phone}</span>
+                                                                                                <span className="state-pin">{item.city}, {item.state} {item.zip_code}, </span>
+                                                                                                <span className="country">{item.country},</span> <br />
+                                                                                                <span className="country font-w-bold">{(item.phone + '').length > 10 && '+'}{item.phone}</span>
                                                                                             </div>
                                                                                             <button className="btn-color-revese my-2 text-sm sm:text-xl" onClick={() => { setNewAddress(item); setIsAddressActive(true) }}>Edit</button>
                                                                                             {
@@ -595,9 +596,9 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                     </div>
                                 </>
                             }
-                            <div id='cart-total-btn' className="mt-0 sm:mt-20 w-full left-0 fixed sm:relative bottom-0 p-4 sm:p-0 grid grid-cols-2 sm:grid-cols-1 bg-white sm:bg-transparent" style={{
-                                bottom: `${mobNavHeight}px`
-                            }}>
+                            <div id='cart-total-btn' className="mt-0 sm:mt-20 w-full left-0 fixed sm:relative lg:sticky bottom-0 lg:top-[136px] p-4 sm:p-0 grid grid-cols-2 sm:grid-cols-1 bg-white sm:bg-transparent" style={
+                                isDesktopOrLaptop ? {} : { bottom: `${mobNavHeight}px` }
+                            }>
                                 {
                                     user ?
                                         !!purchaseDetails &&

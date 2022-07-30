@@ -30,7 +30,7 @@ function address({ type, data, onEdit, onRemove }) {
                 <br />
                 {data.country},
                 <br />
-                <span>+91 {data.phone}</span>
+                <span>{(data.phone + '').length > 10 && '+'}{data.phone}</span>
               </p>
               <div className='flex justify-between items-center'>
                 <p className="text-left mt-4 mx-4 font-medium text-base cursor-pointer btn-color-revers" onClick={onEdit}>Edit</p>

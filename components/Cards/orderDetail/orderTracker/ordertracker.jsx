@@ -13,7 +13,7 @@ function Ordertracker({ data, details }) {
       </div>
       <div className="mt-4 border-t-2  border-gray-200  w-full flex justify-between">
         <div className='flex w-full my-6'>
-          <div className="px-4  w-full flex ">
+          <div className=" w-full flex ">
             <div className="  w-full    ">
               <Tracker details={details} />
             </div>

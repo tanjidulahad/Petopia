@@ -22,7 +22,7 @@ import AddressForm from "@components/address-form/address-form"
 import { getShopInfoStart, getShopSettingsStart } from "@redux/shop/shop-action"
 
 const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
-    initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout, getShopSettings,fetchgetShopInfo }) => {
+    initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout, getShopSettings, fetchgetShopInfo }) => {
 
     const [newAddress, setNewAddress] = useState(null)
     const [isAddressActive, setIsAddressActive] = useState(false);
@@ -31,13 +31,13 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     const [mobNavHeight, setMobNavHeight] = useState(0)
     const [initiateData, setInitiateData] = useState(null) // For cod
     const [confirmPayment, setConfirmPayment] = useState(null) // For online
-    const [initiateStatus, setInitiateStatus] = useState('pending') // pending, loading, failure
-    const [error, setError] = useState(null)
+    const [initiateStatus, setInitiateStatus] = useState('pending') // pending, success, loading, failure, onlinesuccess
     const [rzpOrder, setRzpOrder] = useState(null)
     const [couponCode, setCouponCode] = useState("")
     const [enablePayment, setEnablePayment] = useState(false)
     const [success, setOnSuccess] = useState(null)
     const [confirmOrder, setConfirmOrder] = useState(false)
+    const [error, setError] = useState(null)
     const [checkoutDetails, setcheckoutDetails] = useState({
         // deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
         deliveryAddress: purchaseDetails?.deliveryAddressDetails?.address_id || null,
@@ -68,7 +68,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     }, [user, totalItems])
     useEffect(() => {
         getShopSettings(info?.store_id);
-        fetchgetShopInfo({ storeId:""+info?.store_id, seassion_id:user?.customer_id });
+        fetchgetShopInfo({ storeId: "" + info?.store_id, seassion_id: user?.customer_id });
     }, [checkoutDetails, totalItems])
 
 
@@ -123,7 +123,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     }, [checkoutDetails, storeSettings])
 
     // Initial Payment function
-    const initiatePayment = () => {
+    const initiatePayment = async () => {
         if (info.store_status == "INACTIVE" || info.is_open_today == "N") {
             return;
         }
@@ -137,7 +137,16 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
         }
         if (paymentMethod == 'PAY' && purchase?.purchase_id) {
             setInitiateStatus('loading')
-            createNewRzpOrder({ purchaseId: purchase?.purchase_id, totalPurchaseAmount: purchaseDetails?.calculatedPurchaseTotal, currency: purchaseDetails?.currencyCode, setRzpOrder, setError })
+
+            initiateOrder({
+                purchaseId: purchase?.purchase_id,
+                method: paymentMethod,
+                customerId: user.customer_id,
+                setInitiateStatus: (val) => true,
+                setInitiateData: (val) => true,
+                cbSuccess: () =>
+                    createNewRzpOrder({ purchaseId: purchase?.purchase_id, totalPurchaseAmount: purchaseDetails?.calculatedPurchaseTotal, currency: purchaseDetails?.currencyCode, setRzpOrder, setError })
+            });
 
         }
     }

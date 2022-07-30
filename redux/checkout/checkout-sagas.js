@@ -1,4 +1,4 @@
-import { take, put, call, fork, all, takeEvery, takeLatest } from "redux-saga/effects";
+import { take, put, call, fork, all, takeEvery, takeLatest, delay } from "redux-saga/effects";
 import checkoutActionType from "./checkout-action-type";
 import fetcher from "../utility";
 import Router from 'next/router'
@@ -134,10 +134,9 @@ function* onPaymentMethodToPurchese() {
 
 function* onInitiatePayment() {
     yield takeLatest(checkoutActionType.INITIATE_PAYMENT_START_START, function* ({ payload }) {
+        const { purchaseId, customerId, method, setInitiateStatus, setInitiateData, cbSuccess, cbError } = payload; // cod ==  N, Online Pay == Y
         try {
-            const { purchaseId, customerId, method, setInitiateStatus, setInitiateData } = payload; // cod ==  N, Online Pay == Y
             if (!purchaseId) {
-                setStatus('failure')
                 return
             };
             const res = yield fetcher('GET', `?r=orders/initiate-payment&purchaseId=${purchaseId}`)
@@ -145,19 +144,15 @@ function* onInitiatePayment() {
                 // const amount = res.data.calculatedPurchaseTotal
                 setInitiateData(res.data)
                 setInitiateStatus('success')
-                // if (method == 'COD') { // COD or Pay On Delivery
-                //     yield put(orderPaymentConfirmStart({ amount, purchaseId, method, customerId }))
-                // }
+                if (cbSuccess) {
+                    cbSuccess()
+                }
             }
         } catch (error) {
-            // console.log(error);
-            // yield put(orderPaymentConfirmError(error))
             setInitiateStatus('failure')
-            // if (error.message == 'Network Error') {
-            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.back() }, onOkName: "GO Back" }))
-            // } else {
-            //     yield put(riseError({ message: "Unable to initiate payment!", onOk: () => { Router.back() }, onOkName: "Close" }))
-            // }
+            if (cbError) {
+                cbError(error)
+            }
         }
     })
 }

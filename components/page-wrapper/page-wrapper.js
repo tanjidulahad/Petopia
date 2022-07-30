@@ -31,15 +31,15 @@ function hexToRGB(hex, alpha) {
 
 const verifier = ({ userId, children, isLogin, store, getShopWidgets, errorInGO, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getBanner, getCountyCode }) => {
     const router = useRouter()
-    const { displaySettings,info } = store
+    const { displaySettings, info } = store
 
-    useEffect(()=>{
-        if(info){
-            if(info.store_status=='INACTIVE'){
-                redirect(`/inactive`)
-            }
-        }
-    },[info])
+    // useEffect(() => {
+    //     if (info) {
+    //         if (info.store_status == 'INACTIVE') {
+    //             redirect(`/inactive`)
+    //         }
+    //     }
+    // }, [info])
 
     useEffect(() => {
         const { storeId } = router.query
@@ -183,6 +183,16 @@ const verifier = ({ userId, children, isLogin, store, getShopWidgets, errorInGO,
             head.innerHTML = style
         }
     }, [displaySettings])
+
+    if (info) {
+        if (info.store_status == 'INACTIVE') {
+            redirect(`/inactive`)
+            return <>
+                <Loader message="Store is getting ready for you...!" />
+            </>
+        }
+    }
+
     if (!store.isReadyToGo) {
         return (
             <>
@@ -198,11 +208,12 @@ const verifier = ({ userId, children, isLogin, store, getShopWidgets, errorInGO,
         )
 
     }
+
     return (
         <>
             <Head>
                 <title>{store ? store.info.store_name : 'GoPlinto'}</title>
-                <link rel="shortcut icon" href={store ? store.info.logo_img_url : 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'} type="image/x-icon" />
+                <link rel="shortcut icon" href={displaySettings ? displaySettings?.favicon_img_url : info ? info?.logo_img_url : '/img/goplinto_logo.png'} type="image/x-icon" />
             </Head>
             <NavBar />
             <main>{children}</main>

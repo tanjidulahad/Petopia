@@ -31,27 +31,35 @@ function index({ banner, products = [], status, storeName, lastEleRef, selectedC
 
           </div>
         </div>
-        <div className="flex flex-col px-2 sm:py-0 space-y-4 md:space-y-3 divide-y md:divide-y-0" >
+        <div className="flex flex-col px-2 sm:py-0 space-y-4 md:space-y-3 divide-y" >
           {
             status == 'success' || status == 'loading'
               ?
               products.length && (status == 'loading' || status == 'success')
                 ? <>
                   {products.map((item, i) => (
-                    <div className="pt-6" key={i}>
+                    <div className="pt-3" key={i}>
                       <ProductItem data={item} />
                     </div>
                   ))}
                   {
                     status == 'loading' &&
                     <>
-                      <ProductItem />
-                      <ProductItem />
-                      <ProductItem />
-                      <ProductItem />
-                      <ProductItem />
-                      <ProductItem />
-                      <ProductItem />
+                      <div className="pt-3">
+                        <ProductItem />
+                      </div>
+                      <div className="pt-3">
+                        <ProductItem />
+                      </div>
+                      <div className="pt-3">
+                        <ProductItem />
+                      </div>
+                      <div className="pt-3">
+                        <ProductItem />
+                      </div>
+                      <div className="pt-3">
+                        <ProductItem />
+                      </div>
                     </>
                   }
                   <div className="border-0 mt-[0px!important]" ref={lastEleRef}></div>

@@ -235,7 +235,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
                       <div className='w-full border-b-4 border-gray-100 pb-8' key={i}>
                         <div className="flex items-center w-full mb-4">
                           <div className="h-10 w-10 ">
-                            <img className="w-full h-full rounded" src={item[0].store_logo || `/img/default.webp`} alt="..." />
+                            <img className="w-full h-full object-contain border border-gray-100 rounded" src={item[0].store_logo || `/img/default.webp`} alt="..." />
                           </div>
                           <div className="w-full flex flex-col justify-start ">
                             <h4 className=" text-sm sm:text-lg inline ml-4">{item[0].store_name || ""}</h4>

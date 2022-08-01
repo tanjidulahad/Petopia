@@ -65,12 +65,12 @@ function footer({ info, socialProfile, contactPopup }) {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>{' '}
-                  +{info.primary_phone}</span>
+                  {(info.primary_phone + '').length > 10 && '+'}{info.primary_phone}</span>
               </div>
             </div>
           </div>
-          <div className='col-span-8 grid grid-cols-4'>
-            <div className="text-left space-y-4">
+          <div className='col-span-8 flex '>
+            <div className="text-left space-y-4 basis-0 grow">
               <h3 className=' font-bold text-lg'>Menu</h3>
               <div className=' space-y-5'>
                 <Link href='/'>
@@ -80,7 +80,7 @@ function footer({ info, socialProfile, contactPopup }) {
 
               </div>
             </div>
-            <div className="text-left space-y-4">
+            <div className="text-left space-y-4 basis-0 grow">
               <h3 className=' font-bold text-lg'>Account</h3>
               <div className=' space-y-5'>
                 <Link href='/account'>
@@ -98,24 +98,27 @@ function footer({ info, socialProfile, contactPopup }) {
 
               </div>
             </div>
-            <div className="text-left space-y-4">
-              <h3 className=' font-bold text-lg'>Social</h3>
-              <div className=' space-y-5'>
-                {
-                  socialProfile.map((item, i) => (
-                    <>
-                      {
-                        !!item.social_account_link &&
-                        <a className='block text-sm font-normal' href={item.social_account_link.includes('http') ? item.social_account_link : 'https://' + item.social_account_link} target="_blank" rel="noopener noreferrer">
-                          {capitalize(item.social_account_name, true)}
-                        </a>
-                      }
-                    </>
-                  ))
-                }
+            {
+              !!socialProfile.length &&
+              <div className="text-left space-y-4 basis-0 grow">
+                <h3 className=' font-bold text-lg'>Social</h3>
+                <div className=' space-y-5'>
+                  {
+                    socialProfile.map((item, i) => (
+                      <>
+                        {
+                          !!item.social_account_link &&
+                          <a className='block text-sm font-normal' href={item.social_account_link.includes('http') ? item.social_account_link : 'https://' + item.social_account_link} target="_blank" rel="noopener noreferrer">
+                            {capitalize(item.social_account_name, true)}
+                          </a>
+                        }
+                      </>
+                    ))
+                  }
+                </div>
               </div>
-            </div>
-            <div className="text-left space-y-4">
+            }
+            <div className="text-left space-y-4 basis-0 grow">
               <h3 className=' font-bold text-lg'>Other Links</h3>
               <div className=' space-y-5'>
                 <a className='block text-sm font-normal' href='https://goplinto.com/refund-policy' target="_blank" rel="noopener noreferrer">Return & Refunds</a>

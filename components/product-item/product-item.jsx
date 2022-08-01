@@ -104,7 +104,7 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                                     }
                                     {
                                         !!(data.price - data.sale_price) &&
-                                        <span className="text-xs sm:text-lg success-color ml-2 md:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
+                                        <span className="text-xs sm:text-lg success-color ml-2 md:ml-4 inline-block">save ₹{data.price - data.sale_price}</span>
                                     }
                                 </div>
                                 <div>

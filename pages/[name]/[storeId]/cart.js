@@ -267,7 +267,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                             <div className="flex px-3 sm:px-10 pt-10 w-full items-center">
                                                 <div className="flex items-center w-full">
                                                     <div className="h-10 w-10 ">
-                                                        <img className="w-full h-full rounded" src={item[0].store_logo} alt="..." />
+                                                        <img className="w-full h-full object-contain border border-gray-100 rounded" src={item[0].store_logo} alt="..." />
                                                     </div>
                                                     <div className="w-full flex flex-col sm:flex-row sm:justify-between sm:items-center">
                                                         <h4 className=" text-base sm:text-xl inline ml-4">{item[0].store_name || ""}</h4>
@@ -328,14 +328,14 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                     <h2>Delivery Pickup Address</h2>
                                                     <div className="p-4 sm:p-6 mt-4 sm:border-2 rounded border-solid border-static">
                                                         {
-                                                            storeSettings &&
+                                                            storeSettings && storeSettings?.pickupPointDetails &&
                                                             <p className="text-base ">
                                                                 <span className="text-base font-semibold">
                                                                     {storeSettings?.pickupPointDetails?.pickup_point_name}
                                                                 </span>
-                                                                <br />{storeSettings.pickupPointDetails.address}, {storeSettings.pickupPointDetails.city}{' '}
+                                                                <br />{storeSettings?.pickupPointDetails?.address}, {storeSettings?.pickupPointDetails?.city}{' '}
                                                                 <br />
-                                                                {storeSettings.pickupPointDetails.state}, {storeSettings.pickupPointDetails.country}, <br /> Pin: {storeSettings.pickupPointDetails.zip_code}
+                                                                {storeSettings?.pickupPointDetails?.state}, {storeSettings?.pickupPointDetails?.country}, <br /> Pin: {storeSettings?.pickupPointDetails?.zip_code}
 
                                                             </p>
                                                         }

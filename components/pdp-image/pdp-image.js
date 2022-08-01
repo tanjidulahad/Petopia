@@ -27,6 +27,7 @@ function ImageMagnifier({
                 width: width,
                 minHeight: 300,
                 minWidth: 300,
+                maxHeight: '468px'
             }}
         >
             <img

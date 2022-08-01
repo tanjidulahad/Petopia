@@ -92,7 +92,7 @@ function Tracker({ details, display }) {
                 <div className={'w-full hidden mx-auto sm:w-3/5 sm:flex flex-col justify-center items-center'}>
                   <Stepper steps={steps} activeStep={orderStatus + 1} sx={style} />
                 </div>
-                <div className={'w-full flex sm:hidden space-x-5 items-center'}>
+                <div className={'w-full px-4 flex sm:hidden space-x-5 items-center'}>
                   <div className={`h-5 w-5 shrink-0 rounded-full shadow-xl z-10 scale-75`} style={{
                     // boxShadow: `0px 0px 0px 10px ${hexToRGB(display?.primary_color || '#E83B3B', 0.15)}`,
                     // backgroundColor: display?.primary_color || '#E83B3B'

@@ -1,10 +1,15 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Script from 'next/script'
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
 
 class MyDocument extends Document {
     render() {
         return (
             <Html className="scroll-smooth">
-                <Head>
+                 
+                <Head data-app-version={`${publicRuntimeConfig?.version}`}>
                     {/* <link rel="manifest" href="/manifest.json" /> */}
                     <meta name="apple-mobile-web-app-capable" content="yes" />
                     <meta name="apple-mobile-web-app-status-bar-style" content="white" />
@@ -19,6 +24,9 @@ class MyDocument extends Document {
                     <meta name="keywords" content={`Goplinto, Amazon.in, Amazon, Online Shopping, online shopping india, india shopping online, amazon india, amazn, buy online, buy mobiles online, buy books online, buy movie dvd's online, kindle, kindle fire hd, kindle e-readers, ebooks, computers, laptop, toys, trimmers, watches, fashion jewellery, home, kitchen, small appliances, beauty, Sports, Fitness &amp; Outdoors`} />
 
                     <script src="https://checkout.razorpay.com/v1/checkout.js" defer={true}></script>
+                    <script src="/script/versionControl.js" ></script>
+
+
                 </Head>
                 <body>
                     <div id='style'></div>

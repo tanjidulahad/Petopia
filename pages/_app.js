@@ -1,3 +1,6 @@
+
+import getConfig from 'next/config';
+
 import { useEffect, useState } from 'react';
 import Layout from '@components/layout';
 import store from '@redux/store';
@@ -24,6 +27,7 @@ import '@styles/cat.scss'
 import '@styles/product.scss'
 import '@styles/cart.scss'
 import '@styles/saved-places.scss'
+import { IoContractOutline } from 'react-icons/io5';
 
 
 //Binding events. 
@@ -31,9 +35,13 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
+const { publicRuntimeConfig } = getConfig();
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [redirected, setRedirected] = useState(false);
+
+
 
   useEffect(() => {
     const path = router.asPath;
@@ -42,6 +50,8 @@ function MyApp({ Component, pageProps }) {
       setRedirected(true)
     }
   }, [router.isReady])
+
+
 
   return (
     <Provider store={store}>

@@ -2,12 +2,17 @@
  * @type {import('next').NextConfig}
  */
 const path = require('path')
+const { version } = require('./package.json');
 module.exports = {
   // pwa: {
   //   dest: "public",
   //   register: true,
   //   skipWaiting: true,
   // },
+
+  publicRuntimeConfig: {
+    version,
+  },
 
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],

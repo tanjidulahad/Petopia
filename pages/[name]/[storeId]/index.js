@@ -262,7 +262,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
                             <h1 className='text-2xl w-full'>Item Total</h1>
                             <div>
                               <span className='text-base font-medium'>{totalItems} item(s) </span>
-                              <span className='text-2xl font-semibold'> ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</span>
+                              <span className='text-2xl font-semibold'> {info.currency_symbol} {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</span>
                             </div>
                           </div>
                           <Button type='link' href='/cart' className='block btn-color btn-bg w-full text-center rounded  py-4'>Proceed To Checkout</Button>
@@ -273,7 +273,7 @@ const Home = ({ products, banner, info, cart, pageCount, clearProductList, displ
                             <h1 className='text-xl'>Item Total</h1>
                             <div >
                               <span className='text-base font-medium inline-block'>{totalItems} item(s) </span>
-                              <span className='text-xl font-semibold inline-block'> ₹ {cart.reduce((acc, item) => parseFloat(item.sale_price) + acc, 0)}</span>
+                              <span className='text-xl font-semibold inline-block'> {info.currency_symbol} {cart.reduce((acc, item) => parseFloat(item.sale_price) + acc, 0)}</span>
                             </div>
                           </div>
                           <Button className='block btn-color btn-bg w-full text-center rounded  py-4' type='link' href='/cart'>Proceed To Checkout</Button>

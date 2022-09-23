@@ -97,14 +97,14 @@ const ProductItem = ({ data, info, addToCart, removeFromCart, cart, isDetailsLoa
                                 </h3>
                                 {/* <Rating size={16} /> */}
                                 <div className="te leading-3">
-                                    <h2 className="font-bold black-color text-sm sm:text-2xl inline-block">₹{data.sale_price}</h2>
+                                    <h2 className="font-bold black-color text-sm sm:text-2xl inline-block">{info.currency_symbol}{data.sale_price}</h2>
                                     {
                                         data.sale_price != data.price &&
-                                        <span className="text-xs sm:text-lg black-color-50 line-through ml-2 md:ml-4 inline-block">₹{data.price}</span>
+                                        <span className="text-xs sm:text-lg black-color-50 line-through ml-2 md:ml-4 inline-block">{info.currency_symbol}{data.price}</span>
                                     }
                                     {
                                         !!(data.price - data.sale_price) &&
-                                        <span className="text-xs sm:text-lg success-color ml-2 md:ml-4 inline-block">save ₹{data.price - data.sale_price}</span>
+                                        <span className="text-xs sm:text-lg success-color ml-2 md:ml-4 inline-block">save {info.currency_symbol}{data.price - data.sale_price}</span>
                                     }
                                 </div>
                                 <div>

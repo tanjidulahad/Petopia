@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { Button } from '../../../inputs'
 
-function orderlList({ list, storeLogo, storeName, status, orderId, createTime, openReturn }) {
+function orderlList({ list, storeLogo, storeName, status, orderId, createTime, openReturn ,info}) {
 
   return (
     <div className="w-full my-4 sm:my-8 border-2 rounded-lg  bg-white">
@@ -57,7 +57,7 @@ function orderlList({ list, storeLogo, storeName, status, orderId, createTime, o
                 </div>
                 <div className=" max-w-fit my-4 shrink-0">
                   <div className="mt-8  w-full flex justify-end align-center ">
-                    <p className="text-left  text-lg font-bold text-gray-900 sm:mr-4 inline-block ">₹ {item.discountedOrderItemAmount}</p>
+                    <p className="text-left  text-lg font-bold text-gray-900 sm:mr-4 inline-block ">{info.currency_symbol} {item.discountedOrderItemAmount}</p>
                   </div>
                 </div>
               </div>

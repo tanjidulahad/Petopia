@@ -86,7 +86,8 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
                         </div>
                         <div className="mt-4 col-12">
                             <div className="font-semibold text-gray-700 text-base">Phone*</div>
-                            <div className='mt-2 flex space-x-1'>
+                            <Input onChange={onChangeAddress} type="text" name='phone' placeholder="Phone number" value={newAddress.phone} />
+                            {/* <div className='mt-2 flex space-x-1'>
                             <div className='w-[4rem] shrink-0 relative'>
                                 <PhoneInput
                                     inputClass='hidden'
@@ -102,7 +103,7 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
                                 <input className='ml-1 absolute text-center text-sm top-1/2 -translate-y-1/2 w-14 outline-none' value={'+' + state} />
                                 <Input className="addressphone" onChange={onChangeAddress} type="text" name='phone' placeholder="Phone number" value={newAddress.phone} />
                             </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="mt-4 col-12">
                             <div className="font-semibold text-gray-700 text-base">Address Line 1*</div>
@@ -126,13 +127,14 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
                         </div>
                         <div className="mt-4 col-md-6">
                             <div className="font-semibold text-gray-700 text-base">Country*</div>
-                            <select name='country' onChange={onChangeAddress} className="w-full p-4 custom-input">
+                            <p>{newAddress.country}</p>
+                            {/* <select name='country' onChange={onChangeAddress} className="w-full p-4 custom-input">
                             {countries.map(item => {
                                         return (
                                             <option value={item.country_name} selected={item.country_name=='India'}>{item.country_name}</option>
                                         )
                                     })}
-                            </select>
+                            </select> */}
                         </div>
                         <div className="mt-4 col-md-12">
                             <div className="font-semibold text-gray-700 text-base">Address Type</div>

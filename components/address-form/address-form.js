@@ -5,7 +5,7 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { addAddressStart, getAddressStart, removeAddressStart, updateAddressStart } from "@redux/user/user-action";
 
-const AddressForm = ({ user, address, getAddress, addAddress, removeAddress, updateAddress, edit = null, close }) => {
+const AddressForm = ({countries, user, address, getAddress, addAddress, removeAddress, updateAddress, edit = null, close }) => {
     const addressStructure = {
         address_fields: null,
         address_id: "",
@@ -126,7 +126,13 @@ const AddressForm = ({ user, address, getAddress, addAddress, removeAddress, upd
                         </div>
                         <div className="mt-4 col-md-6">
                             <div className="font-semibold text-gray-700 text-base">Country*</div>
-                            <p>{newAddress.country}</p>
+                            <select name='country' onChange={onChangeAddress} className="w-full p-4 custom-input">
+                            {countries.map(item => {
+                                        return (
+                                            <option value={item.country_name} selected={item.country_name=='India'}>{item.country_name}</option>
+                                        )
+                                    })}
+                            </select>
                         </div>
                         <div className="mt-4 col-md-12">
                             <div className="font-semibold text-gray-700 text-base">Address Type</div>

@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { Button, Input } from "@components/inputs";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
-import { addAddressStart, getAddressStart, removeAddressStart, updateAddressStart } from "@redux/user/user-action";
+import { addAddressStart, getAddressStart, getStateAction, removeAddressStart, updateAddressStart } from "@redux/user/user-action";
 
-const AddressForm = ({countries, user, address, getAddress, addAddress, removeAddress, updateAddress, edit = null, close }) => {
+const AddressForm = ({getStateAction,countries, user, address, getAddress, addAddress, removeAddress, updateAddress, edit = null, close }) => {
     const addressStructure = {
         address_fields: null,
         address_id: "",
@@ -28,11 +28,21 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
         state: "",
         state_code: "",
         zip_code: "",
+        isd_code: "91"
     }
+    const [countryState, setCountryState] = useState([])
     const [state, setState] = useState("91")
     const [newAddress, setNewAddress] = useState(edit || addressStructure)
     const [isAddressActive, setIsAddressActive] = useState(false);
     const [error, setError] = useState("");
+
+    console.log("newaddress",newAddress)
+
+    useEffect(()=>{
+        getStateAction({ code: newAddress.country_code, setCountryState })
+    },[])
+
+
     const onChangeAddress = (e) => {
         const { value, name } = e.target;
         setError("")
@@ -41,6 +51,28 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
         }
         setNewAddress({ ...newAddress, [name]: value });
     }
+
+    const onChangeCountry = (e) => {
+        const country = e.target.value
+        console.log("country",country)
+        const countryCode = countries.filter(item => item.country_name == country)[0]
+        setNewAddress({ ...newAddress,country, country_code: countryCode.country_code,state_code:"",state:"" });
+        getStateAction({ code: countryCode.country_code, setCountryState })
+    }
+
+    const stateOnChange=(e)=>{
+        const state=e.target.value
+        const stateCode = countryState.filter(item => item.state_name == state)[0]
+        if(stateCode){
+            setNewAddress({ ...newAddress,state, state_code: stateCode.state_code });
+        }
+        else{
+            setNewAddress({ ...newAddress, state_code: "",state:"" });
+        }
+    }
+
+
+
     const onSave = () => {
         if (!newAddress.full_name || !newAddress.phone || !newAddress.address_line_1 || !newAddress.city || !newAddress.state || !newAddress.country || !newAddress.zip_code) {
             setError("Please fill all Required(*) field")
@@ -59,6 +91,10 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
         // setIsAddressActive(false);
         // setNewAddress(addressStructure);
         close()
+    }
+
+    const onPhoneCodeChange = (value) => {
+        setNewAddress({ ...newAddress, isd_code: value });
     }
 
     return (<>
@@ -86,8 +122,8 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
                         </div>
                         <div className="mt-4 col-12">
                             <div className="font-semibold text-gray-700 text-base">Phone*</div>
-                            <Input onChange={onChangeAddress} type="text" name='phone' placeholder="Phone number" value={newAddress.phone} />
-                            {/* <div className='mt-2 flex space-x-1'>
+                            {/* <Input onChange={onChangeAddress} type="text" name='phone' placeholder="Phone number" value={newAddress.phone} /> */}
+                            <div className='mt-2 flex space-x-1'>
                             <div className='w-[4rem] shrink-0 relative'>
                                 <PhoneInput
                                     inputClass='hidden'
@@ -95,15 +131,15 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
                                     buttonClass='w-full flag-div'
                                     // country={'us'}
                                     // enableAreaCodes={true}
-                                    value={state}
-                                    onChange={phone => setState(phone)}
+                                    value={newAddress.isd_code+""}
+                                    onChange={(value) => onPhoneCodeChange(value)}
                                 />
                             </div>
                             <div className=' relative w-full'>
-                                <input className='ml-1 absolute text-center text-sm top-1/2 -translate-y-1/2 w-14 outline-none' value={'+' + state} />
+                                <input className='ml-1 absolute text-center text-sm top-1/2 -translate-y-1/2 w-14 outline-none' value={'+' + newAddress.isd_code} />
                                 <Input className="addressphone" onChange={onChangeAddress} type="text" name='phone' placeholder="Phone number" value={newAddress.phone} />
                             </div>
-                            </div> */}
+                            </div>
                         </div>
                         <div className="mt-4 col-12">
                             <div className="font-semibold text-gray-700 text-base">Address Line 1*</div>
@@ -114,27 +150,35 @@ const AddressForm = ({countries, user, address, getAddress, addAddress, removeAd
                             <Input onChange={onChangeAddress} type="text" name='address_line_2' placeholder="An Address" value={newAddress.address_line_2} />
                         </div>
                         <div className="mt-4 col-md-6">
+                            <div className="font-semibold text-gray-700 text-base">Country*</div>
+                            {/* <p>{newAddress.country}</p> */}
+                            <select name='country' onChange={onChangeCountry} className="w-full p-4 custom-input">
+                            {countries.map(item => {
+                                        return (
+                                            <option value={item.country_name} selected={item.country_name==newAddress.country}>{item.country_name}</option>
+                                        )
+                                    })}
+                            </select>
+                        </div>
+                        <div className="mt-4 col-md-6">
+                            <div className="font-semibold text-gray-700 text-base">State*</div>
+                            {/* <Input onChange={onChangeAddress} type="text" name='state' placeholder="State" value={newAddress.state} /> */}
+                            <select name='country' onChange={stateOnChange} className="w-full p-4 custom-input">
+                            <option value="">--Select State--</option>
+                                {countryState.map(item => {
+                                    return (
+                                        <option value={item.state_name} selected={item.state_name==newAddress.state}>{item.state_name}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                        <div className="mt-4 col-md-6">
                             <div className="font-semibold text-gray-700 text-base">City*</div>
                             <Input onChange={onChangeAddress} type="text" name='city' placeholder="City" value={newAddress.city} />
                         </div>
                         <div className="mt-4 col-md-6">
-                            <div className="font-semibold text-gray-700 text-base">State*</div>
-                            <Input onChange={onChangeAddress} type="text" name='state' placeholder="State" value={newAddress.state} />
-                        </div>
-                        <div className="mt-4 col-md-6">
                             <div className="font-semibold text-gray-700 text-base">Zip code*</div>
                             <Input onChange={onChangeAddress} type="text" name='zip_code' placeholder="Zip Code" value={newAddress.zip_code} />
-                        </div>
-                        <div className="mt-4 col-md-6">
-                            <div className="font-semibold text-gray-700 text-base">Country*</div>
-                            <p>{newAddress.country}</p>
-                            {/* <select name='country' onChange={onChangeAddress} className="w-full p-4 custom-input">
-                            {countries.map(item => {
-                                        return (
-                                            <option value={item.country_name} selected={item.country_name=='India'}>{item.country_name}</option>
-                                        )
-                                    })}
-                            </select> */}
                         </div>
                         <div className="mt-4 col-md-12">
                             <div className="font-semibold text-gray-700 text-base">Address Type</div>
@@ -252,6 +296,7 @@ const mapDispatchToProps = dispatch => ({
     getAddress: (userId) => dispatch(getAddressStart(userId)),
     removeAddress: (data) => dispatch(removeAddressStart(data)),
     updateAddress: (data) => dispatch(updateAddressStart(data)),
+    getStateAction: (data) => dispatch(getStateAction(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressForm);

@@ -15,7 +15,7 @@ const AddressForm = ({getStateAction,countries, user, address, getAddress, addAd
         address_tag: "",
         city: "",
         country: "India",
-        country_code: "",
+        country_code: "IND",
         create_date: "",
         customer_id: "",
         delivery_schema_id: "",
@@ -25,8 +25,8 @@ const AddressForm = ({getStateAction,countries, user, address, getAddress, addAd
         latitude: "",
         longitude: "",
         phone: "",
-        state: "",
-        state_code: "",
+        state: "Tamil Nadu",
+        state_code: "TN",
         zip_code: "",
         isd_code: "91"
     }

@@ -24,7 +24,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
     address_tag: "",
     city: "",
     country: "India",
-    country_code: "",
+    country_code: "IND",
     create_date: "",
     customer_id: "",
     delivery_schema_id: "",
@@ -34,9 +34,10 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
     latitude: "",
     longitude: "",
     phone: "",
-    state: "",
-    state_code: "",
+    state: "Tamil Nadu",
+    state_code: "TN",
     zip_code: "",
+    isd_code: "91"
   }
   const [newAddress, setNewAddress] = useState(addressStructure)
   const [isAddressActive, setIsAddressActive] = useState(false);

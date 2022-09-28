@@ -135,5 +135,9 @@ export const getCountryAction = (data) => ({
     type: userActionType.GET_COUNTRIES,
     payload: data
 })
+export const getStateAction = (data) => ({
+    type: userActionType.GET_STATES,
+    payload: data
+})
 
 

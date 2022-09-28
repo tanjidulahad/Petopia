@@ -14,7 +14,7 @@ import EmptyCart from "@components/empty-cart"
 
 // Actions
 import { clearCart } from "@redux/cart/cart-actions"
-import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle } from "@redux/user/user-action"
+import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle, getCountryAction } from "@redux/user/user-action"
 import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart, applyCouponCodeStart } from '@redux/checkout/checkout-action'
 import PageWrapper from "@components/page-wrapper/page-wrapper"
 // Function
@@ -22,7 +22,7 @@ import { readyCartData, groupBy } from '@utils/utill'
 import AddressForm from "@components/address-form/address-form"
 import { getShopInfoStart, getShopSettingsStart } from "@redux/shop/shop-action"
 
-const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
+const Cart = ({getCountryAction, user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
     initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout, getShopSettings, fetchgetShopInfo }) => {
     const isDesktopOrLaptop = useMediaQuery({ minWidth: 640 })
     const [newAddress, setNewAddress] = useState(null)
@@ -39,6 +39,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     const [success, setOnSuccess] = useState(null)
     const [confirmOrder, setConfirmOrder] = useState(false)
     const [error, setError] = useState(null)
+    const [countries,setCountries]=useState([])
     const [checkoutDetails, setcheckoutDetails] = useState({
         // deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
         deliveryAddress: purchaseDetails?.deliveryAddressDetails?.address_id || null,
@@ -206,6 +207,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
             });
             objerver.observe(document.body)
         }
+        getCountryAction(setCountries)
     }, [])
     //  Ready by Store ids
     const cartGroups = groupBy(cart, 'store_id')
@@ -370,7 +372,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                             <span className="home">{item.address_line_1}, {item.address_line_2}</span>
                                                                                             <span className="state-pin">{item.city}, {item.state} {item.zip_code}, </span>
                                                                                             <span className="country">{item.country}, </span><br />
-                                                                                            <span className="country font-w-bold">{(item.phone + '').length > 10 && '+'} {item.phone}</span>
+                                                                                            <span className="country font-w-bold">+{item.isd_code} {item.phone}</span>
                                                                                         </div>
                                                                                         <Button className="btn-color-revers font-semibold" onClick={() => { setcheckoutDetails(details => ({ ...details, deliveryAddress: null })) }}>CHANGE</Button>
                                                                                     </div>
@@ -407,7 +409,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                                 <span className="home">{item.address_line_1}, {item.address_line_2}</span>
                                                                                                 <span className="state-pin">{item.city}, {item.state} {item.zip_code}, </span>
                                                                                                 <span className="country">{item.country},</span> <br />
-                                                                                                <span className="country font-w-bold">{(item.phone + '').length > 10 && '+'}{item.phone}</span>
+                                                                                                <span className="country font-w-bold">+{item.isd_code} {item.phone}</span>
                                                                                             </div>
                                                                                             <button className="btn-color-revese my-2 text-sm sm:text-xl" onClick={() => { setNewAddress(item); setIsAddressActive(true) }}>Edit</button>
                                                                                             {
@@ -706,7 +708,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
             }
             {
                 isAddressActive &&
-                <AddressForm edit={newAddress} close={() => { setIsAddressActive(false) }} />
+                <AddressForm countries={countries} edit={newAddress} close={() => { setIsAddressActive(false) }} />
             }
         </>
     )
@@ -743,5 +745,6 @@ const mapDispatchToProps = dispatch => ({
 
     authToggle: () => dispatch(authShowToggle()),
     fetchgetShopInfo: (shopId) => dispatch(getShopInfoStart(shopId)),
+    getCountryAction: (data) => dispatch(getCountryAction(data)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(memo(PageWrapper(Cart)))

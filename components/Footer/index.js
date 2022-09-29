@@ -4,7 +4,7 @@ import contact from '@components/contact/contact'
 import { BsDot } from 'react-icons/bs'
 import { connect } from 'react-redux'
 import { contactPopup } from '@redux/UI/ui-action'
-function footer({ info, socialProfile, contactPopup }) {
+function footer({ storeSettings, info, socialProfile, contactPopup }) {
   const [mobNavHeight, setMobNavHeight] = useState(0)
   const capitalize = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
@@ -52,14 +52,14 @@ function footer({ info, socialProfile, contactPopup }) {
               }
             </p>
             <div className="link-list space-y-3">
-              <div className='f-link'>
+              {storeSettings?.is_address_available=="Y"&&<div className='f-link'>
                 <span>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>{' '}{info.city}, {info.state}, {info.country}
                 </span>
-              </div>
+              </div>}
               <div className='f-link'>
                 <span>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -196,7 +196,8 @@ function footer({ info, socialProfile, contactPopup }) {
 
 const mapStateToProps = state => ({
   info: state.store.info,
-  socialProfile: state.store.socialProfile
+  socialProfile: state.store.socialProfile,
+  storeSettings: state.store.settings,
 })
 const mapDispatchToProps = dispatch => ({
   contactPopup: (nothing) => dispatch(contactPopup())

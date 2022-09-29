@@ -45,12 +45,12 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
   const [isLoadding, setIsLoadding] = useState(true)
   const [error, setError] = useState(null)
   const [countries,setCountries]=useState([])
-  // const [formError, setFormError] = useState('')
+  
   useEffect(() => {
-    // if (!address.length) {
+    
     getAddress({ userId: user.customer_id, setError })
     getCountryAction(setCountries)
-    // }
+    
   }, [])
   useEffect(() => {
     setIsLoadding(!!address.length)
@@ -136,9 +136,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
       {
         isAddressActive &&
         <AddressForm countries={countries} edit={newAddress} close={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} />
-        // <div className="fixed inset-0 px-4 sm:px-8 md:px-20 bg-black-color-lighter address-form">
-        //   <div className='py-6 md:px-20 flex justify-end '>
-        //     <svg onClick={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+
         //       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         //     </svg>
         //   </div>

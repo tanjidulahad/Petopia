@@ -36,7 +36,7 @@ const AddressForm = ({getStateAction,countries, user, address, getAddress, addAd
     const [isAddressActive, setIsAddressActive] = useState(false);
     const [error, setError] = useState("");
 
-    console.log("newaddress",newAddress)
+    
 
     useEffect(()=>{
         getStateAction({ code: newAddress.country_code, setCountryState })
@@ -54,7 +54,7 @@ const AddressForm = ({getStateAction,countries, user, address, getAddress, addAd
 
     const onChangeCountry = (e) => {
         const country = e.target.value
-        console.log("country",country)
+        
         const countryCode = countries.filter(item => item.country_name == country)[0]
         setNewAddress({ ...newAddress,country, country_code: countryCode.country_code,state_code:"",state:"" });
         getStateAction({ code: countryCode.country_code, setCountryState })

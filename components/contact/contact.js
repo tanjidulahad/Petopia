@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import { SocialIcon } from 'react-social-icons';
-const Contact = ({ info, socialProfile, close }) => {
+const Contact = ({storeSettings, info, socialProfile, close }) => {
     return (
         <>
             <section className=" bg-gray-100 relative">
@@ -25,13 +25,13 @@ const Contact = ({ info, socialProfile, close }) => {
                             </p>
                         </div>
                         <div className="px-4 flex flex-col space-y-12 justify-start md:justify-center items-start md:items-center py-8">
-                            <p className="font-semibold text-sm sm:text-lg md:font-normal">
+                            {storeSettings?.is_address_available=="Y"&&<p className="font-semibold text-sm sm:text-lg md:font-normal">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline btn-color-revers mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                                 {info.address}, {info.city}, {info.state}, {info.country}
-                            </p>
+                            </p>}
                             <div className="flex flex-col text-sm sm:text-lg md:flex-row justify-start  md:justify-center md:space-x-20 font-semibold md:font-normal">
                                 {
                                     !!info.primary_phone &&
@@ -92,6 +92,7 @@ const Contact = ({ info, socialProfile, close }) => {
 }
 const mapStateToProps = state => ({
     info: state.store.info,
+    storeSettings: state.store.settings,
     socialProfile: state.store.socialProfile
 })
 

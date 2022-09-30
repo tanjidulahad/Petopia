@@ -444,18 +444,18 @@ const ProductDetails = ({ info, user,
                                                 {/* <Rating /> */}
                                             </div>
                                             <div className="my-4 md:my-6">
-                                                <span className="text-lg md:text-xl my-6 black-color font-semibold">₹{visuals.defaultVariantItem ? visuals.defaultVariantItem.sale_price : visuals.price.sale_price}</span>
+                                                <span className="text-lg md:text-xl my-6 black-color font-semibold">{info.currency_symbol}{visuals.defaultVariantItem ? visuals.defaultVariantItem.sale_price : visuals.price.sale_price}</span>
                                                 {
                                                     visuals.price.sale_price != visuals.price.price &&
-                                                    <span className="mx-2 md:mx-6 black-color-75 text-sm md:text-lg font-light line-through">₹{visuals.defaultVariantItem ? visuals.defaultVariantItem.list_price : visuals.price.price}</span>
+                                                    <span className="mx-2 md:mx-6 black-color-75 text-sm md:text-lg font-light line-through">{info.currency_symbol}{visuals.defaultVariantItem ? visuals.defaultVariantItem.list_price : visuals.price.price}</span>
                                                 }
                                                 {
                                                     visuals.defaultVariantItem ?
                                                         Boolean(visuals.defaultVariantItem.list_price - visuals.defaultVariantItem.sale_price) &&
-                                                        <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save ₹{visuals.defaultVariantItem.list_price - visuals.defaultVariantItem.sale_price}</span>
+                                                        <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save {info.currency_symbol}{visuals.defaultVariantItem.list_price - visuals.defaultVariantItem.sale_price}</span>
                                                         :
                                                         Boolean(visuals.price.price - visuals.price.sale_price) &&
-                                                        <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save ₹{visuals.price.price - visuals.price.sale_price}</span>
+                                                        <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save {info.currency_symbol}{visuals.price.price - visuals.price.sale_price}</span>
                                                 }
                                             </div>
                                             <div className="my-6">

@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import Link from "@components/link";
 import { addToCart, removeFromCart, deleteItemFromCart } from "@redux/cart/cart-actions";
 import { Button, QuantityID } from "../inputs";
-const CartItem = ({ addToCart, deleteFromCart, removeFromCart, data, isDetailsLoading }) => {
+const CartItem = ({ addToCart, deleteFromCart, removeFromCart, data, isDetailsLoading,info }) => {
     return (
         <div className="w-100 block ">
             <div className="grid grid-cols-12 gap-4 ">
@@ -31,14 +31,14 @@ const CartItem = ({ addToCart, deleteFromCart, removeFromCart, data, isDetailsLo
 
                         })}</p>}
                         <div>
-                            <span className="font-medium black-color-75  text-base sm:text-xl inline-block sm:mr-2">₹{data.sale_price}</span>
+                            <span className="font-medium black-color-75  text-base sm:text-xl inline-block sm:mr-2">{info.currency_symbol}{data.sale_price}</span>
                             {
                                 data.sale_price != data.price &&
-                                <span className=" text-base sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">₹{data.price}</span>
+                                <span className=" text-base sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">{info.currency_symbol}{data.price}</span>
                             }
                             {
                                 (data.price - data.sale_price) &&
-                                <span className=" text-base sm:text-base success-color ml-4 lg:ml-0 xl:ml-4 inline-block">Save ₹ {data.price - data.sale_price}</span>
+                                <span className=" text-base sm:text-base success-color ml-4 lg:ml-0 xl:ml-4 inline-block">Save {info.currency_symbol} {data.price - data.sale_price}</span>
                             }
                         </div>
                     </div>
@@ -63,7 +63,7 @@ const CartItem = ({ addToCart, deleteFromCart, removeFromCart, data, isDetailsLo
                             }
                         </div>
                         <div>
-                            <h2 className="font-bold black-color text-base sm:text-2xl block w-full">₹{data.quantity * data.sale_price}</h2>
+                            <h2 className="font-bold black-color text-base sm:text-2xl block w-full">{info.currency_symbol}{data.quantity * data.sale_price}</h2>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,8 @@ const CartItem = ({ addToCart, deleteFromCart, removeFromCart, data, isDetailsLo
 }
 
 const mapStateToProps = state => ({
-    isDetailsLoading: state.ui.isDetailsLoading
+    isDetailsLoading: state.ui.isDetailsLoading,
+    info:state.store.info
 })
 
 const mapDispatchToProps = dispatch => ({

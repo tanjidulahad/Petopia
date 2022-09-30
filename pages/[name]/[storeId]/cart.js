@@ -14,7 +14,7 @@ import EmptyCart from "@components/empty-cart"
 
 // Actions
 import { clearCart } from "@redux/cart/cart-actions"
-import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle } from "@redux/user/user-action"
+import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle, getCountryAction } from "@redux/user/user-action"
 import { setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart, applyCouponCodeStart } from '@redux/checkout/checkout-action'
 import PageWrapper from "@components/page-wrapper/page-wrapper"
 // Function
@@ -22,7 +22,7 @@ import { readyCartData, groupBy } from '@utils/utill'
 import AddressForm from "@components/address-form/address-form"
 import { getShopInfoStart, getShopSettingsStart } from "@redux/shop/shop-action"
 
-const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
+const Cart = ({getCountryAction, user, userAddress, storeSettings, applyCouponCode, displaySettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle,
     initiateOrder, createNewRzpOrder, isDetailsLoading, clearCart, clearCheckout, getShopSettings, fetchgetShopInfo }) => {
     const isDesktopOrLaptop = useMediaQuery({ minWidth: 640 })
     const [newAddress, setNewAddress] = useState(null)
@@ -39,6 +39,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
     const [success, setOnSuccess] = useState(null)
     const [confirmOrder, setConfirmOrder] = useState(false)
     const [error, setError] = useState(null)
+    const [countries,setCountries]=useState([])
     const [checkoutDetails, setcheckoutDetails] = useState({
         // deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
         deliveryAddress: purchaseDetails?.deliveryAddressDetails?.address_id || null,
@@ -206,6 +207,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
             });
             objerver.observe(document.body)
         }
+        getCountryAction(setCountries)
     }, [])
     //  Ready by Store ids
     const cartGroups = groupBy(cart, 'store_id')
@@ -370,7 +372,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                             <span className="home">{item.address_line_1}, {item.address_line_2}</span>
                                                                                             <span className="state-pin">{item.city}, {item.state} {item.zip_code}, </span>
                                                                                             <span className="country">{item.country}, </span><br />
-                                                                                            <span className="country font-w-bold">{(item.phone + '').length > 10 && '+'} {item.phone}</span>
+                                                                                            <span className="country font-w-bold">+{item.isd_code} {item.phone}</span>
                                                                                         </div>
                                                                                         <Button className="btn-color-revers font-semibold" onClick={() => { setcheckoutDetails(details => ({ ...details, deliveryAddress: null })) }}>CHANGE</Button>
                                                                                     </div>
@@ -407,7 +409,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                                                 <span className="home">{item.address_line_1}, {item.address_line_2}</span>
                                                                                                 <span className="state-pin">{item.city}, {item.state} {item.zip_code}, </span>
                                                                                                 <span className="country">{item.country},</span> <br />
-                                                                                                <span className="country font-w-bold">{(item.phone + '').length > 10 && '+'}{item.phone}</span>
+                                                                                                <span className="country font-w-bold">+{item.isd_code} {item.phone}</span>
                                                                                             </div>
                                                                                             <button className="btn-color-revese my-2 text-sm sm:text-xl" onClick={() => { setNewAddress(item); setIsAddressActive(true) }}>Edit</button>
                                                                                             {
@@ -510,7 +512,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                 <h6 className=" text-sm sm:text-lg font-semibold">Item Total</h6>
                                                                 <div>
                                                                     <span className="black-color-75 text-base">{purchaseDetails.itemCount} item(s)</span>
-                                                                    <span className=" text-sm sm:text-lg font-medium ml-2">₹ {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
+                                                                    <span className=" text-sm sm:text-lg font-medium ml-2">{info.currency_symbol} {Number(purchaseDetails.totalOrderAmount).toFixed(2)}</span>
                                                                 </div>
                                                             </div>
                                                             <div className=" border-b-2 border-dashed space-y-2 sm:space-y-4 pt-2">
@@ -519,7 +521,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                     <div className="flex justify-between space-x-2  sm:mt-4">
                                                                         <h6 className=" text-sm sm:text-lg black-color font-medium">Delivery Charge</h6>
                                                                         <div>
-                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `₹ ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">{purchaseDetails.totalDeliveryCharge ? `${info.currency_symbol} ${Number(purchaseDetails.totalDeliveryCharge).toFixed(2)}` : 'Free'}</span>
                                                                         </div>
                                                                     </div>
                                                                 }
@@ -528,14 +530,14 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                     <div className="flex justify-between space-x-2 ">
                                                                         <h6 className=" text-sm sm:text-lg black-color font-medium">Parcel Charge</h6>
                                                                         <div>
-                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalParcelCharge).toFixed(2)}</span>
+                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">{info.currency_symbol} {Number(purchaseDetails.totalParcelCharge).toFixed(2)}</span>
                                                                         </div>
                                                                     </div>
                                                                 }
                                                                 <div className="flex justify-between space-x-2 ">
                                                                     <h6 className=" text-sm sm:text-lg black-color font-medium">Tax</h6>
                                                                     <div>
-                                                                        <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalTaxAmount).toFixed(2)}</span>
+                                                                        <span className=" text-sm sm:text-lg black-color font-medium ml-2">{info.currency_symbol} {Number(purchaseDetails.totalTaxAmount).toFixed(2)}</span>
                                                                     </div>
                                                                 </div>
                                                                 {
@@ -543,7 +545,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                         <div className="flex justify-between space-x-2 ">
                                                                             <h6 className=" text-sm sm:text-lg black-color font-medium">Convenience Charge</h6>
                                                                             <div>
-                                                                                <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalConvenienceCharge).toFixed(2)}</span>
+                                                                                <span className=" text-sm sm:text-lg black-color font-medium ml-2">{info.currency_symbol} {Number(purchaseDetails.totalConvenienceCharge).toFixed(2)}</span>
                                                                             </div>
                                                                         </div>
                                                                         : null
@@ -553,25 +555,25 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                     <div className="flex justify-between space-x-2 ">
                                                                         <h6 className=" text-sm sm:text-lg black-color font-medium">Coupon Applied</h6>
                                                                         <div>
-                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
+                                                                            <span className=" text-sm sm:text-lg black-color font-medium ml-2">{info.currency_symbol} {Number(purchaseDetails.totalCouponSavingsAmount).toFixed(2)}</span>
                                                                         </div>
                                                                     </div>
                                                                 }
                                                                 <div className="flex justify-between space-x-2 ">
                                                                     <h6 className=" text-sm sm:text-lg success-color font-medium">Discount</h6>
                                                                     <div>
-                                                                        <span className=" text-sm sm:text-lg success-color font-medium ml-2">- ₹{Number(purchaseDetails.totalSavings).toFixed(2)}</span>
+                                                                        <span className=" text-sm sm:text-lg success-color font-medium ml-2">- {info.currency_symbol}{Number(purchaseDetails.totalSavings).toFixed(2)}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div className="flex justify-between mt-2 sm:mt-4 border-dashed">
                                                                 <h2 className="text-base sm:text-2xl font-bold">Total Amount</h2>
-                                                                <h2 className="text-base sm:text-2xl font-bold">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
+                                                                <h2 className="text-base sm:text-2xl font-bold">{info.currency_symbol} {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
                                                             </div>
 
                                                         </div>
                                                         <div className="text-center bg-success-color-lighter success-color py-4">
-                                                            <span className="text-base fonr-medium">Savings on Bill ₹ {Number(purchaseDetails.totalSavings).toFixed(2)}</span>
+                                                            <span className="text-base fonr-medium">Savings on Bill {info.currency_symbol} {Number(purchaseDetails.totalSavings).toFixed(2)}</span>
                                                         </div>
                                                     </>
                                                     :
@@ -605,7 +607,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                         <>
                                             <div className="block sm:hidden">
                                                 <h2 className="text-sm font-bold black-color-75">Item total <sub> {totalItems} item(s)</sub> </h2>
-                                                <h2 className="text-base font-bold mt-2">₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
+                                                <h2 className="text-base font-bold mt-2">{info.currency_symbol} {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}</h2>
                                             </div>
                                             <div className="flex justify-end items-center" >
                                                 {
@@ -617,7 +619,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                 <Button className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center"
                                                                     onClick={() => alert('Please remove unavailable products to proceed.')} >
                                                                     <span className="hidden sm:inline">
-                                                                        Proceed to Pay ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
+                                                                        Proceed to Pay {info.currency_symbol} {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
                                                                     </span>
                                                                     <span className="sm:hidden inline">Check Out</span>
                                                                 </Button>
@@ -629,7 +631,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
                                                                     },
                                                                 }} >
                                                                     <span className="hidden sm:inline">
-                                                                        Proceed to Pay ₹ {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
+                                                                        Proceed to Pay {info.currency_symbol} {Number(purchaseDetails.calculatedPurchaseTotal).toFixed(2)}
                                                                     </span>
                                                                     <span className="sm:hidden inline">Check Out</span>
                                                                 </Button>
@@ -706,7 +708,7 @@ const Cart = ({ user, userAddress, storeSettings, applyCouponCode, displaySettin
             }
             {
                 isAddressActive &&
-                <AddressForm edit={newAddress} close={() => { setIsAddressActive(false) }} />
+                <AddressForm countries={countries} edit={newAddress} close={() => { setIsAddressActive(false) }} />
             }
         </>
     )
@@ -743,5 +745,6 @@ const mapDispatchToProps = dispatch => ({
 
     authToggle: () => dispatch(authShowToggle()),
     fetchgetShopInfo: (shopId) => dispatch(getShopInfoStart(shopId)),
+    getCountryAction: (data) => dispatch(getCountryAction(data)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(memo(PageWrapper(Cart)))

@@ -131,5 +131,13 @@ export const newPasswordCreateSuccess = (data) => ({
     type: userActionType.NEW_PASSWORD_CREATE_SUCCESS,
     payload: data
 })
+export const getCountryAction = (data) => ({
+    type: userActionType.GET_COUNTRIES,
+    payload: data
+})
+export const getStateAction = (data) => ({
+    type: userActionType.GET_STATES,
+    payload: data
+})
 
 

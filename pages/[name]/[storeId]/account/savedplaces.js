@@ -9,11 +9,11 @@ import Loader from '@components/loading/loader'
 import ErrorPage from '@components/error'
 import { Input, Button } from '@components/inputs'
 // Actions
-import { getAddressStart, addAddressStart, updateAddressStart, removeAddressStart } from "@redux/user/user-action";
+import { getAddressStart, addAddressStart, updateAddressStart, removeAddressStart, getCountryAction } from "@redux/user/user-action";
 import PageWrapper from '@components/page-wrapper/page-wrapper'
 import AddressForm from '@components/address-form/address-form'
 
-function Savedplaces({ user, address, getAddress, addAddress, removeAddress, updateAddress }) {
+function Savedplaces({ user, address, getAddress, addAddress, removeAddress, updateAddress,getCountryAction }) {
 
   const addressStructure = {
     address_fields: null,
@@ -24,7 +24,7 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
     address_tag: "",
     city: "",
     country: "India",
-    country_code: "",
+    country_code: "IND",
     create_date: "",
     customer_id: "",
     delivery_schema_id: "",
@@ -34,20 +34,23 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
     latitude: "",
     longitude: "",
     phone: "",
-    state: "",
-    state_code: "",
+    state: "Tamil Nadu",
+    state_code: "TN",
     zip_code: "",
+    isd_code: "91"
   }
   const [newAddress, setNewAddress] = useState(addressStructure)
   const [isAddressActive, setIsAddressActive] = useState(false);
 
   const [isLoadding, setIsLoadding] = useState(true)
   const [error, setError] = useState(null)
-  // const [formError, setFormError] = useState('')
+  const [countries,setCountries]=useState([])
+  
   useEffect(() => {
-    // if (!address.length) {
+    
     getAddress({ userId: user.customer_id, setError })
-    // }
+    getCountryAction(setCountries)
+    
   }, [])
   useEffect(() => {
     setIsLoadding(!!address.length)
@@ -132,10 +135,8 @@ function Savedplaces({ user, address, getAddress, addAddress, removeAddress, upd
       }
       {
         isAddressActive &&
-        <AddressForm edit={newAddress} close={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} />
-        // <div className="fixed inset-0 px-4 sm:px-8 md:px-20 bg-black-color-lighter address-form">
-        //   <div className='py-6 md:px-20 flex justify-end '>
-        //     <svg onClick={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <AddressForm countries={countries} edit={newAddress} close={() => { setIsAddressActive(false); setNewAddress(addressStructure) }} />
+
         //       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         //     </svg>
         //   </div>
@@ -208,6 +209,7 @@ const mapDispatchToProps = dispatch => ({
   addAddress: (payload) => dispatch(addAddressStart(payload)),
   updateAddress: (payload) => dispatch(updateAddressStart(payload)),
   removeAddress: (payload) => dispatch(removeAddressStart(payload)),
+  getCountryAction: (data) => dispatch(getCountryAction(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(withAuth(accountLayout(Savedplaces))))

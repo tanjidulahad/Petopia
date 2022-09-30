@@ -3,7 +3,7 @@ import Link from "@components/link";
 import { addToCart, removeFromCart, deleteItemFromCart } from "../../redux/cart/cart-actions";
 import { Button, QuantityID } from "../inputs";
 import { IoScale } from "react-icons/io5";
-const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading, deleteFromCart }) => {
+const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading, deleteFromCart,info }) => {
     return (
         <div className="w-100 block ">
             <div className="grid grid-cols-12 gap-4 ">
@@ -16,7 +16,7 @@ const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading, delet
                             WebkitBoxOrient: "vertical"
                         }}>{data.item_name.toLowerCase()}</h3>
                         <div>
-                            <span className="font-medium black-color-75  text-base inline-block sm:mr-2">₹{data.sale_price}</span>
+                            <span className="font-medium black-color-75  text-base inline-block sm:mr-2">{info.currency_symbol}{data.sale_price}</span>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading, delet
                             }
                         </div>
                         <div>
-                            <h3 className="font-bold black-color text-base block w-full">₹ {data.quantity * data.sale_price}</h3>
+                            <h3 className="font-bold black-color text-base block w-full">{info.currency_symbol} {data.quantity * data.sale_price}</h3>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,8 @@ const HomeCartItem = ({ addToCart, removeFromCart, data, isDetailsLoading, delet
 }
 
 const mapStateToProps = state => ({
-    isDetailsLoading: state.ui.isDetailsLoading
+    isDetailsLoading: state.ui.isDetailsLoading,
+    info:state.store.info
 })
 
 const mapDispatchToProps = dispatch => ({

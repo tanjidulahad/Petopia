@@ -14,7 +14,7 @@ import ErrorPage from '@components/error'
 import PageWrapper from '@components/page-wrapper/page-wrapper'
 
 
-function orderDetail({ getOrderDetails }) {
+function orderDetail({ getOrderDetails ,info}) {
   const [isReturnActive, setIsReturnActive] = useState(false)
   const [orderDetails, setOrderDetails] = useState(null) // {}
   const [error, setError] = useState(null)
@@ -54,7 +54,7 @@ function orderDetail({ getOrderDetails }) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 ">
                   <div className="lg:col-span-8 mt-1 sm:mt-10 lg:mb-10 ">
                     <Ordertracker data={{ orderId: orderDetails.orderId }} details={orderDetails} />
-                    <List storeLogo={orderDetails?.storeLogoUrl} orderId={orderDetails.orderId} status={orderDetails?.orderStatus} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} openReturn={setIsReturnActive} />
+                    <List info={info} storeLogo={orderDetails?.storeLogoUrl} orderId={orderDetails.orderId} status={orderDetails?.orderStatus} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} openReturn={setIsReturnActive} />
 
                     <div className="w-full  border-2 rounded-lg  bg-white">
                       <div className="my-4  w-full flex justify-between">
@@ -111,7 +111,7 @@ function orderDetail({ getOrderDetails }) {
                                 <span className="text-base black-color-75 inline ml-2">({orderDetails.itemCount} item)</span>
                               </div>
                               <div>
-                                <span className="text-lg font-medium ml-2">₹ {Number(orderDetails.orderAmount).toFixed(2)}</span>
+                                <span className="text-lg font-medium ml-2">{info.currency_symbol} {Number(orderDetails.orderAmount).toFixed(2)}</span>
                               </div>
                             </div>
                             <div className=" border-b-2 border-dashed space-y-2 sm:space-y-4">
@@ -120,7 +120,7 @@ function orderDetail({ getOrderDetails }) {
                                 <div className="flex justify-between space-x-2">
                                   <h6 className="text-sm sm:text-lg black-color font-medium">Delivery Charge</h6>
                                   <div>
-                                    <span className="text-sm sm:text-lg black-color font-medium ml-2">{parseFloat(orderDetails.deliveryCharge) ? `₹${Number(orderDetails.deliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                    <span className="text-sm sm:text-lg black-color font-medium ml-2">{parseFloat(orderDetails.deliveryCharge) ? `${info.currency_symbol}${Number(orderDetails.deliveryCharge).toFixed(2)}` : 'Free'}</span>
                                   </div>
                                 </div>
                               }
@@ -129,7 +129,7 @@ function orderDetail({ getOrderDetails }) {
                                 <div className="flex justify-between space-x-2">
                                   <h6 className="text-sm sm:text-lg black-color font-medium">Parcel Charge</h6>
                                   <div>
-                                    <span className="text-sm sm:text-lg black-color font-medium ml-2">₹{Number(orderDetails.parcelCharge).toFixed(2)}</span>
+                                    <span className="text-sm sm:text-lg black-color font-medium ml-2">{info.currency_symbol}{Number(orderDetails.parcelCharge).toFixed(2)}</span>
                                   </div>
                                 </div>
                               }
@@ -137,7 +137,7 @@ function orderDetail({ getOrderDetails }) {
                               <div className="flex justify-between space-x-2">
                                 <h6 className="text-sm sm:text-lg black-color font-medium">Tax</h6>
                                 <div>
-                                  <span className="text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(orderDetails.taxAmount).toFixed(2)}</span>
+                                  <span className="text-sm sm:text-lg black-color font-medium ml-2">{info.currency_symbol} {Number(orderDetails.taxAmount).toFixed(2)}</span>
                                 </div>
                               </div>
                               {
@@ -145,7 +145,7 @@ function orderDetail({ getOrderDetails }) {
                                   <div className="flex justify-between space-x-2">
                                     <h6 className="text-sm sm:text-lg black-color font-medium">Convenience Charge</h6>
                                     <div>
-                                      <span className="text-sm sm:text-lg black-color font-medium ml-2">₹ {Number(orderDetails.convenienceFee).toFixed(2)}</span>
+                                      <span className="text-sm sm:text-lg black-color font-medium ml-2">{info.currency_symbol} {Number(orderDetails.convenienceFee).toFixed(2)}</span>
                                     </div>
                                   </div>
                                   : null
@@ -159,18 +159,18 @@ function orderDetail({ getOrderDetails }) {
                               <div className="flex justify-between space-x-2">
                                 <h6 className="text-sm sm:text-lg success-color font-medium">Discount</h6>
                                 <div>
-                                  <span className="text-sm sm:text-lg success-color font-medium ml-2">- ₹ {Number(orderDetails.savingsAmount).toFixed(2)}</span>
+                                  <span className="text-sm sm:text-lg success-color font-medium ml-2">- {info.currency_symbol} {Number(orderDetails.savingsAmount).toFixed(2)}</span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex justify-between mt-4 border-dashed">
                               <h2 className="text-base sm:text-2xl font-bold">Total Amount</h2>
-                              <h2 className="text-base sm:text-2xl font-bold">₹ {Number(orderDetails.calculatedOrderTotal).toFixed(2)}</h2>
+                              <h2 className="text-base sm:text-2xl font-bold">{info.currency_symbol} {Number(orderDetails.calculatedOrderTotal).toFixed(2)}</h2>
                             </div>
 
                           </div>
                           <div className="text-center bg-success-color-lighter success-color py-4">
-                            <span className="text-sm sm:text-base fonr-medium">Savings on Bill ₹ {Number(orderDetails.savingsAmount).toFixed(2)}</span>
+                            <span className="text-sm sm:text-base fonr-medium">Savings on Bill {info.currency_symbol} {Number(orderDetails.savingsAmount).toFixed(2)}</span>
                           </div>
                         </>
                       }
@@ -188,8 +188,12 @@ function orderDetail({ getOrderDetails }) {
   )
 }
 
+const mapStateToProps = state =>({
+  info:state.store.info
+})
+
 const mapDispatchToProps = dispatch => ({
   getOrderDetails: (payload) => dispatch(getOrderDetailsStart(payload))
 })
 
-export default connect(null, mapDispatchToProps)(PageWrapper(orderDetail))
+export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(orderDetail))

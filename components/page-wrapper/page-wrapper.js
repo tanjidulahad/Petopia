@@ -213,7 +213,7 @@ const verifier = ({ userId, children, isLogin, store, getShopWidgets, errorInGO,
         <>
             <Head>
                 <title>{store ? store.info.store_name : 'GoPlinto'}</title>
-                <link rel="shortcut icon" href={displaySettings ? displaySettings?.favicon_img_url : info ? info?.logo_img_url : '/img/goplinto_logo.png'} type="image/x-icon" />
+                <link rel="shortcut icon" href={displaySettings ? displaySettings?.favicon_img_url?displaySettings.favicon_img_url : info ? info?.logo_img_url?info.logo_img_url : '/img/goplinto_favicon.ico':'/img/goplinto_favicon.ico':'/img/goplinto_favicon.ico'} type="image/x-icon" />
             </Head>
             <NavBar />
             <main>{children}</main>
